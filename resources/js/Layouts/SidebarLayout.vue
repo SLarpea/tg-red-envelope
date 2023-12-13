@@ -1,0 +1,131 @@
+<template>
+    <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <div class="glow" v-if="$page.url.startsWith('/dashboard')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/dashboard') }" href="/dashboard" preserve-state>
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </Link>
+      </li>
+
+      <li class="nav-heading">System</li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-person"></i>
+          <span>Administrator</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-file-earmark-person"></i>
+          <span>Role</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-person-vcard"></i>
+          <span>Permissions</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-list"></i>
+          <span>Menu</span>
+        </a>
+      </li>
+
+      <li class="nav-heading">Logs</li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-activity"></i>
+          <span>Operations</span>
+        </a>
+      </li>
+
+      <li class="nav-heading">Mine Management</li>
+
+      <li class="nav-item">
+        <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/groups') }" href="/groups" preserve-state>
+          <i class="bi bi-diagram-3"></i>
+          <span>Group Managementt</span>
+        </Link>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-people"></i>
+          <span>User Management</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-envelope"></i>
+          <span>Red Envelope Management</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-wallet2"></i>
+          <span>Recharge Record</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-folder-check"></i>
+          <span>Playform Commission Record</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-trophy"></i>
+          <span>Winning Record</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-box-arrow-up-left"></i>
+          <span>Withdrawals Record</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-chat-left-dots"></i>
+          <span>Reports</span>
+        </a>
+      </li>
+
+    </ul>
+  </aside>
+</template>
+
+<script>
+import { Link } from '@inertiajs/vue3';
+
+export default {
+    components: {
+        Link,
+    },
+    // mounted() {
+    //     let x = sessionStorage.getItem('load');
+    //     (x) ? x = true : x = false;
+    //     AOS.init({
+    //         disable: x,
+    //     });
+    //     sessionStorage.setItem('load', true);
+    // }
+}
+
+</script>
