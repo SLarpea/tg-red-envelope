@@ -6,20 +6,29 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\GroupManagement;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\GroupManagementRequest;
+use App\Services\GroupManagementServices;
 
 class GroupManagementController extends Controller
 {
+    protected $groupManagementServices;
+
+    public function __construct(GroupManagementServices $groupManagementServices)
+    {
+        $this->groupManagementServices = $groupManagementServices;
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $data = $this->groupManagementServices->showData($request);
         return Inertia::render('GroupManagement', [
-            'groups' => GroupManagement::when($request->term, function ($query, $term) {
-                $query->where('group_id', 'LIKE', '%' . $term . '%');
-            })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
-            'filters' => $request->only(['term', 'show']),
-            'response' => Session::get('response'),
+            'groups' => $data['groups'],
+            'filters' => $data['filters'],
+            'response' => $data['response'],
         ]);
     }
 
@@ -34,9 +43,10 @@ class GroupManagementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(GroupManagementRequest $request)
     {
-        //
+        $this->groupManagementServices->storeData($request);
+        return redirect()->route('groups.index')->with('response', 'success');
     }
 
     /**
@@ -58,16 +68,22 @@ class GroupManagementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(GroupManagementRequest $request, $id)
     {
-        //
+        if ($request->has('id')) {
+            $this->groupManagementServices->updateData($request);
+            return redirect()->route('groups.index')->with('response', 'success');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        if ($request->has('id')) {
+            $this->groupManagementServices->deleteData($request);
+            return redirect()->route('groups.index')->with('response', 'success');
+        }
     }
 }
