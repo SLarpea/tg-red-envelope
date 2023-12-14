@@ -96,10 +96,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/withdraw')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/withdraw') }" href="/withdraw" preserve-state>
           <i class="bi bi-box-arrow-up-left"></i>
           <span>Withdrawals Record</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-item">
