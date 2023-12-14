@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserManagement extends Model
 {
     use  DateTrait;
-    protected $table = 'user_managements';
+    protected $table = 'user_management';
     protected $fillable = [
         'username',
         'first_name',

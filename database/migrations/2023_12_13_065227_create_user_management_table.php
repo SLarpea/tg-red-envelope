@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_managements', function (Blueprint $table) {
+        Schema::create('user_management', function (Blueprint $table) {
             $table->id();
             $table->string('username', 50)->nullable()->comment('用户名');
             $table->string('first_name', 200)->nullable()->comment('用户名');
@@ -43,6 +43,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_managements');
+        Schema::dropIfExists('user_management');
     }
 };

@@ -9,9 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class GroupManagement extends Model
 {
     use DateTrait;
-    
-     protected $guarded = [];
-    
+
     protected $table = 'group_management';
     protected $fillable = [
         'group_id',
