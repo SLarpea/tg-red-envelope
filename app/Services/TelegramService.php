@@ -33,20 +33,14 @@ class TelegramService
     {
 
         $bot->group(GroupVerify::class, function (Nutgram $bot) {
-
-            // Your handlers here
-            // Called when a message contains the command "/start someParameter"
-            //            $bot->onCommand('start {parameter}', function (Nutgram $bot, $parameter) {
-            //                $bot->sendMessage("The parameter is {$parameter}");
-            //            });
-            // ex. called when a message contains "My name is Mario"
-            $bot->onText('/' . trans('telegram.recharge') . ' (([0-9]+))/', function (Nutgram $bot, $amount) {
+            // text sample "+1234"
+            $bot->onText('/(' . trans('telegram.recharge') . '|\+)([0-9]+)', function (Nutgram $bot, $ac, $amount) {
                 // $bot->sendMessage("The recharge amount is {$amount}");
                 self::shangfen($bot, $amount);
             });
-            //             $bot->onText('(' . trans('telegram.withdraw') . '|-)([0-9]+)', function (Nutgram $bot, $ac,  $amount) {
-            //                 self::xiafen($bot, $amount);
-            //             });
+            $bot->onText('/(' . trans('telegram.withdraw') . '|\-)([0-9]+)', function (Nutgram $bot, $ac,  $amount) {
+                self::xiafen($bot, $amount);
+            });
             //             $bot->onText('(发[包]*)*([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)', function (Nutgram $bot, $ac, $amount, $mine) {
             //                 self::fabao($bot, $ac, $amount, $mine);
             //             });
@@ -760,9 +754,7 @@ class TelegramService
     {
         $from = $bot->message()->from->id;
         $finance = ConfigService::getConfigValue($bot->chat()->id, 'finance');
-        // dd($finance);
         $financeArr = explode(',', $finance);
-        // dd(!in_array($from, $financeArr));
         // if (!in_array($from, $financeArr)) {
         //     return false;
         // }
@@ -818,66 +810,66 @@ class TelegramService
         }
     }
 
-    // public static function xiafen($bot, $amount)
-    // {
-    //     $from = $bot->message()->from->id;
-    //     $finance = ConfigService::getConfigValue($bot->chat()->id, 'finance');
-    //     $financeArr = explode(',', $finance);
-    //     if (!in_array($from, $financeArr)) {
-    //         return false;
-    //     }
-    //     $params = ['parse_mode' => ParseMode::HTML];
-    //     if ($amount < 1 || !$amount) {
-    //         $bot->sendMessage(trans('telegram.amouterror'), $params);
-    //         return false;
-    //     }
-    //     $reply_to_message = $bot->message()->reply_to_message;
-    //     if (!$reply_to_message) {
-    //         return false;
-    //     }
-    //     if ($reply_to_message->from->is_bot == true) {
-    //         return false;
-    //     }
-    //     $username = $reply_to_message->from->first_name != '' ? $reply_to_message->from->first_name : $reply_to_message->from->username;
-    //     $tgId = $reply_to_message->from->id;
-    //     $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
-    //     if (!$user || $amount > $user->balance) {
-    //         $bot->sendMessage(trans('telegram.nobalance'), $params);
-    //         return false;
-    //     }
-    //     $balance = $user->balance - $amount;
-    //     try {
-    //         DB::beginTransaction();
-    //         $user->balance = $balance;
-    //         $rs = $user->save();
-    //         if ($rs) {
-    //             money_log($user->group_id, $user->tg_id, -$amount, 'withdraw', '财务下分');
-    //             $insert = [
-    //                 'tg_id' => $user->tg_id,
-    //                 'username' => $user->username,
-    //                 'first_name' => $user->first_name,
-    //                 'group_id' => $user->group_id,
-    //                 'amount' => $amount,
-    //                 'remark' => '财务下分',
-    //                 'status' => 1,
-    //                 'address' => '',
-    //                 'addr_type' => '',
-    //                 'admin_id' => 0,
-    //             ];
-    //             $rs2 = WithdrawRecord::query()->create($insert);
-    //             if (!$rs2) {
-    //                 DB::rollBack();
-    //                 $bot->sendMessage(trans('telegram.withdrawfailed'), $params);
-    //                 return false;
-    //             }
-    //             DB::commit();
-    //             $bot->sendMessage(trans('telegram.withdrawmsg', ['amount' => $amount, 'username' => $username, 'tgId' => $tgId, 'balance' => $balance]), $params);
-    //         }
-    //     } catch (\Exception $e) {
-    //         Log::error('下分异常:' . $e->getMessage() . ' code=>' . $e->getCode());
-    //         $bot->sendMessage(trans('telegram.withdrawfailed'), $params);
-    //     }
-    // }
+    public static function xiafen($bot, $amount)
+    {
+        $from = $bot->message()->from->id;
+        $finance = ConfigService::getConfigValue($bot->chat()->id, 'finance');
+        $financeArr = explode(',', $finance);
+        // if (!in_array($from, $financeArr)) {
+        //     return false;
+        // }
+        $params = ['parse_mode' => ParseMode::HTML];
+        if ($amount < 1 || !$amount) {
+            $bot->sendMessage(trans('telegram.amouterror'), $params);
+            return false;
+        }
+        $reply_to_message = $bot->message()->reply_to_message;
+        if (!$reply_to_message) {
+            return false;
+        }
+        if ($reply_to_message->from->is_bot == true) {
+            return false;
+        }
+        $username = $reply_to_message->from->first_name != '' ? $reply_to_message->from->first_name : $reply_to_message->from->username;
+        $tgId = $reply_to_message->from->id;
+        $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
+        if (!$user || $amount > $user->balance) {
+            $bot->sendMessage(trans('telegram.nobalance'), $params);
+            return false;
+        }
+        $balance = $user->balance - $amount;
+        try {
+            DB::beginTransaction();
+            $user->balance = $balance;
+            $rs = $user->save();
+            if ($rs) {
+                money_log($user->group_id, $user->tg_id, -$amount, 'withdraw', '财务下分');
+                $insert = [
+                    'tg_id' => $user->tg_id,
+                    'username' => $user->username,
+                    'first_name' => $user->first_name,
+                    'group_id' => $user->group_id,
+                    'amount' => $amount,
+                    'remark' => '财务下分',
+                    'status' => 1,
+                    'address' => '',
+                    'addr_type' => '',
+                    'admin_id' => 0,
+                ];
+                $rs2 = WithdrawRecord::query()->create($insert);
+                if (!$rs2) {
+                    DB::rollBack();
+                    $bot->sendMessage(trans('telegram.withdrawfailed'), $params);
+                    return false;
+                }
+                DB::commit();
+                $bot->sendMessage(trans('telegram.withdrawmsg', ['amount' => $amount, 'username' => $username, 'tgId' => $tgId, 'balance' => $balance]), $params);
+            }
+        } catch (\Exception $e) {
+            Log::error('下分异常:' . $e->getMessage() . ' code=>' . $e->getCode());
+            $bot->sendMessage(trans('telegram.withdrawfailed'), $params);
+        }
+    }
     // public static function fabao($bot, $ac, $amount, $mine, $chatId = '', $sendUserId = '')
     // {
     //     $chatId = $chatId ? $chatId : $bot->chat()->id;

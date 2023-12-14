@@ -74,5 +74,5 @@ $bot->onCommand('help(.*)', function (Nutgram $bot) {
 $bot->onCommand('start', function (Nutgram $bot) {
     // Handle start command
     $text = trans('telegram.start_msg', ['userId' => $bot->user()->id]);
-    $bot->sendMessage(trans('telegram.groupinfo') . $locale = app()->getLocale());
+    $bot->sendMessage($text);
 });
