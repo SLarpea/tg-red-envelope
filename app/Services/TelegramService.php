@@ -19,6 +19,7 @@ use App\Models\WithdrawRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use App\Services\UserManagementService;
 use App\Telegram\Middleware\GroupVerify;
 use SergiX44\Nutgram\RunningMode\Polling;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
@@ -33,44 +34,52 @@ class TelegramService
     {
 
         $bot->group(GroupVerify::class, function (Nutgram $bot) {
-            // text sample "+1234"
+            // text sample "+1234" ||  text sample "recharge1234"
             $bot->onText('/(' . trans('telegram.recharge') . '|\+)([0-9]+)', function (Nutgram $bot, $ac, $amount) {
                 // $bot->sendMessage("The recharge amount is {$amount}");
                 self::shangfen($bot, $amount);
             });
+
+            // text sample "-1234" ||  text sample "recharge1234"
             $bot->onText('/(' . trans('telegram.withdraw') . '|\-)([0-9]+)', function (Nutgram $bot, $ac,  $amount) {
                 self::xiafen($bot, $amount);
             });
-            //             $bot->onText('(发[包]*)*([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)', function (Nutgram $bot, $ac, $amount, $mine) {
-            //                 self::fabao($bot, $ac, $amount, $mine);
-            //             });
+
+            $bot->onText('#^(发[包]*)*([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)$#', function (Nutgram $bot, $ac, $amount, $mine) {
+                dump($ac);
+                dump($amount);
+                dump($mine);
+                die;
+                // self::fabao($bot, $ac, $amount, $mine);
+            });
+
             //             $bot->onText(trans('telegram.welfare') . '([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)', function (Nutgram $bot, $amount, $num) {
             //                 self::fuli($bot, $amount, $num);
             //             });
 
-            //             $bot->onText('(1$|查$|余额$|balance$|ye$|query$)', function (Nutgram $bot, $ac) {
-            //                 if ($ac == '1' || $ac == 'ye' || $ac == 'balance' || $ac == 'query' || $ac == '查' || $ac == '余额' || $ac == '查余额') {
-            //                     self::cha($bot);
-            //                 }
-            //             });
+            $bot->onText('/(1$|查$|余额$|balance$|ye$|query$)', function (Nutgram $bot, $ac) {
+                if ($ac == '1' || $ac == 'ye' || $ac == 'balance' || $ac == 'query' || $ac == '查' || $ac == '余额' || $ac == '查余额') {
+                    self::cha($bot);
+                }
+            });
 
-            //             $bot->onCallbackQueryData('balance', function (Nutgram $bot) {
-            //                 $userInfo = TgUserService::getUserById($bot->user()->id, $bot->chat()->id);
-            //                 if (!$userInfo) {
-            //                     $bot->answerCallbackQuery([
-            //                         'text' => trans('telegram.notregistered'),
-            //                         'show_alert' => true,
-            //                         'cache_time' => 5
-            //                     ]);
-            //                 } else {
-            //                     $bot->answerCallbackQuery([
-            //                         'text' => "{$userInfo->first_name} \n@{$userInfo->username} \n-----------------------------\nID：{$userInfo->tg_id}\n" . trans('telegram.balance') . "：{$userInfo->balance}  U",
-            //                         'parse_mode' => ParseMode::HTML,
-            //                         'show_alert' => true,
-            //                         'cache_time' => 5
-            //                     ]);
-            //                 }
-            //             });
+            $bot->onCallbackQueryData('balance', function (Nutgram $bot) {
+                $userInfo = UserManagementService::getUserById($bot->user()->id, $bot->chat()->id);
+                if (!$userInfo) {
+                    $bot->answerCallbackQuery([
+                        'text' => trans('telegram.notregistered'),
+                        'show_alert' => true,
+                        'cache_time' => 5
+                    ]);
+                } else {
+                    $bot->answerCallbackQuery([
+                        'text' => "{$userInfo->first_name} \n@{$userInfo->username} \n-----------------------------\nID：{$userInfo->tg_id}\n" . trans('telegram.balance') . "：{$userInfo->balance}  U",
+                        'parse_mode' => ParseMode::HTML,
+                        'show_alert' => true,
+                        'cache_time' => 5
+                    ]);
+                }
+            });
             //             $bot->onCallbackQueryData('invitelink', function (Nutgram $bot) {
             //                 self::invite_link($bot);
             //             });
@@ -94,7 +103,7 @@ class TelegramService
             //             });
 
             //             $bot->onCallbackQueryData('today_data', function (Nutgram $bot) {
-            //                 $result = TgUserService::getTodayData($bot->user()->id, $bot->chat()->id);
+            //                 $result = UserManagementService::getTodayData($bot->user()->id, $bot->chat()->id);
             //                 if ($result['state'] == 0) {
             //                     $bot->answerCallbackQuery([
             //                         'text' => $result['msg'],
@@ -129,7 +138,7 @@ class TelegramService
             //             });
 
             //             $bot->onCallbackQueryData('team_report', function (Nutgram $bot) {
-            //                 $result = TgUserService::getTeamData($bot->user()->id, $bot->chat()->id);
+            //                 $result = UserManagementService::getTeamData($bot->user()->id, $bot->chat()->id);
             //                 if ($result['state'] == 0) {
             //                     $bot->answerCallbackQuery([
             //                         'text' => $result['msg'],
@@ -151,7 +160,7 @@ class TelegramService
             //                 ]);
             //             });
             //             $bot->onCallbackQueryData('yesterday_data', function (Nutgram $bot) {
-            //                 $result = TgUserService::getYesterdayData($bot->user()->id, $bot->chat()->id);
+            //                 $result = UserManagementService::getYesterdayData($bot->user()->id, $bot->chat()->id);
             //                 if ($result['state'] == 0) {
             //                     $bot->answerCallbackQuery([
             //                         'text' => $result['msg'],
@@ -185,7 +194,7 @@ class TelegramService
             //                 ]);
             //             });
             //             $bot->onCallbackQueryData('share_data', function (Nutgram $bot) {
-            //                 $result = TgUserService::getShareData($bot->user()->id, $bot->chat()->id);
+            //                 $result = UserManagementService::getShareData($bot->user()->id, $bot->chat()->id);
             //                 $listTxt = '';
             //                 foreach ($result['inviteUserList'] as $val) {
             //                     $listTxt .= ($val['first_name'] != '' ? $val['first_name'] : $val['username']) . "\n";
@@ -215,7 +224,7 @@ class TelegramService
                 $Member = $bot->message()->new_chat_members[0];
                 if($Member){
                     $inviteTgId = !$bot->message()->from->is_bot ? $bot->message()->from->id : 0;
-                    $rs = TgUserService::addUser($Member,$groupId,$inviteTgId);
+                    $rs = UserManagementService::addUser($Member,$groupId,$inviteTgId);
                     if($rs['state'] == 1 ){
                         //欢迎语
                         $welcomeText = ConfigService::getConfigValue($groupId, 'welcome');
@@ -232,14 +241,14 @@ class TelegramService
             //                $groupId = $bot->chat()->id;
             //                $Member = $bot->message()->left_chat_member;
             //                $Member->group_id = $groupId;
-            //                TgUserService::leftUser($Member);
+            //                UserManagementService::leftUser($Member);
             //            });
 
 
             $bot->onCommand('register(.*)', function (Nutgram $bot) {
                 $groupId = $bot->chat()->id;
                 $Member = $bot->user();
-                $rs = TgUserService::registerUser($Member, $groupId);
+                $rs = UserManagementService::registerUser($Member, $groupId);
 
                 try {
                     if ($rs['state'] == 1) {
@@ -774,7 +783,7 @@ class TelegramService
         $tgId = $reply_to_message->from->id;
         $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
         if (!$user) {
-            TgUserService::registerUser($reply_to_message->from, $bot->chat()->id);
+            UserManagementService::registerUser($reply_to_message->from, $bot->chat()->id);
             $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
         }
         $balance = $user->balance + $amount;
@@ -815,35 +824,46 @@ class TelegramService
         $from = $bot->message()->from->id;
         $finance = ConfigService::getConfigValue($bot->chat()->id, 'finance');
         $financeArr = explode(',', $finance);
+
+        // Uncomment the following lines if you want to restrict the function to specific users
         // if (!in_array($from, $financeArr)) {
         //     return false;
         // }
+
         $params = ['parse_mode' => ParseMode::HTML];
+
         if ($amount < 1 || !$amount) {
             $bot->sendMessage(trans('telegram.amouterror'), $params);
             return false;
         }
+
         $reply_to_message = $bot->message()->reply_to_message;
-        if (!$reply_to_message) {
+
+        if (!$reply_to_message || $reply_to_message->from->is_bot) {
             return false;
         }
-        if ($reply_to_message->from->is_bot == true) {
-            return false;
-        }
-        $username = $reply_to_message->from->first_name != '' ? $reply_to_message->from->first_name : $reply_to_message->from->username;
+
+        $username = $reply_to_message->from->first_name ?: $reply_to_message->from->username;
         $tgId = $reply_to_message->from->id;
+
         $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
+
         if (!$user || $amount > $user->balance) {
             $bot->sendMessage(trans('telegram.nobalance'), $params);
             return false;
         }
+
         $balance = $user->balance - $amount;
+
         try {
             DB::beginTransaction();
+
             $user->balance = $balance;
             $rs = $user->save();
+
             if ($rs) {
                 money_log($user->group_id, $user->tg_id, -$amount, 'withdraw', '财务下分');
+
                 $insert = [
                     'tg_id' => $user->tg_id,
                     'username' => $user->username,
@@ -856,12 +876,15 @@ class TelegramService
                     'addr_type' => '',
                     'admin_id' => 0,
                 ];
+
                 $rs2 = WithdrawRecord::query()->create($insert);
+
                 if (!$rs2) {
                     DB::rollBack();
                     $bot->sendMessage(trans('telegram.withdrawfailed'), $params);
                     return false;
                 }
+
                 DB::commit();
                 $bot->sendMessage(trans('telegram.withdrawmsg', ['amount' => $amount, 'username' => $username, 'tgId' => $tgId, 'balance' => $balance]), $params);
             }
@@ -870,120 +893,121 @@ class TelegramService
             $bot->sendMessage(trans('telegram.withdrawfailed'), $params);
         }
     }
-    // public static function fabao($bot, $ac, $amount, $mine, $chatId = '', $sendUserId = '')
-    // {
-    //     $chatId = $chatId ? $chatId : $bot->chat()->id;
-    //     $pattern = '/^\d+\.\d+?$/';
-    //     if (preg_match($pattern, $amount)) {
-    //         $bot->sendMessage(trans('telegram.commanderror_integer'));
-    //         return false;
-    //     }
-    //     if (preg_match($pattern, $mine)) {
-    //         $bot->sendMessage(trans('telegram.commanderror_integer'));
-    //         return false;
-    //     }
-    //     if ($mine > 9 || $mine < 0 || $mine == null) {
-    //         $bot->sendMessage(trans('telegram.commanderror_thundernum'));
-    //         return false;
-    //     }
-    //     $minAmount = ConfigService::getConfigValue($chatId, 'min_amount');
-    //     if ($amount < $minAmount) {
-    //         $bot->sendMessage(trans('telegram.error_lessthan', ['minAmount' => $minAmount]));
-    //         return false;
-    //     }
-    //     $maxAmount = ConfigService::getConfigValue($chatId, 'max_amount');
-    //     if ($amount > $maxAmount) {
-    //         $bot->sendMessage(trans('telegram.error_greaterthan', ['maxAmount' => $maxAmount]));
-    //         return false;
-    //     }
-    //     $amount = (int)$amount;
-    //     $mine = (int)$mine;
-    //     $sendUserId = $sendUserId ? $sendUserId : $bot->user()->id;
-    //     //检查是否还有包为完成
-    //     //        $checkUnFinish = LuckyMoneyService::checkLuckyUnfinish($chatId, $sendUserId);
-    //     //        if (!$checkUnFinish) {
-    //     //            $bot->sendMessage('您发的包尚未被抢完 请等待抢完/过期');
-    //     //            return false;
-    //     //        }
 
-    //     $senderInfo = UserManagement::query()->where('tg_id', $sendUserId)->where('group_id', $chatId)->first();
-    //     if (!$senderInfo) {
-    //         $bot->sendMessage(trans('telegram.notregistered'));
-    //         return false;
-    //     }
-    //     $senderName = $senderInfo['first_name'] ? $senderInfo['first_name'] : $senderInfo['username'];
-    //     //检查余额
-    //     $checkRs = TgUserService::checkBalance($senderInfo, $amount);
-    //     if ($checkRs['state'] != 1) {
-    //         try {
-    //             $bot->sendMessage($checkRs['msg']);
-    //         } catch (\Exception $e) {
-    //             $bot->sendMessage($checkRs['msg']);
-    //         }
-    //         return false;
-    //     }
+    public static function fabao($bot, $ac, $amount, $mine, $chatId = '', $sendUserId = '')
+    {
+        $chatId = $chatId ? $chatId : $bot->chat()->id;
+        $pattern = '/^\d+\.\d+?$/';
+        if (preg_match($pattern, $amount)) {
+            $bot->sendMessage(trans('telegram.commanderror_integer'));
+            return false;
+        }
+        if (preg_match($pattern, $mine)) {
+            $bot->sendMessage(trans('telegram.commanderror_integer'));
+            return false;
+        }
+        if ($mine > 9 || $mine < 0 || $mine == null) {
+            $bot->sendMessage(trans('telegram.commanderror_thundernum'));
+            return false;
+        }
+        $minAmount = ConfigService::getConfigValue($chatId, 'min_amount');
+        if ($amount < $minAmount) {
+            $bot->sendMessage(trans('telegram.error_lessthan', ['minAmount' => $minAmount]));
+            return false;
+        }
+        $maxAmount = ConfigService::getConfigValue($chatId, 'max_amount');
+        if ($amount > $maxAmount) {
+            $bot->sendMessage(trans('telegram.error_greaterthan', ['maxAmount' => $maxAmount]));
+            return false;
+        }
+        $amount = (int)$amount;
+        $mine = (int)$mine;
+        $sendUserId = $sendUserId ? $sendUserId : $bot->user()->id;
+        //检查是否还有包为完成
+        //        $checkUnFinish = LuckyMoneyService::checkLuckyUnfinish($chatId, $sendUserId);
+        //        if (!$checkUnFinish) {
+        //            $bot->sendMessage('您发的包尚未被抢完 请等待抢完/过期');
+        //            return false;
+        //        }
 
-    //     $luckyTotal = ConfigService::getConfigValue($chatId, 'lucky_num');
-    //     DB::beginTransaction();
-    //     //添加红包
-    //     $luckyId = LuckyMoneyService::addLucky($senderInfo, $senderName, $amount, $mine, $chatId, $luckyTotal, 0);
-    //     if (!$luckyId) {
-    //         DB::rollBack();
-    //         $bot->sendMessage(trans('telegram.failedtosend'));
-    //         return false;
-    //     }
-    //     $photo = get_photo($chatId);
-    //     if (!$photo) {
-    //         $bot->sendMessage(trans('telegram.nopicture'));
-    //         DB::rollBack();
-    //         return false;
-    //     }
-    //     $num = 3;
-    //     for ($i = $num; $i >= 0; $i--) {
-    //         if ($i <= 0) {
-    //             Log::error('重试3次，发送红包失败');
-    //             DB::rollBack();
-    //             return false;
-    //         }
-    //         try {
-    //             $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
-    //                 InlineKeyboardButton::make(trans('telegram.firstbtntext', ['luckyTotal' => $luckyTotal, 'amount' => $amount, 'mine' => $mine]), callback_data: "qiang-" . $luckyId)
-    //             );
-    //             $data = [
-    //                 'chat_id' => $chatId,
-    //                 'caption' => "[ <code>" . format_name($senderName) . "</code> ]" . trans('telegram.sendcaption', ['amount' => $amount]),
-    //                 'parse_mode' => ParseMode::HTML,
-    //                 'reply_markup' => common_reply_markup($chatId, $InlineKeyboardMarkup),
-    //             ];
-    //             $sendRs = $bot->sendPhoto($photo, $data);
-    //             if ($sendRs) {
-    //                 $updateRs = LuckyMoney::query()->where('id', $luckyId)->update(['message_id' => $sendRs->message_id]);
-    //                 if (!$updateRs) {
-    //                     DB::rollBack();
-    //                     return false;
-    //                 }
-    //                 DB::commit();
-    //                 break;
-    //             } else {
-    //                 DB::rollBack();
-    //                 Log::error('sendPhoto发送失败');
-    //                 $bot->sendMessage(trans('telegram.failedtosend'));
-    //                 //                    LuckyMoneyService::delLucky($luckyId,$chatId,$sendUserId,$amount);
-    //             }
-    //         } catch (\Exception $e) {
-    //             Log::error('红包发送失败=>code=>' . $e->getCode() . '  msg=>' . $e->getMessage());
-    //             if ($e->getCode() == 429) {
-    //                 $retry_after = $e->getParameter('retry_after');
-    //                 sleep($retry_after);
-    //             } else {
-    //                 DB::rollBack();
-    //                 //                    LuckyMoneyService::delLucky($luckyId,$chatId,$sendUserId,$amount);
-    //                 break;
-    //             }
-    //             //throw new TelegramException($e->getMessage(),$e->getCode());
-    //         }
-    //     }
-    // }
+        $senderInfo = UserManagement::query()->where('tg_id', $sendUserId)->where('group_id', $chatId)->first();
+        if (!$senderInfo) {
+            $bot->sendMessage(trans('telegram.notregistered'));
+            return false;
+        }
+        $senderName = $senderInfo['first_name'] ? $senderInfo['first_name'] : $senderInfo['username'];
+        //检查余额
+        $checkRs = UserManagementService::checkBalance($senderInfo, $amount);
+        if ($checkRs['state'] != 1) {
+            try {
+                $bot->sendMessage($checkRs['msg']);
+            } catch (\Exception $e) {
+                $bot->sendMessage($checkRs['msg']);
+            }
+            return false;
+        }
+
+        $luckyTotal = ConfigService::getConfigValue($chatId, 'lucky_num');
+        DB::beginTransaction();
+        //添加红包
+        $luckyId = LuckyMoneyService::addLucky($senderInfo, $senderName, $amount, $mine, $chatId, $luckyTotal, 0);
+        if (!$luckyId) {
+            DB::rollBack();
+            $bot->sendMessage(trans('telegram.failedtosend'));
+            return false;
+        }
+        $photo = get_photo($chatId);
+        if (!$photo) {
+            $bot->sendMessage(trans('telegram.nopicture'));
+            DB::rollBack();
+            return false;
+        }
+        $num = 3;
+        for ($i = $num; $i >= 0; $i--) {
+            if ($i <= 0) {
+                Log::error('重试3次，发送红包失败');
+                DB::rollBack();
+                return false;
+            }
+            try {
+                $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
+                    InlineKeyboardButton::make(trans('telegram.firstbtntext', ['luckyTotal' => $luckyTotal, 'amount' => $amount, 'mine' => $mine]), callback_data: "qiang-" . $luckyId)
+                );
+                $data = [
+                    'chat_id' => $chatId,
+                    'caption' => "[ <code>" . format_name($senderName) . "</code> ]" . trans('telegram.sendcaption', ['amount' => $amount]),
+                    'parse_mode' => ParseMode::HTML,
+                    'reply_markup' => common_reply_markup($chatId, $InlineKeyboardMarkup),
+                ];
+                $sendRs = $bot->sendPhoto($photo, $data);
+                if ($sendRs) {
+                    $updateRs = LuckyMoney::query()->where('id', $luckyId)->update(['message_id' => $sendRs->message_id]);
+                    if (!$updateRs) {
+                        DB::rollBack();
+                        return false;
+                    }
+                    DB::commit();
+                    break;
+                } else {
+                    DB::rollBack();
+                    Log::error('sendPhoto发送失败');
+                    $bot->sendMessage(trans('telegram.failedtosend'));
+                    //                    LuckyMoneyService::delLucky($luckyId,$chatId,$sendUserId,$amount);
+                }
+            } catch (\Exception $e) {
+                Log::error('红包发送失败=>code=>' . $e->getCode() . '  msg=>' . $e->getMessage());
+                if ($e->getCode() == 429) {
+                    $retry_after = $e->getParameter('retry_after');
+                    sleep($retry_after);
+                } else {
+                    DB::rollBack();
+                    //                    LuckyMoneyService::delLucky($luckyId,$chatId,$sendUserId,$amount);
+                    break;
+                }
+                //throw new TelegramException($e->getMessage(),$e->getCode());
+            }
+        }
+    }
 
     // public static function fuli($bot, $amount, $num)
     // {
@@ -1015,7 +1039,7 @@ class TelegramService
     //     $senderInfo = UserManagement::query()->where('tg_id', $sendUserId)->where('group_id', $chatId)->first();
     //     $senderName = $senderInfo['first_name'] ? $senderInfo['first_name'] : $senderInfo['username'];
     //     //检查余额
-    //     $checkRs = TgUserService::checkBalance($senderInfo, $amount);
+    //     $checkRs = UserManagementService::checkBalance($senderInfo, $amount);
     //     if ($checkRs['state'] != 1) {
     //         try {
     //             $bot->sendMessage($checkRs['msg']);
@@ -1084,7 +1108,7 @@ class TelegramService
     //         $inviteTgId = InviteLink::query()->where('invite_link', $bot->chatMember()->invite_link->invite_link)->value('tg_id');
     //     }
 
-    //     $rs = TgUserService::addUser($memberInfo, $groupId, $inviteTgId);
+    //     $rs = UserManagementService::addUser($memberInfo, $groupId, $inviteTgId);
     //     if ($rs['state'] == 1) {
     //         //欢迎语
     //         $welcomeText = ConfigService::getConfigValue($groupId, 'welcome');
@@ -1099,45 +1123,45 @@ class TelegramService
     //         }
     //     }
     // }
-    // public static function cha($bot)
-    // {
-    //     $reply_to_message = $bot->message()->reply_to_message;
-    //     if (!$reply_to_message) {
-    //         $userInfo = TgUserService::getUserById($bot->user()->id, $bot->chat()->id);
-    //     } else {
-    //         $from = $bot->message()->from->id;
-    //         $finance = ConfigService::getConfigValue($bot->chat()->id, 'finance');
-    //         $financeArr = explode(',', $finance);
-    //         if (!in_array($from, $financeArr)) {
-    //             return false;
-    //         }
-    //         $userInfo = TgUserService::getUserById($reply_to_message->from->id, $bot->chat()->id);
-    //     }
+    public static function cha($bot)
+    {
+        $reply_to_message = $bot->message()->reply_to_message;
+        if (!$reply_to_message) {
+            $userInfo = UserManagementService::getUserById($bot->user()->id, $bot->chat()->id);
+        } else {
+            $from = $bot->message()->from->id;
+            $finance = ConfigService::getConfigValue($bot->chat()->id, 'finance');
+            $financeArr = explode(',', $finance);
+            // if (!in_array($from, $financeArr)) {
+            //     return false;
+            // }
+            $userInfo = UserManagementService::getUserById($reply_to_message->from->id, $bot->chat()->id);
+        }
 
-    //     $params = [];
-    //     if ($bot->message()->message_id) {
-    //         $params = ['parse_mode' => ParseMode::HTML];
-    //     }
-    //     try {
-    //         try {
-    //             if (!$userInfo) {
-    //                 $bot->sendMessage(trans('telegram.notregistered'), $params);
-    //             } else {
-    //                 $username = $userInfo->first_name ? $userInfo->first_name : $userInfo->username;
-    //                 $bot->sendMessage("💰[ {$username} ] " . trans('telegram.balance') . "：{$userInfo->balance}  U", $params);
-    //             }
-    //         } catch (\Exception $e) {
-    //             if (!$userInfo) {
-    //                 $bot->sendMessage(trans('telegram.notregistered'));
-    //             } else {
-    //                 $username = $userInfo->first_name ? $userInfo->first_name : $userInfo->username;
-    //                 $bot->sendMessage("💰[ {$username} ] " . trans('telegram.balance') . "：{$userInfo->balance}  U");
-    //             }
-    //         }
-    //     } catch (\Exception $e) {
-    //         Log::error('查询余额异常' . $e);
-    //     }
-    // }
+        $params = [];
+        if ($bot->message()->message_id) {
+            $params = ['parse_mode' => ParseMode::HTML];
+        }
+        try {
+            try {
+                if (!$userInfo) {
+                    $bot->sendMessage(trans('telegram.notregistered'), $params);
+                } else {
+                    $username = $userInfo->first_name ? $userInfo->first_name : $userInfo->username;
+                    $bot->sendMessage("💰[ {$username} ] " . trans('telegram.balance') . "：{$userInfo->balance}  U", $params);
+                }
+            } catch (\Exception $e) {
+                if (!$userInfo) {
+                    $bot->sendMessage(trans('telegram.notregistered'));
+                } else {
+                    $username = $userInfo->first_name ? $userInfo->first_name : $userInfo->username;
+                    $bot->sendMessage("💰[ {$username} ] " . trans('telegram.balance') . "：{$userInfo->balance}  U");
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error('查询余额异常' . $e);
+        }
+    }
 
     // public static function invite_link($bot): void
     // {

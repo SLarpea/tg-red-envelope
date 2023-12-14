@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Log;
 /**
  * author [@cody](https://t.me/cody0512)
  */
-class TgUserService
+class UserManagementService
 {
 
     public function __construct()
@@ -136,22 +136,22 @@ class TgUserService
     //     }
     // }
 
-    // public static function checkBalance($senderInfo, $amount)
-    // {
-    //     if (!$senderInfo) {
-    //         return ['state' => 0, 'msg' => trans('telegram.notregistered')];
-    //     } else if (!$senderInfo->status) {
-    //         return ['state' => 0, 'msg' => trans('telegram.userbanned')];
-    //     } else if ($senderInfo->balance < $amount) {
-    //         return ['state' => 0, 'msg' => trans('telegram.insufficientbalance')];
-    //     }
-    //     return ['state' => 1];
-    // }
+    public static function checkBalance($senderInfo, $amount)
+    {
+        if (!$senderInfo) {
+            return ['state' => 0, 'msg' => trans('telegram.notregistered')];
+        } else if (!$senderInfo->status) {
+            return ['state' => 0, 'msg' => trans('telegram.userbanned')];
+        } else if ($senderInfo->balance < $amount) {
+            return ['state' => 0, 'msg' => trans('telegram.insufficientbalance')];
+        }
+        return ['state' => 1];
+    }
 
-    // public static function getUserById($id, $groupId)
-    // {
-    //     return UserManagement::query()->where('tg_id', $id)->where('group_id', $groupId)->first();
-    // }
+    public static function getUserById($id, $groupId)
+    {
+        return UserManagement::query()->where('tg_id', $id)->where('group_id', $groupId)->first();
+    }
 
     // public static function getShareData($id, $chatId)
     // {
