@@ -59,10 +59,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/tg-users')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/tg-users') }" href="/tg-users" preserve-state>
           <i class="bi bi-people"></i>
           <span>User Management</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-item">

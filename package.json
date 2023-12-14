@@ -19,6 +19,8 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
-        "vue-sweetalert2": "^5.0.5"
+        "lodash": "^4.17.21",
+        "vue-sweetalert2": "^5.0.5",
+        "vue-tippy": "^6.3.1"
     }
 }
