@@ -1,14 +1,14 @@
 <template>
-    <Head title="Recharge Record" />
+    <Head title="Withdraw Record" />
     <AppLayout>
 
         <div class="pagetitle">
-        <h1>Recharge Record</h1>
+        <h1>Withdraw Record</h1>
         <nav>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Mine Management</a></li>
-            <li class="breadcrumb-item">Recharge Record</li>
-            <li class="breadcrumb-item active">List of Recharge</li>
+            <li class="breadcrumb-item">Withdraw Record</li>
+            <li class="breadcrumb-item active">List of Withdraw</li>
             </ol>
         </nav>
         </div>
@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title">List of Recharge</h5>
+                                            <h5 class="card-title">List of Withdraw</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             &nbsp;
