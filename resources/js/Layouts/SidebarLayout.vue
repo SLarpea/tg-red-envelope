@@ -54,7 +54,7 @@
         <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
         <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/groups') }" href="/groups" preserve-state>
           <i class="bi bi-diagram-3"></i>
-          <span>Group Managementt</span>
+          <span>Group Management</span>
         </Link>
       </li>
 
@@ -74,10 +74,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/recharge')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/recharge') }" href="/recharge" preserve-state>
           <i class="bi bi-wallet2"></i>
           <span>Recharge Record</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-item">

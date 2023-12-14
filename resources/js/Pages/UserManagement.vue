@@ -53,12 +53,12 @@
                                         <tbody>
                                             <tr v-for="(item, index) in tgusers.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ tgusers.from + index }}</td>
-                                                <td class="text-center">{{ tgusers.username }}</td>
-                                                <td class="text-center">{{ tgusers.first_name }}</td>
-                                                <td class="text-center">{{ tgusers.tg_id }}</td>
-                                                <td class="text-center">{{ tgusers.group_id }}</td>
-                                                <td class="text-center">{{ tgusers.balance }}</td>
-                                                <td class="text-center">{{ tgusers.online }}</td>
+                                                <td>{{ item.username }}</td>
+                                                <td>{{ item.first_name }}</td>
+                                                <td>{{ item.tg_id }}</td>
+                                                <td>{{ item.group_id }}</td>
+                                                <td>{{ item.balance }}</td>
+                                                <td>{{ item.online }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
