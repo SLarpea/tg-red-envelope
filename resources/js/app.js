@@ -11,7 +11,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { plugin as VueTippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Hongbao';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,

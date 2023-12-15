@@ -74,7 +74,8 @@
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
+                                                    <i class="bi bi-gear text-primary" v-tippy="'Configuration'" @click.prevent="selectAction(item, 'config', null)"></i>
+                                                    <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
@@ -188,6 +189,43 @@
             </div>
         </transition>
 
+        <transition name="modal-fade">
+            <div class="modal custom-modal" v-if="configShow">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="bi bi-arrow-return-right"></i> Configuration
+                            </h5>
+                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
+                        </div>
+                        <form @submit.prevent="formAction(form, 'all')">
+                            <div class="modal-body">
+                                <div class="row gx-4">
+                                    <div class="col-lg-12">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
+                                    <i class="bi bi-x-circle"></i> Close
+                                </button>
+                                <template v-if="action !== 'show'">
+                                    <button type="submit" class="btn btn-custom" v-if="action === 'new'">
+                                        <i class="bi bi-save2"></i> Save
+                                    </button>
+                                    <button type="submit" class="btn btn-custom" v-if="action === 'update'">
+                                        <i class="bi bi-save2"></i> Update
+                                    </button>
+                                </template>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
     </AppLayout>
 </template>
 
@@ -201,6 +239,7 @@ export default {
     data() {
         return {
             modalShow: false,
+            configShow: false,
             editMode: false,
             action: 'new',
             form: {
@@ -227,6 +266,7 @@ export default {
    methods: {
         closeModal() {
             this.modalShow = false;
+            this.configShow = false;
         },
         resetForm() {
             console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
@@ -247,6 +287,9 @@ export default {
             this.action = action;
             if (this.action == 'delete') {
                 this.formAction(data, type);
+            }else if(this.action == 'config'){
+                this.form = Object.assign({}, data);
+                this.configShow = true;
             } else {
                 this.form = Object.assign({}, data);
                 this.modalShow = true;
