@@ -15,14 +15,14 @@ class MessageCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'tg:message';
+    protected $signature = 'tgbot:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Initialize telegram bot';
 
     /**
      * Execute the console command.
@@ -34,7 +34,6 @@ class MessageCommand extends Command
         $this->info('开始...');
         try {
             $bot->setRunningMode(Polling::class);
-            TelegramService::handleRed($bot);
             $bot->run();
         } catch (\Exception $e) {
             Log::error('异常' . $e);

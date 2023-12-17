@@ -13,12 +13,14 @@ use App\Jobs\LuckyHistoryJob;
 use App\Models\JackpotReward;
 use SergiX44\Nutgram\Nutgram;
 use App\Jobs\MsgToTelegramJob;
+use App\Models\GroupManagement;
 use App\Models\RechargeRecord;
 use App\Models\UserManagement;
 use App\Models\WithdrawRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use App\Telegram\Middleware\OnlyAdmin;
 use App\Services\UserManagementService;
 use App\Telegram\Middleware\GroupVerify;
 use SergiX44\Nutgram\RunningMode\Polling;
@@ -32,426 +34,196 @@ class TelegramService
 
     public static function handleRed(Nutgram $bot)
     {
-
-        $bot->group(GroupVerify::class, function (Nutgram $bot) {
-            // text sample "+1234" ||  text sample "recharge1234"
-            $bot->onText('/(' . trans('telegram.recharge') . '|\+)([0-9]+)', function (Nutgram $bot, $ac, $amount) {
-                // $bot->sendMessage("The recharge amount is {$amount}");
-                self::shangfen($bot, $amount);
-            });
-
-            // text sample "-1234" ||  text sample "recharge1234"
-            $bot->onText('/(' . trans('telegram.withdraw') . '|\-)([0-9]+)', function (Nutgram $bot, $ac,  $amount) {
-                self::xiafen($bot, $amount);
-            });
-
-            $bot->onText('#^(发[包]*)*([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)$#', function (Nutgram $bot, $ac, $amount, $mine) {
-                dump($ac);
-                dump($amount);
-                dump($mine);
-                die;
-                // self::fabao($bot, $ac, $amount, $mine);
-            });
-
-            //             $bot->onText(trans('telegram.welfare') . '([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)', function (Nutgram $bot, $amount, $num) {
-            //                 self::fuli($bot, $amount, $num);
-            //             });
-
-            $bot->onText('/(1$|查$|余额$|balance$|ye$|query$)', function (Nutgram $bot, $ac) {
-                if ($ac == '1' || $ac == 'ye' || $ac == 'balance' || $ac == 'query' || $ac == '查' || $ac == '余额' || $ac == '查余额') {
-                    self::cha($bot);
-                }
-            });
-
-            $bot->onCallbackQueryData('balance', function (Nutgram $bot) {
-                $userInfo = UserManagementService::getUserById($bot->user()->id, $bot->chat()->id);
-                if (!$userInfo) {
-                    $bot->answerCallbackQuery([
-                        'text' => trans('telegram.notregistered'),
-                        'show_alert' => true,
-                        'cache_time' => 5
-                    ]);
-                } else {
-                    $bot->answerCallbackQuery([
-                        'text' => "{$userInfo->first_name} \n@{$userInfo->username} \n-----------------------------\nID：{$userInfo->tg_id}\n" . trans('telegram.balance') . "：{$userInfo->balance}  U",
-                        'parse_mode' => ParseMode::HTML,
-                        'show_alert' => true,
-                        'cache_time' => 5
-                    ]);
-                }
-            });
-            //             $bot->onCallbackQueryData('invitelink', function (Nutgram $bot) {
-            //                 self::invite_link($bot);
-            //             });
-            //             $bot->onCallbackQueryData('qiang-{luckyid}', function (Nutgram $bot, $luckyid) {
-            //                 $userId = $bot->user()->id;
-            //                 if (env('QUEUE_CONNECTION') == 'sync') {
-            //                     self::qiangAction($bot, $luckyid, $userId, $bot->message()->message_id, $bot->callbackQuery()?->id);
-            //                 } else {
-            //                     $jobData = [
-            //                         'chat_id' => $bot->chat()->id,
-            //                         'lucky_id' => $luckyid,
-            //                         'user_id' => $userId,
-            //                         'message_id' => $bot->message()->message_id,
-            //                         'callback_query_id' => $bot->callbackQuery()?->id,
-            //                     ];
-            //                     MsgToTelegramJob::dispatch($jobData)->onQueue('qiang');
-            //                 }
-            //                 //                Log::info('qiang=>' . json_encode($bot->message(), JSON_UNESCAPED_UNICODE));
-            //                 //
-
-            //             });
-
-            //             $bot->onCallbackQueryData('today_data', function (Nutgram $bot) {
-            //                 $result = UserManagementService::getTodayData($bot->user()->id, $bot->chat()->id);
-            //                 if ($result['state'] == 0) {
-            //                     $bot->answerCallbackQuery([
-            //                         'text' => $result['msg'],
-            //                         'show_alert' => true,
-            //                         'cache_time' => 10
-            //                     ]);
-            //                     return false;
-            //                 }
-            //                 $data = $result['data'];
-            //                 $text = trans('telegram.todayprofit') . "：{$data['todayProfit']}
-            // -----------
-            // " . trans('telegram.expenditure') . "：-{$data['redPayTotal']}
-            // " . trans('telegram.awarding') . "：+{$data['sendProfitTotal']}
-            // -----------
-            // " . trans('telegram.bagincome') . "：+{$data['getProfitTotal']}
-            // " . trans('telegram.thunderlose') . "：-{$data['loseTotal']}
-            // -----------
-            // " . trans('telegram.inviterebate') . "：+{$data['todayInvite']}
-            // " . trans('telegram.shareprofit') . "：+{$data['todayShare']}";
-            //                 /*
-            //                 $text.="
-            // -----------
-            // 平台抽成：-{$result['todayPlat']}
-            // 上级代理抽成：-{$result['todayTopShare']}
-            // Jackpot抽成：-{$result['todayJackpot']}";
-            //                 */
-            //                 $bot->answerCallbackQuery([
-            //                     'text' => $text,
-            //                     'show_alert' => true,
-            //                     'cache_time' => 10
-            //                 ]);
-            //             });
-
-            //             $bot->onCallbackQueryData('team_report', function (Nutgram $bot) {
-            //                 $result = UserManagementService::getTeamData($bot->user()->id, $bot->chat()->id);
-            //                 if ($result['state'] == 0) {
-            //                     $bot->answerCallbackQuery([
-            //                         'text' => $result['msg'],
-            //                         'show_alert' => true,
-            //                         'cache_time' => 10
-            //                     ]);
-            //                     return false;
-            //                 }
-            //                 $data = $result['data'];
-            //                 $text = trans('telegram.todayprofit') . "：{$data['todayProfit']}
-            // " . trans('telegram.todayrecharge') . "：{$data['todayRecharge']}
-            // " . trans('telegram.todaywithdraw') . "：{$data['todayWithdraw']}
-            // " . trans('telegram.todaysendamount') . "：{$data['todaySendAmount']}";
-
-            //                 $bot->answerCallbackQuery([
-            //                     'text' => $text,
-            //                     'show_alert' => true,
-            //                     'cache_time' => 10
-            //                 ]);
-            //             });
-            //             $bot->onCallbackQueryData('yesterday_data', function (Nutgram $bot) {
-            //                 $result = UserManagementService::getYesterdayData($bot->user()->id, $bot->chat()->id);
-            //                 if ($result['state'] == 0) {
-            //                     $bot->answerCallbackQuery([
-            //                         'text' => $result['msg'],
-            //                         'show_alert' => true,
-            //                         'cache_time' => 10
-            //                     ]);
-            //                     return false;
-            //                 }
-            //                 $data = $result['data'];
-            //                 $text = trans('telegram.yesterdayprofit') . "：{$data['todayProfit']}
-            // -----------
-            // " . trans('telegram.expenditure') . "：-{$data['redPayTotal']}
-            // " . trans('telegram.awarding') . "：+{$data['sendProfitTotal']}
-            // -----------
-            // " . trans('telegram.bagincome') . "：+{$data['getProfitTotal']}
-            // " . trans('telegram.thunderlose') . "：-{$data['loseTotal']}
-            // -----------
-            // " . trans('telegram.inviterebate') . "：+{$data['todayInvite']}
-            // " . trans('telegram.shareprofit') . "：+{$data['todayShare']}";
-            //                 /*
-            //                 $text.="
-            // -----------
-            // 平台抽成：-{$result['todayPlat']}
-            // 上级代理抽成：-{$result['todayTopShare']}
-            // Jackpot抽成：-{$result['todayJackpot']}";
-            //                 */
-            //                 $bot->answerCallbackQuery([
-            //                     'text' => $text,
-            //                     'show_alert' => true,
-            //                     'cache_time' => 10
-            //                 ]);
-            //             });
-            //             $bot->onCallbackQueryData('share_data', function (Nutgram $bot) {
-            //                 $result = UserManagementService::getShareData($bot->user()->id, $bot->chat()->id);
-            //                 $listTxt = '';
-            //                 foreach ($result['inviteUserList'] as $val) {
-            //                     $listTxt .= ($val['first_name'] != '' ? $val['first_name'] : $val['username']) . "\n";
-            //                 }
-            //                 $bot->answerCallbackQuery([
-            //                     'text' => trans('telegram.todayinvite') . "：" . $result['todayCount'] . "
-            // " . trans('telegram.monthinvite') . "：" . $result['monthCount'] . "
-            // " . trans('telegram.totalinvite') . "：" . $result['totalCount'] . "
-            // -----------
-            // " . trans('telegram.lastteninvitations') . "
-            // -----------
-            // " . $listTxt,
-            //                     'show_alert' => true,
-            //                     'cache_time' => 30
-            //                 ]);
-            //             });
-            //             $bot->onChatMember(function (Nutgram $bot) {
-            //                 self::new_user($bot);
-            //                 return true;
-            //             });
-            /*$bot->onNewChatMembers(function (Nutgram $bot) {
-                Log::info('onNewChatMembers==update：'.json_encode($bot->update()));
-                $groupId = $bot->chat()->id;
-                if(!$bot->message()){
-                    return false;
-                }
-                $Member = $bot->message()->new_chat_members[0];
-                if($Member){
-                    $inviteTgId = !$bot->message()->from->is_bot ? $bot->message()->from->id : 0;
-                    $rs = UserManagementService::addUser($Member,$groupId,$inviteTgId);
-                    if($rs['state'] == 1 ){
-                        //欢迎语
-                        $welcomeText = ConfigService::getConfigValue($groupId, 'welcome');
-                        if($welcomeText){
-                            $bot->sendMessage($welcomeText, ['parse_mode' => ParseMode::HTML]);
-                        }
-                    }
-                }
-            });*/
-
-
-
-            //            $bot->onLeftChatMember(function (Nutgram $bot) {
-            //                $groupId = $bot->chat()->id;
-            //                $Member = $bot->message()->left_chat_member;
-            //                $Member->group_id = $groupId;
-            //                UserManagementService::leftUser($Member);
-            //            });
-
-
-            $bot->onCommand('register(.*)', function (Nutgram $bot) {
-                $groupId = $bot->chat()->id;
-                $Member = $bot->user();
-                $rs = UserManagementService::registerUser($Member, $groupId);
-
-                try {
-                    if ($rs['state'] == 1) {
-                        $bot->sendMessage(trans('telegram.registersuccess'));
-                    } else {
-                        $bot->sendMessage($rs['msg']);
-                    }
-                } catch (\Exception $e) {
-                    Log::error('register异常' . $e);
-                }
-            });
-            // Called on command "/help"
-        });
     }
 
-    // public static function qiangAction($bot, $luckyid, $userId, $message_id, $callback_query_id = null)
-    // {
-    //     $historyListKey = 'history_list_' . $luckyid;
-    //     $historyListLen = Redis::llen($historyListKey);
-    //     if ($historyListLen > 0) {
-    //         for ($i = 0; $i < $historyListLen; $i++) {
-    //             $json = Redis::lindex($historyListKey, $i);
-    //             $historyObj = json_decode($json, true);
-    //             if ($historyObj['user_id'] == $userId) {
-    //                 if ($callback_query_id) {
-    //                     try {
-    //                         $bot->answerCallbackQuery([
-    //                             'text' => trans('telegram.receivedonce', ['amount' => $historyObj['amount']]),
-    //                             'show_alert' => true,
-    //                             'callback_query_id' => $callback_query_id,
-    //                             'cache_time' => 60
-    //                         ]);
-    //                     } catch (\Exception $e) {
-    //                         Log::error('弹窗消息异常【您已经领取该红包，金额 ' . $historyObj['amount'] . ' U】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //                     }
-    //                 }
-    //                 Log::info('$userId=' . $userId . '--$luckyid=' . $luckyid . '您已经领取该红包，金额 ' . $historyObj['amount'] . ' U');
-    //                 return false;
-    //             }
-    //         }
-    //     }
+    public static function qiangAction($bot, $luckyid, $userId, $message_id, $callback_query_id = null)
+    {
+        $historyListKey = 'history_list_' . $luckyid;
+        $historyListLen = Redis::llen($historyListKey);
+        if ($historyListLen > 0) {
+            for ($i = 0; $i < $historyListLen; $i++) {
+                $json = Redis::lindex($historyListKey, $i);
+                $historyObj = json_decode($json, true);
+                if ($historyObj['user_id'] == $userId) {
+                    if ($callback_query_id) {
+                        try {
+                            $bot->answerCallbackQuery([
+                                'text' => trans('telegram.receivedonce', ['amount' => $historyObj['amount']]),
+                                'show_alert' => true,
+                                'callback_query_id' => $callback_query_id,
+                                'cache_time' => 60
+                            ]);
+                        } catch (\Exception $e) {
+                            Log::error('弹窗消息异常【您已经领取该红包，金额 ' . $historyObj['amount'] . ' U】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                        }
+                    }
+                    Log::info('$userId=' . $userId . '--$luckyid=' . $luckyid . '您已经领取该红包，金额 ' . $historyObj['amount'] . ' U');
+                    return false;
+                }
+            }
+        }
 
-    //     $luckyKey = 'lucky_' . $luckyid;
-    //     $luckyInfo = Redis::get('luckyInfo_' . $luckyid);
-    //     if (!$luckyInfo) {
-    //         $luckyInfo = LuckyMoney::query()->where('id', $luckyid)->first();
-    //         if (!$luckyInfo) {
-    //             if ($callback_query_id) {
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => trans('telegram.nodata'),
-    //                     'show_alert' => true,
-    //                     'callback_query_id' => $callback_query_id,
-    //                     'cache_time' => 60
-    //                 ]);
-    //             }
-    //             return false;
-    //         }
-    //         Redis::setex('luckyInfo_' . $luckyid, 5, serialize($luckyInfo->toArray()));
-    //     } else {
-    //         $luckyInfo = unserialize($luckyInfo);
-    //     }
+        $luckyKey = 'lucky_' . $luckyid;
+        $luckyInfo = Redis::get('luckyInfo_' . $luckyid);
+        if (!$luckyInfo) {
+            $luckyInfo = LuckyMoney::query()->where('id', $luckyid)->first();
+            if (!$luckyInfo) {
+                if ($callback_query_id) {
+                    $bot->answerCallbackQuery([
+                        'text' => trans('telegram.nodata'),
+                        'show_alert' => true,
+                        'callback_query_id' => $callback_query_id,
+                        'cache_time' => 60
+                    ]);
+                }
+                return false;
+            }
+            Redis::setex('luckyInfo_' . $luckyid, 5, serialize($luckyInfo->toArray()));
+        } else {
+            $luckyInfo = unserialize($luckyInfo);
+        }
 
 
-    //     $luckyNum = Redis::scard($luckyKey);
-    //     $openNum = Redis::llen($historyListKey);
-    //     if ($luckyNum == 0 || $openNum >= $luckyInfo['number']) {
-    //         if ($callback_query_id) {
-    //             try {
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => trans('telegram.collectedall'),
-    //                     'show_alert' => true,
-    //                     'callback_query_id' => $callback_query_id,
-    //                     'cache_time' => 60
-    //                 ]);
-    //             } catch (\Exception $e) {
-    //                 Log::error('弹窗消息异常【该红包已全部被领取】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //             }
-    //         }
-    //         Log::info('该红包已全部被领取');
-    //         return false;
-    //     }
+        $luckyNum = Redis::scard($luckyKey);
+        $openNum = Redis::llen($historyListKey);
+        if ($luckyNum == 0 || $openNum >= $luckyInfo['number']) {
+            if ($callback_query_id) {
+                try {
+                    $bot->answerCallbackQuery([
+                        'text' => trans('telegram.collectedall'),
+                        'show_alert' => true,
+                        'callback_query_id' => $callback_query_id,
+                        'cache_time' => 60
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('弹窗消息异常【该红包已全部被领取】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                }
+            }
+            Log::info('该红包已全部被领取');
+            return false;
+        }
 
-    //     $userInfo = UserManagement::query()->where('tg_id', $userId)->where('group_id', $luckyInfo['chat_id'])->first();
-    //     $checkRs = LuckyMoneyService::checkLuck($luckyInfo, $userInfo);
-    //     if (!$checkRs['state']) {
-    //         if ($callback_query_id) {
-    //             try {
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => $checkRs['msg'],
-    //                     'show_alert' => true,
-    //                     'callback_query_id' => $callback_query_id,
-    //                 ]);
-    //             } catch (\Exception $e) {
-    //                 Log::error('弹窗消息异常【' . $checkRs['msg'] . '】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //             }
-    //         }
-    //         Log::info('$userId=' . $userId . '--$luckyid=' . $luckyid . 'checkLuck=>' . $checkRs['msg']);
-    //         return false;
-    //     }
-    //     if ($userInfo['pass_mine'] == 1) {
-    //         $smembers = Redis::smembers($luckyKey);
-    //         $redAmount = 0;
-    //         foreach ($smembers as $sval) {
-    //             $sval = number_format($sval, 2, '.', '');
-    //             $isThunder = LuckyMoneyService::checkThunder($sval, $luckyInfo['thunder']);
-    //             if (!$isThunder) {
-    //                 $redAmount = $sval;
-    //                 break;
-    //             }
-    //         }
-    //         if ($redAmount > 0) {
-    //             Redis::srem($luckyKey, $redAmount);
-    //         } else {
-    //             $redAmount = Redis::spop($luckyKey);
-    //         }
-    //     } else if ($userInfo['get_mine'] == 1) {
-    //         $smembers = Redis::smembers($luckyKey);
-    //         $redAmount = 0;
-    //         foreach ($smembers as $sval) {
-    //             $sval = number_format($sval, 2, '.', '');
-    //             $isThunder = LuckyMoneyService::checkThunder($sval, $luckyInfo['thunder']);
-    //             if ($isThunder) {
-    //                 $redAmount = $sval;
-    //                 break;
-    //             }
-    //         }
-    //         if ($redAmount > 0) {
-    //             Redis::srem($luckyKey, $redAmount);
-    //         } else {
-    //             $redAmount = Redis::spop($luckyKey);
-    //         }
-    //     } else {
-    //         $redAmount = Redis::spop($luckyKey);
-    //     }
-    //     if (!$redAmount) {
-    //         if ($callback_query_id) {
-    //             try {
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => trans('telegram.collectedall'),
-    //                     'show_alert' => true,
-    //                     'callback_query_id' => $callback_query_id,
-    //                     'cache_time' => 60
-    //                 ]);
-    //             } catch (\Exception $e) {
-    //                 Log::error('弹窗消息异常【该红包已全部被领取1】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //             }
-    //         }
-    //         Log::info('该红包已全部被领取:redAmount=' . $redAmount);
-    //         return false;
-    //     }
+        $userInfo = UserManagement::query()->where('tg_id', $userId)->where('group_id', $luckyInfo['chat_id'])->first();
+        $checkRs = LuckyMoneyService::checkLuck($luckyInfo, $userInfo);
+        if (!$checkRs['state']) {
+            if ($callback_query_id) {
+                try {
+                    $bot->answerCallbackQuery([
+                        'text' => $checkRs['msg'],
+                        'show_alert' => true,
+                        'callback_query_id' => $callback_query_id,
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('弹窗消息异常【' . $checkRs['msg'] . '】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                }
+            }
+            Log::info('$userId=' . $userId . '--$luckyid=' . $luckyid . 'checkLuck=>' . $checkRs['msg']);
+            return false;
+        }
+        if ($userInfo['pass_mine'] == 1) {
+            $smembers = Redis::smembers($luckyKey);
+            $redAmount = 0;
+            foreach ($smembers as $sval) {
+                $sval = number_format($sval, 2, '.', '');
+                $isThunder = LuckyMoneyService::checkThunder($sval, $luckyInfo['thunder']);
+                if (!$isThunder) {
+                    $redAmount = $sval;
+                    break;
+                }
+            }
+            if ($redAmount > 0) {
+                Redis::srem($luckyKey, $redAmount);
+            } else {
+                $redAmount = Redis::spop($luckyKey);
+            }
+        } else if ($userInfo['get_mine'] == 1) {
+            $smembers = Redis::smembers($luckyKey);
+            $redAmount = 0;
+            foreach ($smembers as $sval) {
+                $sval = number_format($sval, 2, '.', '');
+                $isThunder = LuckyMoneyService::checkThunder($sval, $luckyInfo['thunder']);
+                if ($isThunder) {
+                    $redAmount = $sval;
+                    break;
+                }
+            }
+            if ($redAmount > 0) {
+                Redis::srem($luckyKey, $redAmount);
+            } else {
+                $redAmount = Redis::spop($luckyKey);
+            }
+        } else {
+            $redAmount = Redis::spop($luckyKey);
+        }
+        if (!$redAmount) {
+            if ($callback_query_id) {
+                try {
+                    $bot->answerCallbackQuery([
+                        'text' => trans('telegram.collectedall'),
+                        'show_alert' => true,
+                        'callback_query_id' => $callback_query_id,
+                        'cache_time' => 60
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('弹窗消息异常【该红包已全部被领取1】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                }
+            }
+            Log::info('该红包已全部被领取:redAmount=' . $redAmount);
+            return false;
+        }
 
-    //     $redAmount = number_format($redAmount, 2, '.', '');
-    //     $isThunder = LuckyMoneyService::checkThunder($redAmount, $luckyInfo['thunder']);
+        $redAmount = number_format($redAmount, 2, '.', '');
+        $isThunder = LuckyMoneyService::checkThunder($redAmount, $luckyInfo['thunder']);
 
-    //     $loseMoney = 0;
-    //     if ($isThunder) {
-    //         $loseRate = ConfigService::getConfigValue($luckyInfo['chat_id'], 'lose_rate');
-    //         $loseRate = $loseRate > 0 ? $loseRate : 1.8;
-    //         $loseMoney = round($luckyInfo['amount'] * $loseRate, 2);
-    //         $answerText = trans('telegram.hasthunderanswer', ['redAmount' => $redAmount, 'loseMoney' => $loseMoney]);
+        $loseMoney = 0;
+        if ($isThunder) {
+            $loseRate = ConfigService::getConfigValue($luckyInfo['chat_id'], 'lose_rate');
+            $loseRate = $loseRate > 0 ? $loseRate : 1.8;
+            $loseMoney = round($luckyInfo['amount'] * $loseRate, 2);
+            $answerText = trans('telegram.hasthunderanswer', ['redAmount' => $redAmount, 'loseMoney' => $loseMoney]);
 
-    //         $rs1 = UserManagement::query()->where('tg_id', $userId)->where('group_id', $luckyInfo['chat_id'])->decrement('balance', $loseMoney);
-    //         if (!$rs1) {
-    //             try {
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => '系统错误，请联系管理员',
-    //                     'show_alert' => true,
-    //                     'callback_query_id' => $callback_query_id,
-    //                     'cache_time' => 60
-    //                 ]);
-    //             } catch (\Exception $e) {
-    //                 Log::error('弹窗消息异常【中雷扣减数据库错误，请联系管理员】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //             }
-    //             return false;
-    //         }
-    //         money_log($luckyInfo['chat_id'], $userId, -$loseMoney, 'thunderlose', '中雷损失', $luckyInfo['id']);
-    //     } else {
-    //         if ($luckyInfo['type'] == 1) {
-    //             $answerText = trans('telegram.nothunderanswer', ['redAmount' => $redAmount]);
-    //         } else {
-    //             $answerText = trans('telegram.welfareanswer', ['redAmount' => $redAmount]);
-    //         }
-    //     }
+            $rs1 = UserManagement::query()->where('tg_id', $userId)->where('group_id', $luckyInfo['chat_id'])->decrement('balance', $loseMoney);
+            if (!$rs1) {
+                try {
+                    $bot->answerCallbackQuery([
+                        'text' => '系统错误，请联系管理员',
+                        'show_alert' => true,
+                        'callback_query_id' => $callback_query_id,
+                        'cache_time' => 60
+                    ]);
+                } catch (\Exception $e) {
+                    Log::error('弹窗消息异常【中雷扣减数据库错误，请联系管理员】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                }
+                return false;
+            }
+            money_log($luckyInfo['chat_id'], $userId, -$loseMoney, 'thunderlose', '中雷损失', $luckyInfo['id']);
+        } else {
+            if ($luckyInfo['type'] == 1) {
+                $answerText = trans('telegram.nothunderanswer', ['redAmount' => $redAmount]);
+            } else {
+                $answerText = trans('telegram.welfareanswer', ['redAmount' => $redAmount]);
+            }
+        }
 
-    //     if ($callback_query_id) {
-    //         try {
-    //             $bot->answerCallbackQuery([
-    //                 'text' => $answerText,
-    //                 'show_alert' => true,
-    //                 'callback_query_id' => $callback_query_id,
-    //             ]);
-    //             self::editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id);
-    //         } catch (\Exception $e) {
-    //             Redis::sadd($luckyKey, $redAmount);
-    //             Log::error('弹窗消息异常【' . $answerText . '】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //         }
-    //     } else {
-    //         self::editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id);
-    //     }
+        if ($callback_query_id) {
+            try {
+                $bot->answerCallbackQuery([
+                    'text' => $answerText,
+                    'show_alert' => true,
+                    'callback_query_id' => $callback_query_id,
+                ]);
+                self::editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id);
+            } catch (\Exception $e) {
+                Redis::sadd($luckyKey, $redAmount);
+                Log::error('弹窗消息异常【' . $answerText . '】=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+            }
+        } else {
+            self::editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id);
+        }
 
-    //     //        usleep(500000);
-    //     return true;
-    // }
+        //        usleep(500000);
+        return true;
+    }
 
     // public static function editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id)
     // {
@@ -1009,85 +781,85 @@ class TelegramService
         }
     }
 
-    // public static function fuli($bot, $amount, $num)
-    // {
-    //     $chatId = $bot->chat()->id;
-    //     $pattern = '/^\d+\.\d+?$/';
-    //     if (preg_match($pattern, $amount)) {
-    //         $bot->sendMessage(trans('telegram.commanderror_integer'));
-    //         return false;
-    //     }
-    //     if (preg_match($pattern, $num)) {
-    //         $bot->sendMessage(trans('telegram.commanderror_integer'));
-    //         return false;
-    //     }
-    //     if ($num < 2 || $num > 100) {
-    //         $bot->sendMessage(trans('telegram.welfarelimit'));
-    //         return false;
-    //     }
-    //     if ($amount < 1) {
-    //         $bot->sendMessage(trans('telegram.welfarelimit'));
-    //         return false;
-    //     }
-    //     if ($amount / $num < 0.1) {
-    //         $bot->sendMessage(trans('telegram.welfaretoomany'));
-    //         return false;
-    //     }
-    //     $num = (int)$num;
-    //     $amount = (int)$amount;
-    //     $sendUserId = $bot->user()->id;
-    //     $senderInfo = UserManagement::query()->where('tg_id', $sendUserId)->where('group_id', $chatId)->first();
-    //     $senderName = $senderInfo['first_name'] ? $senderInfo['first_name'] : $senderInfo['username'];
-    //     //检查余额
-    //     $checkRs = UserManagementService::checkBalance($senderInfo, $amount);
-    //     if ($checkRs['state'] != 1) {
-    //         try {
-    //             $bot->sendMessage($checkRs['msg']);
-    //         } catch (\Exception $e) {
-    //             $bot->sendMessage($checkRs['msg']);
-    //         }
-    //     } else {
-    //         try {
-    //             DB::beginTransaction();
-    //             //添加红包
-    //             $luckyId = LuckyMoneyService::addLucky($senderInfo, $senderName, $amount, 0, $chatId, $num, 0, 2);
-    //             if ($luckyId) {
-    //                 $photo = get_photo($chatId);
-    //                 if (!$photo) {
-    //                     DB::rollBack();
-    //                     $bot->sendMessage(trans('telegram.nopicture'));
-    //                     return false;
-    //                 }
-    //                 $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
-    //                     InlineKeyboardButton::make(trans('telegram.welfarefirstbtntext', ['num' => $num, 'amount' => $amount]), callback_data: "qiang-" . $luckyId)
-    //                 );
-    //                 $data = [
-    //                     'caption' => "[ <code>" . format_name($senderName) . "</code> ]" . trans('telegram.welfaresendcaption', ['amount' => $amount]),
-    //                     'parse_mode' => ParseMode::HTML,
-    //                     'reply_markup' => common_reply_markup($chatId, $InlineKeyboardMarkup),
-    //                 ];
-    //                 $sendRs = $bot->sendPhoto($photo, $data);
-    //                 if ($sendRs) {
-    //                     $updateRs = LuckyMoney::query()->where('id', $luckyId)->update(['message_id' => $sendRs->message_id]);
-    //                     if (!$updateRs) {
-    //                         DB::rollBack();
-    //                         return false;
-    //                     }
-    //                     DB::commit();
-    //                 } else {
-    //                     DB::rollBack();
-    //                     $bot->sendMessage(trans('telegram.failedtosend'));
-    //                 }
-    //             } else {
-    //                 DB::rollBack();
-    //                 $bot->sendMessage(trans('telegram.failedtosend'));
-    //             }
-    //         } catch (\Exception $e) {
-    //             DB::rollBack();
-    //             Log::error($e);
-    //         }
-    //     }
-    // }
+    public static function fuli($bot, $amount, $num)
+    {
+        $chatId = $bot->chat()->id;
+        $pattern = '/^\d+\.\d+?$/';
+        if (preg_match($pattern, $amount)) {
+            $bot->sendMessage(trans('telegram.commanderror_integer'));
+            return false;
+        }
+        if (preg_match($pattern, $num)) {
+            $bot->sendMessage(trans('telegram.commanderror_integer'));
+            return false;
+        }
+        if ($num < 2 || $num > 100) {
+            $bot->sendMessage(trans('telegram.welfarelimit'));
+            return false;
+        }
+        if ($amount < 1) {
+            $bot->sendMessage(trans('telegram.welfarelimit'));
+            return false;
+        }
+        if ($amount / $num < 0.1) {
+            $bot->sendMessage(trans('telegram.welfaretoomany'));
+            return false;
+        }
+        $num = (int)$num;
+        $amount = (int)$amount;
+        $sendUserId = $bot->user()->id;
+        $senderInfo = UserManagement::query()->where('tg_id', $sendUserId)->where('group_id', $chatId)->first();
+        $senderName = $senderInfo['first_name'] ? $senderInfo['first_name'] : $senderInfo['username'];
+        //检查余额
+        $checkRs = UserManagementService::checkBalance($senderInfo, $amount);
+        if ($checkRs['state'] != 1) {
+            try {
+                $bot->sendMessage($checkRs['msg']);
+            } catch (\Exception $e) {
+                $bot->sendMessage($checkRs['msg']);
+            }
+        } else {
+            try {
+                DB::beginTransaction();
+                //添加红包
+                $luckyId = LuckyMoneyService::addLucky($senderInfo, $senderName, $amount, 0, $chatId, $num, 0, 2);
+                if ($luckyId) {
+                    $photo = get_photo($chatId);
+                    if (!$photo) {
+                        DB::rollBack();
+                        $bot->sendMessage(trans('telegram.nopicture'));
+                        return false;
+                    }
+                    $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
+                        InlineKeyboardButton::make(trans('telegram.welfarefirstbtntext', ['num' => $num, 'amount' => $amount]), callback_data: "qiang-" . $luckyId)
+                    );
+                    $data = [
+                        'caption' => "[ <code>" . format_name($senderName) . "</code> ]" . trans('telegram.welfaresendcaption', ['amount' => $amount]),
+                        'parse_mode' => ParseMode::HTML,
+                        'reply_markup' => common_reply_markup($chatId, $InlineKeyboardMarkup),
+                    ];
+                    $sendRs = $bot->sendPhoto($photo, $data);
+                    if ($sendRs) {
+                        $updateRs = LuckyMoney::query()->where('id', $luckyId)->update(['message_id' => $sendRs->message_id]);
+                        if (!$updateRs) {
+                            DB::rollBack();
+                            return false;
+                        }
+                        DB::commit();
+                    } else {
+                        DB::rollBack();
+                        $bot->sendMessage(trans('telegram.failedtosend'));
+                    }
+                } else {
+                    DB::rollBack();
+                    $bot->sendMessage(trans('telegram.failedtosend'));
+                }
+            } catch (\Exception $e) {
+                DB::rollBack();
+                Log::error($e);
+            }
+        }
+    }
 
     // public static function new_user($bot)
     // {
@@ -1163,45 +935,74 @@ class TelegramService
         }
     }
 
-    // public static function invite_link($bot): void
-    // {
-    //     $chatId = $bot->chat()->id;
-    //     $params = [
-    //         'parse_mode' => ParseMode::HTML
-    //     ];
+    public static function invite_link($bot): void
+    {
+        $chatId = $bot->chat()->id;
+        $params = [
+            'parse_mode' => ParseMode::HTML
+        ];
 
-    //     if (\App\Models\AuthGroup::query()->where('group_id', $bot->chat()->id)->count() == 0) {
-    //         $user = \App\Models\UserManagement::query()->where('tg_id', $bot->user()->id)->orderBy('id', 'desc')->first();
-    //         if (!$user) {
-    //             $bot->sendMessage(trans('telegram.invite_err1'), $params);
+        if (GroupManagement::query()->where('group_id', $bot->chat()->id)->count() == 0) {
+            $user = UserManagement::query()->where('tg_id', $bot->user()->id)->orderBy('id', 'desc')->first();
+            if (!$user) {
+                $bot->sendMessage(trans('telegram.invite_err1'), $params);
 
-    //             return;
-    //         }
-    //         $chatId = $user->group_id;
-    //     }
-    //     $rs = $bot->createChatInviteLink($chatId);
-    //     if (!$rs->invite_link) {
-    //         $bot->sendMessage(trans('telegram.invite_err2'), $params);
+                return;
+            }
+            $chatId = $user->group_id;
+        }
+        $rs = $bot->createChatInviteLink($chatId);
+        if (!$rs->invite_link) {
+            $bot->sendMessage(trans('telegram.invite_err2'), $params);
 
-    //         return;
-    //     }
-    //     if (InviteLink::query()->where('group_id', $chatId)->where('invite_link', $rs->invite_link)->where('tg_id', $bot->user()->id)->count() == 0) {
-    //         $insert = [
-    //             'tg_id' => $bot->user()->id,
-    //             'group_id' => $chatId,
-    //             'invite_link' => $rs->invite_link,
-    //         ];
-    //         $iRs = InviteLink::query()->create($insert);
-    //         if (!$iRs) {
-    //             try {
-    //                 $bot->sendMessage(trans('telegram.invite_err2'), $params);
-    //             } catch (\Exception $e) {
-    //                 $bot->sendMessage(trans('telegram.invite_err2'), ['parse_mode' => ParseMode::HTML]);
-    //             }
-    //             return;
-    //         }
-    //     }
-    //     $userName = $bot->user()->first_name ? $bot->user()->first_name : $bot->user()->username;
-    //     $bot->sendMessage(trans('telegram.invite_link', ['invite_link' => $rs->invite_link, 'username' => $userName]), $params);
-    // }
+            return;
+        }
+        if (InviteLink::query()->where('group_id', $chatId)->where('invite_link', $rs->invite_link)->where('tg_id', $bot->user()->id)->count() == 0) {
+            $insert = [
+                'tg_id' => $bot->user()->id,
+                'group_id' => $chatId,
+                'invite_link' => $rs->invite_link,
+            ];
+            $iRs = InviteLink::query()->create($insert);
+            if (!$iRs) {
+                try {
+                    $bot->sendMessage(trans('telegram.invite_err2'), $params);
+                } catch (\Exception $e) {
+                    $bot->sendMessage(trans('telegram.invite_err2'), ['parse_mode' => ParseMode::HTML]);
+                }
+                return;
+            }
+        }
+        $userName = $bot->user()->first_name ? $bot->user()->first_name : $bot->user()->username;
+        $bot->sendMessage(trans('telegram.invite_link', ['invite_link' => $rs->invite_link, 'username' => $userName]), $params);
+    }
+
+    public function todayData(Nutgram $bot)
+    {
+        $result = UserManagementService::getTodayData($bot->user()->id, $bot->chat()->id);
+        if ($result['state'] == 0) {
+            $bot->answerCallbackQuery([
+                'text' => $result['msg'],
+                'show_alert' => true,
+                'cache_time' => 10
+            ]);
+            return false;
+        }
+        $data = $result['data'];
+        $text = trans('telegram.todayprofit') . "：{$data['todayProfit']}
+    -----------
+    " . trans('telegram.expenditure') . "：-{$data['redPayTotal']}
+    " . trans('telegram.awarding') . "：+{$data['sendProfitTotal']}
+    -----------
+    " . trans('telegram.bagincome') . "：+{$data['getProfitTotal']}
+    " . trans('telegram.thunderlose') . "：-{$data['loseTotal']}
+    -----------
+    " . trans('telegram.inviterebate') . "：+{$data['todayInvite']}
+    " . trans('telegram.shareprofit') . "：+{$data['todayShare']}";
+        $bot->answerCallbackQuery([
+            'text' => $text,
+            'show_alert' => true,
+            'cache_time' => 10
+        ]);
+    }
 }

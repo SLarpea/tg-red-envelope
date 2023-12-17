@@ -262,78 +262,78 @@ class UserManagementService
     //     return ['state' => 1, 'data' => $return];
     // }
 
-    // public static function getTodayData($id, $chatId)
-    // {
-    //     $key = 'today_' . $id . '_' . $chatId;
-    //     $todayData = Cache::get($key);
-    //     if (!$todayData) {
-    //         $info = UserManagement::query()->where('tg_id', $id)->where('group_id', $chatId)->first();
-    //         if (!$info) {
-    //             return ['state' => 0, 'msg' => trans('telegram.notregistered')];
-    //         } else if (!$info->status) {
-    //             return ['state' => 0, 'msg' => trans('telegram.userbanned')];
-    //         }
-    //         $todayStart = date('Y-m-d 00:00:00');
-    //         $todayEnd = date('Y-m-d H:i:s');
-    //         //红包支出
-    //         $redPayTotal = LuckyMoney::query()->where('sender_id', $id)->where('chat_id', $chatId)
-    //             ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)->sum('received');
-    //         //发包盈收
-    //         $sendProfitTotal = LuckyHistory::query()->where('lucky_history.created_at', '>=', $todayStart)->where('lucky_history.created_at', '<', $todayEnd)
-    //             ->leftJoin('lucky_money as lm', 'lm.id', '=', 'lucky_history.lucky_id')
-    //             ->where('lm.sender_id', $id)->where('lm.chat_id', $chatId)->sum('lucky_history.lose_money');
-    //         //抢包收入
-    //         $getProfitTotal = LuckyHistory::query()->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //             ->where('user_id', $id)->sum('amount');
-    //         $loseTotal = LuckyHistory::query()->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //             ->where('user_id', $id)->sum('lose_money');
+    public static function getTodayData($id, $chatId)
+    {
+        $key = 'today_' . $id . '_' . $chatId;
+        $todayData = Cache::get($key);
+        if (!$todayData) {
+            $info = UserManagement::query()->where('tg_id', $id)->where('group_id', $chatId)->first();
+            if (!$info) {
+                return ['state' => 0, 'msg' => trans('telegram.notregistered')];
+            } else if (!$info->status) {
+                return ['state' => 0, 'msg' => trans('telegram.userbanned')];
+            }
+            $todayStart = date('Y-m-d 00:00:00');
+            $todayEnd = date('Y-m-d H:i:s');
+            //红包支出
+            $redPayTotal = LuckyMoney::query()->where('sender_id', $id)->where('chat_id', $chatId)
+                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)->sum('received');
+            //发包盈收
+            $sendProfitTotal = LuckyHistory::query()->where('lucky_history.created_at', '>=', $todayStart)->where('lucky_history.created_at', '<', $todayEnd)
+                ->leftJoin('lucky_money as lm', 'lm.id', '=', 'lucky_history.lucky_id')
+                ->where('lm.sender_id', $id)->where('lm.chat_id', $chatId)->sum('lucky_history.lose_money');
+            //抢包收入
+            $getProfitTotal = LuckyHistory::query()->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+                ->where('user_id', $id)->sum('amount');
+            $loseTotal = LuckyHistory::query()->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+                ->where('user_id', $id)->sum('lose_money');
 
-    //         //邀请返利
-    //         $todayInvite = InviteRecord::query()->where('group_id', $chatId)->where('invite_user_id', $id)
-    //             ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //             ->sum('amount');
-    //         //下级返利
-    //         $todayShare = ShareRecord::query()->where('group_id', $chatId)->where('share_user_id', $id)
-    //             ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //             ->sum('amount');
+            //邀请返利
+            $todayInvite = InviteRecord::query()->where('group_id', $chatId)->where('invite_user_id', $id)
+                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+                ->sum('amount');
+            //下级返利
+            $todayShare = ShareRecord::query()->where('group_id', $chatId)->where('share_user_id', $id)
+                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+                ->sum('amount');
 
-    //         //我发包玩家中雷上级代理抽成
-    //         //            $todayTopShare = ShareRecord::query()->where('group_id', $chatId)->where('sender_id', $id)
-    //         //                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //         //                ->sum('amount');
-    //         //
-    //         //            //我发包玩家中雷平台抽成
-    //         //            $todayPlat = CommissionRecord::query()->where('group_id', $chatId)->where('sender_id', $id)
-    //         //                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //         //                ->sum('amount');
-    //         //
-    //         //            //jackpot奖池抽成
-    //         //            $todayJackpot = JackpotRecord::query()->where('group_id', $chatId)->where('sender_id', $id)
-    //         //                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
-    //         //                ->sum('amount');
+            //我发包玩家中雷上级代理抽成
+            //            $todayTopShare = ShareRecord::query()->where('group_id', $chatId)->where('sender_id', $id)
+            //                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+            //                ->sum('amount');
+            //
+            //            //我发包玩家中雷平台抽成
+            //            $todayPlat = CommissionRecord::query()->where('group_id', $chatId)->where('sender_id', $id)
+            //                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+            //                ->sum('amount');
+            //
+            //            //jackpot奖池抽成
+            //            $todayJackpot = JackpotRecord::query()->where('group_id', $chatId)->where('sender_id', $id)
+            //                ->where('created_at', '>=', $todayStart)->where('created_at', '<', $todayEnd)
+            //                ->sum('amount');
 
-    //         $todayProfit = $sendProfitTotal + $todayInvite + $getProfitTotal + $todayShare - $redPayTotal  - $loseTotal;
-    //         //$todayProfit =$todayProfit - $todayTopShare - $todayPlat - $todayJackpot;
-    //         $return = [
-    //             'redPayTotal' => round($redPayTotal, 2),
-    //             'sendProfitTotal' => round($sendProfitTotal, 2),
-    //             'getProfitTotal' => round($getProfitTotal, 2),
-    //             'loseTotal' => round($loseTotal, 2),
+            $todayProfit = $sendProfitTotal + $todayInvite + $getProfitTotal + $todayShare - $redPayTotal  - $loseTotal;
+            //$todayProfit =$todayProfit - $todayTopShare - $todayPlat - $todayJackpot;
+            $return = [
+                'redPayTotal' => round($redPayTotal, 2),
+                'sendProfitTotal' => round($sendProfitTotal, 2),
+                'getProfitTotal' => round($getProfitTotal, 2),
+                'loseTotal' => round($loseTotal, 2),
 
-    //             'todayShare' => round($todayShare, 2),
-    //             'todayInvite' => round($todayInvite, 2),
-    //             //                'todayPlat' => round($todayPlat, 2),
-    //             //                'todayTopShare' => round($todayTopShare, 2),
-    //             //                'todayJackpot' => round($todayJackpot, 2),
-    //             'todayProfit' => $todayProfit > 0 ? '+' . round($todayProfit, 2) : round($todayProfit, 2),
-    //         ];
-    //         Cache::set($key, serialize($return), 10);
-    //     } else {
-    //         $return = unserialize($todayData);
-    //     }
+                'todayShare' => round($todayShare, 2),
+                'todayInvite' => round($todayInvite, 2),
+                //                'todayPlat' => round($todayPlat, 2),
+                //                'todayTopShare' => round($todayTopShare, 2),
+                //                'todayJackpot' => round($todayJackpot, 2),
+                'todayProfit' => $todayProfit > 0 ? '+' . round($todayProfit, 2) : round($todayProfit, 2),
+            ];
+            Cache::set($key, serialize($return), 10);
+        } else {
+            $return = unserialize($todayData);
+        }
 
-    //     return ['state' => 1, 'data' => $return];
-    // }
+        return ['state' => 1, 'data' => $return];
+    }
     // public static function getTeamData($id, $chatId)
     // {
     //     $start_date = Carbon::now()->startOfDay();
