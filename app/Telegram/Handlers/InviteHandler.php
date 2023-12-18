@@ -2,7 +2,7 @@
 
 namespace App\Telegram\Handlers;
 
-use App\Services\TelegramService;
+use App\Services\Telegram\TelegramService;
 use SergiX44\Nutgram\Nutgram;
 
 class InviteHandler

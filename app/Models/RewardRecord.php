@@ -3,29 +3,32 @@
 namespace App\Models;
 
 use App\Traits\DateTrait;
+
 use Illuminate\Database\Eloquent\Model;
 
-class LuckyMoney extends Model
+class RewardRecord extends Model
 {
     use  DateTrait;
-    protected $table = 'lucky_money';
+    protected $table = 'reward_record';
     protected $fillable = [
-        'sender_id',
-        'sender_name',
+        'lucky_id',
         'amount',
-        'received',
-        'number',
-        'lucky',
-        'thunder',
-        'chat_id',
-        'red_list',
-        'lose_rate',
-        'message_id',
+        'tg_id',
+        'group_id',
+        'remark',
+        'sender_id',
+        'reward_num',
         'type',
     ];
+    public function user()
+    {
+        return $this->hasOne(UserManagement::class,'tg_id','tg_id');
+    }
     public function sender()
     {
         return $this->hasOne(UserManagement::class,'tg_id','sender_id');
     }
-
 }
+
+
+

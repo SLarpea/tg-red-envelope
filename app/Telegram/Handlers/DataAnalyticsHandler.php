@@ -2,7 +2,7 @@
 
 namespace App\Telegram\Handlers;
 
-use App\Services\TelegramService;
+use App\Services\Telegram\TelegramService;
 use SergiX44\Nutgram\Nutgram;
 
 class DataAnalyticsHandler
@@ -17,5 +17,15 @@ class DataAnalyticsHandler
     public function handleTodayData(Nutgram $bot)
     {
         $this->telegramServices->todayData($bot);
+    }
+
+    public function handleYesterdayData(Nutgram $bot)
+    {
+        $this->telegramServices->yesterData($bot);
+    }
+
+    public function handleShareData(Nutgram $bot)
+    {
+        $this->telegramServices->shareData($bot);
     }
 }
