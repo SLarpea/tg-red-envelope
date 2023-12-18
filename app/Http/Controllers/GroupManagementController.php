@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\GroupManagement;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\GroupManagementRequest;
-use App\Services\GroupManagementServices;
+use App\Services\Dashboard\GroupManagementServices;
 
 class GroupManagementController extends Controller
 {
