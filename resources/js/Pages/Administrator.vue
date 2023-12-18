@@ -111,6 +111,20 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
+                                            <label for="password" class="col-sm-4 col-form-label">Password :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="password" name="password" v-model="form.password" type="password" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="password_confirmation" class="col-sm-4 col-form-label">Confirm Password :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="password_confirmation" name="password_confirmation" v-model="form.password_confirmation" type="password" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
@@ -147,7 +161,7 @@
 </template>
 
 <script>
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
@@ -158,7 +172,9 @@ export default {
             modalShow:false,
             form: {
                 name: null,
-                email : null,
+                email: null,
+                password: 'Password123!@#',
+                password_confirmation: null,
                 status: 1,
             },
         };
@@ -181,7 +197,9 @@ export default {
             this.action = 'new';
             this.form = {
                 name: null,
-                email : null,
+                email: null,
+                password: 'Password123!@#',
+                password_confirmation: null,
                 status: 1,
             }
         },
@@ -205,20 +223,20 @@ export default {
                 text = "Are you sure you want to save this item?";
                 confirmButtonColor = '#198754';
                 method = 'POST';
-                routeURL = 'groups.store';
+                routeURL = 'administrator.store';
                 msgText = 'Work has been saved.';
                 data.id = null;
             } else if (this.action == 'update') {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
                 method = 'PUT';
-                routeURL = 'groups.update';
+                routeURL = 'administrator.update';
                 msgText = 'Work has been updated.';
             } else {
                 text = "Are you sure you want to delete this item?";
                 confirmButtonColor = '#D81B60';
                 method = 'DELETE';
-                routeURL = 'groups.destroy';
+                routeURL = 'administrator.destroy';
                 msgText = 'Work has been deleted.';
             }
 
