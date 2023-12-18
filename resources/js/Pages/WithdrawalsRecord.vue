@@ -3,10 +3,10 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1>Withdraw Record</h1>
+        <h1><i class="bi bi-box-arrow-up-left"></i> Withdraw Record</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Mine Management</a></li>
+            <li class="breadcrumb-item">Mine Management</li>
             <li class="breadcrumb-item">Withdraw Record</li>
             <li class="breadcrumb-item active">List of Withdraw</li>
             </ol>
@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title">List of Withdraw</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Withdraw</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             &nbsp;

@@ -15,15 +15,6 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-
 Route::get('/', function () {
     return redirect('/dashboard');
 });
@@ -37,6 +28,8 @@ Route::middleware([
     Route::get('/tg-users', [App\Http\Controllers\UserManagementController::class, 'index'])->name('tg-users');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
+    Route::get('/operation-log', [App\Http\Controllers\OperationLogController::class, 'index'])->name('operation-log');
     Route::resource('/administrator', App\Http\Controllers\AdministratorController::class);
+    Route::resource('/roles', App\Http\Controllers\RoleController::class);
     Route::resource('/groups', App\Http\Controllers\GroupManagementController::class);
 });

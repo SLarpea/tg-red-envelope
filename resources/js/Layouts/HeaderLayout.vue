@@ -165,7 +165,7 @@ export default {
                 text: "Are you sure you want to signout?",
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonColor: '#38c172',
+                confirmButtonColor: '#512da8',
                 confirmButtonText: '<i class="bi bi-hand-thumbs-up"> Yes',
                 cancelButtonText: 'No&nbsp; <i class="bi bi-hand-thumbs-down">',
             }).then((result) => {
