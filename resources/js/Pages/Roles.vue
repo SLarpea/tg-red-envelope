@@ -7,7 +7,7 @@
         <nav>
             <ol class="breadcrumb">
             <li class="breadcrumb-item">System</li>
-            <li class="breadcrumb-item">Role</li>
+            <li class="breadcrumb-item">Roles</li>
             <li class="breadcrumb-item active">List of Roles</li>
             </ol>
         </nav>
@@ -53,12 +53,12 @@
                                             <tr v-for="(item, index) in roles.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ roles.from + index }}</td>
                                                 <td>{{ item.name }}</td>
-                                                <!-- <td class="list-status-container text-center">
+                                                <td class="list-status-container text-center">
                                                     <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
                                                         {{ (item.status == 1) ? 'Active' : 'Inactive' }}
                                                     </button>
-                                                </td> -->
+                                                </td>
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
@@ -145,9 +145,10 @@ export default {
     data() {
         return {
             modalShow:false,
+            editMode: false,
+            action: 'new',
             form: {
                 name: null,
-                email : null,
                 status: 1,
             },
         };
@@ -165,12 +166,10 @@ export default {
             this.modalShow = false;
         },
         resetForm() {
-            console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
             this.modalShow = !this.modalShow;
             this.action = 'new';
             this.form = {
                 name: null,
-                email : null,
                 status: 1,
             }
         },
@@ -194,20 +193,20 @@ export default {
                 text = "Are you sure you want to save this item?";
                 confirmButtonColor = '#198754';
                 method = 'POST';
-                routeURL = 'groups.store';
+                routeURL = 'roles.store';
                 msgText = 'Work has been saved.';
                 data.id = null;
             } else if (this.action == 'update') {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
                 method = 'PUT';
-                routeURL = 'groups.update';
+                routeURL = 'roles.update';
                 msgText = 'Work has been updated.';
             } else {
                 text = "Are you sure you want to delete this item?";
                 confirmButtonColor = '#D81B60';
                 method = 'DELETE';
-                routeURL = 'groups.destroy';
+                routeURL = 'roles.destroy';
                 msgText = 'Work has been deleted.';
             }
 

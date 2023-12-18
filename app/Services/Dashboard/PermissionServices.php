@@ -3,14 +3,14 @@
 namespace App\Services\Dashboard;
 
 use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
-class RoleServices
+class PermissionServices
 {
     public function showData($request)
     {
         return [
-            'roles' => Role::when($request->term, function ($query, $term) {
+            'permissions' => Permission::when($request->term, function ($query, $term) {
                 $query->where('name', 'LIKE', '%' . $term . '%');
             })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
@@ -21,7 +21,7 @@ class RoleServices
     public function storeData($request)
     {
         $request->validated();
-        Role::create([
+        Permission::create([
             'name' => $request->name,
             'status' => $request->status,
         ]);
@@ -31,12 +31,12 @@ class RoleServices
     {
         if($request->update_type == 'all'){
             $request->validated();
-            Role::find($request->input('id'))->update([
+            Permission::find($request->input('id'))->update([
                 'name' => $request->name,
                 'status' => $request->status,
             ]);
         }else{
-            Role::find($request->input('id'))->update([
+            Permission::find($request->input('id'))->update([
                 'status' => ($request->status == 1) ? 0 : 1,
             ]);
         }
@@ -44,6 +44,6 @@ class RoleServices
 
     public function deleteData($request)
     {
-        Role::find($request->input('id'))->delete();
+        Permission::find($request->input('id'))->delete();
     }
 }

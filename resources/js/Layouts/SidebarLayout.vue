@@ -90,10 +90,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/permissions')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/permissions') }" href="/permissions" preserve-state>
           <i class="bi bi-person-vcard"></i>
           <span>Permissions</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-item">

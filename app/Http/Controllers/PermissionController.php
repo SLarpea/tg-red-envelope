@@ -4,25 +4,25 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Http\Requests\RoleRequest;
-use App\Services\Dashboard\RoleServices;
+use App\Http\Requests\PermissionRequest;
+use App\Services\Dashboard\PermissionServices;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
-    protected $roleServices;
+    protected $permissionServices;
 
-    public function __construct(RoleServices $roleServices)
+    public function __construct(PermissionServices $permissionServices)
     {
-        $this->roleServices = $roleServices;
+        $this->permissionServices = $permissionServices;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $data = $this->roleServices->showData($request);
-        return Inertia::render('Roles', [
-            'roles' => $data['roles'],
+        $data = $this->permissionServices->showData($request);
+        return Inertia::render('Permissions', [
+            'permissions' => $data['permissions'],
             'filters' => $data['filters'],
             'response' => $data['response'],
         ]);
@@ -39,10 +39,10 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoleRequest $request)
+    public function store(PermissionRequest $request)
     {
-        $this->roleServices->storeData($request);
-        return redirect()->route('roles.index')->with('response', 'success');
+        $this->permissionServices->storeData($request);
+        return redirect()->route('permissions.index')->with('response', 'success');
     }
 
     /**
@@ -64,11 +64,11 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleRequest $request, string $id)
+    public function update(PermissionRequest $request, string $id)
     {
         if ($request->has('id')) {
-            $this->roleServices->updateData($request);
-            return redirect()->route('roles.index')->with('response', 'success');
+            $this->permissionServices->updateData($request);
+            return redirect()->route('permissions.index')->with('response', 'success');
         }
     }
 
@@ -78,8 +78,8 @@ class RoleController extends Controller
     public function destroy(Request $request)
     {
         if ($request->has('id')) {
-            $this->roleServices->deleteData($request);
-            return redirect()->route('roles.index')->with('response', 'success');
+            $this->permissionServices->deleteData($request);
+            return redirect()->route('permissions.index')->with('response', 'success');
         }
     }
 }

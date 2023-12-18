@@ -31,5 +31,6 @@ Route::middleware([
     Route::get('/operation-log', [App\Http\Controllers\OperationLogController::class, 'index'])->name('operation-log');
     Route::resource('/administrator', App\Http\Controllers\AdministratorController::class);
     Route::resource('/roles', App\Http\Controllers\RoleController::class);
+    Route::resource('/permissions', App\Http\Controllers\PermissionController::class);
     Route::resource('/groups', App\Http\Controllers\GroupManagementController::class);
 });
