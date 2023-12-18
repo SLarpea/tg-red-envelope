@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\Log;
 use App\Telegram\Middleware\OnlyAdmin;
 use App\Services\UserManagementService;
 use App\Telegram\Handlers\InviteHandler;
+use App\Telegram\Handlers\ReportHandler;
 use App\Telegram\Middleware\GroupVerify;
 use App\Telegram\Handlers\RechargeHandler;
 use App\Telegram\Handlers\LuckyMoneyHandler;
-use App\Telegram\Handlers\UserBalanceHandler;
+use App\Telegram\Handlers\UserHandler;
 use App\Telegram\Handlers\DataAnalyticsHandler;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -39,9 +40,9 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
         $bot->onText(trans('telegram.welfare') . '([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)', [LuckyMoneyHandler::class, 'handleFuli']);
     });
 
-    $bot->onText('(1$|查$|余额$|balance$|ye$|query$)', [UserBalanceHandler::class, 'handleCha']);
+    $bot->onText('(1$|查$|余额$|balance$|ye$|query$)', [UserHandler::class, 'handleCha']);
 
-    $bot->onCallbackQueryData('balance', [UserBalanceHandler::class, 'handleUserBalance']);
+    $bot->onCallbackQueryData('balance', [UserHandler::class, 'handleUserBalance']);
 
 
     // $bot->onCommand('test-option-for-balance', function (Nutgram $bot) {
@@ -59,84 +60,14 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
 
     $bot->onCallbackQueryData('today_data', [DataAnalyticsHandler::class, 'handleTodayData']);
 
-    //             $bot->onCallbackQueryData('team_report', function (Nutgram $bot) {
-    //                 $result = UserManagementService::getTeamData($bot->user()->id, $bot->chat()->id);
-    //                 if ($result['state'] == 0) {
-    //                     $bot->answerCallbackQuery([
-    //                         'text' => $result['msg'],
-    //                         'show_alert' => true,
-    //                         'cache_time' => 10
-    //                     ]);
-    //                     return false;
-    //                 }
-    //                 $data = $result['data'];
-    //                 $text = trans('telegram.todayprofit') . "：{$data['todayProfit']}
-    // " . trans('telegram.todayrecharge') . "：{$data['todayRecharge']}
-    // " . trans('telegram.todaywithdraw') . "：{$data['todayWithdraw']}
-    // " . trans('telegram.todaysendamount') . "：{$data['todaySendAmount']}";
+    $bot->onCallbackQueryData('team_report', [ReportHandler::class, 'handleTeamReport']);
+    $bot->onCallbackQueryData('yesterday_data', [DataAnalyticsHandler::class, 'handleYesterdayData']);
 
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => $text,
-    //                     'show_alert' => true,
-    //                     'cache_time' => 10
-    //                 ]);
-    //             });
-    //             $bot->onCallbackQueryData('yesterday_data', function (Nutgram $bot) {
-    //                 $result = UserManagementService::getYesterdayData($bot->user()->id, $bot->chat()->id);
-    //                 if ($result['state'] == 0) {
-    //                     $bot->answerCallbackQuery([
-    //                         'text' => $result['msg'],
-    //                         'show_alert' => true,
-    //                         'cache_time' => 10
-    //                     ]);
-    //                     return false;
-    //                 }
-    //                 $data = $result['data'];
-    //                 $text = trans('telegram.yesterdayprofit') . "：{$data['todayProfit']}
-    // -----------
-    // " . trans('telegram.expenditure') . "：-{$data['redPayTotal']}
-    // " . trans('telegram.awarding') . "：+{$data['sendProfitTotal']}
-    // -----------
-    // " . trans('telegram.bagincome') . "：+{$data['getProfitTotal']}
-    // " . trans('telegram.thunderlose') . "：-{$data['loseTotal']}
-    // -----------
-    // " . trans('telegram.inviterebate') . "：+{$data['todayInvite']}
-    // " . trans('telegram.shareprofit') . "：+{$data['todayShare']}";
-    //                 /*
-    //                 $text.="
-    // -----------
-    // 平台抽成：-{$result['todayPlat']}
-    // 上级代理抽成：-{$result['todayTopShare']}
-    // Jackpot抽成：-{$result['todayJackpot']}";
-    //                 */
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => $text,
-    //                     'show_alert' => true,
-    //                     'cache_time' => 10
-    //                 ]);
-    //             });
-    //             $bot->onCallbackQueryData('share_data', function (Nutgram $bot) {
-    //                 $result = UserManagementService::getShareData($bot->user()->id, $bot->chat()->id);
-    //                 $listTxt = '';
-    //                 foreach ($result['inviteUserList'] as $val) {
-    //                     $listTxt .= ($val['first_name'] != '' ? $val['first_name'] : $val['username']) . "\n";
-    //                 }
-    //                 $bot->answerCallbackQuery([
-    //                     'text' => trans('telegram.todayinvite') . "：" . $result['todayCount'] . "
-    // " . trans('telegram.monthinvite') . "：" . $result['monthCount'] . "
-    // " . trans('telegram.totalinvite') . "：" . $result['totalCount'] . "
-    // -----------
-    // " . trans('telegram.lastteninvitations') . "
-    // -----------
-    // " . $listTxt,
-    //                     'show_alert' => true,
-    //                     'cache_time' => 30
-    //                 ]);
-    //             });
-    //             $bot->onChatMember(function (Nutgram $bot) {
-    //                 self::new_user($bot);
-    //                 return true;
-    //             });
+    $bot->onCallbackQueryData('share_data', [DataAnalyticsHandler::class, 'handleShareData']);
+
+    $bot->onChatMember([UserHandler::class, 'handleNewUser']);
+
+
     /*$bot->onNewChatMembers(function (Nutgram $bot) {
         Log::info('onNewChatMembers==update：'.json_encode($bot->update()));
         $groupId = $bot->chat()->id;

@@ -25,7 +25,7 @@ class LuckyMoney extends Model
     ];
     public function sender()
     {
-        return $this->hasOne(TgUser::class,'tg_id','sender_id');
+        return $this->hasOne(UserManagement::class,'tg_id','sender_id');
     }
 
 }

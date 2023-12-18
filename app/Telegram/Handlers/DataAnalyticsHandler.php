@@ -18,4 +18,14 @@ class DataAnalyticsHandler
     {
         $this->telegramServices->todayData($bot);
     }
+
+    public function handleYesterdayData(Nutgram $bot)
+    {
+        $this->telegramServices->yesterData($bot);
+    }
+
+    public function handleShareData(Nutgram $bot)
+    {
+        $this->telegramServices->shareData($bot);
+    }
 }

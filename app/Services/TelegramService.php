@@ -31,6 +31,12 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
 class TelegramService
 {
+    private $userManagementService;
+
+    public function __construct(UserManagementService $userManagementService)
+    {
+        $this->userManagementService = $userManagementService;
+    }
 
     public static function handleRed(Nutgram $bot)
     {
@@ -555,7 +561,7 @@ class TelegramService
         $tgId = $reply_to_message->from->id;
         $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
         if (!$user) {
-            UserManagementService::registerUser($reply_to_message->from, $bot->chat()->id);
+            $this->userManagementService->registerUser($reply_to_message->from, $bot->chat()->id);
             $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
         }
         $balance = $user->balance + $amount;
@@ -701,7 +707,6 @@ class TelegramService
         //            $bot->sendMessage('您发的包尚未被抢完 请等待抢完/过期');
         //            return false;
         //        }
-
         $senderInfo = UserManagement::query()->where('tg_id', $sendUserId)->where('group_id', $chatId)->first();
         if (!$senderInfo) {
             $bot->sendMessage(trans('telegram.notregistered'));
@@ -729,6 +734,7 @@ class TelegramService
             return false;
         }
         $photo = get_photo($chatId);
+
         if (!$photo) {
             $bot->sendMessage(trans('telegram.nopicture'));
             DB::rollBack();
@@ -742,17 +748,22 @@ class TelegramService
                 return false;
             }
             try {
+                $bot->sendMessage("Test | pass here 1");
                 $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
                     InlineKeyboardButton::make(trans('telegram.firstbtntext', ['luckyTotal' => $luckyTotal, 'amount' => $amount, 'mine' => $mine]), callback_data: "qiang-" . $luckyId)
                 );
+                $bot->sendMessage("Test | pass here 2");
                 $data = [
                     'chat_id' => $chatId,
                     'caption' => "[ <code>" . format_name($senderName) . "</code> ]" . trans('telegram.sendcaption', ['amount' => $amount]),
                     'parse_mode' => ParseMode::HTML,
                     'reply_markup' => common_reply_markup($chatId, $InlineKeyboardMarkup),
                 ];
+                $bot->sendMessage("Test | pass here 3");
                 $sendRs = $bot->sendPhoto($photo, $data);
+                $bot->sendMessage("Test | pass here 4");
                 if ($sendRs) {
+                    $bot->sendMessage("Test | pass here 5");
                     $updateRs = LuckyMoney::query()->where('id', $luckyId)->update(['message_id' => $sendRs->message_id]);
                     if (!$updateRs) {
                         DB::rollBack();
@@ -761,12 +772,14 @@ class TelegramService
                     DB::commit();
                     break;
                 } else {
+                    $bot->sendMessage("Test | pass here 6");
                     DB::rollBack();
                     Log::error('sendPhoto发送失败');
                     $bot->sendMessage(trans('telegram.failedtosend'));
                     //                    LuckyMoneyService::delLucky($luckyId,$chatId,$sendUserId,$amount);
                 }
             } catch (\Exception $e) {
+                $bot->sendMessage($e->getMessage());
                 Log::error('红包发送失败=>code=>' . $e->getCode() . '  msg=>' . $e->getMessage());
                 if ($e->getCode() == 429) {
                     $retry_after = $e->getParameter('retry_after');
@@ -861,40 +874,7 @@ class TelegramService
         }
     }
 
-    // public static function new_user($bot)
-    // {
-    //     $groupId = $bot->chat()->id;
-    //     $status = $bot->chatMember()->new_chat_member->status;
-    //     if ($status != 'member') {
-    //         return false;
-    //     }
-    //     $memberInfo = $bot->chatMember()->new_chat_member->user;
-    //     if (!$memberInfo) {
-    //         return false;
-    //     }
-    //     $inviteTgId = 0;
-    //     if (isset($bot->chatMember()->from) && $bot->chatMember()->from->id != $memberInfo->id) {
-    //         $inviteTgId = $bot->chatMember()->from->id;
-    //     }
-    //     if ($bot->chatMember()->invite_link) {
-    //         $inviteTgId = InviteLink::query()->where('invite_link', $bot->chatMember()->invite_link->invite_link)->value('tg_id');
-    //     }
 
-    //     $rs = UserManagementService::addUser($memberInfo, $groupId, $inviteTgId);
-    //     if ($rs['state'] == 1) {
-    //         //欢迎语
-    //         $welcomeText = ConfigService::getConfigValue($groupId, 'welcome');
-    //         if ($welcomeText) {
-    //             try {
-    //                 $userName = $memberInfo->first_name ? $memberInfo->first_name : $memberInfo->username;
-    //                 $welcomeText = str_replace('{NAME}', $userName, $welcomeText);
-    //                 $bot->sendMessage($welcomeText, ['parse_mode' => ParseMode::HTML]);
-    //             } catch (\Exception $e) {
-    //                 Log::error('onChatMember异常' . $e);
-    //             }
-    //         }
-    //     }
-    // }
     public static function cha($bot)
     {
         $reply_to_message = $bot->message()->reply_to_message;
@@ -979,7 +959,7 @@ class TelegramService
 
     public function todayData(Nutgram $bot)
     {
-        $result = UserManagementService::getTodayData($bot->user()->id, $bot->chat()->id);
+        $result = $this->userManagementService->getTodayData($bot->user()->id, $bot->chat()->id);
         if ($result['state'] == 0) {
             $bot->answerCallbackQuery([
                 'text' => $result['msg'],
@@ -1003,6 +983,86 @@ class TelegramService
             'text' => $text,
             'show_alert' => true,
             'cache_time' => 10
+        ]);
+    }
+
+    public function teamReport(Nutgram $bot)
+    {
+        $result = $this->userManagementService->getTeamData($bot->user()->id, $bot->chat()->id);
+        if ($result['state'] == 0) {
+            $bot->answerCallbackQuery([
+                'text' => $result['msg'],
+                'show_alert' => true,
+                'cache_time' => 10
+            ]);
+            return false;
+        }
+        $data = $result['data'];
+        $text = trans('telegram.todayprofit') . "：{$data['todayProfit']}
+    " . trans('telegram.todayrecharge') . "：{$data['todayRecharge']}
+    " . trans('telegram.todaywithdraw') . "：{$data['todayWithdraw']}
+    " . trans('telegram.todaysendamount') . "：{$data['todaySendAmount']}";
+
+        $bot->answerCallbackQuery([
+            'text' => $text,
+            'show_alert' => true,
+            'cache_time' => 10
+        ]);
+    }
+
+    public function yesterData(Nutgram $bot)
+    {
+        $result = $this->userManagementService->getYesterdayData($bot->user()->id, $bot->chat()->id);
+        if ($result['state'] == 0) {
+            $bot->answerCallbackQuery([
+                'text' => $result['msg'],
+                'show_alert' => true,
+                'cache_time' => 10
+            ]);
+            return false;
+        }
+        $data = $result['data'];
+        $text = trans('telegram.yesterdayprofit') . "：{$data['todayProfit']}
+    -----------
+    " . trans('telegram.expenditure') . "：-{$data['redPayTotal']}
+    " . trans('telegram.awarding') . "：+{$data['sendProfitTotal']}
+    -----------
+    " . trans('telegram.bagincome') . "：+{$data['getProfitTotal']}
+    " . trans('telegram.thunderlose') . "：-{$data['loseTotal']}
+    -----------
+    " . trans('telegram.inviterebate') . "：+{$data['todayInvite']}
+    " . trans('telegram.shareprofit') . "：+{$data['todayShare']}";
+        /*
+                    $text.="
+    -----------
+    平台抽成：-{$result['todayPlat']}
+    上级代理抽成：-{$result['todayTopShare']}
+    Jackpot抽成：-{$result['todayJackpot']}";
+                    */
+        $bot->answerCallbackQuery([
+            'text' => $text,
+            'show_alert' => true,
+            'cache_time' => 10
+        ]);
+    }
+
+    public function shareData(Nutgram $bot)
+    {
+        $result = UserManagementService::getShareData($bot->user()->id, $bot->chat()->id);
+        $listTxt = '';
+        foreach ($result['inviteUserList'] as $val) {
+            $listTxt .= ($val['first_name'] != '' ? $val['first_name'] : $val['username']) . "\n";
+        }
+        $bot->answerCallbackQuery([
+            'text' => trans('telegram.todayinvite') . "：" . $result['todayCount'] . "
+    " . trans('telegram.monthinvite') . "：" . $result['monthCount'] . "
+    " . trans('telegram.totalinvite') . "：" . $result['totalCount'] . "
+    -----------
+    " . trans('telegram.lastteninvitations') . "
+    -----------
+    " . $listTxt,
+            'show_alert' => true,
+            'cache_time' => 30
         ]);
     }
 }

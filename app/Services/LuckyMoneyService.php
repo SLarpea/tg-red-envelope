@@ -11,6 +11,7 @@ use App\Models\LuckyMoney;
 use App\Models\RewardRecord;
 use App\Models\ShareRecord;
 use App\Models\TgUser;
+use App\Models\UserManagement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
@@ -66,7 +67,7 @@ class LuckyMoneyService
         ];
         $rs = LuckyMoney::query()->create($insert);
         if ($rs) {
-            $rs2 = TgUser::query()->where('tg_id', $senderInfo->tg_id)->where('group_id', $chatId)->decrement('balance', $amount);
+            $rs2 = UserManagement::query()->where('tg_id', $senderInfo->tg_id)->where('group_id', $chatId)->decrement('balance', $amount);
             if (!$rs2) {
                 return false;
             }
