@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class ShareRecord extends Model
 {
     use  DateTrait;
-    protected $table = 'share_record';
+    protected $table = 'share_records';
     protected $fillable = [
         'lucky_id',
         'amount',

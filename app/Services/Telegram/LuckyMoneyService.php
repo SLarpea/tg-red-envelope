@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Telegram;
 
-use App\Models\CommissionRecord;
 use App\Models\Config;
-use App\Models\JackpotPool;
-use App\Models\JackpotRecord;
-use App\Models\LuckyHistory;
-use App\Models\LuckyMoney;
-use App\Models\RewardRecord;
-use App\Models\ShareRecord;
 use App\Models\TgUser;
+use function Sodium\add;
+use App\Models\LuckyMoney;
+use App\Models\JackpotPool;
+use App\Models\ShareRecord;
+use App\Models\LuckyHistory;
+use App\Models\RewardRecord;
+use App\Models\JackpotRecord;
 use App\Models\UserManagement;
+use App\Models\CommissionRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
-use function Sodium\add;
+use App\Services\Telegram\ConfigService;
 
 /**
  * author [@cody](https://t.me/cody0512)
@@ -36,7 +37,7 @@ class LuckyMoneyService
         $totalCount = $luckyTotal; // 红包总个数
         $minAmount = 0.1; // 每个红包最小金额
         $maxAmount = $totalAmount / $totalCount * 2; // 每个红包最大金额
-        $chance = \App\Services\ConfigService::getConfigValue($chatId, 'thunder_chance'); //生成30%的事件
+        $chance = ConfigService::getConfigValue($chatId, 'thunder_chance'); //生成30%的事件
         if($senderInfo['send_chance'] > 0){
             $chance = $senderInfo['send_chance'];
         }
@@ -94,7 +95,7 @@ class LuckyMoneyService
             DB::rollBack();
             return false;
         }
-        $rs2 = TgUser::query()->where('tg_id', $tg_id)->where('group_id', $chatId)->increment('balance', $amount);
+        $rs2 = UserManagement::query()->where('tg_id', $tg_id)->where('group_id', $chatId)->increment('balance', $amount);
         if (!$rs2) {
             DB::rollBack();
             return false;
@@ -221,7 +222,7 @@ class LuckyMoneyService
 
         //上级抽成
         $shareRate = ConfigService::getConfigValue($lucky['chat_id'], 'share_rate');
-        $shareUserId = TgUser::query()->where('tg_id', $lucky['sender_id'])->where('group_id', $lucky['chat_id'])->value('invite_user');
+        $shareUserId = UserManagement::query()->where('tg_id', $lucky['sender_id'])->where('group_id', $lucky['chat_id'])->value('invite_user');
         $shareRateAmount = 0;
         if ($shareUserId && $shareUserId != $lucky['sender_id']) {
             $shareRateAmount = $loseMoney * $shareRate / 100;
@@ -229,7 +230,7 @@ class LuckyMoneyService
         }
 
 
-        $rs2 = TgUser::query()->where('tg_id', $lucky['sender_id'])->where('group_id', $lucky['chat_id'])->increment('balance', $senderOwn);
+        $rs2 = UserManagement::query()->where('tg_id', $lucky['sender_id'])->where('group_id', $lucky['chat_id'])->increment('balance', $senderOwn);
         if (!$rs2) {
             return false;
         }
@@ -270,7 +271,7 @@ class LuckyMoneyService
         }
 
         $redAmountOwn = round($redAmount - $platformGetCommissionAmount, 2);
-        $rs1 = TgUser::query()->where('tg_id', $userId)->where('group_id', $lucky['chat_id'])->increment('balance', $redAmountOwn);
+        $rs1 = UserManagement::query()->where('tg_id', $userId)->where('group_id', $lucky['chat_id'])->increment('balance', $redAmountOwn);
         if (!$rs1) {
             return false;
         }
@@ -291,7 +292,7 @@ class LuckyMoneyService
     {
 
         if ($shareUserId && $shareUserId != $sender_id) {
-            $rs = TgUser::query()->where('tg_id', $shareUserId)->where('group_id', $group_id)->increment('balance', $amount);
+            $rs = UserManagement::query()->where('tg_id', $shareUserId)->where('group_id', $group_id)->increment('balance', $amount);
             if ($rs) {
                 $insert = [
                     'lucky_id' => $lucky_id,

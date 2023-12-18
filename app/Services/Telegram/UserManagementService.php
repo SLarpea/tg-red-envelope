@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Telegram;
 
 use App\Models\TgUser;
 use App\Models\MoneyLog;
@@ -18,10 +18,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
+use App\Services\Telegram\ConfigService;
 
-/**
- * author [@cody](https://t.me/cody0512)
- */
 class UserManagementService
 {
     public static function addUser($memberInfo, $groupId, $inviteUserId = 0)

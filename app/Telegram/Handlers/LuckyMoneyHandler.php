@@ -4,7 +4,7 @@ namespace App\Telegram\Handlers;
 
 use SergiX44\Nutgram\Nutgram;
 use App\Jobs\MsgToTelegramJob;
-use App\Services\TelegramService;
+use App\Services\Telegram\TelegramService;
 
 class LuckyMoneyHandler
 {

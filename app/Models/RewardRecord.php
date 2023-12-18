@@ -6,24 +6,29 @@ use App\Traits\DateTrait;
 
 use Illuminate\Database\Eloquent\Model;
 
-class InviteRecord extends Model
+class RewardRecord extends Model
 {
-
     use  DateTrait;
-    protected $table = 'invite_records';
+    protected $table = 'reward_record';
     protected $fillable = [
+        'lucky_id',
         'amount',
         'tg_id',
         'group_id',
         'remark',
-        'invite_user_id',
+        'sender_id',
+        'reward_num',
+        'type',
     ];
     public function user()
     {
         return $this->hasOne(UserManagement::class,'tg_id','tg_id');
     }
-    public function inviteuser()
+    public function sender()
     {
-        return $this->hasOne(UserManagement::class,'tg_id','invite_user_id');
+        return $this->hasOne(UserManagement::class,'tg_id','sender_id');
     }
 }
+
+
+

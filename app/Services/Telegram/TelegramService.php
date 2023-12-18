@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Telegram;
 
 use Dcat\Admin\Admin;
 use App\Models\TgUser;
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use App\Telegram\Middleware\OnlyAdmin;
-use App\Services\UserManagementService;
+use App\Services\Telegram\UserManagementService;
 use App\Telegram\Middleware\GroupVerify;
 use SergiX44\Nutgram\RunningMode\Polling;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
@@ -231,311 +231,311 @@ class TelegramService
         return true;
     }
 
-    // public static function editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id)
-    // {
-    //     $luckyid = $luckyInfo['id'];
-    //     $luckyKey = 'lucky_' . $luckyid;
-    //     $userId = $userInfo['tg_id'];
-    //     $userName = $userInfo['first_name'] != null ? $userInfo['first_name'] : $userInfo['username'];
-    //     $historyVal = [
-    //         'user_id' => $userId,
-    //         'first_name' => $userName,
-    //         'lucky_id' => $luckyid,
-    //         'is_thunder' => $isThunder,
-    //         'amount' => $redAmount,
-    //         'lose_money' => $loseMoney,
-    //     ];
-    //     $historyListKey = 'history_list_' . $luckyid;
-    //     Redis::rpush($historyListKey, json_encode($historyVal));
-    //     $luckyAmount = (int)$luckyInfo['amount'];
-    //     $openNum = Redis::llen($historyListKey);
-    //     $rewardCount = 0;
-    //     $loseMoneyTotal = 0;
-    //     $profitTotal = 0;
-    //     Log::info('$userId=' . $userId . '--$luckyid=' . $luckyid . '打开数量=> ' . $openNum . ';领取金额=>' . $redAmount);
-    //     if ($luckyInfo['number'] > $openNum) {
-    //         $titleText = trans('telegram.welfare_envelopes');
-    //         $thunderText = '';
-    //         $qiangText = trans('telegram.welfare_collect');
-    //         if ($luckyInfo['type'] == 1) {
-    //             $thunderText = trans('telegram.thunder') . " {$luckyInfo['thunder']}";
-    //             $qiangText = trans('telegram.envelopes_collect');
-    //             $titleText = trans('telegram.envelopes');
-    //         }
+    public static function editMsg($bot, $userInfo, $luckyInfo, $isThunder, $redAmount, $loseMoney, $message_id)
+    {
+        $luckyid = $luckyInfo['id'];
+        $luckyKey = 'lucky_' . $luckyid;
+        $userId = $userInfo['tg_id'];
+        $userName = $userInfo['first_name'] != null ? $userInfo['first_name'] : $userInfo['username'];
+        $historyVal = [
+            'user_id' => $userId,
+            'first_name' => $userName,
+            'lucky_id' => $luckyid,
+            'is_thunder' => $isThunder,
+            'amount' => $redAmount,
+            'lose_money' => $loseMoney,
+        ];
+        $historyListKey = 'history_list_' . $luckyid;
+        Redis::rpush($historyListKey, json_encode($historyVal));
+        $luckyAmount = (int)$luckyInfo['amount'];
+        $openNum = Redis::llen($historyListKey);
+        $rewardCount = 0;
+        $loseMoneyTotal = 0;
+        $profitTotal = 0;
+        Log::info('$userId=' . $userId . '--$luckyid=' . $luckyid . '打开数量=> ' . $openNum . ';领取金额=>' . $redAmount);
+        if ($luckyInfo['number'] > $openNum) {
+            $titleText = trans('telegram.welfare_envelopes');
+            $thunderText = '';
+            $qiangText = trans('telegram.welfare_collect');
+            if ($luckyInfo['type'] == 1) {
+                $thunderText = trans('telegram.thunder') . " {$luckyInfo['thunder']}";
+                $qiangText = trans('telegram.envelopes_collect');
+                $titleText = trans('telegram.envelopes');
+            }
 
-    //         $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
-    //             InlineKeyboardButton::make("{$qiangText}[{$luckyInfo['number']}/{$openNum}] " . trans('telegram.total') . " {$luckyAmount} U {$thunderText}", callback_data: "qiang-" . $luckyid)
-    //         );
-    //         $data = [
-    //             'message_id' => $message_id,
-    //             'caption' => "[ <code>" . format_name($luckyInfo['sender_name']) . "</code> ]" . trans('telegram.sendcaption', ['amount' => $luckyAmount]),
-    //             'parse_mode' => ParseMode::HTML,
-    //             'reply_markup' => common_reply_markup($luckyInfo['chat_id'], $InlineKeyboardMarkup),
-    //             'chat_id' => $luckyInfo['chat_id']
-    //         ];
-    //         try {
-    //             $bot->editMessageCaption($data);
-    //         } catch (\Exception $e) {
-    //             Log::error('抢包修改消息异常=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //             //                Redis::lpush($luckyKey, $redAmount);
-    //             //                Redis::rpop($historyListKey);
-    //         }
-    //         self::doAddHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney);
-    //     } else {
-    //         $details = '';
+            $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
+                InlineKeyboardButton::make("{$qiangText}[{$luckyInfo['number']}/{$openNum}] " . trans('telegram.total') . " {$luckyAmount} U {$thunderText}", callback_data: "qiang-" . $luckyid)
+            );
+            $data = [
+                'message_id' => $message_id,
+                'caption' => "[ <code>" . format_name($luckyInfo['sender_name']) . "</code> ]" . trans('telegram.sendcaption', ['amount' => $luckyAmount]),
+                'parse_mode' => ParseMode::HTML,
+                'reply_markup' => common_reply_markup($luckyInfo['chat_id'], $InlineKeyboardMarkup),
+                'chat_id' => $luckyInfo['chat_id']
+            ];
+            try {
+                $bot->editMessageCaption($data);
+            } catch (\Exception $e) {
+                Log::error('抢包修改消息异常=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                //                Redis::lpush($luckyKey, $redAmount);
+                //                Redis::rpop($historyListKey);
+            }
+            self::doAddHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney);
+        } else {
+            $details = '';
 
-    //         $thunderCount = 0;
+            $thunderCount = 0;
 
-    //         for ($j = 1; $j <= $openNum; $j++) {
-    //             $valJson = Redis::lindex($historyListKey, $j - 1);
-    //             $val = json_decode($valJson, true);
-    //             if ($val['is_thunder'] != 1) {
-    //                 $details .= $j . ".[💵] <code>" . number_format(round($val['amount'], 2), 2, '.', '') . "</code> U <code>" . format_name($val['first_name']) . "</code>\n";
-    //             } else {
-    //                 $details .= $j . ".[💣] <code>" . number_format(round($val['amount'], 2), 2, '.', '') . "</code> U <code>" . format_name($val['first_name']) . "</code>\n";
-    //                 $loseMoneyAmount = $val['lose_money'];
-    //                 $loseMoneyTotal += $loseMoneyAmount;
-    //                 //平台抽成
-    //                 $platformCommission = ConfigService::getConfigValue($luckyInfo['chat_id'], 'platform_commission');
-    //                 $platformCommissionAmount = 0;
-    //                 if ($platformCommission > 0) {
-    //                     $platformCommissionAmount = $loseMoneyAmount * $platformCommission / 100;
-    //                 }
-    //                 //jackpot抽成
-    //                 $jackpotCommission = ConfigService::getConfigValue($luckyInfo['chat_id'], 'jackpot');
-    //                 $jackpotAmount = 0;
-    //                 if ($jackpotCommission > 0) {
-    //                     $jackpotAmount = $loseMoneyAmount * $jackpotCommission / 100;
-    //                 }
-    //                 $senderOwn = round($loseMoneyAmount - $platformCommissionAmount - $jackpotAmount, 2);
+            for ($j = 1; $j <= $openNum; $j++) {
+                $valJson = Redis::lindex($historyListKey, $j - 1);
+                $val = json_decode($valJson, true);
+                if ($val['is_thunder'] != 1) {
+                    $details .= $j . ".[💵] <code>" . number_format(round($val['amount'], 2), 2, '.', '') . "</code> U <code>" . format_name($val['first_name']) . "</code>\n";
+                } else {
+                    $details .= $j . ".[💣] <code>" . number_format(round($val['amount'], 2), 2, '.', '') . "</code> U <code>" . format_name($val['first_name']) . "</code>\n";
+                    $loseMoneyAmount = $val['lose_money'];
+                    $loseMoneyTotal += $loseMoneyAmount;
+                    //平台抽成
+                    $platformCommission = ConfigService::getConfigValue($luckyInfo['chat_id'], 'platform_commission');
+                    $platformCommissionAmount = 0;
+                    if ($platformCommission > 0) {
+                        $platformCommissionAmount = $loseMoneyAmount * $platformCommission / 100;
+                    }
+                    //jackpot抽成
+                    $jackpotCommission = ConfigService::getConfigValue($luckyInfo['chat_id'], 'jackpot');
+                    $jackpotAmount = 0;
+                    if ($jackpotCommission > 0) {
+                        $jackpotAmount = $loseMoneyAmount * $jackpotCommission / 100;
+                    }
+                    $senderOwn = round($loseMoneyAmount - $platformCommissionAmount - $jackpotAmount, 2);
 
-    //                 //上级抽成
-    //                 $shareRate = ConfigService::getConfigValue($luckyInfo['chat_id'], 'share_rate');
-    //                 $shareUserId = UserManagement::query()->where('tg_id', $luckyInfo['sender_id'])->where('group_id', $luckyInfo['chat_id'])->value('invite_user');
+                    //上级抽成
+                    $shareRate = ConfigService::getConfigValue($luckyInfo['chat_id'], 'share_rate');
+                    $shareUserId = UserManagement::query()->where('tg_id', $luckyInfo['sender_id'])->where('group_id', $luckyInfo['chat_id'])->value('invite_user');
 
-    //                 if ($shareUserId && $shareUserId != $luckyInfo['sender_id']) {
-    //                     $shareRateAmount = $loseMoneyAmount * $shareRate / 100;
-    //                     $senderOwn = round($senderOwn - $shareRateAmount, 2);
-    //                 }
-    //                 $profitTotal += $senderOwn;
-    //             }
-    //             if ($luckyInfo['type'] == 1  && leopard_check($val['amount'])) {
-    //                 $rewardCount++;
-    //             } elseif ($luckyInfo['type'] == 1  && straight_check($val['amount'])) {
-    //                 $rewardCount++;
-    //             }
-    //         }
+                    if ($shareUserId && $shareUserId != $luckyInfo['sender_id']) {
+                        $shareRateAmount = $loseMoneyAmount * $shareRate / 100;
+                        $senderOwn = round($senderOwn - $shareRateAmount, 2);
+                    }
+                    $profitTotal += $senderOwn;
+                }
+                if ($luckyInfo['type'] == 1  && leopard_check($val['amount'])) {
+                    $rewardCount++;
+                } elseif ($luckyInfo['type'] == 1  && straight_check($val['amount'])) {
+                    $rewardCount++;
+                }
+            }
 
-    //         $profit = $profitTotal - $luckyInfo['amount'];
-    //         $profitTxt = $profit >= 0 ? '+' . $profit : $profit;
+            $profit = $profitTotal - $luckyInfo['amount'];
+            $profitTxt = $profit >= 0 ? '+' . $profit : $profit;
 
-    //         if ($luckyInfo['type'] == 1) {
-    //             $caption = trans('telegram.collect_over', [
-    //                 'sender_name' => format_name($luckyInfo['sender_name']),
-    //                 'luckyAmount' => $luckyAmount,
-    //                 'lose_rate' => round($luckyInfo['lose_rate'], 2),
-    //                 'thunder' => $luckyInfo['thunder'],
-    //                 'details' => $details,
-    //                 'loseMoneyTotal' => $loseMoneyTotal,
-    //                 'profitTxt' => $profitTxt,
-    //             ]);
-    //         } else {
-    //             $caption = trans('telegram.welfare_collect_over', [
-    //                 'sender_name' => format_name($luckyInfo['sender_name']),
-    //                 'luckyAmount' => $luckyAmount,
-    //                 'details' => $details,
-    //             ]);
-    //         }
-    //         $data = [
-    //             'message_id' => $message_id,
-    //             'caption' => $caption,
-    //             'parse_mode' => ParseMode::HTML,
-    //             'reply_markup' => common_reply_markup($luckyInfo['chat_id']),
-    //             'chat_id' => $luckyInfo['chat_id']
-    //         ];
-    //         $num = 3;
-    //         for ($i = $num; $i >= 0; $i--) {
-    //             if ($i <= 0) {
-    //                 Log::error('重试3次，抢包完成修改失败');
-    //                 return false;
-    //             }
-    //             try {
-    //                 $bot->editMessageCaption($data);
-    //                 Redis::del($historyListKey);
-    //                 self::doAddHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney);
-    //                 if ($rewardCount >= 3) {
-    //                     //触发jackpot
-    //                     self::jackpotReward($bot, $luckyInfo);
-    //                 }
-    //                 break;
-    //             } catch (\Exception $e) {
-    //                 Log::error('抢包完成修改消息异常=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
-    //                 if ($e->getCode() == 429) {
-    //                     $retry_after = $e->getParameter('retry_after');
-    //                     sleep($retry_after);
-    //                 } else {
-    //                     Redis::sadd($luckyKey, $redAmount);
-    //                     Redis::rpop($historyListKey);
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     return true;
-    // }
-    // public static function doAddHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney)
-    // {
-    //     if (env('QUEUE_CONNECTION') == 'sync') {
-    //         self::addHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney);
-    //     } else {
-    //         $historyData = [
-    //             'luckyid' => $luckyid,
-    //             'userId' => $userId,
-    //             'loseMoney' => $loseMoney,
-    //             'isThunder' => $isThunder,
-    //             'redAmount' => $redAmount,
-    //         ];
-    //         LuckyHistoryJob::dispatch($historyData)->onQueue('history');
-    //     }
-    // }
+            if ($luckyInfo['type'] == 1) {
+                $caption = trans('telegram.collect_over', [
+                    'sender_name' => format_name($luckyInfo['sender_name']),
+                    'luckyAmount' => $luckyAmount,
+                    'lose_rate' => round($luckyInfo['lose_rate'], 2),
+                    'thunder' => $luckyInfo['thunder'],
+                    'details' => $details,
+                    'loseMoneyTotal' => $loseMoneyTotal,
+                    'profitTxt' => $profitTxt,
+                ]);
+            } else {
+                $caption = trans('telegram.welfare_collect_over', [
+                    'sender_name' => format_name($luckyInfo['sender_name']),
+                    'luckyAmount' => $luckyAmount,
+                    'details' => $details,
+                ]);
+            }
+            $data = [
+                'message_id' => $message_id,
+                'caption' => $caption,
+                'parse_mode' => ParseMode::HTML,
+                'reply_markup' => common_reply_markup($luckyInfo['chat_id']),
+                'chat_id' => $luckyInfo['chat_id']
+            ];
+            $num = 3;
+            for ($i = $num; $i >= 0; $i--) {
+                if ($i <= 0) {
+                    Log::error('重试3次，抢包完成修改失败');
+                    return false;
+                }
+                try {
+                    $bot->editMessageCaption($data);
+                    Redis::del($historyListKey);
+                    self::doAddHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney);
+                    if ($rewardCount >= 3) {
+                        //触发jackpot
+                        self::jackpotReward($bot, $luckyInfo);
+                    }
+                    break;
+                } catch (\Exception $e) {
+                    Log::error('抢包完成修改消息异常=>' . $e->getCode() . '  msg=>' . $e->getMessage() . ' line=>' . $e->getLine());
+                    if ($e->getCode() == 429) {
+                        $retry_after = $e->getParameter('retry_after');
+                        sleep($retry_after);
+                    } else {
+                        Redis::sadd($luckyKey, $redAmount);
+                        Redis::rpop($historyListKey);
+                        break;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    public static function doAddHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney)
+    {
+        if (env('QUEUE_CONNECTION') == 'sync') {
+            self::addHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney);
+        } else {
+            $historyData = [
+                'luckyid' => $luckyid,
+                'userId' => $userId,
+                'loseMoney' => $loseMoney,
+                'isThunder' => $isThunder,
+                'redAmount' => $redAmount,
+            ];
+            LuckyHistoryJob::dispatch($historyData)->onQueue('history');
+        }
+    }
 
-    // public static function addHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney)
-    // {
-    //     $luckyInfo = LuckyMoney::query()->where('id', $luckyid)->first();
-    //     if ($luckyInfo['status'] != 1) {
-    //         Log::error('addHistory红包已领完或者已过期');
-    //         return false;
-    //     }
+    public static function addHistory($bot, $luckyid, $userId, $redAmount, $isThunder, $loseMoney)
+    {
+        $luckyInfo = LuckyMoney::query()->where('id', $luckyid)->first();
+        if ($luckyInfo['status'] != 1) {
+            Log::error('addHistory红包已领完或者已过期');
+            return false;
+        }
 
-    //     $userInfo = UserManagement::query()->where('tg_id', $userId)->where('group_id', $luckyInfo['chat_id'])->first();
-    //     $userName = $userInfo['first_name'] != null ? $userInfo['first_name'] : $userInfo['username'];
+        $userInfo = UserManagement::query()->where('tg_id', $userId)->where('group_id', $luckyInfo['chat_id'])->first();
+        $userName = $userInfo['first_name'] != null ? $userInfo['first_name'] : $userInfo['username'];
 
-    //     $openNum = LuckyHistory::query()->where('lucky_id', $luckyid)->count();
-    //     $historyRs = LuckyMoneyService::addLuckyHistory($userInfo['tg_id'], $userName, $luckyInfo['id'], $isThunder, $redAmount, $loseMoney);
-    //     if ($historyRs) {
-    //         if ($luckyInfo['number'] <= $openNum + 1) {
-    //             $luckyInfo->status = 2;
-    //         }
-    //         $luckyInfo->received = round($luckyInfo['received'] + (float)$redAmount, 2);
-    //         $luckyInfo->received_num = $luckyInfo['received_num'] + 1;
-    //         $rsR = $luckyInfo->save();
-    //         if (!$rsR) {
-    //             Log::error('save 更新失败');
-    //             return false;
-    //         }
-    //     } else {
-    //         Log::error('addLuckyHistory 领取失败');
-    //         return false;
-    //     }
-    //     LuckyMoneyService::loseMoneyCal($userId, $luckyInfo, $loseMoney);
-    //     LuckyMoneyService::getCal($userId, $luckyInfo, $redAmount);
-    //     //判断是否是豹子
-    //     $rewardTotal = 0;
-    //     if ($luckyInfo['type'] == 1 && isset($redAmount) && leopard_check($redAmount)) {
-    //         $amountCount = amount_count($redAmount);
-    //         switch ($amountCount) {
-    //             case 4:
-    //                 $leopardReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'leopard_reward_4');
-    //                 break;
-    //             case 5:
-    //                 $leopardReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'leopard_reward_5');
-    //                 break;
-    //             case 3:
-    //             default:
-    //                 $leopardReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'leopard_reward');
-    //                 break;
-    //         }
-    //         if ($leopardReward > 0) {
-    //             $rewardTotal += $leopardReward;
-    //             $bot->sendMessage(trans('telegram.leopard_reward', ['userName' => $userName, 'redAmount' => $redAmount, 'leopardReward' => $leopardReward]), ['chat_id' => $luckyInfo['chat_id'], 'parse_mode' => ParseMode::HTML]);
-    //             LuckyMoneyService::addRewardRecord($luckyid, $luckyInfo['sender_id'], $userId, $luckyInfo['chat_id'], $leopardReward, $redAmount, 1);
-    //         }
-    //     }
-    //     //判断是否是顺子
-    //     if ($luckyInfo['type'] == 1 && isset($redAmount) && straight_check($redAmount)) {
-    //         $amountCount = amount_count($redAmount);
-    //         switch ($amountCount) {
-    //             case 4:
-    //                 $straightReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'straight_reward_4');
-    //                 break;
-    //             case 5:
-    //                 $straightReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'straight_reward_5');
-    //                 break;
-    //             case 3:
-    //             default:
-    //                 $straightReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'straight_reward');
-    //                 break;
-    //         }
-    //         if ($straightReward > 0) {
-    //             $rewardTotal += $straightReward;
-    //             $bot->sendMessage(trans('telegram.straight_reward', ['userName' => $userName, 'redAmount' => $redAmount, 'straightReward' => $straightReward]), ['chat_id' => $luckyInfo['chat_id'], 'parse_mode' => ParseMode::HTML]);
-    //             LuckyMoneyService::addRewardRecord($luckyid, $luckyInfo['sender_id'], $userId, $luckyInfo['chat_id'], $straightReward, $redAmount, 2);
-    //         }
-    //     }
-    //     if ($rewardTotal > 0) {
-    //         $userInfo->balance = $userInfo->balance + $rewardTotal;
-    //         $userInfo->save();
-    //         money_log($luckyInfo['chat_id'], $userId, $rewardTotal, 'reward', '顺子/豹子中奖盈利', $luckyInfo['id']);
-    //     }
+        $openNum = LuckyHistory::query()->where('lucky_id', $luckyid)->count();
+        $historyRs = LuckyMoneyService::addLuckyHistory($userInfo['tg_id'], $userName, $luckyInfo['id'], $isThunder, $redAmount, $loseMoney);
+        if ($historyRs) {
+            if ($luckyInfo['number'] <= $openNum + 1) {
+                $luckyInfo->status = 2;
+            }
+            $luckyInfo->received = round($luckyInfo['received'] + (float)$redAmount, 2);
+            $luckyInfo->received_num = $luckyInfo['received_num'] + 1;
+            $rsR = $luckyInfo->save();
+            if (!$rsR) {
+                Log::error('save 更新失败');
+                return false;
+            }
+        } else {
+            Log::error('addLuckyHistory 领取失败');
+            return false;
+        }
+        LuckyMoneyService::loseMoneyCal($userId, $luckyInfo, $loseMoney);
+        LuckyMoneyService::getCal($userId, $luckyInfo, $redAmount);
+        //判断是否是豹子
+        $rewardTotal = 0;
+        if ($luckyInfo['type'] == 1 && isset($redAmount) && leopard_check($redAmount)) {
+            $amountCount = amount_count($redAmount);
+            switch ($amountCount) {
+                case 4:
+                    $leopardReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'leopard_reward_4');
+                    break;
+                case 5:
+                    $leopardReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'leopard_reward_5');
+                    break;
+                case 3:
+                default:
+                    $leopardReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'leopard_reward');
+                    break;
+            }
+            if ($leopardReward > 0) {
+                $rewardTotal += $leopardReward;
+                $bot->sendMessage(trans('telegram.leopard_reward', ['userName' => $userName, 'redAmount' => $redAmount, 'leopardReward' => $leopardReward]), ['chat_id' => $luckyInfo['chat_id'], 'parse_mode' => ParseMode::HTML]);
+                LuckyMoneyService::addRewardRecord($luckyid, $luckyInfo['sender_id'], $userId, $luckyInfo['chat_id'], $leopardReward, $redAmount, 1);
+            }
+        }
+        //判断是否是顺子
+        if ($luckyInfo['type'] == 1 && isset($redAmount) && straight_check($redAmount)) {
+            $amountCount = amount_count($redAmount);
+            switch ($amountCount) {
+                case 4:
+                    $straightReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'straight_reward_4');
+                    break;
+                case 5:
+                    $straightReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'straight_reward_5');
+                    break;
+                case 3:
+                default:
+                    $straightReward = ConfigService::getConfigValue($luckyInfo['chat_id'], 'straight_reward');
+                    break;
+            }
+            if ($straightReward > 0) {
+                $rewardTotal += $straightReward;
+                $bot->sendMessage(trans('telegram.straight_reward', ['userName' => $userName, 'redAmount' => $redAmount, 'straightReward' => $straightReward]), ['chat_id' => $luckyInfo['chat_id'], 'parse_mode' => ParseMode::HTML]);
+                LuckyMoneyService::addRewardRecord($luckyid, $luckyInfo['sender_id'], $userId, $luckyInfo['chat_id'], $straightReward, $redAmount, 2);
+            }
+        }
+        if ($rewardTotal > 0) {
+            $userInfo->balance = $userInfo->balance + $rewardTotal;
+            $userInfo->save();
+            money_log($luckyInfo['chat_id'], $userId, $rewardTotal, 'reward', '顺子/豹子中奖盈利', $luckyInfo['id']);
+        }
 
-    //     return true;
-    // }
-    // //奖池分配
-    // public static function jackpotReward($bot, $luckyInfo)
-    // {
-    //     $jackpotCommission = ConfigService::getConfigValue($luckyInfo['chat_id'], 'jackpot');
-    //     if ($jackpotCommission > 0) {
-    //         $jackInfo = JackpotPool::query()->where('group_id', $luckyInfo['chat_id'])->first();
-    //         if ($jackInfo['balance'] > 0) {
+        return true;
+    }
+    //奖池分配
+    public static function jackpotReward($bot, $luckyInfo)
+    {
+        $jackpotCommission = ConfigService::getConfigValue($luckyInfo['chat_id'], 'jackpot');
+        if ($jackpotCommission > 0) {
+            $jackInfo = JackpotPool::query()->where('group_id', $luckyInfo['chat_id'])->first();
+            if ($jackInfo['balance'] > 0) {
 
-    //             $ls = LuckyHistory::query()->where('lucky_id', $luckyInfo['id'])->get();
-    //             $userIds = array_column($ls->toArray(), 'user_id');
-    //             $rewardAmount = $jackInfo['balance'] * 0.4;
-    //             $text = trans('telegram.jackpot_reward', ['rewardAmount' => $rewardAmount]);
-    //             //奖池减少
-    //             JackpotPool::query()->where('group_id', $luckyInfo['chat_id'])->decrement('balance', $rewardAmount);
-    //             $senderAmount = round($rewardAmount / 2, 2);
+                $ls = LuckyHistory::query()->where('lucky_id', $luckyInfo['id'])->get();
+                $userIds = array_column($ls->toArray(), 'user_id');
+                $rewardAmount = $jackInfo['balance'] * 0.4;
+                $text = trans('telegram.jackpot_reward', ['rewardAmount' => $rewardAmount]);
+                //奖池减少
+                JackpotPool::query()->where('group_id', $luckyInfo['chat_id'])->decrement('balance', $rewardAmount);
+                $senderAmount = round($rewardAmount / 2, 2);
 
-    //             $user = UserManagement::query()->where('tg_id', $luckyInfo['sender_id'])->first();
-    //             $user->balance = $user->balance + $senderAmount;
-    //             $user->save();
-    //             $userName = $user['first_name'] ? $user['first_name'] : $user['username'];
-    //             $text .= "💵{$senderAmount} <code>{$userName}</code>\n";
-    //             //记录
-    //             JackpotReward::query()->create([
-    //                 'lucky_id' => $luckyInfo['id'],
-    //                 'amount' => $senderAmount,
-    //                 'tg_id' => $luckyInfo['sender_id'],
-    //                 'group_id' => $luckyInfo['chat_id'],
-    //                 'sender_id' => $luckyInfo['sender_id']
-    //             ]);
-    //             money_log($luckyInfo['chat_id'], $luckyInfo['sender_id'], $senderAmount, 'jacpotprofit', 'jackpot发包中奖', $luckyInfo['id']);
+                $user = UserManagement::query()->where('tg_id', $luckyInfo['sender_id'])->first();
+                $user->balance = $user->balance + $senderAmount;
+                $user->save();
+                $userName = $user['first_name'] ? $user['first_name'] : $user['username'];
+                $text .= "💵{$senderAmount} <code>{$userName}</code>\n";
+                //记录
+                JackpotReward::query()->create([
+                    'lucky_id' => $luckyInfo['id'],
+                    'amount' => $senderAmount,
+                    'tg_id' => $luckyInfo['sender_id'],
+                    'group_id' => $luckyInfo['chat_id'],
+                    'sender_id' => $luckyInfo['sender_id']
+                ]);
+                money_log($luckyInfo['chat_id'], $luckyInfo['sender_id'], $senderAmount, 'jacpotprofit', 'jackpot发包中奖', $luckyInfo['id']);
 
-    //             $averageAmount = round($senderAmount / count($userIds), 2);
+                $averageAmount = round($senderAmount / count($userIds), 2);
 
-    //             //每个用户奖励
-    //             foreach ($userIds as $userId) {
-    //                 $user = UserManagement::query()->where('tg_id', $userId)->first();
-    //                 $user->balance = $user->balance + $averageAmount;
-    //                 $user->save();
-    //                 $userName = $user['first_name'] ? $user['first_name'] : $user['username'];
-    //                 $text .= "💵{$averageAmount} <code>{$userName}</code>\n";
-    //                 //记录
-    //                 JackpotReward::query()->create([
-    //                     'lucky_id' => $luckyInfo['id'],
-    //                     'amount' => $averageAmount,
-    //                     'tg_id' => $userId,
-    //                     'group_id' => $luckyInfo['chat_id'],
-    //                     'sender_id' => $luckyInfo['sender_id']
-    //                 ]);
-    //                 money_log($luckyInfo['chat_id'], $luckyInfo['sender_id'], $averageAmount, 'jacpotprofit', 'jackpot中奖', $luckyInfo['id']);
-    //             }
-    //             $text .= trans('telegram.jackpot_bonus_send');
+                //每个用户奖励
+                foreach ($userIds as $userId) {
+                    $user = UserManagement::query()->where('tg_id', $userId)->first();
+                    $user->balance = $user->balance + $averageAmount;
+                    $user->save();
+                    $userName = $user['first_name'] ? $user['first_name'] : $user['username'];
+                    $text .= "💵{$averageAmount} <code>{$userName}</code>\n";
+                    //记录
+                    JackpotReward::query()->create([
+                        'lucky_id' => $luckyInfo['id'],
+                        'amount' => $averageAmount,
+                        'tg_id' => $userId,
+                        'group_id' => $luckyInfo['chat_id'],
+                        'sender_id' => $luckyInfo['sender_id']
+                    ]);
+                    money_log($luckyInfo['chat_id'], $luckyInfo['sender_id'], $averageAmount, 'jacpotprofit', 'jackpot中奖', $luckyInfo['id']);
+                }
+                $text .= trans('telegram.jackpot_bonus_send');
 
-    //             $bot->sendMessage($text, ['chat_id' => $luckyInfo['chat_id'], 'parse_mode' => ParseMode::HTML]);
-    //         }
-    //     }
-    // }
+                $bot->sendMessage($text, ['chat_id' => $luckyInfo['chat_id'], 'parse_mode' => ParseMode::HTML]);
+            }
+        }
+    }
 
     public static function shangfen($bot, $amount)
     {
@@ -561,7 +561,7 @@ class TelegramService
         $tgId = $reply_to_message->from->id;
         $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
         if (!$user) {
-            $this->userManagementService->registerUser($reply_to_message->from, $bot->chat()->id);
+            UserManagementService::registerUser($reply_to_message->from, $bot->chat()->id);
             $user = UserManagement::query()->where('tg_id', $tgId)->where('group_id', $bot->chat()->id)->first();
         }
         $balance = $user->balance + $amount;
@@ -748,22 +748,17 @@ class TelegramService
                 return false;
             }
             try {
-                $bot->sendMessage("Test | pass here 1");
                 $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
                     InlineKeyboardButton::make(trans('telegram.firstbtntext', ['luckyTotal' => $luckyTotal, 'amount' => $amount, 'mine' => $mine]), callback_data: "qiang-" . $luckyId)
                 );
-                $bot->sendMessage("Test | pass here 2");
                 $data = [
                     'chat_id' => $chatId,
                     'caption' => "[ <code>" . format_name($senderName) . "</code> ]" . trans('telegram.sendcaption', ['amount' => $amount]),
                     'parse_mode' => ParseMode::HTML,
                     'reply_markup' => common_reply_markup($chatId, $InlineKeyboardMarkup),
                 ];
-                $bot->sendMessage("Test | pass here 3");
                 $sendRs = $bot->sendPhoto($photo, $data);
-                $bot->sendMessage("Test | pass here 4");
                 if ($sendRs) {
-                    $bot->sendMessage("Test | pass here 5");
                     $updateRs = LuckyMoney::query()->where('id', $luckyId)->update(['message_id' => $sendRs->message_id]);
                     if (!$updateRs) {
                         DB::rollBack();
@@ -772,7 +767,6 @@ class TelegramService
                     DB::commit();
                     break;
                 } else {
-                    $bot->sendMessage("Test | pass here 6");
                     DB::rollBack();
                     Log::error('sendPhoto发送失败');
                     $bot->sendMessage(trans('telegram.failedtosend'));

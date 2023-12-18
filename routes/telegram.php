@@ -5,10 +5,10 @@
 use App\Models\InviteLink;
 use SergiX44\Nutgram\Nutgram;
 use App\Jobs\MsgToTelegramJob;
-use App\Services\ConfigService;
+use App\Services\Telegram\ConfigService;
 use Illuminate\Support\Facades\Log;
 use App\Telegram\Middleware\OnlyAdmin;
-use App\Services\UserManagementService;
+use App\Services\Telegram\UserManagementService;
 use App\Telegram\Handlers\InviteHandler;
 use App\Telegram\Handlers\ReportHandler;
 use App\Telegram\Middleware\GroupVerify;

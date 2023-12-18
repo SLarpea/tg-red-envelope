@@ -2,8 +2,8 @@
 
 namespace App\Telegram\Handlers;
 
-use App\Services\TelegramService;
-use App\Services\UserManagementService;
+use App\Services\Telegram\TelegramService;
+use App\Services\Telegram\UserManagementService;
 use SergiX44\Nutgram\Nutgram;
 
 class ReportHandler

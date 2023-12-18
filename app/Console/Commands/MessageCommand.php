@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use SergiX44\Nutgram\Nutgram;
 use Illuminate\Console\Command;
-use App\Services\TelegramService;
+use App\Services\Telegram\TelegramService;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\RunningMode\Polling;
 

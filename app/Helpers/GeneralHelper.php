@@ -5,7 +5,7 @@ use App\Models\AuthGroup;
 use Illuminate\Support\Arr;
 use App\Models\UserManagement;
 use App\Models\GroupManagement;
-use App\Services\ConfigService;
+use App\Services\Telegram\ConfigService;
 use App\Logging\LogJsonFormatter;
 use Illuminate\Support\Facades\Redis;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;

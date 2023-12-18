@@ -3,8 +3,8 @@
 namespace App\Telegram\Handlers;
 
 use SergiX44\Nutgram\Nutgram;
-use App\Services\TelegramService;
-use App\Services\UserManagementService;
+use App\Services\Telegram\TelegramService;
+use App\Services\Telegram\UserManagementService;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 
 class UserHandler
