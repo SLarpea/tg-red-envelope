@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\WithdrawRecordServices;
+use App\Services\Dashboard\WithdrawRecordServices;
 
 class WithdrawRecordController extends Controller
 {

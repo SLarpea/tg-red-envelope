@@ -12,10 +12,11 @@
       <li class="nav-heading">System</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/administrator') }" href="/administrator" preserve-state>
           <i class="bi bi-person"></i>
           <span>Administrator</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-item">

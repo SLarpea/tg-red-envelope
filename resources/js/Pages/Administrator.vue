@@ -3,12 +3,12 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1>User Management</h1>
+        <h1>Administrator</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Mine Management</a></li>
-            <li class="breadcrumb-item">User Management</li>
-            <li class="breadcrumb-item active">List of Users</li>
+            <li class="breadcrumb-item"><a href="#">System</a></li>
+            <li class="breadcrumb-item">Administrator</li>
+            <li class="breadcrumb-item active">List of Administrator</li>
             </ol>
         </nav>
         </div>
@@ -24,14 +24,18 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title">List of Users</h5>
+                                            <h5 class="card-title">List of Administrator</h5>
                                         </div>
                                         <div class="col-lg-6">
-                                            &nbsp;
+                                            <div class="d-flex justify-content-end align-items-center action-container">
+                                                <button class="btn btn-custom" type="button" @click.prevent="resetForm">
+                                                    <i class="bi bi-plus-circle"></i> New Administrator
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <SearchLayout :data="{ routeLink: 'tg-users.index', filters: filters }" />
+                                    <SearchLayout :data="{ routeLink: 'administrator.index', filters: filters }" />
 
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
@@ -41,24 +45,18 @@
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
                                                 <th scope="col">Username</th>
-                                                <th scope="col">Nickname</th>
-                                                <th scope="col">Telegram ID</th>
-                                                <th scope="col">Group ID</th>
-                                                <th scope="col">Balance</th>
-                                                <th scope="col">Is Online</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email Address</th>
                                                 <th scope="col" class="text-center">Status</th>
                                                 <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in tgusers.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
-                                                <td class="text-center">{{ tgusers.from + index }}</td>
+                                            <tr v-for="(item, index) in administrator.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                                <td class="text-center">{{ administrator.from + index }}</td>
                                                 <td>{{ item.username }}</td>
-                                                <td>{{ item.first_name }}</td>
-                                                <td>{{ item.tg_id }}</td>
-                                                <td>{{ item.group_id }}</td>
-                                                <td>{{ item.balance }}</td>
-                                                <td>{{ item.online }}</td>
+                                                <td>{{ item.name }}</td>
+                                                <td>{{ item.email  }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
@@ -66,8 +64,6 @@
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-gem text-primary" v-tippy="'Top Up'" @click.prevent="selectAction(item, 'top_up', null)"></i>
-                                                    <i class="bi bi-arrow-down-square text-primary" v-tippy="'Withdraw'" @click.prevent="selectAction(item, 'withdraw', null)"></i>
                                                     <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
@@ -76,7 +72,7 @@
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: tgusers.links, from: tgusers.from, to: tgusers.to, total: tgusers.total }" />
+                                    <PaginationLayout :data="{ links: administrator.links, from: administrator.from, to: administrator.to, total: administrator.total }" />
 
                                 </div>
                             </div>
@@ -87,12 +83,12 @@
         </section>
 
         <transition name="modal-fade">
-            <div class="modal custom-modal" v-if="topUpShow">
+            <div class="modal custom-modal" v-if="modalShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> Top Up
+                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'New Administrator' : 'Update Administrator' }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
@@ -100,44 +96,31 @@
                             <div class="modal-body">
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                    <i class="bi bi-x-circle"></i> Close
-                                </button>
-                                <template v-if="action !== 'show'">
-                                    <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
-                                    </button>
-                                    <button type="submit" class="btn btn-custom" v-if="action === 'update'">
-                                        <i class="bi bi-save2"></i> Update
-                                    </button>
-                                </template>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </transition>
-
-        <transition name="modal-fade">
-            <div class="modal custom-modal" v-if="withdrawShow">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> Withdraw
-                            </h5>
-                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
-                        </div>
-                        <form @submit.prevent="formAction(form, 'all')">
-                            <div class="modal-body">
-                                <div class="row gx-4">
-                                    <div class="col-lg-12">
-
+                                        <div class="row mb-2">
+                                            <label for="name" class="col-sm-4 col-form-label">Name :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="name" name="name" v-model="form.name" type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="email " class="col-sm-4 col-form-label">Email Address :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="email " name="email " v-model="form.email " type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="status" class="col-sm-4 col-form-label">Status :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-select" aria-label="Default select example" id="status" name="status" v-model="form.status">
+                                                    <option selected>Select Status</option>
+                                                    <option value="1">Enable</option>
+                                                    <option value="0">Disable</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -173,36 +156,15 @@ export default {
     data() {
         return {
             modalShow:false,
-            topUpShow: false,
-            withdrawShow: false,
             form: {
-                username: null,
-                first_name: null,
-                tg_id : null,
-                balance: null,
+                name: null,
+                email : null,
                 status: 1,
-                invite_user: null,
-                group_id : null,
-                has_thunder: null,
-                pass_mine: null,
-                auto_get : null,
-                withdraw_addr: null,
-                no_thunder: null,
-                get_mine: null,
-                send_chance: null,
-            },
-            form_topUp: {
-                recharge: null,
-                remark: null,
-                send: null,
-            },
-            form_withdraw: {
-
             },
         };
     },
     props: {
-        tgusers: Object,
+        administrator: Object,
         filters: Object,
         response: null,
     },
@@ -212,40 +174,21 @@ export default {
    methods: {
         closeModal() {
             this.modalShow = false;
-            this.topUpShow = false;
-            this.withdrawShow = false;
         },
         resetForm() {
             console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
             this.modalShow = !this.modalShow;
             this.action = 'new';
             this.form = {
-                username: null,
-                first_name: null,
-                tg_id : null,
-                balance: null,
+                name: null,
+                email : null,
                 status: 1,
-                invite_user: null,
-                group_id : null,
-                has_thunder: null,
-                pass_mine: null,
-                auto_get : null,
-                withdraw_addr: null,
-                no_thunder: null,
-                get_mine: null,
-                send_chance: null,
             }
         },
         selectAction(data, action, type) {
             this.action = action;
             if (this.action == 'delete') {
                 this.formAction(data, type);
-            }else if(this.action == 'top_up'){
-                this.form_topUp = Object.assign({}, data);
-                this.topUpShow = true;
-            }else if(this.action == 'withdraw'){
-                this.form_withdraw = Object.assign({}, data);
-                this.withdrawShow = true;
             } else {
                 this.form = Object.assign({}, data);
                 this.modalShow = true;

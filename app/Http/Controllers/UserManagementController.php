@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\UserManagementServices;
+use App\Services\Dashboard\UserManagementServices;
 
 class UserManagementController extends Controller
 {

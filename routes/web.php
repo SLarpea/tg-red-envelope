@@ -37,5 +37,6 @@ Route::middleware([
     Route::get('/tg-users', [App\Http\Controllers\UserManagementController::class, 'index'])->name('tg-users');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
+    Route::resource('/administrator', App\Http\Controllers\AdministratorController::class);
     Route::resource('/groups', App\Http\Controllers\GroupManagementController::class);
 });

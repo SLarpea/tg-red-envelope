@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Dashboard;
 
-use App\Models\UserManagement;
+use App\Models\RechargeRecord;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
-class UserManagementServices
+class RechargeRecordServices
 {
     public function showData($request)
     {
         return [
-            'tgusers' => UserManagement::when($request->term, function ($query, $term) {
+            'recharge' => RechargeRecord::when($request->term, function ($query, $term) {
                 $query->where('username', 'LIKE', '%' . $term . '%');
             })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
