@@ -3,10 +3,10 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1>User Management</h1>
+        <h1><i class="bi bi-people"></i> User Management</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Mine Management</a></li>
+            <li class="breadcrumb-item">Mine Management</li>
             <li class="breadcrumb-item">User Management</li>
             <li class="breadcrumb-item active">List of Users</li>
             </ol>
@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title">List of Users</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Users</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             &nbsp;

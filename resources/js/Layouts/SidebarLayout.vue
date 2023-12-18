@@ -9,46 +9,6 @@
         </Link>
       </li>
 
-      <li class="nav-heading">System</li>
-
-      <li class="nav-item">
-        <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
-        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/administrator') }" href="/administrator" preserve-state>
-          <i class="bi bi-person"></i>
-          <span>Administrator</span>
-        </Link>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-file-earmark-person"></i>
-          <span>Role</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-person-vcard"></i>
-          <span>Permissions</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-list"></i>
-          <span>Menu</span>
-        </a>
-      </li>
-
-      <li class="nav-heading">Logs</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-activity"></i>
-          <span>Operations</span>
-        </a>
-      </li>
-
       <li class="nav-heading">Mine Management</li>
 
       <li class="nav-item">
@@ -109,6 +69,49 @@
           <i class="bi bi-chat-left-dots"></i>
           <span>Reports</span>
         </a>
+      </li>
+
+      <li class="nav-heading">System</li>
+
+      <li class="nav-item">
+        <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/administrator') }" href="/administrator" preserve-state>
+          <i class="bi bi-person"></i>
+          <span>Administrator</span>
+        </Link>
+      </li>
+
+      <li class="nav-item">
+        <div class="glow" v-if="$page.url.startsWith('/roles')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/roles') }" href="/roles" preserve-state>
+          <i class="bi bi-file-earmark-person"></i>
+          <span>Roles</span>
+        </Link>
+      </li>
+
+      <li class="nav-item">
+        <div class="glow" v-if="$page.url.startsWith('/permissions')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/permissions') }" href="/permissions" preserve-state>
+          <i class="bi bi-person-vcard"></i>
+          <span>Permissions</span>
+        </Link>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <i class="bi bi-list"></i>
+          <span>Menu</span>
+        </a>
+      </li>
+
+      <li class="nav-heading">Logs</li>
+
+      <li class="nav-item">
+        <div class="glow" v-if="$page.url.startsWith('/operation-log')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/operation-log') }" href="/operation-log" preserve-state>
+          <i class="bi bi-activity"></i>
+          <span>Operation Log</span>
+        </Link>
       </li>
 
     </ul>

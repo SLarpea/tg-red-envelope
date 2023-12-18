@@ -3,10 +3,10 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1>Administrator</h1>
+        <h1><i class="bi bi-people"></i> Administrator</h1>
         <nav>
             <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">System</a></li>
+            <li class="breadcrumb-item">System</li>
             <li class="breadcrumb-item">Administrator</li>
             <li class="breadcrumb-item active">List of Administrator</li>
             </ol>
@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title">List of Administrator</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Administrator</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">

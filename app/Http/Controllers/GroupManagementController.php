@@ -68,7 +68,7 @@ class GroupManagementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(GroupManagementRequest $request, $id)
+    public function update(GroupManagementRequest $request, string $id)
     {
         if ($request->has('id')) {
             $this->groupManagementServices->updateData($request);
