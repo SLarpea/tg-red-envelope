@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\DateTrait;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -23,6 +24,14 @@ class GroupManagement extends Model
          -> logOnly(['group_id','remark','status','service_url','recharge_url','channel_url','photo_id','admin_id'])
          -> logOnlyDirty()
          -> dontSubmitEmptyLogs();
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->properties = $activity->properties->put('agent', [
+            'ip' => request()->ip(),
+            'host' => gethostname(),
+        ]);
     }
 
     public function adminuser()

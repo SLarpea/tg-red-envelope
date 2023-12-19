@@ -28,14 +28,14 @@
                 </div>
               </div>
 
-              <SearchLayout :data="{ routeLink: 'operation-log.index', filters: filters }" />
+              <SearchLayout :data="{ routeLink: 'operation-log', filters: filters }" />
 
               <div class="table-responsive">
                 <table class="table table-striped table-hover data">
                     <thead>
                         <tr>
                             <th scope="col" width="1%" class="text-center">#</th>
-                            <th scope="col" class="text-center">Event{{ logs.from }}</th>
+                            <th scope="col" class="text-center">Event</th>
                             <th scope="col" >Affected</th>
                             <th scope="col" class="text-center">Affected ID</th>
                             <th scope="col">Old Value</th>
