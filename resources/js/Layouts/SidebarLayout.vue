@@ -98,10 +98,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/menus')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/menus') }" href="/menus" preserve-state>
           <i class="bi bi-list"></i>
           <span>Menu</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-heading">Logs</li>

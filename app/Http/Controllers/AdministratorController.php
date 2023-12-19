@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\AdministratorRequest;
 use App\Services\Dashboard\AdministratorServices;
 
 class AdministratorController extends Controller
@@ -38,7 +39,7 @@ class AdministratorController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AdministratorRequest $request)
     {
         $this->administratorServices->storeData($request);
         return redirect()->route('administrator.index')->with('response', 'success');
@@ -63,7 +64,7 @@ class AdministratorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(AdministratorRequest $request, string $id)
     {
         if ($request->has('id')) {
             $this->administratorServices->updateData($request);

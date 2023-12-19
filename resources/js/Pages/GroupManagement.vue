@@ -36,10 +36,20 @@
                                     </div>
 
                                     <SearchLayout :data="{ routeLink: 'groups.index', filters: filters }" />
-
+                                    <div class="table-responsive">
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
-
+                                            <col width="1%">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="10%">
                                         </colgroup>
                                         <thead>
                                             <tr>
@@ -82,7 +92,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-
+                                    </div>
                                     <PaginationLayout :data="{ links: groups.links, from: groups.from, to: groups.to, total: groups.total }" />
 
                                 </div>
