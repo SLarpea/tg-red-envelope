@@ -87,7 +87,7 @@
         </section>
 
         <transition name="modal-fade">
-            <div class="modal custom-modal" v-if="topUpShow">
+            <div class="modal custom-modal" v-if="modalShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -96,7 +96,7 @@
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
-                        <form @submit.prevent="formAction(form, 'all')">
+                        <form @submit.prevent="formAction(form, 'top_up')">
                             <div class="modal-body">
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
@@ -124,6 +124,65 @@
         </transition>
 
         <transition name="modal-fade">
+            <div class="modal custom-modal" v-if="topUpShow">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="bi bi-arrow-return-right"></i> Top Up
+                            </h5>
+                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
+                        </div>
+                        <form @submit.prevent="formAction(form_topUp, 'topup')">
+                            <div class="modal-body">
+                                <div class="row gx-4">
+                                    <div class="col-lg-12">
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-4 col-form-label">Amount :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="amount" name="amount" v-model="form_topUp.amount" type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-4 col-form-label">Remarks :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="amount" name="amount" v-model="form_topUp.remarks" type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-4 col-form-label">Send To Group Chat :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
+                                    <i class="bi bi-x-circle"></i> Close
+                                </button>
+                                <button type="submit" class="btn btn-custom">
+                                    <i class="bi bi-save2"></i> Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <transition name="modal-fade">
             <div class="modal custom-modal" v-if="withdrawShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
@@ -133,7 +192,7 @@
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
-                        <form @submit.prevent="formAction(form, 'all')">
+                        <form @submit.prevent="formAction(form, 'withdraw')">
                             <div class="modal-body">
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
@@ -192,8 +251,8 @@ export default {
                 send_chance: null,
             },
             form_topUp: {
-                recharge: null,
-                remark: null,
+                amount: null,
+                remarks: null,
                 send: null,
             },
             form_withdraw: {
@@ -214,27 +273,6 @@ export default {
             this.modalShow = false;
             this.topUpShow = false;
             this.withdrawShow = false;
-        },
-        resetForm() {
-            console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
-            this.modalShow = !this.modalShow;
-            this.action = 'new';
-            this.form = {
-                username: null,
-                first_name: null,
-                tg_id : null,
-                balance: null,
-                status: 1,
-                invite_user: null,
-                group_id : null,
-                has_thunder: null,
-                pass_mine: null,
-                auto_get : null,
-                withdraw_addr: null,
-                no_thunder: null,
-                get_mine: null,
-                send_chance: null,
-            }
         },
         selectAction(data, action, type) {
             this.action = action;
@@ -258,17 +296,22 @@ export default {
             let method = String;
             let routeURL = String;
             let msgText = String;
-            if (this.action == 'new') {
-                text = "Are you sure you want to save this item?";
-                confirmButtonColor = '#198754';
-                method = 'POST';
-                routeURL = 'groups.store';
-                msgText = 'Work has been saved.';
-                data.id = null;
-            } else if (this.action == 'update') {
+            if (this.action == 'update') {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
                 method = 'PUT';
+                routeURL = 'groups.update';
+                msgText = 'Work has been updated.';
+            } else if (this.action == 'top_up') {
+                text = "Are you sure you want to update this item?";
+                confirmButtonColor = '#198754';
+                method = 'POST';
+                routeURL = 'groups.update';
+                msgText = 'Work has been updated.';
+            } else if (this.action == 'withdraw') {
+                text = "Are you sure you want to update this item?";
+                confirmButtonColor = '#198754';
+                method = 'POST';
                 routeURL = 'groups.update';
                 msgText = 'Work has been updated.';
             } else {

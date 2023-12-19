@@ -25,7 +25,6 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/tg-users', [App\Http\Controllers\UserManagementController::class, 'index'])->name('tg-users');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
     Route::get('/operation-log', [App\Http\Controllers\OperationLogController::class, 'index'])->name('operation-log');
@@ -33,4 +32,7 @@ Route::middleware([
     Route::resource('/roles', App\Http\Controllers\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\PermissionController::class);
     Route::resource('/groups', App\Http\Controllers\GroupManagementController::class);
+    Route::resource('/tg-users', App\Http\Controllers\UserManagementController::class);
+    Route::resource('/menus', App\Http\Controllers\MenuController::class);
+    Route::put('/menus.sort', [App\Http\Controllers\MenuController::class, 'sort'])->name('menus.sort');
 });
