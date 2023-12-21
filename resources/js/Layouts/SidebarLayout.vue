@@ -43,10 +43,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/commissions')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/commissions') }" href="/commissions" preserve-state>
           <i class="bi bi-folder-check"></i>
-          <span>Playform Commission Record</span>
-        </a>
+          <span>Platform Commission Record</span>
+        </Link>
       </li>
 
       <li class="nav-item">

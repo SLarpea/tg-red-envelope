@@ -24,4 +24,12 @@ class UserManagementController extends Controller
             'response' => $data['response'],
         ]);
     }
+
+    public function top_up(Request $request, string $id)
+    {
+        $this->userManagementServices->recharge($request);
+        $data = $this->userManagementServices->showData($request);
+
+        return redirect()->route('tg-users.index')->with('response', 'success');
+    }
 }

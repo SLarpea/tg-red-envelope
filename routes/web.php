@@ -26,13 +26,16 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
+    Route::get('/commissions', [App\Http\Controllers\CommissionRecordController::class, 'index'])->name('commissions');
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
     Route::get('/operation-log', [App\Http\Controllers\OperationLogController::class, 'index'])->name('operation-log');
     Route::resource('/administrator', App\Http\Controllers\AdministratorController::class);
     Route::resource('/roles', App\Http\Controllers\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\PermissionController::class);
     Route::resource('/groups', App\Http\Controllers\GroupManagementController::class);
+    Route::resource('/configs', App\Http\Controllers\ConfigController::class);
     Route::resource('/tg-users', App\Http\Controllers\UserManagementController::class);
+    Route::put('/tg-users.top-up/{id}', [App\Http\Controllers\UserManagementController::class, 'top_up'])->name('tg-users.top-up');
     Route::resource('/menus', App\Http\Controllers\MenuController::class);
     Route::put('/menus.sort', [App\Http\Controllers\MenuController::class, 'sort'])->name('menus.sort');
 });

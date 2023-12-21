@@ -96,11 +96,133 @@
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
-                        <form @submit.prevent="formAction(form, 'top_up')">
+                        <form @submit.prevent="formAction(form, 'update')">
                             <div class="modal-body">
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
-
+                                        <div class="row mb-2">
+                                            <label for="username" class="col-sm-5 col-form-label">Username :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <input id="username" name="username" v-model="form.username" type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="first_name" class="col-sm-5 col-form-label">Nickname :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <input id="first_name" name="first_name" v-model="form.first_name" type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="tg_id " class="col-sm-5 col-form-label">Telegram ID :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <input id="tg_id " name="tg_id " v-model="form.tg_id " type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="balance " class="col-sm-5 col-form-label">Balance :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <input id="balance " name="balance " v-model="form.balance " type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="status" class="col-sm-5 col-form-label">Status :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <select class="form-select" aria-label="Default select example" id="status" name="status" v-model="form.status">
+                                                    <option selected>Select Status</option>
+                                                    <option value="1">Enable</option>
+                                                    <option value="0">Disable</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="invite_user " class="col-sm-5 col-form-label">Inviter :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <input id="invite_user " name="invite_user " v-model="form.invite_user " type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="send_chance " class="col-sm-5 col-form-label">Probability of Outsourcing :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <input id="send_chance " name="send_chance " v-model="form.send_chance " type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-5 col-form-label">There Must Be Thunder In The Bag :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-5 col-form-label">Wrapped Without Thunder :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-5 col-form-label">Robbing The Bag :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-5 col-form-label">There Is A Priority In The Bag :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-5 col-form-label">Automatically Grab :
+                                            </label>
+                                            <div class="col-sm-7">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +255,7 @@
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
-                        <form @submit.prevent="formAction(form_topUp, 'topup')">
+                        <form @submit.prevent="formAction(form_topUp, 'top_up')">
                             <div class="modal-body">
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
@@ -145,10 +267,10 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="amount" class="col-sm-4 col-form-label">Remarks :
+                                            <label for="remark" class="col-sm-4 col-form-label">Remarks :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="amount" name="amount" v-model="form_topUp.remarks" type="text" class="form-control" autocomplete="off" />
+                                                <input id="remark" name="remark" v-model="form_topUp.remark" type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -223,7 +345,7 @@
 </template>
 
 <script>
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
@@ -251,9 +373,15 @@ export default {
                 send_chance: null,
             },
             form_topUp: {
+                id: null,
                 amount: null,
                 remarks: null,
                 send: null,
+                group_id: null,
+                first_name: null,
+                status: 1,
+                admin_id: 1,
+                type: 1,
             },
             form_withdraw: {
 
@@ -279,7 +407,7 @@ export default {
             if (this.action == 'delete') {
                 this.formAction(data, type);
             }else if(this.action == 'top_up'){
-                this.form_topUp = Object.assign({}, data);
+                this.form_topUp = Object.assign(this.form_topUp, data);
                 this.topUpShow = true;
             }else if(this.action == 'withdraw'){
                 this.form_withdraw = Object.assign({}, data);
@@ -300,25 +428,25 @@ export default {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
                 method = 'PUT';
-                routeURL = 'groups.update';
+                routeURL = 'tg-users.update';
                 msgText = 'Work has been updated.';
             } else if (this.action == 'top_up') {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
-                method = 'POST';
-                routeURL = 'groups.update';
+                method = 'PUT';
+                routeURL = 'tg-users.top-up';
                 msgText = 'Work has been updated.';
             } else if (this.action == 'withdraw') {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
                 method = 'POST';
-                routeURL = 'groups.update';
+                routeURL = 'tg-users.withdraw';
                 msgText = 'Work has been updated.';
             } else {
                 text = "Are you sure you want to delete this item?";
                 confirmButtonColor = '#D81B60';
                 method = 'DELETE';
-                routeURL = 'groups.destroy';
+                routeURL = 'tg-users.destroy';
                 msgText = 'Work has been deleted.';
             }
 
@@ -345,6 +473,7 @@ export default {
                                     timer: 2000
                                 });
                                 this.modalShow = false;
+                                this.topUpShow = false;
                             }
                         },
                         onError: () => {

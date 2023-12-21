@@ -2,6 +2,7 @@
 
 namespace App\Services\Dashboard;
 
+use App\Models\Config;
 use App\Models\GroupManagement;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -33,6 +34,21 @@ class GroupManagementServices
             'photo_id' => $request->photo_id,
             'admin_id' => $request->admin_id,
         ]);
+
+        $tgbotConfig = config('tgbot');
+        foreach ($tgbotConfig as $key => $val) {
+            if (Config::query()->where('name', $key)->where('group_id', $request->group_id)->count() == 0) {
+                $insert = [
+                    'name' => $key,
+                    'value' => $val,
+                    'group_id' => $request->group_id,
+                    'admin_id' => 1,
+                    'remark' => trans('admin.tgbot.' . $key),
+                ];
+                Config::create($insert);
+            }
+        }
+
     }
 
     public function updateData($request)
