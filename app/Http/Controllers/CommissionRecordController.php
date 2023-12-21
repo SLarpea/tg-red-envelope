@@ -19,7 +19,7 @@ class CommissionRecordController extends Controller
     {
         $data = $this->CommissionRecordServices->showData($request);
         return Inertia::render('CommissionRecord', [
-            'recharge' => $data['recharge'],
+            'commissions' => $data['commissions'],
             'filters' => $data['filters'],
             'response' => $data['response'],
         ]);

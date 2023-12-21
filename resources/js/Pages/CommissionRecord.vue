@@ -1,5 +1,5 @@
 <template>
-    <Head title="Recharge Record" />
+    <Head title="commissions Record" />
     <AppLayout>
 
         <div class="pagetitle">
@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
 
-                                    <SearchLayout :data="{ routeLink: 'tg-users.index', filters: filters }" />
+                                    <SearchLayout :data="{ routeLink: 'commissions.index', filters: filters }" />
 
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
@@ -51,8 +51,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in recharge.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
-                                                <td class="text-center">{{ recharge.from + index }}</td>
+                                            <tr v-for="(item, index) in commissions.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                                <td class="text-center">{{ commissions.from + index }}</td>
                                                 <td>{{ item.lucky_id  }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td>{{ item.profit_amount }}</td>
@@ -67,7 +67,7 @@
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: recharge.links, from: recharge.from, to: recharge.to, total: recharge.total }" />
+                                    <PaginationLayout :data="{ links: commissions.links, from: commissions.from, to: commissions.to, total: commissions.total }" />
 
                                 </div>
                             </div>
@@ -88,7 +88,7 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 
 export default {
     props: {
-        recharge: Object,
+        commissions: Object,
         filters: Object,
         response: null,
     },
