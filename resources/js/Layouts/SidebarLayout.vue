@@ -28,10 +28,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/red-envelopes')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/red-envelopes') }" href="/red-envelopes" preserve-state>
           <i class="bi bi-envelope"></i>
           <span>Red Envelope Management</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-item">
