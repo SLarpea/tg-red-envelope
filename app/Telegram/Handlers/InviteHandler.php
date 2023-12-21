@@ -14,7 +14,7 @@ class InviteHandler
         $this->telegramServices = $telegramServices;
     }
 
-    public function handleInviteLink(Nutgram $bot, $ac, $amount)
+    public function handleInviteLink(Nutgram $bot)
     {
         $this->telegramServices->invite_link($bot);
     }

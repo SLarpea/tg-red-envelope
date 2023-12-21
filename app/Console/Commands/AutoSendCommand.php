@@ -67,7 +67,7 @@ class AutoSendCommand extends Command
             }
             TelegramService::fabao($bot, '', $amount, $mine, $groupid, $user['tg_id']);
 
-            sleep(30);
+            sleep(mt_rand(60, 100));
         }
     }
 }
