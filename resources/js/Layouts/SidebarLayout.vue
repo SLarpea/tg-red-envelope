@@ -67,10 +67,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/reports')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/reports') }" href="/reports" preserve-state>
           <i class="bi bi-chat-left-dots"></i>
           <span>Reports</span>
-        </a>
+        </Link>
       </li>
 
       <li class="nav-heading">System</li>

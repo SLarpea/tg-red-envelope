@@ -8,7 +8,7 @@
             <ol class="breadcrumb">
             <li class="breadcrumb-item">Mine Management</li>
             <li class="breadcrumb-item">Group Management</li>
-            <li class="breadcrumb-item active">List of Groups</li>
+            <li class="breadcrumb-item active">List of Groups XXXXXXXX</li>
             </ol>
         </nav>
         </div>

@@ -27,6 +27,7 @@ Route::middleware([
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
     Route::get('/rewards', [App\Http\Controllers\RewardRecordController::class, 'index'])->name('rewards');
+    Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports');
     Route::get('/commissions', [App\Http\Controllers\CommissionRecordController::class, 'index'])->name('commissions.index');
     Route::get('/red-envelopes', [App\Http\Controllers\RedEnvelopeManagementController::class, 'index'])->name('red-envelopes.index');
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
