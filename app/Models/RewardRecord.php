@@ -24,6 +24,7 @@ class RewardRecord extends Model
     {
         return $this->hasOne(UserManagement::class,'tg_id','tg_id');
     }
+
     public function sender()
     {
         return $this->hasOne(UserManagement::class,'tg_id','sender_id');

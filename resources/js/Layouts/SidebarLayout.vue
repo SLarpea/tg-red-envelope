@@ -18,7 +18,6 @@
           <span>Group Management</span>
         </Link>
       </li>
-
       <li class="nav-item">
         <div class="glow" v-if="$page.url.startsWith('/tg-users')">&nbsp;</div>
         <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/tg-users') }" href="/tg-users" preserve-state>
@@ -52,10 +51,11 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <div class="glow" v-if="$page.url.startsWith('/rewards')">&nbsp;</div>
+        <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/rewards') }" href="/rewards" preserve-state>
           <i class="bi bi-trophy"></i>
-          <span>Winning Record</span>
-        </a>
+          <span>Reward Record</span>
+        </Link>
       </li>
 
       <li class="nav-item">
