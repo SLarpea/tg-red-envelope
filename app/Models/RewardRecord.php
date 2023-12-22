@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use App\Traits\DateTrait;
 
 use Illuminate\Database\Eloquent\Model;
 
 class RewardRecord extends Model
 {
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'reward_record';
     protected $fillable = [
         'lucky_id',

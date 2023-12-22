@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Traits\DateTrait;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 
 class UserManagement extends Model
 {
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'user_management';
     protected $fillable = [
         'username',

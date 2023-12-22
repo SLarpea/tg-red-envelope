@@ -34,13 +34,13 @@ use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 $bot->group(GroupVerify::class, function (Nutgram $bot) {
     // Group-level middleware for group verification
 
-    // $bot->group(OnlyAdmin::class, function (Nutgram $bot) {
+    $bot->group(OnlyAdmin::class, function (Nutgram $bot) {
         // Group-level middleware for admin-only commands
 
         // Handle recharge and withdraw commands
         $bot->onText('(' . trans('telegram.recharge') . '|\+)([0-9]+)', [RechargeHandler::class, 'handleRecharge']);
         $bot->onText('(' . trans('telegram.withdraw') . '|-)([0-9]+)', [RechargeHandler::class, 'handleWithdraw']);
-    // });
+    });
 
     // Handle fabao and fuli commands
     $bot->onText('(发[包]*)*([0-9]+\.?[0-9]?)[-/]([0-9]+\.?[0-9]?)', [LuckyMoneyHandler::class, 'handleFabao']);

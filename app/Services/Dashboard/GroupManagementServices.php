@@ -77,4 +77,9 @@ class GroupManagementServices
     {
         GroupManagement::find($request->input('id'))->delete();
     }
+
+    public function getGroupIds()
+    {
+        return GroupManagement::get('group_id');
+    }
 }

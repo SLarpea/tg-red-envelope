@@ -6,10 +6,11 @@ use App\Traits\DateTrait;
 
 use App\Models\UserManagement;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 
 class CommissionRecord extends Model
 {
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'commission_record';
     protected $fillable = [
         'lucky_id',

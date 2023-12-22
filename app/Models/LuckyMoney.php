@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use App\Traits\DateTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class LuckyMoney extends Model
 {
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'lucky_money';
     protected $fillable = [
         'sender_id',
