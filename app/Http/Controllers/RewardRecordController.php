@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\Dashboard\RewardRecordServices;
+use App\Services\Dashboard\RewardRecordService;
 
 class RewardRecordController extends Controller
 {
-    protected $RewardRecordServices;
+    protected $rewardRecordService;
 
-    public function __construct(RewardRecordServices $RewardRecordServices)
+    public function __construct(RewardRecordService $rewardRecordService)
     {
-        $this->RewardRecordServices = $RewardRecordServices;
+        $this->rewardRecordService = $rewardRecordService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->RewardRecordServices->showData($request);
+        $data = $this->rewardRecordService->showData($request);
         return Inertia::render('RewardRecord', [
             'reward' => $data['reward'],
             'filters' => $data['filters'],

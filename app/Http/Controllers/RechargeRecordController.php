@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\Dashboard\RechargeRecordServices;
+use App\Services\Dashboard\RechargeRecordService;
 
 class RechargeRecordController extends Controller
 {
-    protected $RechargeRecordServices;
+    protected $rechargeRecordService;
 
-    public function __construct(RechargeRecordServices $RechargeRecordServices)
+    public function __construct(RechargeRecordService $rechargeRecordService)
     {
-        $this->RechargeRecordServices = $RechargeRecordServices;
+        $this->rechargeRecordService = $rechargeRecordService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->RechargeRecordServices->showData($request);
+        $data = $this->rechargeRecordService->showData($request);
         return Inertia::render('RechargeRecord', [
             'recharge' => $data['recharge'],
             'filters' => $data['filters'],

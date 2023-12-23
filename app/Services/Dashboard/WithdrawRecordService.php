@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
-class WithdrawRecordServices
+class WithdrawRecordService
 {
     public function showData($request)
     {

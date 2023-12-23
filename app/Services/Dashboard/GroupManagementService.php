@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
-class GroupManagementServices
+class GroupManagementService
 {
     public function showData($request)
     {

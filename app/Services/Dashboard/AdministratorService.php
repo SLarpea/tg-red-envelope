@@ -2,48 +2,60 @@
 
 namespace App\Services\Dashboard;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Models\Role;
 
-class RoleServices
+class AdministratorService
 {
     public function showData($request)
     {
-        return [
-            'roles' => Role::when($request->term, function ($query, $term) {
+
+        $data = [
+            'administrator' => User::when($request->term, function ($query, $term) {
                 $query->where('name', 'LIKE', '%' . $term . '%');
-            })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
+            })->orderBy('name', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
             'response' => Session::get('response'),
         ];
+
+        return $data;
     }
 
     public function storeData($request)
     {
         $request->validated();
-        Role::create([
+        User::create([
             'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
             'status' => $request->status,
         ]);
+
     }
 
     public function updateData($request)
     {
         if($request->update_type == 'all'){
             $request->validated();
-            Role::find($request->input('id'))->update([
+
+            User::find($request->input('id'))->update([
                 'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
                 'status' => $request->status,
             ]);
         }else{
-            Role::find($request->input('id'))->update([
+            User::find($request->input('id'))->update([
                 'status' => ($request->status == 1) ? 0 : 1,
             ]);
         }
+
     }
 
     public function deleteData($request)
     {
-        Role::find($request->input('id'))->delete();
+        User::find($request->input('id'))->delete();
     }
 }

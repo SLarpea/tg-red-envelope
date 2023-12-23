@@ -5,22 +5,22 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdministratorRequest;
-use App\Services\Dashboard\AdministratorServices;
+use App\Services\Dashboard\AdministratorService;
 
 class AdministratorController extends Controller
 {
-    protected $administratorServices;
+    protected $administratorService;
 
-    public function __construct(AdministratorServices $administratorServices)
+    public function __construct(AdministratorService $administratorService)
     {
-        $this->administratorServices = $administratorServices;
+        $this->administratorService = $administratorService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $data = $this->administratorServices->showData($request);
+        $data = $this->administratorService->showData($request);
         return Inertia::render('Administrator', [
             'administrator' => $data['administrator'],
             'filters' => $data['filters'],
@@ -41,7 +41,7 @@ class AdministratorController extends Controller
      */
     public function store(AdministratorRequest $request)
     {
-        $this->administratorServices->storeData($request);
+        $this->administratorService->storeData($request);
         return redirect()->route('administrator.index')->with('response', 'success');
     }
 
@@ -67,7 +67,7 @@ class AdministratorController extends Controller
     public function update(AdministratorRequest $request, string $id)
     {
         if ($request->has('id')) {
-            $this->administratorServices->updateData($request);
+            $this->administratorService->updateData($request);
             return redirect()->route('administrator.index')->with('response', 'success');
         }
     }
@@ -78,7 +78,7 @@ class AdministratorController extends Controller
     public function destroy(Request $request)
     {
         if ($request->has('id')) {
-            $this->administratorServices->deleteData($request);
+            $this->administratorService->deleteData($request);
             return redirect()->route('administrator.index')->with('response', 'success');
         }
     }

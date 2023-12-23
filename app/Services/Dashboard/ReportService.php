@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
-use App\Services\Dashboard\UserManagementServices;
-use App\Services\Dashboard\GroupManagementServices;
+use App\Services\Dashboard\UserManagementService;
+use App\Services\Dashboard\GroupManagementService;
 
-class ReportServices
+class ReportService
 {
     const ALL_REPORT = 0;
     const NUMBER_OF_REGISTERED_USERS = 1;
@@ -24,12 +24,12 @@ class ReportServices
 
     private $groupManagementService;
 
-    private $userManagementServices;
+    private $UserManagementService;
 
-    public function __construct(GroupManagementServices $groupManagementService, UserManagementServices $userManagementServices)
+    public function __construct(GroupManagementService $groupManagementService, UserManagementService $UserManagementService)
     {
         $this->groupManagementService = $groupManagementService;
-        $this->userManagementServices = $userManagementServices;
+        $this->UserManagementService = $UserManagementService;
     }
 
     public function showData($request)

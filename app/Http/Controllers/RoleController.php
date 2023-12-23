@@ -5,22 +5,22 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Requests\RoleRequest;
-use App\Services\Dashboard\RoleServices;
+use App\Services\Dashboard\RoleService;
 
 class RoleController extends Controller
 {
-    protected $roleServices;
+    protected $roleService;
 
-    public function __construct(RoleServices $roleServices)
+    public function __construct(RoleService $roleService)
     {
-        $this->roleServices = $roleServices;
+        $this->roleService = $roleService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $data = $this->roleServices->showData($request);
+        $data = $this->roleService->showData($request);
         return Inertia::render('Roles', [
             'roles' => $data['roles'],
             'filters' => $data['filters'],
@@ -41,7 +41,7 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        $this->roleServices->storeData($request);
+        $this->roleService->storeData($request);
         return redirect()->route('roles.index')->with('response', 'success');
     }
 
@@ -67,7 +67,7 @@ class RoleController extends Controller
     public function update(RoleRequest $request, string $id)
     {
         if ($request->has('id')) {
-            $this->roleServices->updateData($request);
+            $this->roleService->updateData($request);
             return redirect()->route('roles.index')->with('response', 'success');
         }
     }
@@ -78,7 +78,7 @@ class RoleController extends Controller
     public function destroy(Request $request)
     {
         if ($request->has('id')) {
-            $this->roleServices->deleteData($request);
+            $this->roleService->deleteData($request);
             return redirect()->route('roles.index')->with('response', 'success');
         }
     }

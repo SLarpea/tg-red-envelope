@@ -5,33 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\GroupManagement;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\Dashboard\ReportServices;
+use App\Services\Dashboard\ReportService;
 
 class ReportController extends Controller
 {
-    protected $ReportServices;
+    protected $reportService;
 
-    public function __construct(ReportServices $ReportServices)
+    public function __construct(ReportService $reportService)
     {
-        $this->ReportServices = $ReportServices;
+        $this->reportService = $reportService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->ReportServices->showData($request);
-        return Inertia::render('Reports', [
-            'users_reports' => $data['users_reports']['query_result'] ?? [],
-            'platform_commission_amount_reports' => $data['platform_commission_amount_reports']['query_result'] ?? [],
-            'lucky_money_reports' => $data['lucky_money_reports']['query_result'] ?? [],
-            'reward_amount_reports' => $data['reward_amount_reports']['query_result'] ?? [],
-            'summation' => [
-                'users_reports' => $data['users_reports']['summation'] ?? 0,
-                'platform_commission_amount_reports' => $data['platform_commission_amount_reports']['summation'] ?? 0,
-                'lucky_money_reports' => $data['lucky_money_reports']['summation'] ?? 0,
-                'reward_amount_reports' => $data['reward_amount_reports']['summation'] ?? 0,
-            ],
+        $data = $this->reportService->showData($request);
+
+        $reports = [
+            'users_reports',
+            'platform_commission_amount_reports',
+            'lucky_money_reports',
+            'reward_amount_reports',
+        ];
+
+        $renderData = [
             'group_ids' => $data['groupIds'],
             'response' => $data['response'],
-        ]);
+        ];
+
+        foreach ($reports as $report) {
+            $queryResultKey = $report . '.query_result';
+            $summationKey = $report . '.summation';
+
+            $renderData[$report] = $data[$queryResultKey] ?? [];
+            $renderData['summation'][$report] = $data[$summationKey] ?? 0;
+        }
+
+        return Inertia::render('Reports', $renderData);
     }
 }

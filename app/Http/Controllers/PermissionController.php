@@ -5,22 +5,22 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Requests\PermissionRequest;
-use App\Services\Dashboard\PermissionServices;
+use App\Services\Dashboard\PermissionService;
 
 class PermissionController extends Controller
 {
-    protected $permissionServices;
+    protected $permissionService;
 
-    public function __construct(PermissionServices $permissionServices)
+    public function __construct(PermissionService $permissionService)
     {
-        $this->permissionServices = $permissionServices;
+        $this->permissionService = $permissionService;
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $data = $this->permissionServices->showData($request);
+        $data = $this->permissionService->showData($request);
         return Inertia::render('Permissions', [
             'permissions' => $data['permissions'],
             'filters' => $data['filters'],
@@ -41,7 +41,7 @@ class PermissionController extends Controller
      */
     public function store(PermissionRequest $request)
     {
-        $this->permissionServices->storeData($request);
+        $this->permissionService->storeData($request);
         return redirect()->route('permissions.index')->with('response', 'success');
     }
 
@@ -67,7 +67,7 @@ class PermissionController extends Controller
     public function update(PermissionRequest $request, string $id)
     {
         if ($request->has('id')) {
-            $this->permissionServices->updateData($request);
+            $this->permissionService->updateData($request);
             return redirect()->route('permissions.index')->with('response', 'success');
         }
     }
@@ -78,7 +78,7 @@ class PermissionController extends Controller
     public function destroy(Request $request)
     {
         if ($request->has('id')) {
-            $this->permissionServices->deleteData($request);
+            $this->permissionService->deleteData($request);
             return redirect()->route('permissions.index')->with('response', 'success');
         }
     }

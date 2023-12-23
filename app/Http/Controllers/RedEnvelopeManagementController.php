@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\Dashboard\RedEnvelopeManagementServices;
+use App\Services\Dashboard\RedEnvelopeManagementService;
 
 class RedEnvelopeManagementController extends Controller
 {
-    protected $RedEnvelopeManagementServices;
+    protected $redEnvelopeManagementService;
 
-    public function __construct(RedEnvelopeManagementServices $RedEnvelopeManagementServices)
+    public function __construct(RedEnvelopeManagementService $redEnvelopeManagementService)
     {
-        $this->RedEnvelopeManagementServices = $RedEnvelopeManagementServices;
+        $this->redEnvelopeManagementService = $redEnvelopeManagementService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->RedEnvelopeManagementServices->showData($request);
+        $data = $this->redEnvelopeManagementService->showData($request);
         return Inertia::render('RedEnvelopeManagement', [
             'envelopes' => $data['envelopes'],
             'filters' => $data['filters'],

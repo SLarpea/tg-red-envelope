@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\Dashboard\WithdrawRecordServices;
+use App\Services\Dashboard\WithdrawRecordService;
 
 class WithdrawRecordController extends Controller
 {
-    protected $WithdrawRecordServices;
+    protected $withdrawRecordService;
 
-    public function __construct(WithdrawRecordServices $WithdrawRecordServices)
+    public function __construct(WithdrawRecordService $withdrawRecordService)
     {
-        $this->WithdrawRecordServices = $WithdrawRecordServices;
+        $this->withdrawRecordService = $withdrawRecordService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->WithdrawRecordServices->showData($request);
+        $data = $this->withdrawRecordService->showData($request);
         return Inertia::render('WithdrawalsRecord', [
             'withdraw' => $data['withdraw'],
             'filters' => $data['filters'],

@@ -7,15 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\GroupManagement;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\GroupManagementRequest;
-use App\Services\Dashboard\GroupManagementServices;
+use App\Services\Dashboard\GroupManagementService;
 
 class GroupManagementController extends Controller
 {
-    protected $groupManagementServices;
+    protected $groupManagementService;
 
-    public function __construct(GroupManagementServices $groupManagementServices)
+    public function __construct(GroupManagementService $groupManagementService)
     {
-        $this->groupManagementServices = $groupManagementServices;
+        $this->groupManagementService = $groupManagementService;
     }
 
 
@@ -24,7 +24,7 @@ class GroupManagementController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $this->groupManagementServices->showData($request);
+        $data = $this->groupManagementService->showData($request);
         return Inertia::render('GroupManagement', [
             'groups' => $data['groups'],
             'filters' => $data['filters'],
@@ -45,7 +45,7 @@ class GroupManagementController extends Controller
      */
     public function store(GroupManagementRequest $request)
     {
-        $this->groupManagementServices->storeData($request);
+        $this->groupManagementService->storeData($request);
         return redirect()->route('groups.index')->with('response', 'success');
     }
 
@@ -71,7 +71,7 @@ class GroupManagementController extends Controller
     public function update(GroupManagementRequest $request, string $id)
     {
         if ($request->has('id')) {
-            $this->groupManagementServices->updateData($request);
+            $this->groupManagementService->updateData($request);
             return redirect()->route('groups.index')->with('response', 'success');
         }
     }
@@ -82,7 +82,7 @@ class GroupManagementController extends Controller
     public function destroy(Request $request)
     {
         if ($request->has('id')) {
-            $this->groupManagementServices->deleteData($request);
+            $this->groupManagementService->deleteData($request);
             return redirect()->route('groups.index')->with('response', 'success');
         }
     }

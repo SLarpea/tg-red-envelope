@@ -4,20 +4,20 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Services\Dashboard\UserManagementServices;
+use App\Services\Dashboard\UserManagementService;
 
 class UserManagementController extends Controller
 {
-    protected $userManagementServices;
+    protected $userManagementService;
 
-    public function __construct(UserManagementServices $userManagementServices)
+    public function __construct(UserManagementService $userManagementService)
     {
-        $this->userManagementServices = $userManagementServices;
+        $this->userManagementService = $userManagementService;
     }
 
     public function index(Request $request)
     {
-        $data = $this->userManagementServices->showData($request);
+        $data = $this->userManagementService->showData($request);
         return Inertia::render('UserManagement', [
             'tgusers' => $data['tgusers'],
             'filters' => $data['filters'],
@@ -27,8 +27,8 @@ class UserManagementController extends Controller
 
     public function top_up(Request $request, string $id)
     {
-        $this->userManagementServices->recharge($request);
-        $data = $this->userManagementServices->showData($request);
+        $this->userManagementService->recharge($request);
+        $data = $this->userManagementService->showData($request);
 
         return redirect()->route('tg-users.index')->with('response', 'success');
     }

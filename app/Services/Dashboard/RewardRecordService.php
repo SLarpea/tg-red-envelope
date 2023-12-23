@@ -5,7 +5,7 @@ namespace App\Services\Dashboard;
 use App\Models\RewardRecord;
 use Illuminate\Support\Facades\Session;
 
-class RewardRecordServices
+class RewardRecordService
 {
     public function showData($request)
     {
