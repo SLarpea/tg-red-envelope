@@ -36,9 +36,6 @@ class ReportService
     {
         $data = [
             'groupIds' => $this->groupManagementService->getGroupIds(),
-            'recharge' => RechargeRecord::when($request->term, function ($query, $term) {
-                $query->where('username', 'LIKE', '%' . $term . '%');
-            })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show', 'report_choice', 'group_id', 'start_date', 'end_date']),
             'response' => Session::get('response'),
             'users_reports' => [],

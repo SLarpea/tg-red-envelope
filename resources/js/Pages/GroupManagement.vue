@@ -49,12 +49,14 @@
                                             <col width="*">
                                             <col width="*">
                                             <col width="*">
+                                            <col width="*">
                                             <col width="10%">
                                         </colgroup>
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
                                                 <th scope="col">Group ID</th>
+                                                <th scope="col">Name</th>
                                                 <th scope="col">Remarks</th>
                                                 <th scope="col">Customer Service Link</th>
                                                 <th scope="col">Recharge Link</th>
@@ -70,6 +72,7 @@
                                             <tr v-for="(item, index) in groups.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ groups.from + index }}</td>
                                                 <td>{{ item.group_id }}</td>
+                                                <td>{{ item.name }}</td>
                                                 <td>{{ item.remark }}</td>
                                                 <td>{{ item.service_url }}</td>
                                                 <td>{{ item.recharge_url }}</td>
@@ -122,6 +125,13 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="group_id" name="group_id" v-model="form.group_id" type="text" class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="name" class="col-sm-4 col-form-label">Name :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="name" name="name" v-model="form.name" type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -245,6 +255,7 @@ export default {
             this.action = 'new';
             this.form = {
                 group_id: null,
+                name: null,
                 remark: null,
                 service_url: null,
                 recharge_url: null,

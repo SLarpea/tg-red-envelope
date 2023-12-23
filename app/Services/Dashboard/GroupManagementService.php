@@ -25,6 +25,7 @@ class GroupManagementService
     {
         $request->validated();
         GroupManagement::create([
+            'name' => $request->name,
             'group_id' => $request->group_id,
             'remark' => $request->remark,
             'status' => $request->status,
@@ -57,6 +58,7 @@ class GroupManagementService
             $request->validated();
 
             GroupManagement::find($request->input('id'))->update([
+                'name' => $request->name,
                 'group_id' => $request->group_id,
                 'remark' => $request->remark,
                 'status' => $request->status,

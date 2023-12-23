@@ -23,6 +23,7 @@ class GroupManagementRequest extends FormRequest
     {
         if ($this->update_type != 'status') {
             $rules = [
+                'name' => 'required',
                 'group_id' => 'required',
                 'remark' => 'required',
                 'service_url' => 'required',
