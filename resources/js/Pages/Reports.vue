@@ -106,10 +106,10 @@
                                         </div>
                                         <div v-show="isUserReportCollapsed === false">
                                             <table class="table table-sm table-striped table-hover">
-                                                <colgroup width="5%, 20%, 30%"></colgroup>
+                                                <colgroup width="30%, 30%, 30%"></colgroup>
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">#</th>
                                                         <th scope="col" class="text-center">Group Id</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
@@ -117,7 +117,7 @@
                                                 <tbody>
                                                     <tr v-for="(item, index) in users_reports.data" :key="item.id"
                                                         @dblclick.prevent="selectAction(item, 'show', null)">
-                                                        <td class="text-left">{{ users_reports.from + index }}</td>
+                                                        <td class="text-center">{{ users_reports.from + index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
                                                         <td class="text-center">{{ item.total }}</td>
                                                     </tr>
@@ -154,11 +154,11 @@
                                         </div>
                                         <div v-show="isLuckyMoneyReports === false">
                                             <table class="table table-sm table-striped table-hover">
-                                                <colgroup width="5%, 20%, 30%">
+                                                <colgroup width="30%, 30%, 30%0%">
                                                 </colgroup>
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">#</th>
                                                         <th scope="col" class="text-center">Group Id</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
@@ -166,7 +166,7 @@
                                                 <tbody>
                                                     <tr v-for="(item, index) in lucky_money_reports.data" :key="item.id"
                                                         @dblclick.prevent="selectAction(item, 'show', null)">
-                                                        <td class="text-left">{{ lucky_money_reports.from + index }}</td>
+                                                        <td class="text-center">{{ lucky_money_reports.from + index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
                                                         <td class="text-center">{{ item.total }}</td>
                                                     </tr>
@@ -199,15 +199,16 @@
                                     <div class="row">
                                         <div class="mt-3">
                                             <h5 class="report-header"
-                                                @click="reportToggleCollapse('platform_commission_amount_reports')">Platform Commission Amount</h5>
+                                                @click="reportToggleCollapse('platform_commission_amount_reports')">Platform
+                                                Commission Amount</h5>
                                         </div>
                                         <div v-show="isPlatformCommissionAmountReports === false">
                                             <table class="table table-sm table-striped table-hover">
-                                                <colgroup width="5%, 20%, 30%">
+                                                <colgroup width="30%, 30%, 30%0%">
                                                 </colgroup>
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">#</th>
                                                         <th scope="col" class="text-center">Group Id</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
@@ -215,7 +216,7 @@
                                                 <tbody>
                                                     <tr v-for="(item, index) in platform_commission_amount_reports.data"
                                                         :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
-                                                        <td class="text-left">{{ platform_commission_amount_reports.from +
+                                                        <td class="text-center">{{ platform_commission_amount_reports.from +
                                                             index
                                                         }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
@@ -254,11 +255,11 @@
                                         </div>
                                         <div v-show="isRewardAmountReports === false">
                                             <table class="table table-sm table-striped table-hover">
-                                                <colgroup width="5%, 20%, 30%">
+                                                <colgroup width="30%, 30%, 30%0%">
                                                 </colgroup>
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">#</th>
                                                         <th scope="col" class="text-center">Group Id</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
@@ -266,7 +267,7 @@
                                                 <tbody>
                                                     <tr v-for="(item, index) in reward_amount_reports.data" :key="item.id"
                                                         @dblclick.prevent="selectAction(item, 'show', null)">
-                                                        <td class="text-left">{{ reward_amount_reports.from + index }}</td>
+                                                        <td class="text-center">{{ reward_amount_reports.from + index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
                                                         <td class="text-center">{{ item.total }}</td>
                                                     </tr>
@@ -308,18 +309,23 @@ import _ from 'lodash';
 
 export default {
     data() {
+        // initialize dates
         const today = new Date();
         const oneMonthLater = new Date(today);
         oneMonthLater.setMonth(today.getMonth() + 1);
 
         return {
+            // form filteres and models
             filter_form: {
                 report_choice: 0,
                 group_id: '',
                 start_date: today.toISOString().substr(0, 10), // Set to today's date
                 end_date: oneMonthLater.toISOString().substr(0, 10), // Set to one month from today
             },
+
             routeLink: 'reports',
+
+            // collapsible booleans
             filterShow: true,
             isUserReportCollapsed: false,
             isPlatformCommissionAmountReports: false,
@@ -408,4 +414,5 @@ export default {
     font-weight: 500;
     color: #512da8;
     cursor: pointer;
-}</style>
+}
+</style>

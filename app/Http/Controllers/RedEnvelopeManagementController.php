@@ -18,7 +18,7 @@ class RedEnvelopeManagementController extends Controller
     public function index(Request $request)
     {
         $data = $this->RedEnvelopeManagementServices->showData($request);
-        return Inertia::render('RedEnvelopemanagement', [
+        return Inertia::render('RedEnvelopeManagement', [
             'envelopes' => $data['envelopes'],
             'filters' => $data['filters'],
             'response' => $data['response'],
