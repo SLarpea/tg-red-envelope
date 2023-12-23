@@ -24,13 +24,8 @@
                                     <div class="row">
                                         <div class="col-lg-7">
                                             <div
-                                                class="d-flex gap-1 justify-content-start  align-items-center action-container">
-                                                <button class="btn btn-outline-secondary" type="button">
-                                                    <i class="bi bi-arrow-repeat"></i> Refresh
-                                                </button>
-                                                <button class="btn btn-outline-secondary" type="button">
-                                                    <i class="bi bi-funnel"></i> Filter
-                                                </button>
+                                                class="d-flex gap-1 justify-content-start  align-items-center action-container form-header">
+                                                <i class="bi bi-funnel"></i> Filter
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +79,8 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="d-flex gap-1 justify-content-end  align-items-center ">
-                                                <button class="btn btn-secondary" type="button">
+                                                <button class="btn btn-secondary" type="button"
+                                                    @click.prevent="resetFilterForm()">
                                                     <i class="bi bi-arrow-clockwise"></i> Reset
                                                 </button>
                                                 <button class="btn btn-custom" type="button"
@@ -98,8 +94,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" v-show="filter_form.report_choice == 1 || filter_form.report_choice == 0">
-                        <div class="col-lg-12">
+                    <div class="row">
+                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                            v-show="filter_form.report_choice == 1 || filter_form.report_choice == 0">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -142,9 +139,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
-                        <div class="col-lg-12">
+                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                            v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -177,7 +173,8 @@
                                                 <tr>
                                                     <td></td>
                                                     <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{ summation.lucky_money_reports }}</strong>
+                                                    <td class="text-center"><strong>{{ summation.lucky_money_reports
+                                                    }}</strong>
                                                     </td>
                                                 </tr>
                                             </tfoot>
@@ -188,9 +185,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
-                        <div class="col-lg-12">
+                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                            v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -224,7 +220,8 @@
                                                 <tr>
                                                     <td></td>
                                                     <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{ summation.platform_commission_amount_reports }}</strong>
+                                                    <td class="text-center"><strong>{{
+                                                        summation.platform_commission_amount_reports }}</strong>
                                                     </td>
                                                 </tr>
                                             </tfoot>
@@ -235,9 +232,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" v-show="filter_form.report_choice == 4 || filter_form.report_choice == 0">
-                        <div class="col-lg-12">
+                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                            v-show="filter_form.report_choice == 4 || filter_form.report_choice == 0">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
@@ -270,7 +266,8 @@
                                                 <tr>
                                                     <td></td>
                                                     <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{ summation.reward_amount_reports }}</strong>
+                                                    <td class="text-center"><strong>{{ summation.reward_amount_reports
+                                                    }}</strong>
                                                     </td>
                                                 </tr>
                                             </tfoot>
@@ -319,7 +316,7 @@ export default {
         filters: Object,
         response: null,
         group_ids: Array,
-        summation: Array
+        summation: Object
     },
     components: {
         Head,
@@ -336,14 +333,39 @@ export default {
                 console.error(error);
             }
         }, 200),
+        resetReport: _.throttle(async function () {
+            try {
+                await this.$inertia.replace(route(this.routeLink, this.filter_form));
+            } catch (error) {
+                // Handle any errors if needed
+                console.error(error);
+            }
+        }, 200),
+
+        resetFilterForm() {
+            const today = new Date();
+            const oneMonthLater = new Date(today);
+            oneMonthLater.setMonth(today.getMonth() + 1);
+
+            // Reset filter_form properties
+            this.filter_form.report_choice = 0;
+            this.filter_form.group_id = '';
+            this.filter_form.start_date = today.toISOString().substr(0, 10);
+            this.filter_form.end_date = oneMonthLater.toISOString().substr(0, 10);
+
+            this.$inertia.replace(route(this.routeLink, this.filter_form));
+            this.searchReport();
+
+        },
     }
 
 };
 </script>
 
 <style scoped>
-.report-header {
+.report-header, .form-header {
     margin-bottom: 0;
     font-weight: 500;
     color: #512da8;
-}</style>
+}
+</style>
