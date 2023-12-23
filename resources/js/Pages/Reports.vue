@@ -22,10 +22,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-lg-7">
-                                            <div
-                                                class="d-flex gap-1 justify-content-start  align-items-center action-container form-header">
-                                                <i class="bi bi-funnel"></i> Filter
+                                        <div class="col-lg-6">
+                                            <div class="d-flex gap-1 justify-content-start align-items-center action-container form-header"
+                                                @click="showFilter()">
+                                                <div><i class="bi bi-funnel"></i> Filter</div>
                                             </div>
                                         </div>
                                     </div>
@@ -95,185 +95,199 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                        <div :class="'col-lg-6 mx-auto'"
                             v-show="filter_form.report_choice == 1 || filter_form.report_choice == 0">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
-                                            <h5 class="report-header">Number of Registered Users</h5>
+                                            <h5 class="report-header" @click="reportToggleCollapse('users_reports')">Number
+                                                of Registered Users</h5>
                                         </div>
-                                        <table class="table table-sm table-striped table-hover">
-                                            <colgroup width="5%, 20%, 30%"></colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="text-left">#</th>
-                                                    <th scope="col" class="text-center">Group Id</th>
-                                                    <th scope="col" class="text-center">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item, index) in users_reports.data" :key="item.id"
-                                                    @dblclick.prevent="selectAction(item, 'show', null)">
-                                                    <td class="text-left">{{ users_reports.from + index }}</td>
-                                                    <td class="text-center">{{ item.group_id }}</td>
-                                                    <td class="text-center">{{ item.total }}</td>
-                                                </tr>
-                                                <tr v-if="!users_reports?.data || users_reports.data.length <= 0">
-                                                    <td colspan="3" class="text-center">No records to display</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{ summation.users_reports }}</strong>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                        <div v-show="isUserReportCollapsed === false">
+                                            <table class="table table-sm table-striped table-hover">
+                                                <colgroup width="5%, 20%, 30%"></colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(item, index) in users_reports.data" :key="item.id"
+                                                        @dblclick.prevent="selectAction(item, 'show', null)">
+                                                        <td class="text-left">{{ users_reports.from + index }}</td>
+                                                        <td class="text-center">{{ item.group_id }}</td>
+                                                        <td class="text-center">{{ item.total }}</td>
+                                                    </tr>
+                                                    <tr v-if="!users_reports?.data || users_reports.data.length <= 0">
+                                                        <td colspan="3" class="text-center">No records to display</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right"><strong>Total:</strong></td>
+                                                        <td class="text-center"><strong>{{ summation.users_reports
+                                                        }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
 
-                                        <PaginationLayout v-show="(users_reports.total ?? 0) > 0"
-                                            :data="{ links: users_reports.links, from: users_reports.from, to: users_reports.to, total: users_reports.total }" />
+                                            <PaginationLayout v-show="(users_reports.total ?? 0) > 0"
+                                                :data="{ links: users_reports.links, from: users_reports.from, to: users_reports.to, total: users_reports.total }" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                        <div :class="'col-lg-6 mx-auto'"
                             v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
-                                            <h5 class="report-header">Quantity of contracts</h5>
+                                            <h5 class="report-header" @click="reportToggleCollapse('lucky_money_reports')">
+                                                Quantity of Contracts</h5>
                                         </div>
-                                        <table class="table table-sm table-striped table-hover">
-                                            <colgroup width="5%, 20%, 30%">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="text-left">#</th>
-                                                    <th scope="col" class="text-center">Group Id</th>
-                                                    <th scope="col" class="text-center">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item, index) in lucky_money_reports.data" :key="item.id"
-                                                    @dblclick.prevent="selectAction(item, 'show', null)">
-                                                    <td class="text-left">{{ lucky_money_reports.from + index }}</td>
-                                                    <td class="text-center">{{ item.group_id }}</td>
-                                                    <td class="text-center">{{ item.total }}</td>
-                                                </tr>
-                                                <tr
-                                                    v-if="!lucky_money_reports?.data || lucky_money_reports.data.length <= 0">
-                                                    <td colspan="3" class="text-center "> No records to display </td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{ summation.lucky_money_reports
-                                                    }}</strong>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <PaginationLayout v-show="(lucky_money_reports.total ?? 0) > 0"
-                                            :data="{ links: lucky_money_reports.links, from: lucky_money_reports.from, to: lucky_money_reports.to, total: lucky_money_reports.total }" />
+                                        <div v-show="isLuckyMoneyReports === false">
+                                            <table class="table table-sm table-striped table-hover">
+                                                <colgroup width="5%, 20%, 30%">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(item, index) in lucky_money_reports.data" :key="item.id"
+                                                        @dblclick.prevent="selectAction(item, 'show', null)">
+                                                        <td class="text-left">{{ lucky_money_reports.from + index }}</td>
+                                                        <td class="text-center">{{ item.group_id }}</td>
+                                                        <td class="text-center">{{ item.total }}</td>
+                                                    </tr>
+                                                    <tr
+                                                        v-if="!lucky_money_reports?.data || lucky_money_reports.data.length <= 0">
+                                                        <td colspan="3" class="text-center "> No records to display </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right"><strong>Total:</strong></td>
+                                                        <td class="text-center"><strong>{{ summation.lucky_money_reports
+                                                        }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <PaginationLayout v-show="(lucky_money_reports.total ?? 0) > 0"
+                                                :data="{ links: lucky_money_reports.links, from: lucky_money_reports.from, to: lucky_money_reports.to, total: lucky_money_reports.total }" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                        <div :class="'col-lg-6 mx-auto'"
                             v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
-                                            <h5 class="report-header">Platform commission amount</h5>
+                                            <h5 class="report-header"
+                                                @click="reportToggleCollapse('platform_commission_amount_reports')">Platform Commission Amount</h5>
                                         </div>
-                                        <table class="table table-sm table-striped table-hover">
-                                            <colgroup width="5%, 20%, 30%">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="text-left">#</th>
-                                                    <th scope="col" class="text-center">Group Id</th>
-                                                    <th scope="col" class="text-center">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item, index) in platform_commission_amount_reports.data"
-                                                    :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
-                                                    <td class="text-left">{{ platform_commission_amount_reports.from + index
-                                                    }}</td>
-                                                    <td class="text-center">{{ item.group_id }}</td>
-                                                    <td class="text-center">{{ item.total }}</td>
-                                                </tr>
-                                                <tr
-                                                    v-if="!platform_commission_amount_reports?.data || platform_commission_amount_reports.data.length <= 0">
-                                                    <td colspan="3" class="text-center "> No records to display </td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{
-                                                        summation.platform_commission_amount_reports }}</strong>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <PaginationLayout v-show="(platform_commission_amount_reports.total ?? 0) > 0"
-                                            :data="{ links: platform_commission_amount_reports.links, from: platform_commission_amount_reports.from, to: platform_commission_amount_reports.to, total: platform_commission_amount_reports.total }" />
+                                        <div v-show="isPlatformCommissionAmountReports === false">
+                                            <table class="table table-sm table-striped table-hover">
+                                                <colgroup width="5%, 20%, 30%">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data"
+                                                        :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                                        <td class="text-left">{{ platform_commission_amount_reports.from +
+                                                            index
+                                                        }}</td>
+                                                        <td class="text-center">{{ item.group_id }}</td>
+                                                        <td class="text-center">{{ item.total }}</td>
+                                                    </tr>
+                                                    <tr
+                                                        v-if="!platform_commission_amount_reports?.data || platform_commission_amount_reports.data.length <= 0">
+                                                        <td colspan="3" class="text-center "> No records to display </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right"><strong>Total:</strong></td>
+                                                        <td class="text-center"><strong>{{
+                                                            summation.platform_commission_amount_reports }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <PaginationLayout v-show="(platform_commission_amount_reports.total ?? 0) > 0"
+                                                :data="{ links: platform_commission_amount_reports.links, from: platform_commission_amount_reports.from, to: platform_commission_amount_reports.to, total: platform_commission_amount_reports.total }" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-' + (filter_form.report_choice == 0 ? '6' : '12')"
+                        <div :class="'col-lg-6 mx-auto'"
                             v-show="filter_form.report_choice == 4 || filter_form.report_choice == 0">
                             <div class="card">
-                                <div class="card-body">
+                                <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
-                                            <h5 class="report-header">Reward amount</h5>
+                                            <h5 class="report-header"
+                                                @click="reportToggleCollapse('reward_amount_reports')">Reward Amount</h5>
                                         </div>
-                                        <table class="table table-sm table-striped table-hover">
-                                            <colgroup width="5%, 20%, 30%">
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" class="text-left">#</th>
-                                                    <th scope="col" class="text-center">Group Id</th>
-                                                    <th scope="col" class="text-center">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="(item, index) in reward_amount_reports.data" :key="item.id"
-                                                    @dblclick.prevent="selectAction(item, 'show', null)">
-                                                    <td class="text-left">{{ reward_amount_reports.from + index }}</td>
-                                                    <td class="text-center">{{ item.group_id }}</td>
-                                                    <td class="text-center">{{ item.total }}</td>
-                                                </tr>
-                                                <tr
-                                                    v-if="!reward_amount_reports?.data || reward_amount_reports?.data.length <= 0">
-                                                    <td colspan="3" class="text-center "> No records to display </td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td></td>
-                                                    <td class="text-right"><strong>Total:</strong></td>
-                                                    <td class="text-center"><strong>{{ summation.reward_amount_reports
-                                                    }}</strong>
-                                                    </td>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                        <PaginationLayout v-show="(reward_amount_reports.total ?? 0) > 0"
-                                            :data="{ links: reward_amount_reports.links, from: reward_amount_reports.from, to: reward_amount_reports.to, total: reward_amount_reports.total }" />
+                                        <div v-show="isRewardAmountReports === false">
+                                            <table class="table table-sm table-striped table-hover">
+                                                <colgroup width="5%, 20%, 30%">
+                                                </colgroup>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="text-left">#</th>
+                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr v-for="(item, index) in reward_amount_reports.data" :key="item.id"
+                                                        @dblclick.prevent="selectAction(item, 'show', null)">
+                                                        <td class="text-left">{{ reward_amount_reports.from + index }}</td>
+                                                        <td class="text-center">{{ item.group_id }}</td>
+                                                        <td class="text-center">{{ item.total }}</td>
+                                                    </tr>
+                                                    <tr
+                                                        v-if="!reward_amount_reports?.data || reward_amount_reports?.data.length <= 0">
+                                                        <td colspan="3" class="text-center "> No records to display </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td class="text-right"><strong>Total:</strong></td>
+                                                        <td class="text-center"><strong>{{ summation.reward_amount_reports
+                                                        }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <PaginationLayout v-show="(reward_amount_reports.total ?? 0) > 0"
+                                                :data="{ links: reward_amount_reports.links, from: reward_amount_reports.from, to: reward_amount_reports.to, total: reward_amount_reports.total }" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -305,7 +319,12 @@ export default {
                 start_date: today.toISOString().substr(0, 10), // Set to today's date
                 end_date: oneMonthLater.toISOString().substr(0, 10), // Set to one month from today
             },
-            routeLink: 'reports'
+            routeLink: 'reports',
+            filterShow: true,
+            isUserReportCollapsed: false,
+            isPlatformCommissionAmountReports: false,
+            isRewardAmountReports: false,
+            isLuckyMoneyReports: false,
         };
     },
     props: {
@@ -353,19 +372,40 @@ export default {
             this.filter_form.start_date = today.toISOString().substr(0, 10);
             this.filter_form.end_date = oneMonthLater.toISOString().substr(0, 10);
 
-            this.$inertia.replace(route(this.routeLink, this.filter_form));
-            this.searchReport();
-
+            this.$inertia.replace(route(this.routeLink));
         },
+
+        showFilter() {
+            this.filterShow = !this.filterShow;
+        },
+
+        reportToggleCollapse(opt) {
+            if (opt === 'users_reports') {
+                this.isUserReportCollapsed = !this.isUserReportCollapsed;
+            }
+
+            if (opt === 'platform_commission_amount_reports') {
+                this.isPlatformCommissionAmountReports = !this.isPlatformCommissionAmountReports;
+            }
+
+            if (opt === 'reward_amount_reports') {
+                this.isRewardAmountReports = !this.isRewardAmountReports;
+            }
+
+            if (opt === 'lucky_money_reports') {
+                this.isLuckyMoneyReports = !this.isLuckyMoneyReports;
+            }
+        }
     }
 
 };
 </script>
 
 <style scoped>
-.report-header, .form-header {
+.report-header,
+.form-header {
     margin-bottom: 0;
     font-weight: 500;
     color: #512da8;
-}
-</style>
+    cursor: pointer;
+}</style>
