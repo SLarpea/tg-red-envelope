@@ -78,7 +78,16 @@ class ReportServices
             $usersCountQuery->filterByGroup($request->group_id);
         }
 
-        return $usersCountQuery->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+        // Group by 'group_id' and calculate the summation of 'total' column
+        $summation = $usersCountQuery->groupBy('group_id')->pluck('total')->sum();
+
+        // Paginate the results
+        $result = $usersCountQuery->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+
+        return [
+            'query_result' => $result,
+            'summation' => $summation,
+        ];
     }
 
     public function getLuckyMoneyReport($request)
@@ -90,10 +99,19 @@ class ReportServices
             ->filterByDateCreated($request->start_date, $request->end_date);
 
         if ($request->filled('chat_id')) {
-            $luckMoney->filterByChatId($request->group_id);
+            $luckMoney->filterByChatId($request->chat_id);
         }
 
-        return $luckMoney->groupBy('chat_id')->orderBy('chat_id', 'asc')->paginate($request->show)->withQueryString();
+        // Group by 'chat_id' and calculate the summation of 'total' column
+        $summation = $luckMoney->groupBy('chat_id')->pluck('total')->sum();
+
+        // Paginate the results
+        $result = $luckMoney->groupBy('chat_id')->orderBy('chat_id', 'asc')->paginate($request->show)->withQueryString();
+
+        return [
+            'query_result' => $result,
+            'summation' => $summation,
+        ];
     }
 
     public function getPlatformCommissionAmountReport($request)
@@ -108,21 +126,39 @@ class ReportServices
             $commissionRecord->filterByGroup($request->group_id);
         }
 
-        return $commissionRecord->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+        // Group by 'group_id' and calculate the summation of 'total' column
+        $summation = $commissionRecord->groupBy('group_id')->pluck('total')->sum();
+
+        // Paginate the results
+        $result = $commissionRecord->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+
+        return [
+            'query_result' => $result,
+            'summation' => $summation,
+        ];
     }
 
     public function getRewardAmountReport($request)
     {
-        $commissionRecord = RewardRecord::select([
+        $rewardRecord = RewardRecord::select([
             'group_id',
             DB::raw('SUM(amount) as total'),
         ])
             ->filterByDateCreated($request->start_date, $request->end_date);
 
         if ($request->filled('group_id')) {
-            $commissionRecord->filterByGroup($request->group_id);
+            $rewardRecord->filterByGroup($request->group_id);
         }
 
-        return $commissionRecord->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+        // Group by 'group_id' and calculate the summation of 'total' column
+        $summation = $rewardRecord->groupBy('group_id')->pluck('total')->sum();
+
+        // Paginate the results
+        $result = $rewardRecord->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+
+        return [
+            'query_result' => $result,
+            'summation' => $summation,
+        ];
     }
 }

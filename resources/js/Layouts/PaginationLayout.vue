@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-lg-6">
-            <p class="show-entries">Showing {{ data.from }} to {{ data.to }} of {{ data.total }} entries</p>
+            <p class="show-entries" v-show="data.total > 0">Showing {{ data.from }} to {{ data.to }} of {{ data.total }} entries</p>
         </div>
         <div class="col-lg-6">
             <nav aria-label="Page navigation">

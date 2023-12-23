@@ -58,6 +58,7 @@
                                                 <div class="col-sm-12">
                                                     <select class="form-select" v-model="filter_form.group_id"
                                                         aria-label="Default select example" id="group_id" name="group_id">
+                                                        <option value="" selected>All</option>
                                                         <option v-for="item in group_ids" :value="item.group_id">
                                                             {{ item.group_id }}</option>
                                                     </select>
@@ -106,12 +107,11 @@
                                             <h5 class="report-header">Number of Registered Users</h5>
                                         </div>
                                         <table class="table table-sm table-striped table-hover">
-                                            <colgroup width="5%, 20%, 30%">
-                                            </colgroup>
+                                            <colgroup width="5%, 20%, 30%"></colgroup>
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="text-left">#</th>
-                                                    <th scope="col" class="text-center">Group Id </th>
+                                                    <th scope="col" class="text-center">Group Id</th>
                                                     <th scope="col" class="text-center">Total</th>
                                                 </tr>
                                             </thead>
@@ -122,9 +122,21 @@
                                                     <td class="text-center">{{ item.group_id }}</td>
                                                     <td class="text-center">{{ item.total }}</td>
                                                 </tr>
+                                                <tr v-if="!users_reports?.data || users_reports.data.length <= 0">
+                                                    <td colspan="3" class="text-center">No records to display</td>
+                                                </tr>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Total:</strong></td>
+                                                    <td class="text-center"><strong>{{ summation.users_reports }}</strong>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
-                                        <PaginationLayout
+
+                                        <PaginationLayout v-show="(users_reports.total ?? 0) > 0"
                                             :data="{ links: users_reports.links, from: users_reports.from, to: users_reports.to, total: users_reports.total }" />
                                     </div>
                                 </div>
@@ -156,9 +168,21 @@
                                                     <td class="text-center">{{ item.group_id }}</td>
                                                     <td class="text-center">{{ item.total }}</td>
                                                 </tr>
+                                                <tr
+                                                    v-if="!lucky_money_reports?.data || lucky_money_reports.data.length <= 0">
+                                                    <td colspan="3" class="text-center "> No records to display </td>
+                                                </tr>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Total:</strong></td>
+                                                    <td class="text-center"><strong>{{ summation.lucky_money_reports }}</strong>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
-                                        <PaginationLayout
+                                        <PaginationLayout v-show="(lucky_money_reports.total ?? 0) > 0"
                                             :data="{ links: lucky_money_reports.links, from: lucky_money_reports.from, to: lucky_money_reports.to, total: lucky_money_reports.total }" />
                                     </div>
                                 </div>
@@ -191,9 +215,21 @@
                                                     <td class="text-center">{{ item.group_id }}</td>
                                                     <td class="text-center">{{ item.total }}</td>
                                                 </tr>
+                                                <tr
+                                                    v-if="!platform_commission_amount_reports?.data || platform_commission_amount_reports.data.length <= 0">
+                                                    <td colspan="3" class="text-center "> No records to display </td>
+                                                </tr>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Total:</strong></td>
+                                                    <td class="text-center"><strong>{{ summation.platform_commission_amount_reports }}</strong>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
-                                        <PaginationLayout
+                                        <PaginationLayout v-show="(platform_commission_amount_reports.total ?? 0) > 0"
                                             :data="{ links: platform_commission_amount_reports.links, from: platform_commission_amount_reports.from, to: platform_commission_amount_reports.to, total: platform_commission_amount_reports.total }" />
                                     </div>
                                 </div>
@@ -225,9 +261,21 @@
                                                     <td class="text-center">{{ item.group_id }}</td>
                                                     <td class="text-center">{{ item.total }}</td>
                                                 </tr>
+                                                <tr
+                                                    v-if="!reward_amount_reports?.data || reward_amount_reports?.data.length <= 0">
+                                                    <td colspan="3" class="text-center "> No records to display </td>
+                                                </tr>
                                             </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-right"><strong>Total:</strong></td>
+                                                    <td class="text-center"><strong>{{ summation.reward_amount_reports }}</strong>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
                                         </table>
-                                        <PaginationLayout
+                                        <PaginationLayout v-show="(reward_amount_reports.total ?? 0) > 0"
                                             :data="{ links: reward_amount_reports.links, from: reward_amount_reports.from, to: reward_amount_reports.to, total: reward_amount_reports.total }" />
                                     </div>
                                 </div>
@@ -256,7 +304,7 @@ export default {
         return {
             filter_form: {
                 report_choice: 0,
-                group_id: String,
+                group_id: '',
                 start_date: today.toISOString().substr(0, 10), // Set to today's date
                 end_date: oneMonthLater.toISOString().substr(0, 10), // Set to one month from today
             },
@@ -270,7 +318,8 @@ export default {
         lucky_money_reports: Object,
         filters: Object,
         response: null,
-        group_ids: Array
+        group_ids: Array,
+        summation: Array
     },
     components: {
         Head,
@@ -297,5 +346,4 @@ export default {
     margin-bottom: 0;
     font-weight: 500;
     color: #512da8;
-}
-</style>
+}</style>
