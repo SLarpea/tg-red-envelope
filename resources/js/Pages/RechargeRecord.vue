@@ -43,7 +43,7 @@
                                                 <th scope="col">User ID</th>
                                                 <th scope="col">Username</th>
                                                 <th scope="col">Amount</th>
-                                                <th scope="col">Type</th>
+                                                <th scope="col" class="text-center">Type</th>
                                                 <th scope="col">Nickname</th>
                                                 <th scope="col">Group ID</th>
                                                 <th scope="col" class="text-center">Status</th>

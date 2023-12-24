@@ -8,7 +8,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Mine Management</li>
                     <li class="breadcrumb-item">Group Management</li>
-                    <li class="breadcrumb-item active">List of Groups XXXXXXXX</li>
+                    <li class="breadcrumb-item active">List of Groups</li>
                 </ol>
             </nav>
         </div>
@@ -29,7 +29,7 @@
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <button class="btn btn-custom" type="button" @click.prevent="resetForm">
-                                                    <i class="bi bi-plus-circle"></i> New User
+                                                    <i class="bi bi-plus-circle"></i> New Group
                                                 </button>
                                             </div>
                                         </div>
@@ -244,6 +244,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -267,6 +268,7 @@ export default {
         groups: Object,
         filters: Object,
         response: null,
+        errors: Object,
     },
 
     components: {
@@ -354,9 +356,17 @@ export default {
                                 this.modalShow = false;
                             }
                         },
-                        onError: () => {
+                        onError: (error) => {
+                            try {
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(`'An unexpected error occurred.'`);
+                            }
 
                         },
+
                     });
                 }
             })
@@ -379,11 +389,9 @@ export default {
 
 
 <style scoped>
-
 td.service_url a,
 td.recharge_url a,
-td.channel_url a{
+td.channel_url a {
     font-size: 0.6rem;
 }
-
 </style>

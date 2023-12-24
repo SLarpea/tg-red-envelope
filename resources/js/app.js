@@ -11,6 +11,9 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { plugin as VueTippy } from 'vue-tippy';
 import 'tippy.js/dist/tippy.css';
 
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Hongbao';
 
 createInertiaApp({
@@ -22,6 +25,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(VueTippy)
             .use(VueSweetalert2)
+            .use(toastr)
             .mount(el);
     },
     progress: {
