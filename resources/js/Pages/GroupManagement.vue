@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-diagram-3"></i> Group Management</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">Group Management</li>
-            <li class="breadcrumb-item active">List of Groups XXXXXXXX</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-diagram-3"></i> Group Management</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">Group Management</li>
+                    <li class="breadcrumb-item active">List of Groups XXXXXXXX</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section group-management">
@@ -37,67 +37,85 @@
 
                                     <SearchLayout :data="{ routeLink: 'groups.index', filters: filters }" />
                                     <div class="table-responsive">
-                                    <table class="table table-sm table-striped table-hover">
-                                        <colgroup>
-                                            <col width="1%">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="10%">
-                                        </colgroup>
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Group ID</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Remarks</th>
-                                                <th scope="col">Customer Service Link</th>
-                                                <th scope="col">Recharge Link</th>
-                                                <th scope="col">Channel Link</th>
-                                                <th scope="col">Red Envelope ID</th>
-                                                <th scope="col">Administrator</th>
-                                                <th scope="col" class="text-center">Update Time</th>
-                                                <th scope="col" class="text-center">Status</th>
-                                                <th scope="col" class="text-center">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(item, index) in groups.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
-                                                <td class="text-center">{{ groups.from + index }}</td>
-                                                <td>{{ item.group_id }}</td>
-                                                <td>{{ item.name }}</td>
-                                                <td>{{ item.remark }}</td>
-                                                <td>{{ item.service_url }}</td>
-                                                <td>{{ item.recharge_url }}</td>
-                                                <td>{{ item.channel_url }}</td>
-                                                <td>{{ item.photo_id }}</td>
-                                                <td>{{ item.admin_id }}</td>
-                                                <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}</td>
-                                                <td class="list-status-container text-center">
-                                                    <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
-                                                        @click.prevent="formAction(item, 'status')">
-                                                        {{ (item.status == 1) ? 'Active' : 'Inactive' }}
-                                                    </button>
-                                                </td>
-                                                <td class="list-action-container text-center">
-                                                    <Link href="/configs" method="get" :data="{ group_id: item.group_id }" preserve-state><i class="bi bi-gear text-primary" v-tippy="'Configuration'"></i></Link>
-                                                    <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                        <table class="table table-sm table-striped table-hover">
+                                            <colgroup>
+                                                <col width="1%">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="10%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="text-center">#</th>
+                                                    <th scope="col">Group ID</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Remarks</th>
+                                                    <th scope="col">Customer Service Link</th>
+                                                    <th scope="col">Recharge Link</th>
+                                                    <th scope="col">Channel Link</th>
+                                                    <th scope="col">Red Envelope ID</th>
+                                                    <th scope="col">Administrator</th>
+                                                    <th scope="col" class="text-center">Update Time</th>
+                                                    <th scope="col" class="text-center">Status</th>
+                                                    <th scope="col" class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in groups.data" :key="item.id"
+                                                    @dblclick.prevent="selectAction(item, 'show', null)">
+                                                    <td class="text-center">{{ groups.from + index }}</td>
+                                                    <td>{{ item.group_id }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.remark }}</td>
+                                                    <td class="text-center service_url">
+                                                        <a :href="item.service_url" :title="item.service_url"
+                                                            class="btn btn-outline-info btn-sm">Link</a>
+                                                    </td>
+                                                    <td class="text-center recharge_url">
+                                                        <a :href="item.recharge_url" :title="item.recharge_url"
+                                                            class="btn btn-outline-info btn-sm">Link</a>
+                                                    </td>
+                                                    <td class="text-center channel_url">
+                                                        <a :href="item.channel_url" :title="item.channel_url"
+                                                            class="btn btn-outline-info btn-sm">Link</a>
+                                                    </td>
+                                                    <td>{{ item.photo_id }}</td>
+                                                    <td>{{ item.admin_id }}</td>
+                                                    <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}
+                                                    </td>
+                                                    <td class="list-status-container text-center">
+                                                        <button
+                                                            :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
+                                                            @click.prevent="formAction(item, 'status')">
+                                                            {{ (item.status == 1) ? 'Active' : 'Inactive' }}
+                                                        </button>
+                                                    </td>
+                                                    <td class="list-action-container text-center">
+                                                        <Link href="/configs" method="get"
+                                                            :data="{ group_id: item.group_id }" preserve-state><i
+                                                            class="bi bi-gear text-primary" v-tippy="'Configuration'"></i>
+                                                        </Link>
+                                                        <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                            @click.prevent="selectAction(item, 'show', null)"></i>
+                                                        <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                            @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                        <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                            @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <PaginationLayout :data="{ links: groups.links, from: groups.from, to: groups.to, total: groups.total }" />
-
+                                    <PaginationLayout
+                                        :data="{ links: groups.links, from: groups.from, to: groups.to, total: groups.total }" />
                                 </div>
                             </div>
                         </div>
@@ -124,63 +142,72 @@
                                             <label for="group_id" class="col-sm-4 col-form-label">Group ID :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="group_id" name="group_id" v-model="form.group_id" type="text" class="form-control" autocomplete="off" />
+                                                <input id="group_id" name="group_id" v-model="form.group_id" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="name" class="col-sm-4 col-form-label">Name :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="name" name="name" v-model="form.name" type="text" class="form-control" autocomplete="off" />
+                                                <input id="name" name="name" v-model="form.name" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="remark" class="col-sm-4 col-form-label">Remarks :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="remark" name="remark" v-model="form.remark" type="text" class="form-control" autocomplete="off" />
+                                                <input id="remark" name="remark" v-model="form.remark" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="service_url" class="col-sm-4 col-form-label">Customer Service Link :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="service_url" name="service_url" v-model="form.service_url" type="text" class="form-control" autocomplete="off" />
+                                                <input id="service_url" name="service_url" v-model="form.service_url"
+                                                    type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="recharge_url" class="col-sm-4 col-form-label">Fill-Up Link :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="recharge_url" name="recharge_url" v-model="form.recharge_url" type="text" class="form-control" autocomplete="off" />
+                                                <input id="recharge_url" name="recharge_url" v-model="form.recharge_url"
+                                                    type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="channel_url" class="col-sm-4 col-form-label">Channel Link :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="channel_url" name="channel_url" v-model="form.channel_url" type="text" class="form-control" autocomplete="off" />
+                                                <input id="channel_url" name="channel_url" v-model="form.channel_url"
+                                                    type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="photo_id" class="col-sm-4 col-form-label">Red Envelope Image ID :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="photo_id" name="photo_id" v-model="form.photo_id" type="text" class="form-control" autocomplete="off" />
+                                                <input id="photo_id" name="photo_id" v-model="form.photo_id" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="photo_id" class="col-sm-4 col-form-label">admin_id :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="admin_id" name="admin_id" v-model="form.admin_id" type="text" class="form-control" autocomplete="off" />
+                                                <input id="admin_id" name="admin_id" v-model="form.admin_id" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" id="status" name="status" v-model="form.status">
+                                                <select class="form-select" aria-label="Default select example" id="status"
+                                                    name="status" v-model="form.status">
                                                     <option selected>Select Status</option>
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
@@ -242,10 +269,10 @@ export default {
         response: null,
     },
 
-   components: {
-       Head, Link, AppLayout, SearchLayout, PaginationLayout,
-   },
-   methods: {
+    components: {
+        Head, Link, AppLayout, SearchLayout, PaginationLayout,
+    },
+    methods: {
         closeModal() {
             this.modalShow = false;
         },
@@ -341,11 +368,22 @@ export default {
             }
         },
 
-   },
-   created() {
+    },
+    created() {
         window.addEventListener('keydown', this.escape);
     },
 
 }
 
 </script>
+
+
+<style scoped>
+
+td.service_url a,
+td.recharge_url a,
+td.channel_url a{
+    font-size: 0.6rem;
+}
+
+</style>

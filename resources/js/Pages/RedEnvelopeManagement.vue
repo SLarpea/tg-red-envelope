@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-folder-check"></i> Red Envelope Management</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">Red Envelope Management</li>
-            <li class="breadcrumb-item active">List of Envelopes</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-folder-check"></i> Red Envelope Management</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">Red Envelope Management</li>
+                    <li class="breadcrumb-item active">List of Envelopes</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section user-management">
@@ -35,7 +35,19 @@
 
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
-
+                                            <col width="2%">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="*">
+                                            <col width="10%">
+                                            <col width="*">
+                                            <col width="4%">
+                                            <col width="4%">
                                         </colgroup>
                                         <thead>
                                             <tr>
@@ -49,33 +61,44 @@
                                                 <th scope="col">Group Id</th>
                                                 <th scope="col">Sender Name</th>
                                                 <th scope="col">Red Envelope Multiplier</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Status</th>
+                                                <th scope="col" class="text-center">Type</th>
+                                                <th scope="col" class="text-center">Status</th>
                                                 <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in envelopes.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in envelopes.data" :key="item.id"
+                                                @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ envelopes.from + index }}</td>
-                                                <td>{{ item.sender_id  }}</td>
+                                                <td>{{ item.sender.first_name }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td>{{ item.received }}</td>
                                                 <td>{{ item.number }}</td>
                                                 <td>{{ item.lucky }}</td>
                                                 <td>{{ item.thunder }}</td>
-                                                <td>{{ item.chat_id  }}</td>
-                                                <td>{{ item.sender_name  }}</td>
-                                                <td>{{ item.red_list  }}</td>
-                                                <td>{{ item.type  }}</td>
-                                                <td>{{ item.status   }}</td>
+                                                <td>{{ item.chat_id }}</td>
+                                                <td>{{ item.sender_name }}</td>
+                                                <td class="text-center" v-html="formatRedEnvelope(item.red_list)"></td>
+                                                <td class="text-center td-type">
+                                                    <button class="btn btn-outline-success btn-status">
+                                                        {{ getTextType(item.type) }}
+                                                    </button>
+                                                </td>
+                                                <td class="text-center td-status">
+                                                    <button class="btn btn-outline-success btn-status">
+                                                        {{ getTextStatus(item.status) }}
+                                                    </button>
+                                                </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
+                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
+                                                        @click.prevent="selectAction(item, 'show', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: envelopes.links, from: envelopes.from, to: envelopes.to, total: envelopes.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: envelopes.links, from: envelopes.from, to: envelopes.to, total: envelopes.total }" />
 
                                 </div>
                             </div>
@@ -100,9 +123,67 @@ export default {
         filters: Object,
         response: null,
     },
-   components: {
-       Head, AppLayout, SearchLayout, PaginationLayout,
-   },
+    components: {
+        Head, AppLayout, SearchLayout, PaginationLayout,
+    },
+    methods: {
+        getTextStatus(statusId) {
+            switch (statusId) {
+                case 1:
+                    return 'Normal';
+                case 2:
+                    return 'Collected';
+                case 3:
+                    return 'Expired';
+                default:
+                    return '';
+            }
+        },
+        getTextType(type) {
+            switch (type) {
+                case 1:
+                    return 'Thunder Packet';
+                case 2:
+                    return 'Welfare Red Packet';
+                default:
+                    return '';
+            }
+        },
+        formatRedEnvelope(array) {
+            try {
+                const parsedArray = JSON.parse(array);
+                let mines = [];
+                let lucky = [];
+                let redEnvelopeHtml = '';
+
+                parsedArray.forEach(element => {
+                    (typeof element === 'string' ? mines : lucky).push(element);
+                });
+
+                if (lucky.length > 0) {
+                    redEnvelopeHtml += `<u class="fw-medium">Lucky</u> <br> <span class="text-success">${lucky.join(', ')}</span> <br />`;
+                }
+
+                if (mines.length > 0) {
+                    redEnvelopeHtml += `<u class="fw-medium">Mines</u> <br> <span class="text-danger">${mines.join(', ')}</span> <br />`;
+                }
+
+                return redEnvelopeHtml;
+            } catch (error) {
+                console.error('Error parsing red envelope array:', error);
+                return ''; // Handle the case where array parsing fails
+            }
+        }
+
+    }
 }
 
 </script>
+
+<style scoped>
+.td-status button, .td-type button {
+    padding: 0px 5px !important;
+    font-size: 12px;
+    border-radius: 0.25rem;
+}
+</style>

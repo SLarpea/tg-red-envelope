@@ -56,10 +56,10 @@
                                                 <td>{{ item.lucky_id  }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td>{{ item.profit_amount }}</td>
-                                                <td>{{ item.tg_id }}</td>
+                                                <td>{{ item.user.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.remark }}</td>
-                                                <td>{{ item.sender_id }}</td>
+                                                <td>{{ item.sender.first_name }}</td>
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-eye text-primary" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
                                                 </td>

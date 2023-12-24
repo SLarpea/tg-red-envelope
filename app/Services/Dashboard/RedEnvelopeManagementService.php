@@ -12,7 +12,7 @@ class RedEnvelopeManagementService
     public function showData($request)
     {
         return [
-            'envelopes' => LuckyMoney::when($request->term, function ($query, $term) {
+            'envelopes' => LuckyMoney::with('sender')->when($request->term, function ($query, $term) {
                 $query->where('chat_id', 'LIKE', '%' . $term . '%');
             })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),

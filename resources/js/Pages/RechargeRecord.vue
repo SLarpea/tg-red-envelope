@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-wallet2"></i> Recharge Record</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">Recharge Record</li>
-            <li class="breadcrumb-item active">List of Recharge</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-wallet2"></i> Recharge Record</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">Recharge Record</li>
+                    <li class="breadcrumb-item active">List of Recharge</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section user-management">
@@ -51,30 +51,40 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in recharge.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in recharge.data" :key="item.id"
+                                                @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ recharge.from + index }}</td>
-                                                <td>{{ item.tg_id  }}</td>
+                                                <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.username }}</td>
                                                 <td>{{ item.amount }}</td>
-                                                <td>{{ item.type }}</td>
+                                                <td class="text-center td-type">
+                                                    <button class="btn btn-outline-success btn-status">
+                                                        {{ getTextType(item.type) }}
+                                                    </button>
+                                                </td>
                                                 <td>{{ item.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td class="list-status-container text-center">
-                                                    <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
+                                                    <button
+                                                        :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
                                                         {{ (item.status == 1) ? 'Active' : 'Inactive' }}
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
+                                                        @click.prevent="selectAction(item, 'show', null)"></i>
+                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: recharge.links, from: recharge.from, to: recharge.to, total: recharge.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: recharge.links, from: recharge.from, to: recharge.to, total: recharge.total }" />
 
                                 </div>
                             </div>
@@ -99,9 +109,28 @@ export default {
         filters: Object,
         response: null,
     },
-   components: {
-       Head, AppLayout, SearchLayout, PaginationLayout,
-   },
+    components: {
+        Head, AppLayout, SearchLayout, PaginationLayout,
+    },
+    methods: {
+        getTextType(type) {
+            switch (type) {
+                case 1:
+                    return 'Background recharge';
+                case 2:
+                    return 'Automatic recharge';
+                default:
+                    return 'Automatic recharge';
+            }
+        }
+    }
 }
 
 </script>
+<style scoped>
+.td-type button {
+    padding: 0px 5px !important;
+    font-size: 12px;
+    border-radius: 0.25rem;
+}
+</style>

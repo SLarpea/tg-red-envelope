@@ -12,7 +12,7 @@ class CommissionRecordService
     public function showData($request)
     {
         return [
-            'commissions' => CommissionRecord::when($request->term, function ($query, $term) {
+            'commissions' => CommissionRecord::with(['user', 'sender'])->when($request->term, function ($query, $term) {
                 $query->where('group_id', 'LIKE', '%' . $term . '%');
             })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
