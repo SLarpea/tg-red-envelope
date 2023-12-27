@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-people"></i> User Management</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">User Management</li>
-            <li class="breadcrumb-item active">List of Users</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-people"></i> User Management</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">User Management</li>
+                    <li class="breadcrumb-item active">List of Users</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section user-management">
@@ -51,7 +51,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in tgusers.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in tgusers.data" :key="item.id"
+                                                @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ tgusers.from + index }}</td>
                                                 <td>{{ item.username }}</td>
                                                 <td>{{ item.first_name }}</td>
@@ -60,23 +61,30 @@
                                                 <td>{{ item.balance }}</td>
                                                 <td>{{ item.online }}</td>
                                                 <td class="list-status-container text-center">
-                                                    <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
+                                                    <button
+                                                        :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
                                                         {{ (item.status == 1) ? 'Active' : 'Inactive' }}
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-gem text-primary" v-tippy="'Top Up'" @click.prevent="selectAction(item, 'top_up', null)"></i>
-                                                    <i class="bi bi-arrow-down-square text-primary" v-tippy="'Withdraw'" @click.prevent="selectAction(item, 'withdraw', null)"></i>
-                                                    <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                    <i class="bi bi-gem text-primary" v-tippy="'Top Up'"
+                                                        @click.prevent="selectAction(item, 'top_up', null)"></i>
+                                                    <i class="bi bi-arrow-down-square text-primary" v-tippy="'Withdraw'"
+                                                        @click.prevent="selectAction(item, 'withdraw', null)"></i>
+                                                    <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                        @click.prevent="selectAction(item, 'show', null)"></i>
+                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: tgusers.links, from: tgusers.from, to: tgusers.to, total: tgusers.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: tgusers.links, from: tgusers.from, to: tgusers.to, total: tgusers.total }" />
 
                                 </div>
                             </div>
@@ -104,35 +112,40 @@
                                             <label for="username" class="col-sm-5 col-form-label">Username :
                                             </label>
                                             <div class="col-sm-7">
-                                                <input id="username" name="username" v-model="form.username" type="text" class="form-control" autocomplete="off" />
+                                                <input id="username" name="username" v-model="form.username" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="first_name" class="col-sm-5 col-form-label">Nickname :
                                             </label>
                                             <div class="col-sm-7">
-                                                <input id="first_name" name="first_name" v-model="form.first_name" type="text" class="form-control" autocomplete="off" />
+                                                <input id="first_name" name="first_name" v-model="form.first_name"
+                                                    type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="tg_id " class="col-sm-5 col-form-label">Telegram ID :
                                             </label>
                                             <div class="col-sm-7">
-                                                <input id="tg_id " name="tg_id " v-model="form.tg_id " type="text" class="form-control" autocomplete="off" />
+                                                <input id="tg_id " name="tg_id " v-model="form.tg_id" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="balance " class="col-sm-5 col-form-label">Balance :
                                             </label>
                                             <div class="col-sm-7">
-                                                <input id="balance " name="balance " v-model="form.balance " type="text" class="form-control" autocomplete="off" />
+                                                <input id="balance " name="balance " v-model="form.balance" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="status" class="col-sm-5 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-7">
-                                                <select class="form-select" aria-label="Default select example" id="status" name="status" v-model="form.status">
+                                                <select class="form-select" aria-label="Default select example" id="status"
+                                                    name="status" v-model="form.status">
                                                     <option selected>Select Status</option>
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
@@ -143,26 +156,32 @@
                                             <label for="invite_user " class="col-sm-5 col-form-label">Inviter :
                                             </label>
                                             <div class="col-sm-7">
-                                                <input id="invite_user " name="invite_user " v-model="form.invite_user " type="text" class="form-control" autocomplete="off" />
+                                                <input id="invite_user " name="invite_user " v-model="form.invite_user"
+                                                    type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="send_chance " class="col-sm-5 col-form-label">Probability of Outsourcing :
+                                            <label for="send_chance " class="col-sm-5 col-form-label">Probability of
+                                                Outsourcing :
                                             </label>
                                             <div class="col-sm-7">
-                                                <input id="send_chance " name="send_chance " v-model="form.send_chance " type="text" class="form-control" autocomplete="off" />
+                                                <input id="send_chance " name="send_chance " v-model="form.send_chance"
+                                                    type="text" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="amount" class="col-sm-5 col-form-label">There Must Be Thunder In The Bag :
+                                            <label for="amount" class="col-sm-5 col-form-label">There Must Be Thunder In The
+                                                Bag :
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio1" value="option1" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio2" value="option2">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -172,11 +191,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio1" value="option1" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio2" value="option2">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -186,25 +207,30 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio1" value="option1" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio2" value="option2">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="amount" class="col-sm-5 col-form-label">There Is A Priority In The Bag :
+                                            <label for="amount" class="col-sm-5 col-form-label">There Is A Priority In The
+                                                Bag :
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio1" value="option1" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio2" value="option2">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -214,11 +240,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio1" value="option1" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                        id="inlineRadio2" value="option2">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -263,14 +291,16 @@
                                             <label for="amount" class="col-sm-4 col-form-label">Amount :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="amount" name="amount" v-model="form_topUp.amount" type="text" class="form-control" autocomplete="off" />
+                                                <input id="amount" name="amount" v-model="form_topUp.amount" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="remark" class="col-sm-4 col-form-label">Remarks :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="remark" name="remark" v-model="form_topUp.remark" type="text" class="form-control" autocomplete="off" />
+                                                <input id="remark" name="remark" v-model="form_topUp.remark" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -278,11 +308,14 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" v-model="form_topUp.is_send" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" checked>
+                                                    <input class="form-check-input" v-model="form_topUp.is_send"
+                                                        type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0"
+                                                        checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" v-model="form_topUp.is_send" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">
+                                                    <input class="form-check-input" v-model="form_topUp.is_send"
+                                                        type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -353,20 +386,20 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 export default {
     data() {
         return {
-            modalShow:false,
+            modalShow: false,
             topUpShow: false,
             withdrawShow: false,
             form: {
                 username: null,
                 first_name: null,
-                tg_id : null,
+                tg_id: null,
                 balance: null,
                 status: 1,
                 invite_user: null,
-                group_id : null,
+                group_id: null,
                 has_thunder: null,
                 pass_mine: null,
-                auto_get : null,
+                auto_get: null,
                 withdraw_addr: null,
                 no_thunder: null,
                 get_mine: null,
@@ -393,10 +426,10 @@ export default {
         filters: Object,
         response: null,
     },
-   components: {
-       Head, AppLayout, SearchLayout, PaginationLayout,
-   },
-   methods: {
+    components: {
+        Head, AppLayout, SearchLayout, PaginationLayout,
+    },
+    methods: {
         closeModal() {
             this.modalShow = false;
             this.topUpShow = false;
@@ -406,10 +439,10 @@ export default {
             this.action = action;
             if (this.action == 'delete') {
                 this.formAction(data, type);
-            }else if(this.action == 'top_up'){
+            } else if (this.action == 'top_up') {
                 this.form_topUp = Object.assign(this.form_topUp, data);
                 this.topUpShow = true;
-            }else if(this.action == 'withdraw'){
+            } else if (this.action == 'withdraw') {
                 this.form_withdraw = Object.assign({}, data);
                 this.withdrawShow = true;
             } else {
@@ -490,8 +523,8 @@ export default {
             }
         },
 
-   },
-   created() {
+    },
+    created() {
         window.addEventListener('keydown', this.escape);
     },
 }

@@ -38,20 +38,6 @@
                                     <SearchLayout :data="{ routeLink: 'groups.index', filters: filters }" />
                                     <div class="table-responsive">
                                         <table class="table table-sm table-striped table-hover">
-                                            <colgroup>
-                                                <col width="1%">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="*">
-                                                <col width="10%">
-                                            </colgroup>
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="text-center">#</th>
@@ -62,7 +48,6 @@
                                                     <th scope="col">Recharge Link</th>
                                                     <th scope="col">Channel Link</th>
                                                     <th scope="col">Red Envelope ID</th>
-                                                    <th scope="col">Administrator</th>
                                                     <th scope="col" class="text-center">Update Time</th>
                                                     <th scope="col" class="text-center">Status</th>
                                                     <th scope="col" class="text-center">Action</th>
@@ -76,19 +61,21 @@
                                                     <td>{{ item.name }}</td>
                                                     <td>{{ item.remark }}</td>
                                                     <td class="text-center service_url">
-                                                        <a :href="item.service_url" :title="item.service_url"
-                                                            class="btn btn-outline-info btn-sm">Link</a>
+                                                        <a :href="item.service_url" v-tippy="item.service_url"
+                                                            class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center recharge_url">
-                                                        <a :href="item.recharge_url" :title="item.recharge_url"
-                                                            class="btn btn-outline-info btn-sm">Link</a>
+                                                        <a :href="item.recharge_url" v-tippy="item.recharge_url"
+                                                            class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center channel_url">
-                                                        <a :href="item.channel_url" :title="item.channel_url"
-                                                            class="btn btn-outline-info btn-sm">Link</a>
+                                                        <a :href="item.channel_url" v-tippy="item.channel_url"
+                                                            class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
-                                                    <td>{{ item.photo_id }}</td>
-                                                    <td>{{ item.admin_id }}</td>
+                                                    <td class="text-center photo_id">
+                                                        <a :href="item.photo_id" v-tippy="item.photo_id"
+                                                            class="btn btn-outline-primary btn-sm">Link</a>
+                                                    </td>
                                                     <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}
                                                     </td>
                                                     <td class="list-status-container text-center">
@@ -195,20 +182,11 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="photo_id" class="col-sm-4 col-form-label">admin_id :
-                                            </label>
-                                            <div class="col-sm-8">
-                                                <input id="admin_id" name="admin_id" v-model="form.admin_id" type="text"
-                                                    class="form-control" autocomplete="off" />
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
                                                 <select class="form-select" aria-label="Default select example" id="status"
                                                     name="status" v-model="form.status">
-                                                    <option selected>Select Status</option>
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
                                                 </select>
@@ -259,7 +237,7 @@ export default {
                 recharge_url: null,
                 channel_url: null,
                 photo_id: null,
-                admin_id: null,
+                admin_id: 1,
                 status: 1,
             },
         };
@@ -391,7 +369,8 @@ export default {
 <style scoped>
 td.service_url a,
 td.recharge_url a,
-td.channel_url a {
+td.channel_url a,
+td.photo_id a {
     font-size: 0.6rem;
 }
 </style>

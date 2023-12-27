@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-wallet2"></i> Reward Record</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">Reward Record</li>
-            <li class="breadcrumb-item active">List of Reward</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-wallet2"></i> Reward Record</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">Reward Record</li>
+                    <li class="breadcrumb-item active">List of Reward</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section user-management">
@@ -51,7 +51,8 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in reward.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in reward.data" :key="item.id"
+                                                @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ reward.from + index }}</td>
                                                 <td>{{ item.lucky_id }}</td>
                                                 <td>{{ item.amount }}</td>
@@ -69,7 +70,8 @@
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: reward.links, from: reward.from, to: reward.to, total: reward.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: reward.links, from: reward.from, to: reward.to, total: reward.total }" />
 
                                 </div>
                             </div>
@@ -94,9 +96,9 @@ export default {
         filters: Object,
         response: null,
     },
-   components: {
-       Head, AppLayout, SearchLayout, PaginationLayout,
-   },
+    components: {
+        Head, AppLayout, SearchLayout, PaginationLayout,
+    },
 }
 
 </script>

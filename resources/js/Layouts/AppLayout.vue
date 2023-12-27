@@ -4,20 +4,20 @@
     <div class="pseudo-back"></div>
     <main id="main" class="main">
         <slot />
-
-        </main>
+    </main>
     <FooterLayout />
 </template>
 
 <script>
-import HeaderLayout from './HeaderLayout.vue';
-import SidebarLayout from './SidebarLayout.vue';
-import FooterLayout from './FooterLayout.vue';
+import HeaderLayout from "./HeaderLayout.vue";
+import SidebarLayout from "./SidebarLayout.vue";
+import FooterLayout from "./FooterLayout.vue";
 
 export default {
     components: {
-        HeaderLayout, SidebarLayout, FooterLayout
+        HeaderLayout,
+        SidebarLayout,
+        FooterLayout,
     },
-}
-
+};
 </script>

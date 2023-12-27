@@ -8,9 +8,9 @@
 import AppLayout from '../Layouts/AppLayout.vue';
 
 export default {
-   components: {
-       AppLayout,
-   },
+    components: {
+        AppLayout,
+    },
 }
 
 </script>

@@ -3,13 +3,13 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-grid"></i> Dashboard</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Home</li>
-            <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-grid"></i> Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section dashboard">
@@ -18,19 +18,6 @@
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">今日新增用户</h5>
 
@@ -40,7 +27,7 @@
                                             <i class="bi bi-people"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
+                                            <h6>{{ dashboard.today_user }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -50,19 +37,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日发包数
@@ -74,7 +48,7 @@
                                             <i class="bi bi-file-earmark-zip"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.today_package }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -84,19 +58,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日发包总额
@@ -108,7 +69,7 @@
                                             <i class="bi bi-folder"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>1244</h6>
+                                            <h6>{{ dashboard.today_outsourcing }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -118,19 +79,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日中雷率
@@ -142,7 +90,7 @@
                                             <i class="bi bi-lightning-charge"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.today_thunder_rate }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -152,19 +100,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日盈利
@@ -176,7 +111,7 @@
                                             <i class="bi bi-cash-coin"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.toda_profit }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -186,19 +121,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日发出奖励(豹/顺)
@@ -210,7 +132,7 @@
                                             <i class="bi bi-bookmark-star"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.today_rewards }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -220,19 +142,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日充值
@@ -244,7 +153,7 @@
                                             <i class="bi bi-box-arrow-in-right"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.today_recharge }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -254,19 +163,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         今日提现
@@ -278,7 +174,7 @@
                                             <i class="bi bi-box-arrow-left"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.today_withdraw }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -288,19 +184,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         累计总用户
@@ -312,7 +195,7 @@
                                             <i class="bi bi-box-arrow-down"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.all_users }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -322,19 +205,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         累计发包数
@@ -346,7 +216,7 @@
                                             <i class="bi bi-archive"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.all_package }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -356,19 +226,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         累计发包总额
@@ -380,7 +237,7 @@
                                             <i class="bi bi-folder2-open"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.all_outsourcing }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -390,19 +247,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         发出奖励(豹/顺)汇总
@@ -414,7 +258,7 @@
                                             <i class="bi bi-journal-bookmark"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.all_rewards }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -424,19 +268,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         充值汇总
@@ -448,7 +279,7 @@
                                             <i class="bi bi-list-check"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.all_recharge }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -458,19 +289,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         提现汇总
@@ -482,7 +300,7 @@
                                             <i class="bi bi-list-nested"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.all_withdraw }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -492,19 +310,6 @@
 
                         <div class="col-lg-3">
                             <div class="card info-card primary-card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         累计总收益
@@ -516,7 +321,7 @@
                                             <i class="bi bi-piggy-bank"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>$3,264</h6>
+                                            <h6>{{ dashboard.total_revenue }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
@@ -526,19 +331,6 @@
 
                         <div class="col-lg-12">
                             <div class="card">
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         Recent Activity <span>| Today</span>
@@ -616,6 +408,9 @@ import AppLayout from '../Layouts/AppLayout.vue';
 export default {
     components: {
         AppLayout, Head,
+    },
+    props: {
+        dashboard: Object,
     },
 }
 

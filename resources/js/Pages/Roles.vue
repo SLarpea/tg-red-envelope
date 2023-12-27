@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-file-earmark-person"></i> Roles</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">System</li>
-            <li class="breadcrumb-item">Roles</li>
-            <li class="breadcrumb-item active">List of Roles</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-file-earmark-person"></i> Roles</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">System</li>
+                    <li class="breadcrumb-item">Roles</li>
+                    <li class="breadcrumb-item active">List of Roles</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section user-management">
@@ -50,25 +50,31 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in roles.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in roles.data" :key="item.id"
+                                                @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ roles.from + index }}</td>
                                                 <td>{{ item.name }}</td>
                                                 <td class="list-status-container text-center">
-                                                    <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
+                                                    <button
+                                                        :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
                                                         {{ (item.status == 1) ? 'Active' : 'Inactive' }}
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                    <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                        @click.prevent="selectAction(item, 'show', null)"></i>
+                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: roles.links, from: roles.from, to: roles.to, total: roles.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: roles.links, from: roles.from, to: roles.to, total: roles.total }" />
 
                                 </div>
                             </div>
@@ -96,14 +102,16 @@
                                             <label for="name" class="col-sm-4 col-form-label">Name :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="name" name="name" v-model="form.name" type="text" class="form-control" autocomplete="off" />
+                                                <input id="name" name="name" v-model="form.name" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" id="status" name="status" v-model="form.status">
+                                                <select class="form-select" aria-label="Default select example" id="status"
+                                                    name="status" v-model="form.status">
                                                     <option selected>Select Status</option>
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
@@ -144,7 +152,7 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 export default {
     data() {
         return {
-            modalShow:false,
+            modalShow: false,
             editMode: false,
             action: 'new',
             form: {
@@ -158,10 +166,10 @@ export default {
         filters: Object,
         response: null,
     },
-   components: {
-       Head, AppLayout, SearchLayout, PaginationLayout,
-   },
-   methods: {
+    components: {
+        Head, AppLayout, SearchLayout, PaginationLayout,
+    },
+    methods: {
         closeModal() {
             this.modalShow = false;
         },
@@ -249,8 +257,8 @@ export default {
             }
         },
 
-   },
-   created() {
+    },
+    created() {
         window.addEventListener('keydown', this.escape);
     },
 }

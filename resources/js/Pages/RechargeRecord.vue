@@ -46,8 +46,6 @@
                                                 <th scope="col" class="text-center">Type</th>
                                                 <th scope="col">Nickname</th>
                                                 <th scope="col">Group ID</th>
-                                                <th scope="col" class="text-center">Status</th>
-                                                <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -58,27 +56,10 @@
                                                 <td>{{ item.username }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td class="text-center td-type">
-                                                    <button class="btn btn-outline-success btn-status">
-                                                        {{ getTextType(item.type) }}
-                                                    </button>
+                                                    {{ getTextType(item.type) }}
                                                 </td>
                                                 <td>{{ item.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
-                                                <td class="list-status-container text-center">
-                                                    <button
-                                                        :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
-                                                        @click.prevent="formAction(item, 'status')">
-                                                        {{ (item.status == 1) ? 'Active' : 'Inactive' }}
-                                                    </button>
-                                                </td>
-                                                <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
-                                                        @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

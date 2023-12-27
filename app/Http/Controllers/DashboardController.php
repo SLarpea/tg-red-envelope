@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Dashboard\DashboardService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    protected $dashboardService;
+
+    public function __construct(DashboardService $dashboardService)
+    {
+        $this->dashboardService = $dashboardService;
+    }
+
     public function index()
     {
+        $data = $this->dashboardService->showData();
         return Inertia::render('Dashboard', [
-            'php_version' => phpversion(),
-            'nginx_version' => shell_exec('nginx -v'),
-            'max_upload' => ini_get('upload_max_filesize'),
-            'program_version' => config('app.program_version'),
+            'dashboard' => $data['dashboard'],
         ]);
     }
 }

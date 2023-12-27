@@ -37,23 +37,58 @@
                             <hr class="line-break">
 
                             <div class="table-responsive">
-                                <draggable class="dragArea list-group w-full" tag="transition-group" :list="menus.data"
+                                <!-- <draggable class="dragArea list-group w-full" tag="transition-group" :list="menus.data"
                                     @change="updateOrder">
 
-                                        <div class="alert alert-success item-list" v-for="(item, index) in menus.data"
-                                            :key="item.name" :id="item.id" :sort="index" @dblclick.prevent="editData(item)">
-                                            <span class="tbl-num">{{ menus.from + index }}</span>{{ item.name }}
-                                            <div class="action-div">
-                                                <span class="badge-status" @click.prevent="updateData(item, 'status')"
-                                                    :class="(item.status == 1) ? 'badge bg-primary badge-status' : 'badge bg-danger badge-status'">{{
-                                                        (item.status == 1) ? 'Active' : 'Inactive' }}</span>
-                                                <i class="bi bi-pencil-square text-primary" v-tippy="'Edit'"
-                                                    @click.prevent="editData(item)"></i> <i class="bi bi-trash text-danger"
-                                                    v-tippy="'Delete'" @click.prevent="deleteData(item)"></i>
-                                            </div>
+                                    <div class="alert alert-success item-list" v-for="(item, index) in menus.data"
+                                        :key="item.name" :id="item.id" :sort="index" @dblclick.prevent="editData(item)">
+                                        <span class="tbl-num">{{ menus.from + index }}</span>{{ item.name }}
+                                        <div class="action-div-menu">
+                                            <span class="badge-status" @click.prevent="updateData(item, 'status')"
+                                                :class="(item.status == 1) ? 'badge bg-primary badge-status' : 'badge bg-danger badge-status'">{{
+                                                    (item.status == 1) ? 'Active' : 'Inactive' }}</span>
+                                            <i class="bi bi-pencil-square text-primary" v-tippy="'Edit'"
+                                                @click.prevent="editData(item)"></i> <i class="bi bi-trash text-danger"
+                                                v-tippy="'Delete'" @click.prevent="deleteData(item)"></i>
                                         </div>
+                                    </div>
 
-                                </draggable>
+                                </draggable> -->
+
+                                <table class="table table-sm table-striped table-hover">
+                                    <colgroup></colgroup>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">#</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">URL</th>
+                                            <th scope="col" class="text-center">Status</th>
+                                            <th scope="col" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in menus.data" :key="item.id"
+                                            @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <td class="text-center">
+                                                {{ menus.from + index }}
+                                            </td>
+                                            <td>{{ item.name }}</td>
+                                            <td>/{{ item.url }}</td>
+                                            <td class="list-status-container text-center">
+                                                <button :class="item.status == 1
+                                                    ? 'btn btn-outline-success btn-status'
+                                                    : 'btn btn-outline-danger btn-status'
+                                                    " @click.prevent="updateData(item, 'status')">
+                                                    {{ item.status == 1 ? "Active" : "Inactive" }}
+                                                </button>
+                                            </td>
+                                            <td class="list-action-container text-center">
+                                                <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                    @click.prevent="editData(item)"></i>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
 
                             </div>
 
@@ -99,8 +134,8 @@
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" id="status" name="status" v-model="form.status">
-                                                    <option selected>Select Status</option>
+                                                <select class="form-select" aria-label="Default select example" id="status"
+                                                    name="status" v-model="form.status">
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
                                                 </select>
@@ -115,7 +150,8 @@
                                                 errors.name.replace('name', 'Name') }}</p>
                                             <p v-if="errors.url"><i class="bi bi-exclamation-diamond me-1"></i> {{
                                                 errors.url.replace('url', 'URL') }}</p>
-                                            <p v-if="errors.status"><i class="bi bi-exclamation-diamond me-1"></i> {{ errors.status.replace('status', 'Status') }}</p>
+                                            <p v-if="errors.status"><i class="bi bi-exclamation-diamond me-1"></i> {{
+                                                errors.status.replace('status', 'Status') }}</p>
                                         </div>
                                     </div>
                                 </transition>
@@ -161,7 +197,7 @@ export default {
                 name: null,
                 url: null,
                 sort: null,
-                status,
+                status: 1,
             },
         };
     },
@@ -187,7 +223,7 @@ export default {
                 name: null,
                 url: null,
                 sort: null,
-                status,
+                status: 1,
             }
         },
         selectAction(data) {

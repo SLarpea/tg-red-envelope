@@ -3,15 +3,15 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-gear"></i> Configs</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">Group Management</li>
-            <li class="breadcrumb-item">Configs</li>
-            <li class="breadcrumb-item active">List of Configs</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-gear"></i> Configs</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">Group Management</li>
+                    <li class="breadcrumb-item">Configs</li>
+                    <li class="breadcrumb-item active">List of Configs</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section group-management">
@@ -34,48 +34,54 @@
 
                                     <SearchLayout :data="{ routeLink: 'configs.index', filters: filters }" />
                                     <div class="table-responsive">
-                                    <table class="table table-sm table-striped table-hover">
-                                        <colgroup>
-                                            <col width="4%">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="*">
-                                            <col width="10%">
-                                        </colgroup>
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Key</th>
-                                                <th scope="col">Description</th>
-                                                <th scope="col">Configuration Value</th>
-                                                <th scope="col">Group Id</th>
-                                                <th scope="col">Administrator</th>
-                                                <th scope="col" class="text-center">Update Time</th>
-                                                <th scope="col" class="text-center">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr v-for="(item, index) in configs.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
-                                                <td class="text-center">{{ configs.from + index }}</td>
-                                                <td>{{ item.name }}</td>
-                                                <td>{{ item.remark }}</td>
-                                                <td>{{ item.value }}</td>
-                                                <td>{{ item.group_id }}</td>
-                                                <td>{{ item.updated_at }}</td>
-                                                <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}</td>
-                                                <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-info" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                        <table class="table table-sm table-striped table-hover">
+                                            <colgroup>
+                                                <col width="4%">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="*">
+                                                <col width="10%">
+                                            </colgroup>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" class="text-center">#</th>
+                                                    <th scope="col">Key</th>
+                                                    <th scope="col">Description</th>
+                                                    <th scope="col">Configuration Value</th>
+                                                    <th scope="col">Group Id</th>
+                                                    <th scope="col">Administrator</th>
+                                                    <th scope="col" class="text-center">Update Time</th>
+                                                    <th scope="col" class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(item, index) in configs.data" :key="item.id"
+                                                    @dblclick.prevent="selectAction(item, 'show', null)">
+                                                    <td class="text-center">{{ configs.from + index }}</td>
+                                                    <td>{{ item.name }}</td>
+                                                    <td>{{ item.remark }}</td>
+                                                    <td>{{ item.value }}</td>
+                                                    <td>{{ item.group_id }}</td>
+                                                    <td>{{ item.updated_at }}</td>
+                                                    <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}
+                                                    </td>
+                                                    <td class="list-action-container text-center">
+                                                        <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                            @click.prevent="selectAction(item, 'show', null)"></i>
+                                                        <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                            @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                        <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                            @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <PaginationLayout :data="{ links: configs.links, from: configs.from, to: configs.to, total: configs.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: configs.links, from: configs.from, to: configs.to, total: configs.total }" />
 
                                 </div>
                             </div>
@@ -103,28 +109,32 @@
                                             <label for="name" class="col-sm-4 col-form-label">Group ID :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="name" name="name" v-model="form.name" type="text" class="form-control" autocomplete="off" readonly />
+                                                <input id="name" name="name" v-model="form.name" type="text"
+                                                    class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="remark" class="col-sm-4 col-form-label">Description :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="remark" name="remark" v-model="form.remark" type="text" class="form-control" autocomplete="off" />
+                                                <input id="remark" name="remark" v-model="form.remark" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="value" class="col-sm-4 col-form-label">Configuration Value :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="value" name="value" v-model="form.value" type="text" class="form-control" autocomplete="off" />
+                                                <input id="value" name="value" v-model="form.value" type="text"
+                                                    class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="group_id" class="col-sm-4 col-form-label">Group ID :
                                             </label>
                                             <div class="col-sm-8">
-                                                <input id="group_id" name="group_id" v-model="form.group_id" type="text" class="form-control" autocomplete="off" readonly />
+                                                <input id="group_id" name="group_id" v-model="form.group_id" type="text"
+                                                    class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -169,7 +179,7 @@ export default {
                 value: null,
                 group_id: null,
                 admin_id: null,
-                remark	: null,
+                remark: null,
             },
         };
     },
@@ -179,10 +189,10 @@ export default {
         response: null,
     },
 
-   components: {
-       Head, Link, AppLayout, SearchLayout, PaginationLayout,
-   },
-   methods: {
+    components: {
+        Head, Link, AppLayout, SearchLayout, PaginationLayout,
+    },
+    methods: {
         closeModal() {
             this.modalShow = false;
         },
@@ -195,7 +205,7 @@ export default {
                 value: null,
                 group_id: null,
                 admin_id: null,
-                remark	: null,
+                remark: null,
             }
         },
         selectAction(data, action, type) {
@@ -274,8 +284,8 @@ export default {
             }
         },
 
-   },
-   created() {
+    },
+    created() {
         window.addEventListener('keydown', this.escape);
     },
 

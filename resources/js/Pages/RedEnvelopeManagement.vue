@@ -70,7 +70,7 @@
                                             <tr v-for="(item, index) in envelopes.data" :key="item.id"
                                                 @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ envelopes.from + index }}</td>
-                                                <td>{{ item.sender.first_name }}</td>
+                                                <td>{{ item.sender_name }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td>{{ item.received }}</td>
                                                 <td>{{ item.number }}</td>
@@ -80,14 +80,10 @@
                                                 <td>{{ item.sender_name }}</td>
                                                 <td class="text-center" v-html="formatRedEnvelope(item.red_list)"></td>
                                                 <td class="text-center td-type">
-                                                    <button class="btn btn-outline-success btn-status">
-                                                        {{ getTextType(item.type) }}
-                                                    </button>
+                                                    {{ getTextType(item.type) }}
                                                 </td>
                                                 <td class="text-center td-status">
-                                                    <button class="btn btn-outline-success btn-status">
-                                                        {{ getTextStatus(item.status) }}
-                                                    </button>
+                                                    {{ getTextStatus(item.status) }}
                                                 </td>
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-eye text-primary" v-tippy="'View'"
@@ -181,7 +177,8 @@ export default {
 </script>
 
 <style scoped>
-.td-status button, .td-type button {
+.td-status button,
+.td-type button {
     padding: 0px 5px !important;
     font-size: 12px;
     border-radius: 0.25rem;

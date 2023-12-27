@@ -54,7 +54,8 @@
                                                     <select class="form-select" v-model="filter_form.group_id"
                                                         aria-label="Default select example" id="group_id" name="group_id">
                                                         <option value="" selected>All</option>
-                                                        <option v-for="item in group_ids" :value="item.group_id">
+                                                        <option v-for="item in group_ids" :key="item.id"
+                                                            :value="item.group_id">
                                                             {{ item.group_id }}</option>
                                                     </select>
                                                 </div>
@@ -267,7 +268,8 @@
                                                 <tbody>
                                                     <tr v-for="(item, index) in reward_amount_reports.data" :key="item.id"
                                                         @dblclick.prevent="selectAction(item, 'show', null)">
-                                                        <td class="text-center">{{ reward_amount_reports.from + index }}</td>
+                                                        <td class="text-center">{{ reward_amount_reports.from + index }}
+                                                        </td>
                                                         <td class="text-center">{{ item.group_id }}</td>
                                                         <td class="text-center">{{ item.total }}</td>
                                                     </tr>

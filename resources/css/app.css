@@ -1104,10 +1104,20 @@ border-radius: 10px;
 background-color: #3e97ff;
 }
 
-td {
+.action-div-menu {
+    display: inline-block;
+    position: absolute;
+    right: 15px;
+}
+
+.action-div-menu .badge-status {
+    margin-right: 25px;
+}
+
+/* td {
     white-space: normal !important;
     word-wrap: break-word;
   }
 table {
     table-layout: fixed;
-}
+} */

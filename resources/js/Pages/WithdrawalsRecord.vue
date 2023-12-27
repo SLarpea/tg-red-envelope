@@ -3,14 +3,14 @@
     <AppLayout>
 
         <div class="pagetitle">
-        <h1><i class="bi bi-box-arrow-up-left"></i> Withdraw Record</h1>
-        <nav>
-            <ol class="breadcrumb">
-            <li class="breadcrumb-item">Mine Management</li>
-            <li class="breadcrumb-item">Withdraw Record</li>
-            <li class="breadcrumb-item active">List of Withdraw</li>
-            </ol>
-        </nav>
+            <h1><i class="bi bi-box-arrow-up-left"></i> Withdraw Record</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Mine Management</li>
+                    <li class="breadcrumb-item">Withdraw Record</li>
+                    <li class="breadcrumb-item active">List of Withdraw</li>
+                </ol>
+            </nav>
         </div>
 
         <section class="section user-management">
@@ -46,35 +46,24 @@
                                                 <th scope="col">Type</th>
                                                 <th scope="col">Nickname</th>
                                                 <th scope="col">Group ID</th>
-                                                <th scope="col" class="text-center">Status</th>
-                                                <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in withdraw.data" :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in withdraw.data" :key="item.id"
+                                                @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ withdraw.from + index }}</td>
-                                                <td>{{ item.tg_id  }}</td>
+                                                <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.username }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td>{{ item.type }}</td>
                                                 <td>{{ item.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
-                                                <td class="list-status-container text-center">
-                                                    <button :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
-                                                        @click.prevent="formAction(item, 'status')">
-                                                        {{ (item.status == 1) ? 'Active' : 'Inactive' }}
-                                                    </button>
-                                                </td>
-                                                <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'" @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'" @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'" @click.prevent="selectAction(item, 'delete', null)"></i>
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
 
-                                    <PaginationLayout :data="{ links: withdraw.links, from: withdraw.from, to: withdraw.to, total: withdraw.total }" />
+                                    <PaginationLayout
+                                        :data="{ links: withdraw.links, from: withdraw.from, to: withdraw.to, total: withdraw.total }" />
 
                                 </div>
                             </div>
@@ -99,9 +88,9 @@ export default {
         filters: Object,
         response: null,
     },
-   components: {
-       Head, AppLayout, SearchLayout, PaginationLayout,
-   },
+    components: {
+        Head, AppLayout, SearchLayout, PaginationLayout,
+    },
 }
 
 </script>
