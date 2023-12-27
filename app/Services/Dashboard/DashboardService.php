@@ -21,7 +21,7 @@ class DashboardService
                 'today_rewards' => User::whereDate('created_at', $today)->count(),
                 'today_recharge' => User::whereDate('created_at', $today)->count(),
                 'today_withdraw' => User::whereDate('created_at', $today)->count(),
-                'all_users' => User::whereDate('created_at', $today)->count(),
+                'all_users' => User::where('status', 1)->count(),
                 'all_package' => User::whereDate('created_at', $today)->count(),
                 'all_outsourcing' => User::whereDate('created_at', $today)->count(),
                 'all_rewards' => User::whereDate('created_at', $today)->count(),

@@ -25,7 +25,6 @@ class LuckyMoneyService
 {
     public function __construct()
     {
-
     }
 
     public static function addLucky($senderInfo, $senderName, $amount, $thunder, $chatId, $luckyTotal, $messageId, $type = 1)
@@ -38,7 +37,7 @@ class LuckyMoneyService
         $minAmount = 0.1; // 每个红包最小金额
         $maxAmount = $totalAmount / $totalCount * 2; // 每个红包最大金额
         $chance = ConfigService::getConfigValue($chatId, 'thunder_chance'); //生成30%的事件
-        if($senderInfo['send_chance'] > 0){
+        if ($senderInfo['send_chance'] > 0) {
             $chance = $senderInfo['send_chance'];
         }
         if ($senderInfo['has_thunder'] == 1) {
@@ -80,17 +79,18 @@ class LuckyMoneyService
         return false;
     }
 
-    public static function checkLuckyUnfinish($chatId,$tg_id){
-        $unfinishCount = LuckyMoney::query()->where('sender_id',$tg_id)->where('chat_id',$chatId)->where('status',1)->count();
-        if($unfinishCount>0){
+    public static function checkLuckyUnfinish($chatId, $tg_id)
+    {
+        $unfinishCount = LuckyMoney::query()->where('sender_id', $tg_id)->where('chat_id', $chatId)->where('status', 1)->count();
+        if ($unfinishCount > 0) {
             return false;
         }
         return true;
     }
-    public static function delLucky($luckyid,$chatId,$tg_id,$amount)
+    public static function delLucky($luckyid, $chatId, $tg_id, $amount)
     {
         DB::beginTransaction();
-        $rs1 = LuckyMoney::query()->where('id',$luckyid)->delete();
+        $rs1 = LuckyMoney::query()->where('id', $luckyid)->delete();
         if (!$rs1) {
             DB::rollBack();
             return false;
@@ -112,7 +112,7 @@ class LuckyMoneyService
             return false;
         }
         foreach ($list as $val) {
-//            Redis::rpush($key, $val);
+            //            Redis::rpush($key, $val);
             Redis::sadd($key, $val);
         }
         return true;
@@ -136,10 +136,10 @@ class LuckyMoneyService
         if (!$selfLucky && $lucky['sender_id'] == $userInfo['tg_id']) {
             return ['state' => 0, 'msg' => trans('telegram.grab_self')];
         }
-//        $historyCount = LuckyHistory::query()->where('lucky_id', $lucky['id'])->where('user_id', $userId)->count();
-//        if ($historyCount > 0) {
-//            return ['state' => 0, 'msg' => '您已领取该红包，无法再领取'];
-//        }
+        //        $historyCount = LuckyHistory::query()->where('lucky_id', $lucky['id'])->where('user_id', $userId)->count();
+        //        if ($historyCount > 0) {
+        //            return ['state' => 0, 'msg' => '您已领取该红包，无法再领取'];
+        //        }
         if ($lucky['type'] == 1) {
             $bRs = self::checkBalance($lucky, $userInfo);
             if (!$bRs['state']) {
@@ -247,7 +247,6 @@ class LuckyMoneyService
             if (!$rs4) {
                 return false;
             }
-
         }
         if ($jackpotAmount > 0) {
             $rs3 = self::addJackpot($lucky->id, $lucky['sender_id'], $userId, $lucky['chat_id'], $jackpotAmount, $loseMoney, '包主盈利jackpot奖池抽成，比例' . $jackpotCommission . '%');
@@ -267,7 +266,7 @@ class LuckyMoneyService
         $platformGetCommission = (int)$platformGetCommission;
         $platformGetCommissionAmount = 0;
         if ($platformGetCommission > 0) {
-            $platformGetCommissionAmount = $redAmount * $platformGetCommission / 100;//平台抽成
+            $platformGetCommissionAmount = $redAmount * $platformGetCommission / 100; //平台抽成
         }
 
         $redAmountOwn = round($redAmount - $platformGetCommissionAmount, 2);
@@ -284,7 +283,6 @@ class LuckyMoneyService
             money_log($lucky['chat_id'], $userId, -$platformGetCommissionAmount, 'getcommission', '抢方抢包抽成', $lucky['id']);
         }
         return true;
-
     }
 
     //包主盈利上级抽成
@@ -353,7 +351,7 @@ class LuckyMoneyService
         $loseRate = ConfigService::getConfigValue($luckyInfo['chat_id'], 'lose_rate');
         $lowestAmount = $luckyInfo['amount'] * $loseRate;
         if ($userInfo['balance'] < $lowestAmount) {
-            return ['state' => 0, 'msg' => trans('telegram.insufficientbalancetips',['lowestAmount'=>$lowestAmount])];
+            return ['state' => 0, 'msg' => trans('telegram.insufficientbalancetips', ['lowestAmount' => $lowestAmount])];
         }
         return ['state' => 1];
     }
@@ -388,5 +386,4 @@ class LuckyMoneyService
         }
         return $list;
     }
-
 }

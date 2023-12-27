@@ -1,7 +1,7 @@
 <template>
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('dashboard')">
                 <div class="glow" v-if="$page.url.startsWith('/dashboard')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/dashboard') }" href="/dashboard"
                     preserve-state>
@@ -12,7 +12,7 @@
 
             <li class="nav-heading">Mine Management</li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('groups')">
                 <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/groups') }" href="/groups"
                     preserve-state>
@@ -20,7 +20,7 @@
                 <span>Group Management</span>
                 </Link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('tg-users')">
                 <div class="glow" v-if="$page.url.startsWith('/tg-users')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/tg-users') }" href="/tg-users"
                     preserve-state>
@@ -29,7 +29,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('red-envelopes')">
                 <div class="glow" v-if="$page.url.startsWith('/red-envelopes')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/red-envelopes') }"
                     href="/red-envelopes" preserve-state>
@@ -38,7 +38,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('recharge')">
                 <div class="glow" v-if="$page.url.startsWith('/recharge')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/recharge') }" href="/recharge"
                     preserve-state>
@@ -47,7 +47,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('commissions')">
                 <div class="glow" v-if="$page.url.startsWith('/commissions')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/commissions') }" href="/commissions"
                     preserve-state>
@@ -56,7 +56,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('rewards')">
                 <div class="glow" v-if="$page.url.startsWith('/rewards')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/rewards') }" href="/rewards"
                     preserve-state>
@@ -65,7 +65,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('withdraw')">
                 <div class="glow" v-if="$page.url.startsWith('/withdraw')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/withdraw') }" href="/withdraw"
                     preserve-state>
@@ -74,7 +74,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('reports')">
                 <div class="glow" v-if="$page.url.startsWith('/reports')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/reports') }" href="/reports"
                     preserve-state>
@@ -85,7 +85,7 @@
 
             <li class="nav-heading">System</li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('administrator')">
                 <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/administrator') }"
                     href="/administrator" preserve-state>
@@ -94,7 +94,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('roles')">
                 <div class="glow" v-if="$page.url.startsWith('/roles')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/roles') }" href="/roles"
                     preserve-state>
@@ -103,7 +103,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('permissions')">
                 <div class="glow" v-if="$page.url.startsWith('/permissions')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/permissions') }" href="/permissions"
                     preserve-state>
@@ -123,7 +123,7 @@
 
             <li class="nav-heading">Logs</li>
 
-            <li class="nav-item">
+            <li class="nav-item" v-if="$page.props.oucha.includes('operation-log')">
                 <div class="glow" v-if="$page.url.startsWith('/operation-log')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/operation-log') }"
                     href="/operation-log" preserve-state>
@@ -142,6 +142,9 @@ import { Link } from '@inertiajs/vue3';
 export default {
     components: {
         Link,
+    },
+    props: {
+        oucha : Object,
     },
     // mounted() {
     //     let x = sessionStorage.getItem('load');
