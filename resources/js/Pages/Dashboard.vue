@@ -333,63 +333,40 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        Recent Activity <span>| Today</span>
+                                        System Information
                                     </h5>
 
-                                    <div class="activity">
-                                        <div class="activity-item d-flex">
-                                            <div class="activite-label">32 min</div>
-                                            <i class="bi bi-circle-fill activity-badge text-success align-self-start"></i>
-                                            <div class="activity-content">
-                                                Quia quae rerum
-                                                <a href="#" class="fw-bold text-dark">explicabo officiis</a>
-                                                beatae
-                                            </div>
-                                        </div>
-
-                                        <div class="activity-item d-flex">
-                                            <div class="activite-label">56 min</div>
-                                            <i class="bi bi-circle-fill activity-badge text-danger align-self-start"></i>
-                                            <div class="activity-content">
-                                                Voluptatem blanditiis blanditiis eveniet
-                                            </div>
-                                        </div>
-
-                                        <div class="activity-item d-flex">
-                                            <div class="activite-label">2 hrs</div>
-                                            <i class="bi bi-circle-fill activity-badge text-primary align-self-start"></i>
-                                            <div class="activity-content">
-                                                Voluptates corrupti molestias voluptatem
-                                            </div>
-                                        </div>
-
-                                        <div class="activity-item d-flex">
-                                            <div class="activite-label">1 day</div>
-                                            <i class="bi bi-circle-fill activity-badge text-info align-self-start"></i>
-                                            <div class="activity-content">
-                                                Tempore autem saepe
-                                                <a href="#" class="fw-bold text-dark">occaecati voluptatem</a>
-                                                tempore
-                                            </div>
-                                        </div>
-
-                                        <div class="activity-item d-flex">
-                                            <div class="activite-label">2 days</div>
-                                            <i class="bi bi-circle-fill activity-badge text-warning align-self-start"></i>
-                                            <div class="activity-content">
-                                                Est sit eum reiciendis exercitationem
-                                            </div>
-                                        </div>
-
-                                        <div class="activity-item d-flex">
-                                            <div class="activite-label">4 weeks</div>
-                                            <i class="bi bi-circle-fill activity-badge text-muted align-self-start"></i>
-                                            <div class="activity-content">
-                                                Dicta dolorem harum nulla eius. Ut quidem quidem sit
-                                                quas
-                                            </div>
-                                        </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered no-margin">
+                                            <colgroup>
+                                                <col width="260">
+                                                <col width="*">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Program Version :</td>
+                                                    <td>1.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PHP Version :</td>
+                                                    <td>8.2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Laravel Version :</td>
+                                                    <td>10.10</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Database Version :</td>
+                                                    <td>8.0</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Powered by :</td>
+                                                    <td>Feiwin</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

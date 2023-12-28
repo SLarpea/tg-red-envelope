@@ -115,27 +115,19 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'New Group' : 'Update Group' }}
+                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'Group' : 'Update Group' }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
                         <form @submit.prevent="formAction(form, 'all')">
                             <div class="modal-body">
-                                <div class="row gx-4">
+                                <div class="row gx-4" v-if="editMode">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
                                             <label for="group_id" class="col-sm-4 col-form-label">Group ID :
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="group_id" name="group_id" v-model="form.group_id" type="text"
-                                                    class="form-control" autocomplete="off" />
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Name :
-                                            </label>
-                                            <div class="col-sm-8">
-                                                <input id="name" name="name" v-model="form.name" type="text"
                                                     class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
@@ -190,6 +182,46 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-4" v-if="!editMode">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered no-margin">
+                                            <colgroup>
+                                                <col width="260">
+                                                <col width="*">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Group ID :</td>
+                                                    <td>{{ form.group_id }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Remarks  :</td>
+                                                    <td>{{ form.remark }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Customer Service Link :</td>
+                                                    <td>{{ form.service_url  }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fill-Up Link :</td>
+                                                    <td>{{ form.recharge_url }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Channel Link :</td>
+                                                    <td>{{ form.channel_url }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Red Envelope Image ID :</td>
+                                                    <td>{{ form.photo_id }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Status :</td>
+                                                    <td>{{ form.status }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +292,6 @@ export default {
             this.action = 'new';
             this.form = {
                 group_id: null,
-                name: null,
                 remark: null,
                 service_url: null,
                 recharge_url: null,
@@ -274,9 +305,14 @@ export default {
             this.action = action;
             if (this.action == 'delete') {
                 this.formAction(data, type);
+            } else if (this.action == 'show') {
+                this.form = Object.assign({}, data);
+                this.modalShow = true;
+                this.editMode = false;
             } else {
                 this.form = Object.assign({}, data);
                 this.modalShow = true;
+                this.editMode = true;
             }
         },
         formAction(data, type) {
