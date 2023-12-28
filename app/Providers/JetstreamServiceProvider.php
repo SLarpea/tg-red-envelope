@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
+use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Facades\Hash;
 use App\Actions\Jetstream\DeleteUser;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Jetstream\Jetstream;
+use Illuminate\Validation\ValidationException;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -22,6 +27,21 @@ class JetstreamServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configurePermissions();
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('email', $request->email)->first();
+
+            if ($user) {
+                if ($user->status == 1 && Hash::check($request->password, $user->password)) {
+                    return $user;
+                } else {
+                    throw ValidationException::withMessages([
+                        'email' => $user->status != 1 ? __('Your account is inactive.') : __('These credentials do not match our records.'),
+                    ]);
+                }
+            }
+
+        });
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
     }
