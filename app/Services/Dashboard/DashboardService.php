@@ -19,37 +19,37 @@ class DashboardService
         $today = Carbon::today();
 
         // Today User
-        $today_user = UserManagement::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->count();
+        $today_user = UserManagement::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->count();
         // Today packages
-        $today_package = LuckyMoney::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->count();
+        $today_package = LuckyMoney::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->count();
         // Today outsourcing
-        $today_outsourcing = LuckyMoney::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->sum('amount');
+        $today_outsourcing = LuckyMoney::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->sum('amount');
         // Today Mine Rate
-        $arr = LuckyHistory::query()->selectRaw('count(*) as countThunder,is_thunder')->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->groupBy('is_thunder')->get();
+        $arr = LuckyHistory::query()->selectRaw('count(*) as countThunder,is_thunder')->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->groupBy('is_thunder')->get();
         $is_thunder_0 = 0;
         $is_thunder_1 = 0;
-        foreach ($arr as $val){
-            if($val['is_thunder']==0){
+        foreach ($arr as $val) {
+            if ($val['is_thunder'] == 0) {
                 $is_thunder_0 = $val['countThunder'];
-            }else{
+            } else {
                 $is_thunder_1 = $val['countThunder'];
             }
         }
         $today_thunder_rate = 0;
-        if($is_thunder_1>0||$is_thunder_0>0){
-            $today_thunder_rate = round(($is_thunder_1/($is_thunder_1+$is_thunder_0)) * 100,2);
+        if ($is_thunder_1 > 0 || $is_thunder_0 > 0) {
+            $today_thunder_rate = round(($is_thunder_1 / ($is_thunder_1 + $is_thunder_0)) * 100, 2);
         }
         //Today Profit
-        $todayCommission_profit = CommissionRecord::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->sum('amount');
-        $todayReward_profit = RewardRecord::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->sum('amount');
+        $todayCommission_profit = CommissionRecord::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->sum('amount');
+        $todayReward_profit = RewardRecord::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->sum('amount');
         $dif_profit = $todayCommission_profit - $todayReward_profit;
-        $today_profit = $todayCommission_profit .' - '.$todayReward_profit.' = '.$dif_profit;
+        $today_profit = $todayCommission_profit . ' - ' . $todayReward_profit . ' = ' . $dif_profit;
         //Today Rewards
-        $today_rewards = RewardRecord::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->sum('amount');
+        $today_rewards = RewardRecord::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->sum('amount');
         //Today Recharge
-        $today_recharge = RechargeRecord::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->sum('amount');
+        $today_recharge = RechargeRecord::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->sum('amount');
         //Today Withdraw
-        $today_withdraw = WithdrawRecord::query()->where('created_at','>',Carbon::now()->startOfDay())->where('created_at','<',Carbon::now()->endOfDay())->sum('amount');
+        $today_withdraw = WithdrawRecord::query()->where('created_at', '>', Carbon::now()->startOfDay())->where('created_at', '<', Carbon::now()->endOfDay())->sum('amount');
         //All Users
         $all_users = UserManagement::query()->count();
         //All Package
@@ -66,8 +66,7 @@ class DashboardService
         $commission_revenue = CommissionRecord::query()->sum('amount');
         $reward_revenue = RewardRecord::query()->sum('amount');
         $dif_revenue = $commission_revenue - $reward_revenue;
-        $total_revenue = $commission_revenue .' - '.$reward_revenue.' = '.$dif_revenue;
-
+        $total_revenue = $commission_revenue . ' - ' . $reward_revenue . ' = ' . $dif_revenue;
 
         $data = [
             'dashboard' => [
