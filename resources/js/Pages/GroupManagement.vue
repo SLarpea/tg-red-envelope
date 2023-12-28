@@ -42,7 +42,6 @@
                                                 <tr>
                                                     <th scope="col" class="text-center">#</th>
                                                     <th scope="col">Group ID</th>
-                                                    <th scope="col">Name</th>
                                                     <th scope="col">Remarks</th>
                                                     <th scope="col">Customer Service Link</th>
                                                     <th scope="col">Recharge Link</th>
@@ -58,7 +57,6 @@
                                                     @dblclick.prevent="selectAction(item, 'show', null)">
                                                     <td class="text-center">{{ groups.from + index }}</td>
                                                     <td>{{ item.group_id }}</td>
-                                                    <td>{{ item.name }}</td>
                                                     <td>{{ item.remark }}</td>
                                                     <td class="text-center service_url">
                                                         <a :href="item.service_url" v-tippy="item.service_url"

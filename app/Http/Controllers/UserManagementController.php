@@ -28,7 +28,15 @@ class UserManagementController extends Controller
     public function top_up(Request $request, string $id)
     {
         $this->userManagementService->recharge($request);
-        $data = $this->userManagementService->showData($request);
+        $this->userManagementService->showData($request);
+
+        return redirect()->route('tg-users.index')->with('response', 'success');
+    }
+
+    public function withdraw(Request $request, string $id)
+    {
+        $this->userManagementService->withdraw($request);
+        $this->userManagementService->showData($request);
 
         return redirect()->route('tg-users.index')->with('response', 'success');
     }

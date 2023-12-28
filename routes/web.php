@@ -39,6 +39,7 @@ Route::middleware([
     Route::resource('/configs', App\Http\Controllers\ConfigController::class);
     Route::resource('/tg-users', App\Http\Controllers\UserManagementController::class);
     Route::put('/tg-users.top-up/{id}', [App\Http\Controllers\UserManagementController::class, 'top_up'])->name('tg-users.top-up');
+    Route::put('/tg-users.withdraw/{id}', [App\Http\Controllers\UserManagementController::class, 'withdraw'])->name('tg-users.withdraw');
     Route::resource('/menus', App\Http\Controllers\MenuController::class);
     Route::put('/menus.sort', [App\Http\Controllers\MenuController::class, 'sort'])->name('menus.sort');
 });

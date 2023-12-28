@@ -76,8 +76,6 @@
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
                                                         @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -100,13 +98,13 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> Top Up
+                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'User' : 'Top Up' }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
                         <form @submit.prevent="formAction(form, 'update')">
                             <div class="modal-body">
-                                <div class="row gx-4">
+                                <div class="row gx-4" v-if="editMode">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
                                             <label for="username" class="col-sm-5 col-form-label">Username :
@@ -253,15 +251,56 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row gx-4" v-if="!editMode">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered no-margin">
+                                            <colgroup>
+                                                <col width="260">
+                                                <col width="*">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Username :</td>
+                                                    <td>{{ form.username }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Nickname :</td>
+                                                    <td>{{ form.first_name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Telegram ID :</td>
+                                                    <td>{{ form.tg_id  }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Balance :</td>
+                                                    <td>{{ form.balance }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Status :</td>
+                                                    <td>{{ form.status }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Probability of Outsourcing :</td>
+                                                    <td>{{ form.username }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Inviter :</td>
+                                                    <td>{{ form.invite_user }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Creation Time :</td>
+                                                    <td>{{ form.created_at }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
                                     <i class="bi bi-x-circle"></i> Close
                                 </button>
                                 <template v-if="action !== 'show'">
-                                    <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
-                                    </button>
                                     <button type="submit" class="btn btn-custom" v-if="action === 'update'">
                                         <i class="bi bi-save2"></i> Update
                                     </button>
@@ -347,11 +386,79 @@
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
-                        <form @submit.prevent="formAction(form, 'withdraw')">
+                        <form @submit.prevent="formAction(form_withdraw, 'withdraw')">
                             <div class="modal-body">
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
-
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-4 col-form-label">Number Of Cashiers :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="amount" name="amount" v-model="form_withdraw.amount" type="text"
+                                                    class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="address" class="col-sm-4 col-form-label">Refreshment Address :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="address" name="address" v-model="form_withdraw.address" type="text"
+                                                    class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="status" class="col-sm-4 col-form-label">Type Of Presentation :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-select" aria-label="Default select example" id="addr_type"
+                                                    name="addr_type" v-model="form_withdraw.addr_type">
+                                                    <option value="trc20">trc20</option>
+                                                    <option value="bep20">bep20</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-4 col-form-label">Whether To Transfer :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" v-model="form_withdraw.status"
+                                                        type="radio" name="inlineRadioOptionsstatus" id="inlineRadio1" value="0"
+                                                        checked>
+                                                    <label class="form-check-label" for="inlineRadio1">Not transferred</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" v-model="form_withdraw.status"
+                                                        type="radio" name="inlineRadioOptionsstatus" id="inlineRadio2" value="1">
+                                                    <label class="form-check-label" for="inlineRadio2">Transfer</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="remark" class="col-sm-4 col-form-label">Remarks :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="remark" name="remark" v-model="form_withdraw.remark" type="text"
+                                                    class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="amount" class="col-sm-4 col-form-label">Send To Group Chat :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" v-model="form_withdraw.is_send"
+                                                        type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0"
+                                                        checked>
+                                                    <label class="form-check-label" for="inlineRadio1">No</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" v-model="form_withdraw.is_send"
+                                                        type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">
+                                                    <label class="form-check-label" for="inlineRadio2">Yes</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -359,14 +466,9 @@
                                 <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
                                     <i class="bi bi-x-circle"></i> Close
                                 </button>
-                                <template v-if="action !== 'show'">
-                                    <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
-                                    </button>
-                                    <button type="submit" class="btn btn-custom" v-if="action === 'update'">
-                                        <i class="bi bi-save2"></i> Update
-                                    </button>
-                                </template>
+                                <button type="submit" class="btn btn-custom">
+                                    <i class="bi bi-save2"></i> Save
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -389,6 +491,7 @@ export default {
             modalShow: false,
             topUpShow: false,
             withdrawShow: false,
+            editMode: false,
             form: {
                 username: null,
                 first_name: null,
@@ -417,7 +520,16 @@ export default {
                 is_send: 1,
             },
             form_withdraw: {
-
+                id: null,
+                first_name: null,
+                amount: null,
+                status: 1,
+                address: null,
+                addr_type: 'trc20',
+                group_id: null,
+                remarks: null,
+                admin_id: 1,
+                is_send: 1,
             },
         };
     },
@@ -437,17 +549,20 @@ export default {
         },
         selectAction(data, action, type) {
             this.action = action;
-            if (this.action == 'delete') {
-                this.formAction(data, type);
-            } else if (this.action == 'top_up') {
+            if (this.action == 'top_up') {
                 this.form_topUp = Object.assign(this.form_topUp, data);
                 this.topUpShow = true;
             } else if (this.action == 'withdraw') {
-                this.form_withdraw = Object.assign({}, data);
+                this.form_withdraw = Object.assign(this.form_withdraw, data);
                 this.withdrawShow = true;
+            } else if (this.action == 'show') {
+                this.form = Object.assign({}, data);
+                this.modalShow = true;
+                this.editMode = false;
             } else {
                 this.form = Object.assign({}, data);
                 this.modalShow = true;
+                this.editMode = true;
             }
         },
         formAction(data, type) {
@@ -472,15 +587,9 @@ export default {
             } else if (this.action == 'withdraw') {
                 text = "Are you sure you want to update this item?";
                 confirmButtonColor = '#198754';
-                method = 'POST';
+                method = 'PUT';
                 routeURL = 'tg-users.withdraw';
                 msgText = 'Work has been updated.';
-            } else {
-                text = "Are you sure you want to delete this item?";
-                confirmButtonColor = '#D81B60';
-                method = 'DELETE';
-                routeURL = 'tg-users.destroy';
-                msgText = 'Work has been deleted.';
             }
 
             this.$swal({
@@ -507,6 +616,7 @@ export default {
                                 });
                                 this.modalShow = false;
                                 this.topUpShow = false;
+                                this.withdrawShow = false;
                             }
                         },
                         onError: () => {

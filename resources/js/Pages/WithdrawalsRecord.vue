@@ -55,7 +55,7 @@
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.username }}</td>
                                                 <td>{{ item.amount }}</td>
-                                                <td>{{ item.type }}</td>
+                                                <td>{{ item.addr_type }}</td>
                                                 <td>{{ item.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
                                             </tr>
