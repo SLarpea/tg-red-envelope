@@ -111,7 +111,7 @@
                                             <i class="bi bi-cash-coin"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>{{ dashboard.toda_profit }}</h6>
+                                            <h6>{{ dashboard.today_profit }}</h6>
                                             <span class="text-muted small pt-2 ps-1">Description</span>
                                         </div>
                                     </div>
