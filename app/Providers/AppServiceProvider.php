@@ -21,6 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Inertia::share('oucha', Menu::where('status', 1)->pluck('url'));
+        Inertia::share('sidemenu', Menu::get());
     }
 }

@@ -46,7 +46,6 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Username</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Email Address</th>
                                                 <th scope="col" class="text-center">Status</th>
@@ -59,7 +58,6 @@
                                                 <td class="text-center">
                                                     {{ administrator.from + index }}
                                                 </td>
-                                                <td>{{ item.username }}</td>
                                                 <td>{{ item.name }}</td>
                                                 <td>{{ item.email }}</td>
                                                 <td class="list-status-container text-center">
@@ -146,6 +144,16 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
+                                            <label for="status" class="col-sm-4 col-form-label">Role :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <select class="form-select" aria-label="Default select example" id="role"
+                                                    name="role" v-model="form.role">
+                                                    <option v-for="item in roles" :key="item.id" :value="item.name">{{ item.name }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
@@ -196,12 +204,14 @@ export default {
                 email: null,
                 password: "Password123!@#",
                 password_confirmation: null,
+                role: null,
                 status: 1,
             },
         };
     },
     props: {
         administrator: Object,
+        roles: Object,
         filters: Object,
         response: null,
     },
@@ -216,11 +226,6 @@ export default {
             this.modalShow = false;
         },
         resetForm() {
-            console.log(
-                document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute("content")
-            );
             this.modalShow = !this.modalShow;
             this.action = "new";
             this.form = {
@@ -228,6 +233,7 @@ export default {
                 email: null,
                 password: "Password123!@#",
                 password_confirmation: null,
+                role: null,
                 status: 1,
             };
         },

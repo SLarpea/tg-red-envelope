@@ -23,6 +23,7 @@ class RoleController extends Controller
         $data = $this->roleService->showData($request);
         return Inertia::render('Roles', [
             'roles' => $data['roles'],
+            'permissions' => $data['permissions'],
             'filters' => $data['filters'],
             'response' => $data['response'],
         ]);

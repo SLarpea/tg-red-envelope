@@ -26,11 +26,11 @@
                                     <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Menu</h5>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="d-flex justify-content-end align-items-center action-container">
+                                    <!-- <div class="d-flex justify-content-end align-items-center action-container">
                                         <button class="btn btn-custom" type="button" @click.prevent="resetForm">
                                             <i class="bi bi-plus-circle"></i> New Menu
                                         </button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
@@ -127,7 +127,7 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="url" name="url" type="text" class="form-control"
-                                                    v-model="form.url" autocomplete="off" />
+                                                    v-model="form.url" autocomplete="off" readonly/>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -255,39 +255,39 @@ export default {
             this.isModalShow = true;
             this.isErrorShow = false;
         },
-        saveData(data) {
-            this.$swal({
-                text: "Are you sure you want to save this work?",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#38c172',
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    data._method = 'POST';
-                    this.$inertia.post(route('menus.store'), data, {
-                        onSuccess: (response) => {
-                            if (response.props.response == 'success') {
-                                this.$swal({
-                                    position: 'center',
-                                    icon: 'success',
-                                    text: 'Work has been saved.',
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                });
-                                this.isModalShow = false;
-                                this.isErrorShow = false;
-                            }
-                        },
-                        onError: () => {
-                            this.isErrorShow = true;
-                        },
-                    });
-                }
-            })
+        // saveData(data) {
+        //     this.$swal({
+        //         text: "Are you sure you want to save this work?",
+        //         icon: 'question',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#38c172',
+        //         cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
+        //         confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             data._method = 'POST';
+        //             this.$inertia.post(route('menus.store'), data, {
+        //                 onSuccess: (response) => {
+        //                     if (response.props.response == 'success') {
+        //                         this.$swal({
+        //                             position: 'center',
+        //                             icon: 'success',
+        //                             text: 'Work has been saved.',
+        //                             showConfirmButton: false,
+        //                             timer: 2000
+        //                         });
+        //                         this.isModalShow = false;
+        //                         this.isErrorShow = false;
+        //                     }
+        //                 },
+        //                 onError: () => {
+        //                     this.isErrorShow = true;
+        //                 },
+        //             });
+        //         }
+        //     })
 
-        },
+        // },
         updateData(data, type) {
             this.$swal({
                 text: "Are you sure you want to update this work?",
@@ -316,36 +316,6 @@ export default {
                         },
                         onError: () => {
                             this.isErrorShow = true;
-                        },
-                    });
-                }
-            })
-
-        },
-        deleteData(data) {
-            this.$swal({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#D81B60',
-                cancelButtonText: '<i class="bi bi-x-circle"></i> Close',
-                confirmButtonText: '<i class="bi bi-trash"></i> Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    data._method = 'DELETE';
-                    this.$inertia.post(route('menus.destroy', data.id), data, {
-                        onSuccess: (response) => {
-                            if (response.props.response == 'success') {
-                                this.$swal({
-                                    position: 'center',
-                                    icon: 'success',
-                                    text: 'Work has been deleted.',
-                                    showConfirmButton: false,
-                                    timer: 2000
-                                });
-                                this.isModalShow = false;
-                            }
                         },
                     });
                 }

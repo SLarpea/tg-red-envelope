@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
+use Spatie\Permission\Models\Role;
 use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -35,6 +36,8 @@ class User extends Authenticatable
         'status',
         'password',
     ];
+
+    public $guard_name = 'sanctum';
 
     public function getActivitylogOptions(): LogOptions
     {

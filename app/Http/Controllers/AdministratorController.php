@@ -23,6 +23,7 @@ class AdministratorController extends Controller
         $data = $this->administratorService->showData($request);
         return Inertia::render('Administrator', [
             'administrator' => $data['administrator'],
+            'roles' => $data['roles'],
             'filters' => $data['filters'],
             'response' => $data['response'],
         ]);

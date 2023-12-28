@@ -71,7 +71,7 @@ class MenuController extends Controller
 
                 Menu::find($request->input('id'))->update([
                     'name' => $request->name,
-                    'url' => $request->url,
+                    // 'url' => $request->url,
                     // 'sort' => $request->sort,
                     'status' => $request->status,
                 ]);

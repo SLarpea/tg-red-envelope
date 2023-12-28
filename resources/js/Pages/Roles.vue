@@ -118,6 +118,18 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="row mb-2">
+                                            <label for="name" class="col-sm-4 col-form-label">Permissions :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <div class="form-check" v-for="(item) in permissions" :key="item.id">
+                                                    <input class="form-check-input" type="checkbox" v-model="form.selectedOptions" :value="item.name">
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                        {{item.name}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -158,11 +170,13 @@ export default {
             form: {
                 name: null,
                 status: 1,
+                selectedOptions: [],
             },
         };
     },
     props: {
         roles: Object,
+        permissions: Object,
         filters: Object,
         response: null,
     },
@@ -179,6 +193,7 @@ export default {
             this.form = {
                 name: null,
                 status: 1,
+                selectedOptions: [],
             }
         },
         selectAction(data, action, type) {
