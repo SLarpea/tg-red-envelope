@@ -25,6 +25,14 @@ class UserManagementController extends Controller
         ]);
     }
 
+    public function update(Request $request, string $id)
+    {
+        if ($request->has('id')) {
+            $this->userManagementService->updateData($request);
+            return redirect()->route('tg-users.index')->with('response', 'success');
+        }
+    }
+
     public function top_up(Request $request, string $id)
     {
         $this->userManagementService->recharge($request);

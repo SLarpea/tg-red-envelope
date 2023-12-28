@@ -25,8 +25,8 @@ class GroupManagementService
     {
         $request->validated();
         GroupManagement::create([
-            'name' => $request->name,
             'group_id' => $request->group_id,
+            'name' => $request->name,
             'remark' => $request->remark,
             'status' => $request->status,
             'service_url' => $request->service_url,

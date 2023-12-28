@@ -11,15 +11,8 @@ class UserManagement extends Model
 {
     use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'user_management';
-    protected $fillable = [
-        'username',
-        'first_name',
-        'tg_id',
-        'balance',
-        'group_id',
-        'status',
-        'invite_user',
-    ];
+    protected $guarded = [];
+
     public function invite()
     {
         return $this->hasOne(self::class, 'tg_id', 'invite_user');

@@ -35,6 +35,28 @@ class UserManagementService
         ];
     }
 
+    public function updateData($request)
+    {
+        if($request->update_type == 'update'){
+            UserManagement::find($request->input('id'))->update([
+                'first_name' => $request->first_name,
+                'status' => $request->status,
+                'invite_user' => $request->invite_user,
+                'status' => $request->status,
+                'has_thunder' => $request->has_thunder,
+                'no_thunder' => $request->no_thunder,
+                'pass_mine' => $request->pass_mine,
+                'get_mine' => $request->get_mine,
+                'auto_get' => $request->auto_get,
+                'send_chance' => $request->send_chance,
+            ]);
+        }else{
+            UserManagement::find($request->input('id'))->update([
+                'status' => ($request->status == 1) ? 0 : 1,
+            ]);
+        }
+    }
+
     public function recharge($request)
     {
         DB::beginTransaction();

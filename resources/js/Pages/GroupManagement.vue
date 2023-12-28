@@ -42,6 +42,7 @@
                                                 <tr>
                                                     <th scope="col" class="text-center">#</th>
                                                     <th scope="col">Group ID</th>
+                                                    <th scope="col">Name</th>
                                                     <th scope="col">Remarks</th>
                                                     <th scope="col">Customer Service Link</th>
                                                     <th scope="col">Recharge Link</th>
@@ -57,17 +58,18 @@
                                                     @dblclick.prevent="selectAction(item, 'show', null)">
                                                     <td class="text-center">{{ groups.from + index }}</td>
                                                     <td>{{ item.group_id }}</td>
+                                                    <td>{{ item.name }}</td>
                                                     <td>{{ item.remark }}</td>
                                                     <td class="text-center service_url">
-                                                        <a :href="item.service_url" v-tippy="item.service_url"
+                                                        <a :href="item.service_url" v-tippy="item.service_url" target="_blank"
                                                             class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center recharge_url">
-                                                        <a :href="item.recharge_url" v-tippy="item.recharge_url"
+                                                        <a :href="item.recharge_url" v-tippy="item.recharge_url" target="_blank"
                                                             class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center channel_url">
-                                                        <a :href="item.channel_url" v-tippy="item.channel_url"
+                                                        <a :href="item.channel_url" v-tippy="item.channel_url" target="_blank"
                                                             class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center photo_id">
@@ -115,7 +117,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'Group' : 'Update Group' }}
+                                <i class="bi bi-arrow-return-right"></i> Group
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
@@ -128,6 +130,14 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="group_id" name="group_id" v-model="form.group_id" type="text"
+                                                    class="form-control" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="name" class="col-sm-4 col-form-label">Name :
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input id="name" name="name" v-model="form.name" type="text"
                                                     class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
@@ -197,6 +207,10 @@
                                                     <td>{{ form.group_id }}</td>
                                                 </tr>
                                                 <tr>
+                                                    <td>Name  :</td>
+                                                    <td>{{ form.name }}</td>
+                                                </tr>
+                                                <tr>
                                                     <td>Remarks  :</td>
                                                     <td>{{ form.remark }}</td>
                                                 </tr>
@@ -218,7 +232,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Status :</td>
-                                                    <td>{{ form.status }}</td>
+                                                    <td>{{ (form.status == 1) ? 'Active' : 'Inactive' }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -262,6 +276,7 @@ export default {
             action: 'new',
             form: {
                 group_id: null,
+                name: null,
                 remark: null,
                 service_url: null,
                 recharge_url: null,
@@ -290,14 +305,16 @@ export default {
             console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
             this.modalShow = !this.modalShow;
             this.action = 'new';
+            this.editMode = true;
             this.form = {
                 group_id: null,
+                name: null,
                 remark: null,
                 service_url: null,
                 recharge_url: null,
                 channel_url: null,
                 photo_id: null,
-                admin_id: null,
+                admin_id: 1,
                 status: 1,
             }
         },
@@ -355,6 +372,8 @@ export default {
                     data._method = method;
                     data._token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                     data.update_type = type;
+                    data.is_update = (this.action == 'update') ? true : false;
+                    console.log(data);
                     router.post(route(routeURL, data.id), data, {
                         onSuccess: (response) => {
                             if (response.props.response == 'success') {

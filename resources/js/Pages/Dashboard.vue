@@ -345,23 +345,23 @@
                                             <tbody>
                                                 <tr>
                                                     <td>Program Version :</td>
-                                                    <td>1.0</td>
+                                                    <td><strong class="default-color">1.0</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td>PHP Version :</td>
-                                                    <td>8.2</td>
+                                                    <td><strong class="default-color">8.2</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Laravel Version :</td>
-                                                    <td>10.10</td>
+                                                    <td><strong class="default-color">10.10</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Database Version :</td>
-                                                    <td>8.0</td>
+                                                    <td><strong class="default-color">8.0</strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Powered by :</td>
-                                                    <td>Feiwin</td>
+                                                    <td><strong class="default-color">Feiwin</strong></td>
                                                 </tr>
                                             </tbody>
                                         </table>

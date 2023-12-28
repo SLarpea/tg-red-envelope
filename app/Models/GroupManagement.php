@@ -21,7 +21,7 @@ class GroupManagement extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-         -> logOnly(['group_id','remark','status','service_url','recharge_url','channel_url','photo_id','admin_id'])
+         -> logOnly(['group_id', 'name','remark','status','service_url','recharge_url','channel_url','photo_id','admin_id'])
          -> logOnlyDirty()
          -> dontSubmitEmptyLogs();
     }

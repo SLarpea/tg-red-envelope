@@ -2,8 +2,9 @@
 
 namespace App\Services\Dashboard;
 
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\LuckyMoney;
 
 class DashboardService
 {
@@ -14,7 +15,7 @@ class DashboardService
         $data = [
             'dashboard' => [
                 'today_user' => User::whereDate('created_at', $today)->count(),
-                'today_package' => User::whereDate('created_at', $today)->count(),
+                'today_package' => LuckyMoney::whereDate('created_at', $today)->count(),
                 'today_outsourcing' => User::whereDate('created_at', $today)->count(),
                 'today_thunder_rate' => User::whereDate('created_at', $today)->count(),
                 'toda_profit' => User::whereDate('created_at', $today)->count(),
@@ -22,7 +23,7 @@ class DashboardService
                 'today_recharge' => User::whereDate('created_at', $today)->count(),
                 'today_withdraw' => User::whereDate('created_at', $today)->count(),
                 'all_users' => User::where('status', 1)->count(),
-                'all_package' => User::whereDate('created_at', $today)->count(),
+                'all_package' => LuckyMoney::all()->count(),
                 'all_outsourcing' => User::whereDate('created_at', $today)->count(),
                 'all_rewards' => User::whereDate('created_at', $today)->count(),
                 'all_recharge' => User::whereDate('created_at', $today)->count(),

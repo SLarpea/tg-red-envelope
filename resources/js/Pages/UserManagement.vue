@@ -111,7 +111,7 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <input id="username" name="username" v-model="form.username" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -127,7 +127,7 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <input id="tg_id " name="tg_id " v-model="form.tg_id" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -135,7 +135,7 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <input id="balance " name="balance " v-model="form.balance" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -144,7 +144,6 @@
                                             <div class="col-sm-7">
                                                 <select class="form-select" aria-label="Default select example" id="status"
                                                     name="status" v-model="form.status">
-                                                    <option selected>Select Status</option>
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
                                                 </select>
@@ -164,7 +163,7 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <input id="send_chance " name="send_chance " v-model="form.send_chance"
-                                                    type="text" class="form-control" autocomplete="off" />
+                                                    type="number" class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -173,13 +172,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="has_thunder"
+                                                        id="inlineRadio1" value="0" v-model="form.has_thunder" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="has_thunder"
+                                                        id="inlineRadio2" value="1" v-model="form.has_thunder">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -189,13 +188,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="no_thunder"
+                                                        id="inlineRadio1" value="0" v-model="form.no_thunder" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="no_thunder"
+                                                        id="inlineRadio2" value="1" v-model="form.no_thunder">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -205,13 +204,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="pass_mine"
+                                                        id="inlineRadio1" value="0" v-model="form.pass_mine" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="pass_mine"
+                                                        id="inlineRadio2" value="1" v-model="form.pass_mine">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -222,13 +221,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="get_mine"
+                                                        id="inlineRadio1" value="0" v-model="form.get_mine" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="get_mine"
+                                                        id="inlineRadio2" value="1" v-model="form.get_mine">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -238,13 +237,13 @@
                                             </label>
                                             <div class="col-sm-7">
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio1" value="option1" checked>
+                                                    <input class="form-check-input" type="radio" name="auto_get"
+                                                        id="inlineRadio1" value="0" v-model="form.auto_get" checked>
                                                     <label class="form-check-label" for="inlineRadio1">No</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                                        id="inlineRadio2" value="option2">
+                                                    <input class="form-check-input" type="radio" name="auto_get"
+                                                        id="inlineRadio2" value="1" v-model="form.auto_get">
                                                     <label class="form-check-label" for="inlineRadio2">Yes</label>
                                                 </div>
                                             </div>
@@ -277,7 +276,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Status :</td>
-                                                    <td>{{ form.status }}</td>
+                                                    <td>{{ (form.status == 1) ? 'Active' : 'Inactive' }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Probability of Outsourcing :</td>

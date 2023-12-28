@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('group_management', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('group_id');
+            $table->string('name');
             $table->string('remark');
             $table->tinyInteger('status');
             $table->string('service_url');

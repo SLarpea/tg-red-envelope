@@ -26,8 +26,8 @@
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
+                            <h6>{{ $page.props.auth.user.name }}</h6>
+                            <span>Administrator</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
