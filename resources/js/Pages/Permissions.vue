@@ -28,7 +28,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <button class="btn btn-custom" type="button" @click.prevent="resetForm">
+                                                <a href="/permissions" class="btn btn-dark btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm">
                                                     <i class="bi bi-plus-circle"></i> New Permission
                                                 </button>
                                             </div>

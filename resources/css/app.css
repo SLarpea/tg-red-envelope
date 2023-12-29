@@ -656,7 +656,7 @@ h6 {
 }
 
 .dashboard .info-card h6 {
-    font-size: 28px;
+    font-size: 18px;
     color: #512da8;
     font-weight: 700;
     margin: 0;
@@ -664,10 +664,10 @@ h6 {
 }
 
 .dashboard .card-icon {
-    font-size: 32px;
+    font-size: 22px;
     line-height: 0;
-    width: 64px;
-    height: 64px;
+    width: 54px;
+    height: 54px;
     flex-shrink: 0;
     flex-grow: 0;
 }
@@ -1045,6 +1045,7 @@ h6 {
     border-color: #512da8;
     color: #ffffff;
     font-size: 14px;
+    margin-left: 5px;
 }
 
 .btn-custom:hover, .btn-custom:focus, .btn-custom:active {
@@ -1137,6 +1138,14 @@ background-color: #3e97ff;
 
 .text-custom {
     color: #512da8;
+}
+
+.badge.bg-custom {
+    background-color: #564e68;
+    color: #ffffff;
+    padding: 6px 10px;
+    font-size: 13px;
+    margin-left: 5px;
 }
 
 /* td {

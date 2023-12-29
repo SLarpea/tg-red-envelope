@@ -27,7 +27,9 @@
                                             <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Withdraw</h5>
                                         </div>
                                         <div class="col-lg-6">
-                                            &nbsp;
+                                            <div class="d-flex justify-content-end align-items-center action-container">
+                                                <a href="/withdraw" class="btn btn-dark btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                            </div>
                                         </div>
                                     </div>
 

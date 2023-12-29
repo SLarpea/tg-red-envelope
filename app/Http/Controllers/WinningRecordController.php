@@ -20,6 +20,7 @@ class WinningRecordController extends Controller
         $data = $this->winningRecordService->showData($request);
         return Inertia::render('WinningRecord', [
             'winning' => $data['winning'],
+            'user_details' => $data['user_details'],
         ]);
     }
 }

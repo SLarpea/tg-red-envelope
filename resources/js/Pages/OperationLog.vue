@@ -25,6 +25,11 @@
                                 <div class="col-lg-6">
                                     <h5 class="card-title">List of Logs</h5>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex justify-content-end align-items-center action-container">
+                                        <a href="/operation-log" class="btn btn-dark btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                    </div>
+                                </div>
                             </div>
 
                             <SearchLayout :data="{ routeLink: 'operation-log', filters: filters }" />

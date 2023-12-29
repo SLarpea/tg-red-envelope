@@ -3,6 +3,7 @@
 namespace App\Services\Dashboard;
 
 use App\Models\InviteRecord;
+use App\Models\UserManagement;
 
 class InvitationRecordService
 {
@@ -10,6 +11,7 @@ class InvitationRecordService
     {
         return [
             'invites' => InviteRecord::orderBy('id', 'asc')->where('tg_id', $request->tg_id)->paginate(15)->withQueryString(),
+            'user_details' => UserManagement::where('tg_id', $request->tg_id)->select('username', 'first_name', 'tg_id')->first(),
         ];
     }
 

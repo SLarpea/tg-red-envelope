@@ -20,6 +20,7 @@ class LuckyHistoryController extends Controller
         $data = $this->luckyHistoryService->showData($request);
         return Inertia::render('LuckyHistory', [
             'lucky' => $data['lucky'],
+            'user_details' => $data['user_details'],
         ]);
     }
 }

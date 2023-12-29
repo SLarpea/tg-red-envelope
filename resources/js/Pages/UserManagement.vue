@@ -27,7 +27,9 @@
                                             <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Users</h5>
                                         </div>
                                         <div class="col-lg-6">
-                                            &nbsp;
+                                            <div class="d-flex justify-content-end align-items-center action-container">
+                                                <a href="/tg-users" class="btn btn-dark btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -45,7 +47,7 @@
                                                 <th scope="col">Telegram ID</th>
                                                 <th scope="col">Group ID</th>
                                                 <th scope="col">Balance</th>
-                                                <th scope="col">Is Online</th>
+                                                <th scope="col" class="text-center">Is Online</th>
                                                 <th scope="col" class="text-center">Status</th>
                                                 <th scope="col" class="text-center">Action</th>
                                             </tr>
@@ -59,7 +61,7 @@
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.balance }}</td>
-                                                <td>{{ item.online }}</td>
+                                                <td class="text-center">{{ (item.online == 0) ? 'No' : 'Yes' }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
@@ -70,17 +72,17 @@
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-gem text-primary" v-tippy="'Top Up'"
                                                         @click.prevent="selectAction(item, 'top_up', null)"></i>
-                                                    <i class="bi bi-arrow-down-square text-primary" v-tippy="'Withdraw'"
+                                                    <i class="bi bi-arrow-down-square text-info" v-tippy="'Withdraw'"
                                                         @click.prevent="selectAction(item, 'withdraw', null)"></i>
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
+                                                    <i class="bi bi-eye text-danger" v-tippy="'View'"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <Link href="/invitation-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-binoculars text-primary" v-tippy="'Invitation Record'"></i></Link>
-                                                    <Link href="/winning-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-star text-primary" v-tippy="'Winning Record'"></i></Link>
+                                                    <Link href="/invitation-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-binoculars text-success" v-tippy="'Invitation Record'"></i></Link>
+                                                    <Link href="/winning-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-star text-custom" v-tippy="'Winning Record'"></i></Link>
                                                     <Link href="/share-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-person-check text-primary" v-tippy="'Share Record'"></i></Link>
-                                                    <Link href="/personal-report" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-bar-chart text-primary" v-tippy="'Personal Report'"></i></Link>
-                                                    <Link href="/funding-details" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-cash-stack text-primary" v-tippy="'Funding Details'"></i></Link>
-                                                    <Link href="/lucky-history" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-list-check text-primary" v-tippy="'Robbing Record'"></i></Link>
-                                                    <i class="bi bi-pencil-square text-primary" v-tippy="'Edit'"
+                                                    <Link href="/personal-report" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-bar-chart text-info" v-tippy="'Personal Report'"></i></Link>
+                                                    <Link href="/funding-details" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-cash-stack text-danger" v-tippy="'Funding Details'"></i></Link>
+                                                    <Link href="/lucky-history" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-list-check text-success" v-tippy="'Robbing Record'"></i></Link>
+                                                    <i class="bi bi-pencil-square text-custom" v-tippy="'Edit'"
                                                         @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                 </td>
                                             </tr>

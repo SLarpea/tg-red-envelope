@@ -10,7 +10,7 @@
                 </Link>
             </li>
 
-            <li class="nav-heading">Mine Management</li>
+            <li class="nav-heading">矿山管理模块</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[1].status == 1">
                 <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
@@ -83,7 +83,7 @@
                 </Link>
             </li>
 
-            <li class="nav-heading">System</li>
+            <li class="nav-heading">系统模块</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[9].status == 1">
                 <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
@@ -117,11 +117,11 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/menus') }" href="/menus"
                     preserve-state>
                 <i class="bi bi-list"></i>
-                <span>Menu</span>
+                <span>菜单</span>
                 </Link>
             </li>
 
-            <li class="nav-heading">Logs</li>
+            <li class="nav-heading">活动日志模块</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[12].status == 1">
                 <div class="glow" v-if="$page.url.startsWith('/operation-log')">&nbsp;</div>

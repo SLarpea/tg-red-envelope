@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Records</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Records of <span class="badge bg-custom" v-tippy="user_details.first_name">{{ user_details.username }} ({{ user_details.tg_id }})</span></h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
@@ -43,7 +43,7 @@
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
                                                 <th scope="col">Reward Amount</th>
-                                                <th scope="col">Username</th>
+                                                <th scope="col">Telegram ID</th>
                                                 <th scope="col">Group ID</th>
                                                 <th scope="col">Remarks</th>
                                                 <th scope="col">invite</th>
@@ -86,6 +86,7 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 export default {
     props: {
         invites: Object,
+        user_details: Array,
     },
     components: {
         Head, AppLayout, SearchLayout, PaginationLayout,

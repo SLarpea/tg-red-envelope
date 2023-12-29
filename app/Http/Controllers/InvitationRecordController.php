@@ -20,6 +20,7 @@ class InvitationRecordController extends Controller
         $data = $this->invitationRecordService->showData($request);
         return Inertia::render('InvitationRecord', [
             'invites' => $data['invites'],
+            'user_details' => $data['user_details'],
         ]);
     }
 }

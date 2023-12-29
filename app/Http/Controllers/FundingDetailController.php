@@ -20,6 +20,7 @@ class FundingDetailController extends Controller
         $data = $this->fundingDetailService->showData($request);
         return Inertia::render('FundingDetails', [
             'funding' => $data['funding'],
+            'user_details' => $data['user_details'],
         ]);
     }
 }

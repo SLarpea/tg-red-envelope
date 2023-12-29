@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-6">
             <p class="show-entries" v-show="data.total > 0">
-                Showing {{ data.from }} to {{ data.to }} of {{ data.total }} entries
+                展示 {{ data.from }} 到 {{ data.to }} 的 {{ data.total }} 条目
             </p>
         </div>
         <div class="col-lg-6">

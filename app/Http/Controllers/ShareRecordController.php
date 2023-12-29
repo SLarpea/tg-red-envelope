@@ -20,6 +20,7 @@ class ShareRecordController extends Controller
         $data = $this->shareRecordService->showData($request);
         return Inertia::render('ShareRecord', [
             'share' => $data['share'],
+            'user_details' => $data['user_details'],
         ]);
     }
 }

@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> Money Logs</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Records of <span class="badge bg-custom" v-tippy="user_details.first_name">{{ user_details.username }} ({{ user_details.tg_id }})</span></h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
@@ -97,6 +97,7 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 export default {
     props: {
         funding: Object,
+        user_details: Array,
     },
     components: {
         Head, AppLayout, SearchLayout, PaginationLayout,
