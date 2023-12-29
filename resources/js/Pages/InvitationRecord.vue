@@ -3,7 +3,7 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-cash-stack"></i> Invitation Record</h1>
+            <h1><i class="bi bi-binoculars"></i> Invitation Record</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Mine Management</li>
@@ -28,8 +28,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a class="btn btn-custom" href="/tg-users">
-                                                    <i class="bi bi-arrow-left-circle"></i> Back
+                                                <a class="btn btn-custom btn-sm" href="/tg-users">
+                                                    <i class="bi bi-arrow-left-circle"></i> 后退
                                                 </a>
                                             </div>
                                         </div>
@@ -46,7 +46,7 @@
                                                 <th scope="col">Telegram ID</th>
                                                 <th scope="col">Group ID</th>
                                                 <th scope="col">Remarks</th>
-                                                <th scope="col">invite</th>
+                                                <th scope="col">Invite</th>
                                                 <th scope="col">Creation Time</th>
                                             </tr>
                                         </thead>

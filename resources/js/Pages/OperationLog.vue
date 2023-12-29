@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="d-flex justify-content-end align-items-center action-container">
-                                        <a href="/operation-log" class="btn btn-dark btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                        <a href="/operation-log" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
                                     </div>
                                 </div>
                             </div>

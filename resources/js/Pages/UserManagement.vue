@@ -28,7 +28,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/tg-users" class="btn btn-dark btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                                <a href="/tg-users" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
                                             </div>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@
                                                     <i class="bi bi-eye text-danger" v-tippy="'View'"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <Link href="/invitation-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-binoculars text-success" v-tippy="'Invitation Record'"></i></Link>
-                                                    <Link href="/winning-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-star text-custom" v-tippy="'Winning Record'"></i></Link>
+                                                    <Link href="/winning-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-trophy text-custom" v-tippy="'Winning Record'"></i></Link>
                                                     <Link href="/share-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-person-check text-primary" v-tippy="'Share Record'"></i></Link>
                                                     <Link href="/personal-report" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-bar-chart text-info" v-tippy="'Personal Report'"></i></Link>
                                                     <Link href="/funding-details" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-cash-stack text-danger" v-tippy="'Funding Details'"></i></Link>

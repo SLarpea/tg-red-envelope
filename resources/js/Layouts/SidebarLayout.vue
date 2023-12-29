@@ -78,7 +78,7 @@
                 <div class="glow" v-if="$page.url.startsWith('/reports')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/reports') }" href="/reports"
                     preserve-state>
-                <i class="bi bi-chat-left-dots"></i>
+                <i class="bi bi-graph-up-arrow"></i>
                 <span>{{ $page.props.sidemenu[8].name }}</span>
                 </Link>
             </li>

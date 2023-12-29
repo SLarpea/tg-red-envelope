@@ -60,6 +60,8 @@
                                 </button>
                             </form>
                         </li>
+                        <hr>
+                        &nbsp;
                     </ul>
                 </li>
             </ul>

@@ -2,13 +2,13 @@
     <Head title="Report" />
     <AppLayout>
         <div class="pagetitle">
-            <h1><i class="bi bi-wallet2"></i> Report</h1>
+            <h1><i class="bi bi-graph-up-arrow"></i> Report</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Mine Management</li>
                     <li class="breadcrumb-item">Report</li>
                     <li class="breadcrumb-item active">
-                        Generation of reports
+                        Generation of Reports
                     </li>
                 </ol>
             </nav>
@@ -48,7 +48,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
-                                                <label for="group_id" class="col-sm-12 col-form-label">Group Id
+                                                <label for="group_id" class="col-sm-12 col-form-label">Group ID
                                                 </label>
                                                 <div class="col-sm-12">
                                                     <select class="form-select" v-model="filter_form.group_id"
@@ -80,11 +80,11 @@
                                         </div>
                                         <div class="row mt-2">
                                             <div class="d-flex gap-1 justify-content-end  align-items-center ">
-                                                <button class="btn btn-secondary" type="button"
+                                                <button class="btn btn-secondary btn-sm" type="button"
                                                     @click.prevent="resetFilterForm()">
                                                     <i class="bi bi-arrow-clockwise"></i> Reset
                                                 </button>
-                                                <button class="btn btn-custom" type="button"
+                                                <button class="btn btn-custom btn-sm" type="button"
                                                     @click.prevent="searchReport()">
                                                     <i class="bi bi-search"></i> Search
                                                 </button>
@@ -111,7 +111,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">#</th>
-                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Group ID</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
                                                 </thead>
@@ -160,7 +160,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">#</th>
-                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Group ID</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
                                                 </thead>
@@ -210,7 +210,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">#</th>
-                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Group ID</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
                                                 </thead>
@@ -261,7 +261,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="text-center">#</th>
-                                                        <th scope="col" class="text-center">Group Id</th>
+                                                        <th scope="col" class="text-center">Group ID</th>
                                                         <th scope="col" class="text-center">Total</th>
                                                     </tr>
                                                 </thead>

@@ -28,8 +28,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a class="btn btn-custom" href="/tg-users">
-                                                    <i class="bi bi-arrow-left-circle"></i> Back
+                                                <a class="btn btn-custom btn-sm" href="/tg-users">
+                                                    <i class="bi bi-arrow-left-circle"></i> 后退
                                                 </a>
                                             </div>
                                         </div>

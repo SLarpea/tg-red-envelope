@@ -3,7 +3,7 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-grid"></i> Personal Report</h1>
+            <h1><i class="bi bi-bar-chart"></i> Personal Report</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Mine Management</li>

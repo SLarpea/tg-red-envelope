@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Menu;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
