@@ -13,6 +13,7 @@ import 'tippy.js/dist/tippy.css';
 
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import 'aos/dist/aos.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Hongbao';
 
