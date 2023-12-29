@@ -133,16 +133,19 @@
             </li>
 
         </ul>
+        <FooterLayout />
     </aside>
+
 </template>
 
 <script>
 import { Link } from '@inertiajs/vue3';
+import FooterLayout from "./FooterLayout.vue";
 import AOS from "aos";
 
 export default {
     components: {
-        Link,
+        Link, FooterLayout,
     },
     props: {
         sidemenu : Object,
