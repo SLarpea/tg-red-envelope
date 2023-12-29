@@ -97,6 +97,7 @@ h6 {
     animation-fill-mode: both;
     border: 0;
     box-shadow: 0 5px 30px 0 rgba(82, 63, 105, 0.2);
+    border: 1px solid #512da8;
 }
 
 .dropdown-menu .dropdown-footer,
@@ -148,6 +149,7 @@ h6 {
         transform: rotate(45deg);
         border-top: 1px solid #eaedf1;
         border-left: 1px solid #eaedf1;
+        border-color: #512da8;
     }
 }
 
@@ -1116,6 +1118,24 @@ background-color: #3e97ff;
 }
 
 .default-color {
+    color: #512da8;
+}
+
+.card-no-border {
+    border-bottom: unset;
+    box-shadow: unset;
+    border: 1px solid #512da8;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    background-color: #522da80e;
+}
+
+.personal-report .filter {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+}
+
+.text-custom {
     color: #512da8;
 }
 

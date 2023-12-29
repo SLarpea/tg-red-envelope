@@ -28,7 +28,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_user }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_package }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_outsourcing }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_thunder_rate }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_profit }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -133,7 +133,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_rewards }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_recharge }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -175,7 +175,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.today_withdraw }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.all_users }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +217,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.all_package }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -238,7 +238,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.all_outsourcing }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.all_rewards }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -280,7 +280,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.all_recharge }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -301,7 +301,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.all_withdraw }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -322,7 +322,7 @@
                                         </div>
                                         <div class="ps-3">
                                             <h6>{{ dashboard.total_revenue }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Description</span>
+                                            <span class="text-muted small pt-2 ps-1"><i class="bi bi-chevron-bar-up"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +333,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        System Information
+                                        系统信息
                                     </h5>
 
                                     <div class="table-responsive">
@@ -344,23 +344,23 @@
                                             </colgroup>
                                             <tbody>
                                                 <tr>
-                                                    <td>Program Version :</td>
+                                                    <td>程序版本 :</td>
                                                     <td><strong class="default-color">1.0</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>PHP Version :</td>
+                                                    <td>PHP版本 :</td>
                                                     <td><strong class="default-color">8.2</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Laravel Version :</td>
+                                                    <td>Laravel版本 :</td>
                                                     <td><strong class="default-color">10.10</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Database Version :</td>
+                                                    <td>数据库版本 :</td>
                                                     <td><strong class="default-color">8.0</strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Powered by :</td>
+                                                    <td>供电 :</td>
                                                     <td><strong class="default-color">Feiwin</strong></td>
                                                 </tr>
                                             </tbody>

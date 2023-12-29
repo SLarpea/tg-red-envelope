@@ -32,6 +32,12 @@ Route::middleware([
     Route::get('/red-envelopes', [App\Http\Controllers\RedEnvelopeManagementController::class, 'index'])->name('red-envelopes.index');
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
     Route::get('/operation-log', [App\Http\Controllers\OperationLogController::class, 'index'])->name('operation-log');
+    Route::get('/personal-report', [App\Http\Controllers\PersonalReportController::class, 'index'])->name('personal-report');
+    Route::get('/funding-details', [App\Http\Controllers\FundingDetailController::class, 'index'])->name('funding-details');
+    Route::get('/lucky-history', [App\Http\Controllers\LuckyHistoryController::class, 'index'])->name('lucky-history');
+    Route::get('/invitation-records', [App\Http\Controllers\InvitationRecordController::class, 'index'])->name('invitation-records');
+    Route::get('/share-records', [App\Http\Controllers\ShareRecordController::class, 'index'])->name('share-records');
+    Route::get('/winning-records', [App\Http\Controllers\WinningRecordController::class, 'index'])->name('winning-records');
     Route::resource('/administrator', App\Http\Controllers\AdministratorController::class);
     Route::resource('/roles', App\Http\Controllers\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\PermissionController::class);

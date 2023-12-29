@@ -72,9 +72,15 @@
                                                         @click.prevent="selectAction(item, 'top_up', null)"></i>
                                                     <i class="bi bi-arrow-down-square text-primary" v-tippy="'Withdraw'"
                                                         @click.prevent="selectAction(item, 'withdraw', null)"></i>
-                                                    <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                    <Link href="/invitation-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-binoculars text-primary" v-tippy="'Invitation Record'"></i></Link>
+                                                    <Link href="/winning-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-star text-primary" v-tippy="'Winning Record'"></i></Link>
+                                                    <Link href="/share-records" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-person-check text-primary" v-tippy="'Share Record'"></i></Link>
+                                                    <Link href="/personal-report" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-bar-chart text-primary" v-tippy="'Personal Report'"></i></Link>
+                                                    <Link href="/funding-details" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-cash-stack text-primary" v-tippy="'Funding Details'"></i></Link>
+                                                    <Link href="/lucky-history" method="get" :data="{ tg_id: item.tg_id }"><i class="bi bi-list-check text-primary" v-tippy="'Robbing Record'"></i></Link>
+                                                    <i class="bi bi-pencil-square text-primary" v-tippy="'Edit'"
                                                         @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                 </td>
                                             </tr>
@@ -479,7 +485,7 @@
 </template>
 
 <script>
-import { Head, router } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
@@ -538,7 +544,7 @@ export default {
         response: null,
     },
     components: {
-        Head, AppLayout, SearchLayout, PaginationLayout,
+        Head, Link, AppLayout, SearchLayout, PaginationLayout,
     },
     methods: {
         closeModal() {

@@ -3,12 +3,12 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-cash-stack"></i> Winning Record</h1>
+            <h1><i class="bi bi-cash-stack"></i> Robbing Record</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">Mine Management</li>
                     <li class="breadcrumb-item"><a href="/tg-users">User Management</a></li>
-                    <li class="breadcrumb-item active">Winning Record</li>
+                    <li class="breadcrumb-item active">Robbing Record</li>
                 </ol>
             </nav>
         </div>
@@ -40,15 +40,14 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
+                                                <th scope="col">Receive User ID</th>
+                                                <th scope="col">Username</th>
                                                 <th scope="col">Red Envelope ID</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col">User</th>
-                                                <th scope="col">Group ID</th>
-                                                <th scope="col">Remarks</th>
-                                                <th scope="col">Bao Master</th>
-                                                <th scope="col">Winning Number</th>
-                                                <th scope="col">Winning Type</th>
+                                                <th scope="col">Is It Zhonglei</th>
+                                                <th scope="col">Package Amount</th>
+                                                <th scope="col">Loss Amount</th>
                                                 <th scope="col">Creation Time</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
