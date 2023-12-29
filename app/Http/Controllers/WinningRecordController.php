@@ -15,11 +15,11 @@ class WinningRecordController extends Controller
         $this->winningRecordService = $winningRecordService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->winningRecordService->showData();
+        $data = $this->winningRecordService->showData($request);
         return Inertia::render('WinningRecord', [
-
+            'winning' => $data['winning'],
         ]);
     }
 }

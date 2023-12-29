@@ -27,11 +27,13 @@
                                             <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Records</h5>
                                         </div>
                                         <div class="col-lg-6">
-                                            &nbsp;
+                                            <div class="d-flex justify-content-end align-items-center action-container">
+                                                <a class="btn btn-custom" href="/tg-users">
+                                                    <i class="bi bi-arrow-left-circle"></i> Back
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <!-- <SearchLayout :data="{ routeLink: 'tg-users.index', filters: filters }" /> -->
 
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
@@ -49,23 +51,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- <tr v-for="(item, index) in recharge.data" :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
-                                                <td class="text-center">{{ recharge.from + index }}</td>
-                                                <td>{{ item.tg_id }}</td>
-                                                <td>{{ item.username }}</td>
+                                            <tr v-for="(item, index) in invites.data" :key="item.id">
+                                                <td class="text-center">{{ invites.from + index }}</td>
                                                 <td>{{ item.amount }}</td>
-                                                <td class="text-center td-type">
-                                                    {{ getTextType(item.type) }}
-                                                </td>
-                                                <td>{{ item.first_name }}</td>
+                                                <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.group_id }}</td>
-                                            </tr> -->
+                                                <td>{{ item.remark }}</td>
+                                                <td>{{ item.invite_user_id }}</td>
+                                                <td>{{ item.created_at }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
-                                    <!-- <PaginationLayout
-                                        :data="{ links: recharge.links, from: recharge.from, to: recharge.to, total: recharge.total }" /> -->
+                                    <PaginationLayout
+                                        :data="{ links: invites.links, from: invites.from, to: invites.to, total: invites.total }" />
 
                                 </div>
                             </div>
@@ -86,9 +85,7 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 
 export default {
     props: {
-        recharge: Object,
-        filters: Object,
-        response: null,
+        invites: Object,
     },
     components: {
         Head, AppLayout, SearchLayout, PaginationLayout,

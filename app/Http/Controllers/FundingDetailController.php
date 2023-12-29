@@ -15,11 +15,11 @@ class FundingDetailController extends Controller
         $this->fundingDetailService = $fundingDetailService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->fundingDetailService->showData();
+        $data = $this->fundingDetailService->showData($request);
         return Inertia::render('FundingDetails', [
-
+            'funding' => $data['funding'],
         ]);
     }
 }

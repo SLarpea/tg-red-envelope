@@ -27,7 +27,11 @@
                                             <h5 class="card-title"><i class="bi bi-list-ol"></i> Money Logs</h5>
                                         </div>
                                         <div class="col-lg-6">
-                                            &nbsp;
+                                            <div class="d-flex justify-content-end align-items-center action-container">
+                                                <a class="btn btn-custom" href="/tg-users">
+                                                    <i class="bi bi-arrow-left-circle"></i> Back
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -47,29 +51,31 @@
                                                 <th scope="col">Balance At The Time</th>
                                                 <th scope="col">Amount</th>
                                                 <th scope="col" class="text-center">Type</th>
+                                                <th scope="col">Red Envelope ID</th>
                                                 <th scope="col">Remarks</th>
                                                 <th scope="col">Creation Time</th>
 
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <!-- <tr v-for="(item, index) in recharge.data" :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
-                                                <td class="text-center">{{ recharge.from + index }}</td>
+                                            <tr v-for="(item, index) in funding.data" :key="item.id">
+                                                <td class="text-center">{{ funding.from + index }}</td>
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.username }}</td>
-                                                <td>{{ item.amount }}</td>
-                                                <td class="text-center td-type">
-                                                    {{ getTextType(item.type) }}
-                                                </td>
                                                 <td>{{ item.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
-                                            </tr> -->
+                                                <td>{{ item.balance }}</td>
+                                                <td>{{ item.amount }}</td>
+                                                <td>{{ item.type }}</td>
+                                                <td>{{ item.remark }}</td>
+                                                <td>{{ item.lucky_id }}</td>
+                                                <td>{{ item.created_at  }}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
-                                    <!-- <PaginationLayout
-                                        :data="{ links: recharge.links, from: recharge.from, to: recharge.to, total: recharge.total }" /> -->
+                                    <PaginationLayout
+                                        :data="{ links: funding.links, from: funding.from, to: funding.to, total: funding.total }" />
 
                                 </div>
                             </div>
@@ -90,9 +96,7 @@ import PaginationLayout from "../Layouts/PaginationLayout.vue";
 
 export default {
     props: {
-        recharge: Object,
-        filters: Object,
-        response: null,
+        funding: Object,
     },
     components: {
         Head, AppLayout, SearchLayout, PaginationLayout,

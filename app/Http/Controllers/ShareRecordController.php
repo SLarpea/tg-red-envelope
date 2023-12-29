@@ -15,11 +15,11 @@ class ShareRecordController extends Controller
         $this->shareRecordService = $shareRecordService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->shareRecordService->showData();
+        $data = $this->shareRecordService->showData($request);
         return Inertia::render('ShareRecord', [
-
+            'share' => $data['share'],
         ]);
     }
 }

@@ -15,11 +15,11 @@ class LuckyHistoryController extends Controller
         $this->luckyHistoryService = $luckyHistoryService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->luckyHistoryService->showData();
+        $data = $this->luckyHistoryService->showData($request);
         return Inertia::render('LuckyHistory', [
-
+            'lucky' => $data['lucky'],
         ]);
     }
 }

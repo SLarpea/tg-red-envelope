@@ -15,11 +15,11 @@ class InvitationRecordController extends Controller
         $this->invitationRecordService = $invitationRecordService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->invitationRecordService->showData();
+        $data = $this->invitationRecordService->showData($request);
         return Inertia::render('InvitationRecord', [
-
+            'invites' => $data['invites'],
         ]);
     }
 }
