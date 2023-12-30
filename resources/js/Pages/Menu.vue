@@ -84,7 +84,7 @@
                                             </td>
                                             <td class="list-action-container text-center">
                                                 <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                    @click.prevent="editData(item)"></i>
+                                                    @click.prevent="editData(item)" v-if="$page.props.user.permissions.includes(32)"></i>
                                             </td>
                                         </tr>
                                     </tbody>

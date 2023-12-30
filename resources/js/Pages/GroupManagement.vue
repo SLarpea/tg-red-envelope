@@ -29,7 +29,7 @@
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <a href="/groups" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
-                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm">
+                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm" v-if="$page.props.user.permissions.includes(3)">
                                                     <i class="bi bi-plus-circle"></i> 新小组
                                                 </button>
                                             </div>
@@ -88,15 +88,15 @@
                                                     </td>
                                                     <td class="list-action-container text-center">
                                                         <Link href="/configs" method="get"
-                                                            :data="{ group_id: item.group_id }" preserve-state><i
+                                                            :data="{ group_id: item.group_id }" v-if="$page.props.user.permissions.includes(4)" preserve-state><i
                                                             class="bi bi-gear text-primary" v-tippy="'Configuration'"></i>
                                                         </Link>
                                                         <i class="bi bi-eye text-info" v-tippy="'View'"
                                                             @click.prevent="selectAction(item, 'show', null)"></i>
                                                         <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                            @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                            @click.prevent="selectAction(item, 'update', 'all')" v-if="$page.props.user.permissions.includes(5)"></i>
                                                         <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                            @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                            @click.prevent="selectAction(item, 'delete', null)" v-if="$page.props.user.permissions.includes(6)"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>

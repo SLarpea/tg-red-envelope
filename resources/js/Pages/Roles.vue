@@ -29,7 +29,7 @@
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <a href="/roles" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
-                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm">
+                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm" v-if="$page.props.user.permissions.includes(28)">
                                                     <i class="bi bi-plus-circle"></i> New Role
                                                 </button>
                                             </div>
@@ -66,9 +66,9 @@
                                                     <i class="bi bi-eye text-info" v-tippy="'View'"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                        @click.prevent="selectAction(item, 'update', 'all')" v-if="$page.props.user.permissions.includes(29)"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                        @click.prevent="selectAction(item, 'delete', null)" v-if="$page.props.user.permissions.includes(30)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
