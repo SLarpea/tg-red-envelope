@@ -14,16 +14,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $userItem = [
-            [
-                'name' => 'Super Admin',
-                'email' => 'admin@feiwin.com',
-                'password' => Hash::make('password123'),
-                'status' => 1,
-            ],
+        $user = User::create([
+            'name' => 'Super Admin',
+            'email' => 'admin@feiwin.com',
+            'password' => Hash::make('password123'),
+            'status' => 1,
+        ]);
 
-        ];
+        $user->assignRole('Administrator');
 
-        User::insert($userItem);
     }
 }
