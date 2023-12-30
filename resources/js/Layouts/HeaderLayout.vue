@@ -27,7 +27,7 @@
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
                             <h6>{{ $page.props.auth.user.name }}</h6>
-                            <span>Administrator</span>
+                            <span>{{ $page.props.user.roles[0] }}</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />

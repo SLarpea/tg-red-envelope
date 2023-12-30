@@ -49,7 +49,6 @@
                                                 <th scope="col">Group Id</th>
                                                 <th scope="col">Remarks</th>
                                                 <th scope="col">Bao Master</th>
-                                                <th scope="col" class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -63,10 +62,6 @@
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.remark }}</td>
                                                 <td>{{ item.sender.first_name }}</td>
-                                                <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
-                                                        @click.prevent="selectAction(item, 'show', null)"></i>
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
