@@ -3,13 +3,15 @@
 namespace App\Models;
 
 // use Dcat\Admin\Traits\HasDateTimeFormatter;
+
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class WithdrawRecord extends Model
 {
 	// use HasDateTimeFormatter;
-    use SoftDeletes;
+    use SoftDeletes, ScopeCommonFilterTraits;
 
     protected $table = 'withdraw_record';
     protected $fillable = [

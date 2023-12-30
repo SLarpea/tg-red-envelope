@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use App\Traits\DateTrait;
 
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class InviteRecord extends Model
 {
 
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'invite_records';
     protected $fillable = [
         'amount',
@@ -20,10 +21,10 @@ class InviteRecord extends Model
     ];
     public function user()
     {
-        return $this->hasOne(UserManagement::class,'tg_id','tg_id');
+        return $this->hasOne(UserManagement::class, 'tg_id', 'tg_id');
     }
     public function inviteuser()
     {
-        return $this->hasOne(UserManagement::class,'tg_id','invite_user_id');
+        return $this->hasOne(UserManagement::class, 'tg_id', 'invite_user_id');
     }
 }

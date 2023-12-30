@@ -1,13 +1,14 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\MoneyLog;
 use App\Models\AuthGroup;
 use Illuminate\Support\Arr;
 use App\Models\UserManagement;
 use App\Models\GroupManagement;
-use App\Services\Telegram\ConfigService;
 use App\Logging\LogJsonFormatter;
 use Illuminate\Support\Facades\Redis;
+use App\Services\Telegram\ConfigService;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
 
@@ -545,4 +546,46 @@ function money_log($groupId, $tgId, $amount, $type, $remark = '', $lucky_id = nu
         'balance' => $balance,
     ];
     return MoneyLog::query()->create($insert);
+}
+
+if (!function_exists('get_startenddate_by_option')) {
+    function get_startenddate_by_option($option = null)
+    {
+        switch ($option) {
+            case '365':
+                $start_date = Carbon::now()->subDays(365);
+                $end_date = Carbon::now();
+                // 直线
+                break;
+            case '180':
+                $start_date = Carbon::now()->subDays(180);
+                $end_date = Carbon::now();
+                // 直线
+                break;
+            case '30':
+                $start_date = Carbon::now()->subDays(30);
+                $end_date = Carbon::now();
+                // 直线
+                break;
+            case '15':
+
+                $start_date = Carbon::now()->subDays(15);
+                $end_date = Carbon::now();
+                // 直线
+                break;
+            case '7':
+                $start_date = Carbon::now()->subDays(7);
+                $end_date = Carbon::now();
+                break;
+            case '1':
+            default:
+                $start_date = Carbon::now()->startOfDay();
+                $end_date = Carbon::now();
+        }
+
+        return [
+            'start_date' => Carbon::parse($start_date),
+            'end_date' => Carbon::parse($end_date)
+        ];
+    }
 }

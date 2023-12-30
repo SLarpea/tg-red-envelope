@@ -4,11 +4,14 @@ namespace App\Models;
 
 // use Dcat\Admin\Traits\HasDateTimeFormatter;
 
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use Illuminate\Database\Eloquent\Model;
 
 class MoneyLog extends Model
 {
-	// use HasDateTimeFormatter;
+
+    use ScopeCommonFilterTraits;
+
     protected $table = 'money_logs';
     protected $fillable = [
         'amount',

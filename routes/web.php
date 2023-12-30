@@ -33,6 +33,7 @@ Route::middleware([
     Route::get('/withdraw', [App\Http\Controllers\WithdrawRecordController::class, 'index'])->name('withdraw');
     Route::get('/operation-log', [App\Http\Controllers\OperationLogController::class, 'index'])->name('operation-log');
     Route::get('/personal-report', [App\Http\Controllers\PersonalReportController::class, 'index'])->name('personal-report');
+    Route::post('/personal-report', [App\Http\Controllers\PersonalReportController::class, 'index'])->name('post.personal-report');
     Route::get('/funding-details', [App\Http\Controllers\FundingDetailController::class, 'index'])->name('funding-details');
     Route::get('/lucky-history', [App\Http\Controllers\LuckyHistoryController::class, 'index'])->name('lucky-history');
     Route::get('/invitation-records', [App\Http\Controllers\InvitationRecordController::class, 'index'])->name('invitation-records');

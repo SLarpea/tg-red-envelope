@@ -21,8 +21,8 @@ trait ScopeCommonFilterTraits
         return $query->where('chat_id', $groupId);
     }
 
-    public static function scopeFilterByDateCreated($query, $startDate, $endDate)
+    public static function scopeFilterByDateCreated($query, $startDate, $endDate, $table = '')
     {
-        return $query->whereBetween('created_at', [$startDate, $endDate]);
+        return $query->whereBetween((!empty($table) ? $table . '.' : '') . 'created_at', [$startDate, $endDate]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use App\Traits\DateTrait;
 
 use App\Models\UserManagement;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShareRecord extends Model
 {
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'share_records';
     protected $fillable = [
         'lucky_id',

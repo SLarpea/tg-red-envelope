@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\ScopeTraits\ScopeCommonFilterTraits;
 use App\Traits\DateTrait;
 
 use Illuminate\Database\Eloquent\Model;
 
 class JackpotRecord extends Model
 {
-    use  DateTrait;
+    use  DateTrait, ScopeCommonFilterTraits;
     protected $table = 'jackpot_record';
     protected $fillable = [
         'lucky_id',
