@@ -21,35 +21,20 @@ class GroupManagementRequest extends FormRequest
      */
     public function rules(): array
     {
-        if(!$this->is_update){
-            if ($this->update_type != 'status') {
-                $rules = [
-                    'name' => 'required',
-                    'group_id' => 'required|unique:group_management,group_id',
-                    'remark' => 'required',
-                    'service_url' => 'required',
-                    'recharge_url' => 'required',
-                    'channel_url' => 'required',
-                    'photo_id' => 'required',
-                    'admin_id' => 'required',
-                    'status' => 'required|integer',
-                ];
-
-            }else{
-                $rules = [
-                    'status' => 'required|integer',
-                ];
-            }
-        }else{
+        if ($this->update_type != 'status') {
             $rules = [
                 'name' => 'required',
-                'group_id' => 'required',
+                'group_id' => 'required|unique:group_management,group_id,' . $this->id,
                 'remark' => 'required',
                 'service_url' => 'required',
                 'recharge_url' => 'required',
                 'channel_url' => 'required',
                 'photo_id' => 'required',
                 'admin_id' => 'required',
+                'status' => 'required|integer',
+            ];
+        } else {
+            $rules = [
                 'status' => 'required|integer',
             ];
         }
