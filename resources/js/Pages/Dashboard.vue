@@ -360,6 +360,10 @@
                                                     <td><strong class="default-color">8.0</strong></td>
                                                 </tr>
                                                 <tr>
+                                                    <td>REDIS版本 :</td>
+                                                    <td><strong class="default-color">5.0</strong></td>
+                                                </tr>
+                                                <tr>
                                                     <td>供电 :</td>
                                                     <td><strong class="default-color">Feiwin</strong></td>
                                                 </tr>
