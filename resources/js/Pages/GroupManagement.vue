@@ -30,7 +30,7 @@
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <a href="/groups" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
                                                 <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm">
-                                                    <i class="bi bi-plus-circle"></i> New Group
+                                                    <i class="bi bi-plus-circle"></i> 新小组
                                                 </button>
                                             </div>
                                         </div>

@@ -28,7 +28,11 @@
                                             <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Configs</h5>
                                         </div>
                                         <div class="col-lg-6">
-                                            &nbsp;
+                                            <div class="d-flex justify-content-end align-items-center action-container">
+                                                <a class="btn btn-custom btn-sm" href="/groups">
+                                                    <i class="bi bi-arrow-left-circle"></i> 后退
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -73,8 +77,8 @@
                                                             @click.prevent="selectAction(item, 'show', null)"></i>
                                                         <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
                                                             @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                        <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                            @click.prevent="selectAction(item, 'delete', null)"></i>
+                                                        <!-- <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                            @click.prevent="selectAction(item, 'delete', null)"></i> -->
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -97,16 +101,16 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'New Group' : 'Update Group' }}
+                                <i class="bi bi-arrow-return-right"></i> Configuration
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
                         <form @submit.prevent="formAction(form, 'all')">
                             <div class="modal-body">
-                                <div class="row gx-4">
+                                <div class="row gx-4" v-if="editMode">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Group ID :
+                                            <label for="name" class="col-sm-4 col-form-label">Key :
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
@@ -137,6 +141,34 @@
                                                     class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="row gx-4" v-if="!editMode">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered no-margin">
+                                            <colgroup>
+                                                <col width="260">
+                                                <col width="*">
+                                            </colgroup>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Key :</td>
+                                                    <td>{{ form.name }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Description  :</td>
+                                                    <td>{{ form.remark }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Configuration Value  :</td>
+                                                    <td>{{ form.value }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Group ID :</td>
+                                                    <td>{{ form.group_id  }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -174,6 +206,7 @@ export default {
             modalShow: false,
             editMode: false,
             action: 'new',
+            editMode: false,
             form: {
                 name: null,
                 value: null,
@@ -198,6 +231,7 @@ export default {
         },
         resetForm() {
             console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
+            this.editMode = true;
             this.modalShow = !this.modalShow;
             this.action = 'new';
             this.form = {
@@ -212,9 +246,14 @@ export default {
             this.action = action;
             if (this.action == 'delete') {
                 this.formAction(data, type);
+            }else if(this.action == 'show'){
+                this.form = Object.assign({}, data);
+                this.modalShow = true;
+                this.editMode = false;
             } else {
                 this.form = Object.assign({}, data);
                 this.modalShow = true;
+                this.editMode = true;
             }
         },
         formAction(data, type) {
@@ -237,12 +276,6 @@ export default {
                 method = 'PUT';
                 routeURL = 'configs.update';
                 msgText = 'Work has been updated.';
-            } else {
-                text = "Are you sure you want to delete this item?";
-                confirmButtonColor = '#D81B60';
-                method = 'DELETE';
-                routeURL = 'configs.destroy';
-                msgText = 'Work has been deleted.';
             }
 
             this.$swal({
