@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Menu;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Inertia::share('sidemenu', Menu::get());
+        // Check if the 'menu' table exists
+        if (Schema::hasTable('menus')) {
+            // Fetch and share the menu data with Inertia
+            Inertia::share('sidemenu', Menu::get());
+        }
     }
 }
