@@ -22,9 +22,6 @@ class RoleService
 
     public function storeData($request)
     {
-        dd($request->selectedOptions);
-
-
         $request->validated();
         $role = Role::create([
             'name' => $request->name,

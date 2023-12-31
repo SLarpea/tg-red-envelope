@@ -23,7 +23,7 @@ class RoleRequest extends FormRequest
     {
         if ($this->update_type != 'status') {
             $rules = [
-                'name' => 'required',
+                'name' => 'required|unique:roles,name,' . $this->id,
                 'status' => 'required|integer',
             ];
 

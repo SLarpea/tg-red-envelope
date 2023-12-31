@@ -106,8 +106,13 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.name">
+                                                    {{ error_form.name }}
+                                                </div>
                                             </div>
+
                                         </div>
                                         <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
@@ -126,10 +131,9 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <div class="form-check" v-for="(item) in permissions" :key="item.id">
-                                                    <input :id="'id_'+item.id" class="form-check-input" type="checkbox"
-                                                        v-model="form.selectedOptions" :value="item.name"
-                                                        >
-                                                    <label class="form-check-label" :for="'id_'+item.id">
+                                                    <input :id="'id_' + item.id" class="form-check-input" type="checkbox"
+                                                        v-model="form.selectedOptions" :value="item.name">
+                                                    <label class="form-check-label" :for="'id_' + item.id">
                                                         {{ item.name }}
                                                     </label>
                                                 </div>
@@ -165,6 +169,7 @@ import { Head, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -177,6 +182,7 @@ export default {
                 status: 1,
                 selectedOptions: [],
             },
+            error_form: {}
         };
     },
     props: {
@@ -206,6 +212,7 @@ export default {
             if (this.action == 'delete') {
                 this.formAction(data, type);
             } else {
+                this.error_form = {};
                 this.form = Object.assign(this.form, data);
                 this.form.selectedOptions = data.permissions.map(item => item.name)
                 this.modalShow = true;
@@ -264,7 +271,15 @@ export default {
                                 this.modalShow = false;
                             }
                         },
-                        onError: () => {
+                        onError: (error) => {
+                            try {
+                                this.error_form = Object.assign(this.error_form, error);
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(`'An unexpected error occurred.'`);
+                            }
 
                         },
                     });
@@ -285,3 +300,8 @@ export default {
 }
 
 </script>
+<style scoped>
+.invalid-feedback {
+    font-size: .775em;
+}
+</style>
