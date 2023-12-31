@@ -28,8 +28,10 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/groups" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
-                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm" >
+                                                <a href="/groups" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> 刷新</a>
+                                                <button class="btn btn-custom btn-sm" type="button"
+                                                    @click.prevent="resetForm">
                                                     <i class="bi bi-plus-circle"></i> 新小组
                                                 </button>
                                             </div>
@@ -62,16 +64,16 @@
                                                     <td>{{ item.name }}</td>
                                                     <td>{{ item.remark }}</td>
                                                     <td class="text-center service_url">
-                                                        <a :href="item.service_url" v-tippy="item.service_url" target="_blank"
-                                                            class="btn btn-outline-primary btn-sm">Link</a>
+                                                        <a :href="item.service_url" v-tippy="item.service_url"
+                                                            target="_blank" class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center recharge_url">
-                                                        <a :href="item.recharge_url" v-tippy="item.recharge_url" target="_blank"
-                                                            class="btn btn-outline-primary btn-sm">Link</a>
+                                                        <a :href="item.recharge_url" v-tippy="item.recharge_url"
+                                                            target="_blank" class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center channel_url">
-                                                        <a :href="item.channel_url" v-tippy="item.channel_url" target="_blank"
-                                                            class="btn btn-outline-primary btn-sm">Link</a>
+                                                        <a :href="item.channel_url" v-tippy="item.channel_url"
+                                                            target="_blank" class="btn btn-outline-primary btn-sm">Link</a>
                                                     </td>
                                                     <td class="text-center photo_id">
                                                         <a :href="item.photo_id" v-tippy="item.photo_id"
@@ -88,15 +90,15 @@
                                                     </td>
                                                     <td class="list-action-container text-center">
                                                         <Link href="/configs" method="get"
-                                                            :data="{ group_id: item.group_id }"  preserve-state><i
+                                                            :data="{ group_id: item.group_id }" preserve-state><i
                                                             class="bi bi-gear text-primary" v-tippy="'Configuration'"></i>
                                                         </Link>
                                                         <i class="bi bi-eye text-info" v-tippy="'View'"
                                                             @click.prevent="selectAction(item, 'show', null)"></i>
                                                         <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                            @click.prevent="selectAction(item, 'update', 'all')" ></i>
+                                                            @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                         <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                            @click.prevent="selectAction(item, 'delete', null)" ></i>
+                                                            @click.prevent="selectAction(item, 'delete', null)"></i>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -131,7 +133,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="group_id" name="group_id" v-model="form.group_id" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.group_id ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.group_id">
+                                                    {{ error_form.group_id }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -139,7 +145,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.name">
+                                                    {{ error_form.name }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -147,7 +157,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="remark" name="remark" v-model="form.remark" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.remark ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.remark">
+                                                    {{ error_form.remark }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -155,7 +169,12 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="service_url" name="service_url" v-model="form.service_url"
-                                                    type="text" class="form-control" autocomplete="off" />
+                                                    type="text"
+                                                    :class="`form-control ${error_form.service_url ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.service_url">
+                                                    {{ error_form.service_url }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -163,7 +182,12 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="recharge_url" name="recharge_url" v-model="form.recharge_url"
-                                                    type="text" class="form-control" autocomplete="off" />
+                                                    type="text"
+                                                    :class="`form-control ${error_form.recharge_url ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.recharge_url">
+                                                    {{ error_form.recharge_url }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -171,7 +195,12 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="channel_url" name="channel_url" v-model="form.channel_url"
-                                                    type="text" class="form-control" autocomplete="off" />
+                                                    type="text"
+                                                    :class="`form-control ${error_form.channel_url ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.channel_url">
+                                                    {{ error_form.channel_url }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -179,7 +208,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="photo_id" name="photo_id" v-model="form.photo_id" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.photo_id ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.photo_id">
+                                                    {{ error_form.photo_id }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -208,16 +241,16 @@
                                                     <td>{{ form.group_id }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Name  :</td>
+                                                    <td>Name :</td>
                                                     <td>{{ form.name }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Remarks  :</td>
+                                                    <td>Remarks :</td>
                                                     <td>{{ form.remark }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Customer Service Link :</td>
-                                                    <td>{{ form.service_url  }}</td>
+                                                    <td>{{ form.service_url }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Fill-Up Link :</td>
@@ -286,6 +319,7 @@ export default {
                 admin_id: 1,
                 status: 1,
             },
+            error_form: {}
         };
     },
     props: {
@@ -328,12 +362,14 @@ export default {
                 this.modalShow = true;
                 this.editMode = false;
             } else {
+
                 this.form = Object.assign({}, data);
                 this.modalShow = true;
                 this.editMode = true;
             }
         },
         formAction(data, type) {
+            this.error_form = {};
             this.action = (type == 'status') ? 'update' : this.action;
             let text = String;
             let confirmButtonColor = String;
@@ -390,6 +426,8 @@ export default {
                         },
                         onError: (error) => {
                             try {
+                                this.error_form = Object.assign(this.error_form, error);
+                                console.log(this.error_form, "this.error_form");
                                 Object.entries(error).forEach(([field, message]) => {
                                     toastr.error(`${message}`);
                                 });
@@ -414,6 +452,11 @@ export default {
     created() {
         window.addEventListener('keydown', this.escape);
     },
+    watch: {
+        modalShow: function (oldVal, newVal) {
+            this.error_form = {};
+        }
+    }
 
 }
 
@@ -426,5 +469,9 @@ td.recharge_url a,
 td.channel_url a,
 td.photo_id a {
     font-size: 0.6rem;
+}
+
+.invalid-feedback {
+    font-size: .775em;
 }
 </style>

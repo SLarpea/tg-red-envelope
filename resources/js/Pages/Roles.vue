@@ -212,7 +212,6 @@ export default {
             if (this.action == 'delete') {
                 this.formAction(data, type);
             } else {
-                this.error_form = {};
                 this.form = Object.assign(this.form, data);
                 this.form.selectedOptions = data.permissions.map(item => item.name)
                 this.modalShow = true;
@@ -297,6 +296,11 @@ export default {
     created() {
         window.addEventListener('keydown', this.escape);
     },
+    watch: {
+        modalShow: function (oldVal, newVal) {
+            this.error_form = {};
+        }
+    }
 }
 
 </script>
