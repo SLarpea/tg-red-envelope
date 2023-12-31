@@ -1,7 +1,7 @@
 <template>
     <aside id="sidebar" class="sidebar">
         <ul class="sidebar-nav" id="sidebar-nav">
-            <li class="nav-item" v-if="$page.props.sidemenu[0].status == 1 && $page.props.user.permissions.includes(1)" data-aos="fade-right" data-aos-delay="0">
+            <li class="nav-item" v-if="$page.props.sidemenu[0].status == 1 " data-aos="fade-right" data-aos-delay="0">
                 <div class="glow" v-if="$page.url.startsWith('/dashboard')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/dashboard') }" href="/dashboard"
                     preserve-state>
@@ -12,7 +12,7 @@
 
             <li class="nav-heading" data-aos="fade-right" data-aos-delay="200">矿山管理模块</li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[1].status == 1 && $page.props.user.permissions.includes(2)" data-aos="fade-right" data-aos-delay="200">
+            <li class="nav-item" v-if="$page.props.sidemenu[1].status == 1 " data-aos="fade-right" data-aos-delay="200">
                 <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/groups') }" href="/groups"
                     preserve-state>
@@ -20,7 +20,7 @@
                 <span>{{ $page.props.sidemenu[1].name }}</span>
                 </Link>
             </li>
-            <li class="nav-item" v-if="$page.props.sidemenu[2].status == 1 && $page.props.user.permissions.includes(7)" data-aos="fade-right" data-aos-delay="400">
+            <li class="nav-item" v-if="$page.props.sidemenu[2].status == 1 " data-aos="fade-right" data-aos-delay="400">
                 <div class="glow" v-if="$page.url.startsWith('/tg-users')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/tg-users') }" href="/tg-users"
                     preserve-state>
@@ -29,7 +29,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[3].status == 1 && $page.props.user.permissions.includes(17)" data-aos="fade-right" data-aos-delay="600">
+            <li class="nav-item" v-if="$page.props.sidemenu[3].status == 1 " data-aos="fade-right" data-aos-delay="600">
                 <div class="glow" v-if="$page.url.startsWith('/red-envelopes')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/red-envelopes') }"
                     href="/red-envelopes" preserve-state>
@@ -38,7 +38,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[4].status == 1 && $page.props.user.permissions.includes(18)" data-aos="fade-right" data-aos-delay="800">
+            <li class="nav-item" v-if="$page.props.sidemenu[4].status == 1 " data-aos="fade-right" data-aos-delay="800">
                 <div class="glow" v-if="$page.url.startsWith('/recharge')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/recharge') }" href="/recharge"
                     preserve-state>
@@ -47,7 +47,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[5].status == 1 && $page.props.user.permissions.includes(19)" data-aos="fade-right" data-aos-delay="1000">
+            <li class="nav-item" v-if="$page.props.sidemenu[5].status == 1 " data-aos="fade-right" data-aos-delay="1000">
                 <div class="glow" v-if="$page.url.startsWith('/commissions')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/commissions') }" href="/commissions"
                     preserve-state>
@@ -56,7 +56,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[6].status == 1 && $page.props.user.permissions.includes(20)" data-aos="fade-right" data-aos-delay="1200">
+            <li class="nav-item" v-if="$page.props.sidemenu[6].status == 1 " data-aos="fade-right" data-aos-delay="1200">
                 <div class="glow" v-if="$page.url.startsWith('/rewards')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/rewards') }" href="/rewards"
                     preserve-state>
@@ -65,7 +65,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[7].status == 1 && $page.props.user.permissions.includes(21)" data-aos="fade-right" data-aos-delay="1400">
+            <li class="nav-item" v-if="$page.props.sidemenu[7].status == 1 " data-aos="fade-right" data-aos-delay="1400">
                 <div class="glow" v-if="$page.url.startsWith('/withdraw')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/withdraw') }" href="/withdraw"
                     preserve-state>
@@ -74,7 +74,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[8].status == 1 && $page.props.user.permissions.includes(22)" data-aos="fade-right" data-aos-delay="1600">
+            <li class="nav-item" v-if="$page.props.sidemenu[8].status == 1 " data-aos="fade-right" data-aos-delay="1600">
                 <div class="glow" v-if="$page.url.startsWith('/reports')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/reports') }" href="/reports"
                     preserve-state>
@@ -85,7 +85,7 @@
 
             <li class="nav-heading" data-aos="fade-right" data-aos-delay="1600">系统模块</li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[9].status == 1 && $page.props.user.permissions.includes(23)" data-aos="fade-right" data-aos-delay="1800">
+            <li class="nav-item" v-if="$page.props.sidemenu[9].status == 1" data-aos="fade-right" data-aos-delay="1800">
                 <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/administrator') }"
                     href="/administrator" preserve-state>
@@ -94,7 +94,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[10].status == 1 && $page.props.user.permissions.includes(27)" data-aos="fade-right" data-aos-delay="2000">
+            <li class="nav-item" v-if="$page.props.sidemenu[10].status == 1" data-aos="fade-right" data-aos-delay="2000">
                 <div class="glow" v-if="$page.url.startsWith('/roles')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/roles') }" href="/roles"
                     preserve-state>
@@ -103,7 +103,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[11].status == 1 && $page.props.user.permissions.includes(34)" data-aos="fade-right" data-aos-delay="2200">
+            <li class="nav-item" v-if="$page.props.sidemenu[11].status == 1 " data-aos="fade-right" data-aos-delay="2200">
                 <div class="glow" v-if="$page.url.startsWith('/permissions')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/permissions') }" href="/permissions"
                     preserve-state>
@@ -112,7 +112,7 @@
                 </Link>
             </li>
 
-            <li class="nav-item" data-aos="fade-right" data-aos-delay="2400" v-if="$page.props.user.permissions.includes(1)">
+            <li class="nav-item" data-aos="fade-right" data-aos-delay="2400">
                 <div class="glow" v-if="$page.url.startsWith('/menus')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/menus') }" href="/menus"
                     preserve-state>
@@ -123,7 +123,7 @@
 
             <li class="nav-heading" data-aos="fade-right" data-aos-delay="2400">活动日志模块</li>
 
-            <li class="nav-item" v-if="$page.props.sidemenu[12].status == 1 && $page.props.user.permissions.includes(33)" data-aos="fade-right" data-aos-delay="2600">
+            <li class="nav-item" v-if="$page.props.sidemenu[12].status == 1 " data-aos="fade-right" data-aos-delay="2600">
                 <div class="glow" v-if="$page.url.startsWith('/operation-log')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/operation-log') }"
                     href="/operation-log" preserve-state>

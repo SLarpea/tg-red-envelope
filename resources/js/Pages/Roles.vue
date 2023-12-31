@@ -28,8 +28,10 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/roles" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
-                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm" v-if="$page.props.user.permissions.includes(28)">
+                                                <a href="/roles" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> 刷新</a>
+                                                <button class="btn btn-custom btn-sm" type="button"
+                                                    @click.prevent="resetForm">
                                                     <i class="bi bi-plus-circle"></i> New Role
                                                 </button>
                                             </div>
@@ -66,9 +68,9 @@
                                                     <i class="bi bi-eye text-info" v-tippy="'View'"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                        @click.prevent="selectAction(item, 'update', 'all')" v-if="$page.props.user.permissions.includes(29)"></i>
+                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                        @click.prevent="selectAction(item, 'delete', null)" v-if="$page.props.user.permissions.includes(30)"></i>
+                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -124,9 +126,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <div class="form-check" v-for="(item) in permissions" :key="item.id">
-                                                    <input class="form-check-input" type="checkbox" v-model="form.selectedOptions" :value="item.name">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                        {{item.name}}
+                                                    <input :id="'id_'+item.id" class="form-check-input" type="checkbox"
+                                                        v-model="form.selectedOptions" :value="item.name"
+                                                        >
+                                                    <label class="form-check-label" :for="'id_'+item.id">
+                                                        {{ item.name }}
                                                     </label>
                                                 </div>
                                             </div>
@@ -202,7 +206,8 @@ export default {
             if (this.action == 'delete') {
                 this.formAction(data, type);
             } else {
-                this.form = Object.assign({}, data);
+                this.form = Object.assign(this.form, data);
+                this.form.selectedOptions = data.permissions.map(item => item.name)
                 this.modalShow = true;
             }
         },
