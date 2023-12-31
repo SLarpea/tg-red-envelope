@@ -23,9 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Check if the 'menu' table exists
         if (Schema::hasTable('menus')) {
-            // Fetch and share the menu data with Inertia
             Inertia::share('sidemenu', Menu::get());
         }
     }

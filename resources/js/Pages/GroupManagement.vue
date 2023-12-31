@@ -3,12 +3,12 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-diagram-3"></i> Group Management</h1>
+            <h1><i class="bi bi-diagram-3"></i> {{ $t('group_management') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Mine Management</li>
-                    <li class="breadcrumb-item">Group Management</li>
-                    <li class="breadcrumb-item active">List of Groups</li>
+                    <li class="breadcrumb-item">{{ $t('mine_management') }}</li>
+                    <li class="breadcrumb-item">{{ $t('group_management') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_groups') }}</li>
                 </ol>
             </nav>
         </div>
@@ -24,15 +24,15 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Groups</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{ $t('list_of_groups') }}</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <a href="/groups" class="btn btn-secondary btn-sm"><i
-                                                        class="bi bi-recycle"></i> 刷新</a>
+                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                                 <button class="btn btn-custom btn-sm" type="button"
                                                     @click.prevent="resetForm">
-                                                    <i class="bi bi-plus-circle"></i> 新小组
+                                                    <i class="bi bi-plus-circle"></i> {{ $t('new_group') }}
                                                 </button>
                                             </div>
                                         </div>
@@ -44,16 +44,16 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="text-center">#</th>
-                                                    <th scope="col">Group ID</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Remarks</th>
-                                                    <th scope="col">Customer Service Link</th>
-                                                    <th scope="col">Recharge Link</th>
-                                                    <th scope="col">Channel Link</th>
-                                                    <th scope="col">Red Envelope ID</th>
-                                                    <th scope="col" class="text-center">Update Time</th>
-                                                    <th scope="col" class="text-center">Status</th>
-                                                    <th scope="col" class="text-center">Action</th>
+                                                    <th scope="col">{{ $t('group_id') }}</th>
+                                                    <th scope="col">{{ $t('name') }}</th>
+                                                    <th scope="col">{{ $t('remarks') }}</th>
+                                                    <th scope="col">{{ $t('customer_service_link') }}</th>
+                                                    <th scope="col">{{ $t('recharge_link') }}</th>
+                                                    <th scope="col">{{ $t('channel_link') }}</th>
+                                                    <th scope="col">{{ $t('red_envelope_id') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('update_time') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('status') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('action') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -65,19 +65,19 @@
                                                     <td>{{ item.remark }}</td>
                                                     <td class="text-center service_url">
                                                         <a :href="item.service_url" v-tippy="item.service_url"
-                                                            target="_blank" class="btn btn-outline-primary btn-sm">Link</a>
+                                                            target="_blank" class="btn btn-outline-primary btn-sm">{{ $t('customer_service_link_label') }}</a>
                                                     </td>
                                                     <td class="text-center recharge_url">
                                                         <a :href="item.recharge_url" v-tippy="item.recharge_url"
-                                                            target="_blank" class="btn btn-outline-primary btn-sm">Link</a>
+                                                            target="_blank" class="btn btn-outline-primary btn-sm">{{ $t('recharge_link_label') }}</a>
                                                     </td>
                                                     <td class="text-center channel_url">
                                                         <a :href="item.channel_url" v-tippy="item.channel_url"
-                                                            target="_blank" class="btn btn-outline-primary btn-sm">Link</a>
+                                                            target="_blank" class="btn btn-outline-primary btn-sm">{{ $t('channel_link_label') }}</a>
                                                     </td>
                                                     <td class="text-center photo_id">
                                                         <a :href="item.photo_id" v-tippy="item.photo_id"
-                                                            class="btn btn-outline-primary btn-sm">Link</a>
+                                                            class="btn btn-outline-primary btn-sm">{{ $t('red_envelope_id_label') }}</a>
                                                     </td>
                                                     <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}
                                                     </td>
@@ -85,7 +85,7 @@
                                                         <button
                                                             :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                             @click.prevent="formAction(item, 'status')">
-                                                            {{ (item.status == 1) ? 'Active' : 'Inactive' }}
+                                                            {{ (item.status == 1) ? $t('active') : $t('inactive') }}
                                                         </button>
                                                     </td>
                                                     <td class="list-action-container text-center">
@@ -120,7 +120,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> Group
+                                <i class="bi bi-arrow-return-right"></i> {{ $t('group') }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
@@ -129,7 +129,7 @@
                                 <div class="row gx-4" v-if="editMode">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="group_id" class="col-sm-4 col-form-label">Group ID :
+                                            <label for="group_id" class="col-sm-4 col-form-label">{{ $t('group_id') }} :
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="group_id" name="group_id" v-model="form.group_id" type="text"
@@ -141,7 +141,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Name :
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }} :
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
@@ -153,7 +153,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="remark" class="col-sm-4 col-form-label">Remarks :
+                                            <label for="remark" class="col-sm-4 col-form-label">{{ $t('remarks') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="remark" name="remark" v-model="form.remark" type="text"
@@ -165,7 +165,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="service_url" class="col-sm-4 col-form-label">Customer Service Link :
+                                            <label for="service_url" class="col-sm-4 col-form-label">{{ $t('customer_service_link_') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="service_url" name="service_url" v-model="form.service_url"
@@ -178,7 +178,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="recharge_url" class="col-sm-4 col-form-label">Fill-Up Link :
+                                            <label for="recharge_url" class="col-sm-4 col-form-label">{{ $t('fill_up_link :') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="recharge_url" name="recharge_url" v-model="form.recharge_url"
@@ -191,7 +191,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="channel_url" class="col-sm-4 col-form-label">Channel Link :
+                                            <label for="channel_url" class="col-sm-4 col-form-label">{{ $t('channel_link') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="channel_url" name="channel_url" v-model="form.channel_url"
@@ -204,7 +204,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="photo_id" class="col-sm-4 col-form-label">Red Envelope Image ID :
+                                            <label for="photo_id" class="col-sm-4 col-form-label">{{ $t('red_envelope_image_id') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="photo_id" name="photo_id" v-model="form.photo_id" type="text"
@@ -216,13 +216,13 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">Status :
+                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <select class="form-select" aria-label="Default select example" id="status"
                                                     name="status" v-model="form.status">
-                                                    <option value="1">Enable</option>
-                                                    <option value="0">Disable</option>
+                                                    <option value="1">{{ $t('enable') }}</option>
+                                                    <option value="0">{{ $t('disable') }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -237,54 +237,56 @@
                                             </colgroup>
                                             <tbody>
                                                 <tr>
-                                                    <td>Group ID :</td>
+                                                    <td>{{ $t('group_id') }} :</td>
                                                     <td>{{ form.group_id }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Name :</td>
+                                                    <td>{{ $t('name') }} :</td>
                                                     <td>{{ form.name }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Remarks :</td>
+                                                    <td>{{ $t('remarks') }} :</td>
                                                     <td>{{ form.remark }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Customer Service Link :</td>
+                                                    <td>{{ $t('customer_service_link') }} :</td>
                                                     <td>{{ form.service_url }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Fill-Up Link :</td>
+                                                    <td>{{ $t('recharge_link') }} :</td>
                                                     <td>{{ form.recharge_url }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Channel Link :</td>
+                                                    <td>{{ $t('channel_link') }} :</td>
                                                     <td>{{ form.channel_url }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Red Envelope Image ID :</td>
+                                                    <td>{{ $t('red_envelope_id') }} :</td>
                                                     <td>{{ form.photo_id }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Status :</td>
-                                                    <td>{{ (form.status == 1) ? 'Active' : 'Inactive' }}</td>
+                                                    <td>{{ $t('status') }} :</td>
+                                                    <td>{{ (form.status == 1) ? $t('active') : $t('inactive') }}</td>
                                                 </tr>
                                             </tbody>
+
                                         </table>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                    <i class="bi bi-x-circle"></i> Close
+                                    <i class="bi bi-x-circle"></i> {{ $t('close') }}
                                 </button>
                                 <template v-if="action !== 'show'">
                                     <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
+                                        <i class="bi bi-save2"></i> {{ $t('save') }}
                                     </button>
                                     <button type="submit" class="btn btn-custom" v-if="action === 'update'">
-                                        <i class="bi bi-save2"></i> Update
+                                        <i class="bi bi-save2"></i> {{ $t('update') }}
                                     </button>
                                 </template>
+
                             </div>
                         </form>
                     </div>

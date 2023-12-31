@@ -15,6 +15,8 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import 'aos/dist/aos.css';
 
+import i18n from './i18n';
+
 const appName = import.meta.env.VITE_APP_NAME || 'Hongbao';
 
 createInertiaApp({
@@ -27,6 +29,7 @@ createInertiaApp({
             .use(VueTippy)
             .use(VueSweetalert2)
             .use(toastr)
+            .use(i18n)
             .mount(el);
     },
     progress: {
