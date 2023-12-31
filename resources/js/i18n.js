@@ -19,7 +19,7 @@ function loadLocaleMessages() {
 
 const i18n = createI18n({
   legacy: false, // set to false if you want to use Composition API
-  locale: 'en', // default locale
+  locale: window.currentLocale || 'en', // default locale
   fallbackLocale: 'en', // fallback locale
   messages: loadLocaleMessages(),
 });
