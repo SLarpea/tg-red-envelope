@@ -66,5 +66,17 @@
     "next": "下一个",
     "search": "搜索",
     "show": "展示",
-    "entry": "入口"
+    "entry": "入口",
+    "red_envelope_management": "红色信封管理",
+    "list_of_envelopes": "信封清单",
+    "#": "＃",
+    "bao_master": "鲍大师",
+    "red_envelope_amount": "红色信封量",
+    "amount_received": "收到的金额",
+    "red_envelope_number": "红色信封号",
+    "number_of_packages": "包裹数量",
+    "mine": "矿",
+    "sender_name": "发件人名称",
+    "red_envelope_multiplier": "红色信封乘数",
+    "type": "类型"
 }

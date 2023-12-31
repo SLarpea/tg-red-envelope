@@ -66,5 +66,17 @@
     "next": "Next",
     "search": "Search",
     "show": "Show",
-    "entry": "Entry"
+    "entry": "Entry",
+    "red_envelope_management": "Red Envelope Management",
+    "list_of_envelopes": "List of Envelopes",
+    "#": "#",
+    "bao_master": "Bao Master",
+    "red_envelope_amount": "Red Envelope Amount",
+    "amount_received": "Amount Received",
+    "red_envelope_number": "Red Envelope Number",
+    "number_of_packages": "Number of Packages",
+    "mine": "Mine",
+    "sender_name": "Sender Name",
+    "red_envelope_multiplier": "Red Envelope Multiplier",
+    "type": "Type"
 }

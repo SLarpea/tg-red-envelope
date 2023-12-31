@@ -3,12 +3,12 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-folder-check"></i> Red Envelope Management</h1>
+            <h1><i class="bi bi-folder-check"></i> {{ $t('red_envelope_management') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Mine Management</li>
-                    <li class="breadcrumb-item">Red Envelope Management</li>
-                    <li class="breadcrumb-item active">List of Envelopes</li>
+                    <li class="breadcrumb-item">{{ $t('mine_management') }}</li>
+                    <li class="breadcrumb-item">{{ $t('red_envelope_management') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_envelopes') }}</li>
                 </ol>
             </nav>
         </div>
@@ -24,11 +24,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Envelopes</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{ $t('list_of_envelopes') }}
+                                            </h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/red-envelopes" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                                <a href="/red-envelopes" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -53,23 +55,23 @@
                                         </colgroup>
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Bao Master</th>
-                                                <th scope="col">Red Envelope Amount</th>
-                                                <th scope="col">Amount Received</th>
-                                                <th scope="col">Red Envelope Number</th>
-                                                <th scope="col">Number Of Packages</th>
-                                                <th scope="col">Mine</th>
-                                                <th scope="col">Group Id</th>
-                                                <th scope="col">Sender Name</th>
-                                                <th scope="col">Red Envelope Multiplier</th>
-                                                <th scope="col" class="text-center">Type</th>
-                                                <th scope="col" class="text-center">Status</th>
-                                                <th scope="col" class="text-center">Action</th>
+                                                <th scope="col" class="text-center">{{ $t('#') }}</th>
+                                                <th scope="col">{{ $t('bao_master') }}</th>
+                                                <th scope="col">{{ $t('red_envelope_amount') }}</th>
+                                                <th scope="col">{{ $t('amount_received') }}</th>
+                                                <th scope="col">{{ $t('red_envelope_number') }}</th>
+                                                <th scope="col">{{ $t('number_of_packages') }}</th>
+                                                <th scope="col">{{ $t('mine') }}</th>
+                                                <th scope="col">{{ $t('group_id') }}</th>
+                                                <th scope="col">{{ $t('sender_name') }}</th>
+                                                <th scope="col">{{ $t('red_envelope_multiplier') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('type') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('status') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in envelopes.data" :key="item.id"
+                                            <tr v-for="(item, index) in  envelopes.data " :key="item.id"
                                                 @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">{{ envelopes.from + index }}</td>
                                                 <td>{{ item.sender_name }}</td>
@@ -88,7 +90,7 @@
                                                     {{ getTextStatus(item.status) }}
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-primary" v-tippy="'View'"
+                                                    <i class="bi bi-eye text-primary" v-tippy="$t('view')"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                 </td>
                                             </tr>
@@ -96,7 +98,7 @@
                                     </table>
 
                                     <PaginationLayout
-                                        :data="{ links: envelopes.links, from: envelopes.from, to: envelopes.to, total: envelopes.total }" />
+                                        :data=" { links: envelopes.links, from: envelopes.from, to: envelopes.to, total: envelopes.total } " />
 
                                 </div>
                             </div>
