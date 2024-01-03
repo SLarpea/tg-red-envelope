@@ -98,5 +98,19 @@
     "leopard": "Leopard",
     "straight_flush": "Straight Flush",
     "withdraw_record": "Withdraw Record",
-    "list_of_withdraw": "List of Withdraw"
+    "list_of_withdraw": "List of Withdraw",
+    "report": "Report",
+    "generation_of_reports": "Generation of Reports",
+    "filter": "Filter",
+    "report_choice": "Report Choice",
+    "all": "All",
+    "number_of_registered_users": "Number of Registered Users",
+    "quantity_of_contract": "Quantity of Contracts",
+    "platform_commission_amount": "Platform Commission Amount",
+    "reward_amount": "Reward Amount",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "reset": "Reset",
+    "total": "Total",
+    "no_records_to_display": "No records to display"
 }
