@@ -143,7 +143,7 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="password" name="password" v-model="form.password" type="password"
-                                                    :class="`form-control ${error_form.password ? 'is-invalid' : ''}`" />
+                                                    :class="`form-control ${error_form.password ? 'is-invalid' : ''}`" autocomplete="off"/>
                                                 <div class="invalid-feedback" v-if="error_form.password">
                                                     {{ error_form.password }}
                                                 </div>
@@ -156,7 +156,7 @@
                                             <div class="col-sm-8">
                                                 <input id="password_confirmation" name="password_confirmation"
                                                     v-model="form.password_confirmation" type="password"
-                                                    :class="`form-control ${error_form.password_confirmation ? 'is-invalid' : ''}`" />
+                                                    :class="`form-control ${error_form.password_confirmation ? 'is-invalid' : ''}`" autocomplete="off" />
                                                 <div class="invalid-feedback" v-if="error_form.password_confirmation">
                                                     {{ error_form.password_confirmation }}
                                                 </div>
@@ -273,6 +273,7 @@ export default {
                 this.formAction(data, type);
             } else {
                 this.form = Object.assign({}, data);
+                this.form.password = '';
                 this.modalShow = true;
             }
         },
