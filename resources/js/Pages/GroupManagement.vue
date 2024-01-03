@@ -47,10 +47,10 @@
                                                     <th scope="col">{{ $t('group_id') }}</th>
                                                     <th scope="col">{{ $t('name') }}</th>
                                                     <th scope="col">{{ $t('remarks') }}</th>
-                                                    <th scope="col">{{ $t('customer_service_link') }}</th>
-                                                    <th scope="col">{{ $t('recharge_link') }}</th>
-                                                    <th scope="col">{{ $t('channel_link') }}</th>
-                                                    <th scope="col">{{ $t('red_envelope_id') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('customer_service_link') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('recharge_link') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('channel_link') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('red_envelope_id') }}</th>
                                                     <th scope="col" class="text-center">{{ $t('update_time') }}</th>
                                                     <th scope="col" class="text-center">{{ $t('status') }}</th>
                                                     <th scope="col" class="text-center">{{ $t('action') }}</th>

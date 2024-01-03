@@ -1,17 +1,18 @@
 <template>
-    <Head title="Recharge Record" />
+    <Head :title="$t('recharge_record')" />
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-wallet2"></i> Recharge Record</h1>
+            <h1><i class="bi bi-wallet2"></i> {{ $t('recharge_record') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Mine Management</li>
-                    <li class="breadcrumb-item">Recharge Record</li>
-                    <li class="breadcrumb-item active">List of Recharge</li>
+                    <li class="breadcrumb-item">{{ $t('mine_management') }}</li>
+                    <li class="breadcrumb-item">{{ $t('recharge_record') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_recharge') }}</li>
                 </ol>
             </nav>
         </div>
+
 
         <section class="section user-management">
             <div class="row">
@@ -24,11 +25,14 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Recharge</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{ $t('list_of_recharge')
+                                            }}
+                                            </h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/recharge" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                                <a href="/recharge" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -42,12 +46,12 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">User ID</th>
-                                                <th scope="col">Username</th>
-                                                <th scope="col">Amount</th>
-                                                <th scope="col" class="text-center">Type</th>
-                                                <th scope="col">Nickname</th>
-                                                <th scope="col">Group ID</th>
+                                                <th scope="col">{{ $t('user_id') }}</th>
+                                                <th scope="col">{{ $t('username') }}</th>
+                                                <th scope="col">{{ $t('amount') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('type') }}</th>
+                                                <th scope="col">{{ $t('nickname') }}</th>
+                                                <th scope="col">{{ $t('group_id') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -77,6 +81,7 @@
             </div>
         </section>
 
+
     </AppLayout>
 </template>
 
@@ -99,13 +104,14 @@ export default {
         getTextType(type) {
             switch (type) {
                 case 1:
-                    return 'Background recharge';
+                    return this.$t('background_recharge');
                 case 2:
-                    return 'Automatic recharge';
+                    return this.$t('automatic_recharge');
                 default:
-                    return 'Automatic recharge';
+                    return this.$t('automatic_recharge');
             }
         }
+
     }
 }
 

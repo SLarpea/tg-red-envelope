@@ -78,5 +78,10 @@
     "mine": "Mine",
     "sender_name": "Sender Name",
     "red_envelope_multiplier": "Red Envelope Multiplier",
-    "type": "Type"
+    "type": "Type",
+    "recharge_record": "Recharge Record",
+    "list_of_recharge": "List of Recharge",
+    "user_id": "User ID",
+    "background_recharge": "Background Recharge",
+    "automatic_recharge": "Automatic Recharge"
 }
