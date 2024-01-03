@@ -28,8 +28,11 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/administrator" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
-                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm" v-if="$page.props.user.permissions.includes(24)">
+                                                <a href="/administrator" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> 刷新</a>
+                                                <button class="btn btn-custom btn-sm" type="button"
+                                                    @click.prevent="resetForm"
+                                                    v-if="$page.props.user.permissions.includes(24)">
                                                     <i class="bi bi-plus-circle"></i>
                                                     New Administrator
                                                 </button>
@@ -63,8 +66,8 @@
                                                 <td>{{ item.email }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button :class="item.status == 1
-                                                            ? 'btn btn-outline-success btn-status'
-                                                            : 'btn btn-outline-danger btn-status'
+                                                        ? 'btn btn-outline-success btn-status'
+                                                        : 'btn btn-outline-danger btn-status'
                                                         " @click.prevent="formAction(item, 'status')">
                                                         {{ item.status == 1 ? "Active" : "Inactive" }}
                                                     </button>
@@ -75,7 +78,8 @@
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
                                                         @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                        @click.prevent="selectAction(item, 'delete', null)" v-if="$page.props.user.permissions.includes(26)"></i>
+                                                        @click.prevent="selectAction(item, 'delete', null)"
+                                                        v-if="$page.props.user.permissions.includes(26)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -115,7 +119,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.name">
+                                                    {{ error_form.name }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -123,7 +131,11 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="email " name="email " v-model="form.email" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.email ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.email">
+                                                    {{ error_form.email }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -131,7 +143,10 @@
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="password" name="password" v-model="form.password" type="password"
-                                                    class="form-control" />
+                                                    :class="`form-control ${error_form.password ? 'is-invalid' : ''}`" />
+                                                <div class="invalid-feedback" v-if="error_form.password">
+                                                    {{ error_form.password }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -141,29 +156,41 @@
                                             <div class="col-sm-8">
                                                 <input id="password_confirmation" name="password_confirmation"
                                                     v-model="form.password_confirmation" type="password"
-                                                    class="form-control" />
+                                                    :class="`form-control ${error_form.password_confirmation ? 'is-invalid' : ''}`" />
+                                                <div class="invalid-feedback" v-if="error_form.password_confirmation">
+                                                    {{ error_form.password_confirmation }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Role :
                                             </label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" id="role"
-                                                    name="role" v-model="form.role">
-                                                    <option v-for="item in roles" :key="item.id" :value="item.name">{{ item.name }}</option>
+                                                <select :class="`form-select ${error_form.role ? 'is-invalid' : ''}`"
+                                                    aria-label="Default select example" id="role" name="role"
+                                                    v-model="form.role">
+                                                    <option v-for="item in roles" :key="item.id" :value="item.name">{{
+                                                        item.name }}</option>
                                                 </select>
+                                                <div class="invalid-feedback" v-if="error_form.role">
+                                                    {{ error_form.role }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="status" class="col-sm-4 col-form-label">Status :
                                             </label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" id="status"
-                                                    name="status" v-model="form.status">
+                                                <select :class="`form-select ${error_form.status ? 'is-invalid' : ''}`"
+                                                    aria-label="Default select example" id="status" name="status"
+                                                    v-model="form.status">
                                                     <option selected>Select Status</option>
                                                     <option value="1">Enable</option>
                                                     <option value="0">Disable</option>
                                                 </select>
+                                                <div class="invalid-feedback" v-if="error_form.status">
+                                                    {{ error_form.status }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -195,6 +222,7 @@ import { Head, router } from "@inertiajs/vue3";
 import AppLayout from "../Layouts/AppLayout.vue";
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -208,6 +236,7 @@ export default {
                 role: null,
                 status: 1,
             },
+            error_form: {}
         };
     },
     props: {
@@ -248,6 +277,7 @@ export default {
             }
         },
         formAction(data, type) {
+            this.error_form = {};
             this.action = type == "status" ? "update" : this.action;
             let text = String;
             let confirmButtonColor = String;
@@ -302,7 +332,16 @@ export default {
                                 this.modalShow = false;
                             }
                         },
-                        onError: () => { },
+                        onError: (error) => {
+                            try {
+                                this.error_form = Object.assign(this.error_form, error);
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(`'An unexpected error occurred.'`);
+                            }
+                        },
                     });
                 }
             });
@@ -316,5 +355,16 @@ export default {
     created() {
         window.addEventListener("keydown", this.escape);
     },
+    watch: {
+        modalShow: function (oldVal, newVal) {
+            this.error_form = {};
+        }
+    }
 };
 </script>
+
+<style scoped>
+.invalid-feedback {
+    font-size: .775em;
+}
+</style>
