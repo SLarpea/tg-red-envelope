@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Http\Requests\TopUpRequest;
+use App\Http\Requests\WithdrawRequest;
 use App\Services\Dashboard\UserManagementService;
 
 class UserManagementController extends Controller
@@ -33,7 +35,7 @@ class UserManagementController extends Controller
         }
     }
 
-    public function top_up(Request $request, string $id)
+    public function top_up(TopUpRequest $request, string $id)
     {
         $this->userManagementService->recharge($request);
         $this->userManagementService->showData($request);
@@ -41,7 +43,7 @@ class UserManagementController extends Controller
         return redirect()->route('tg-users.index')->with('response', 'success');
     }
 
-    public function withdraw(Request $request, string $id)
+    public function withdraw(WithdrawRequest $request, string $id)
     {
         $this->userManagementService->withdraw($request);
         $this->userManagementService->showData($request);

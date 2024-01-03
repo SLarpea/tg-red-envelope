@@ -204,7 +204,11 @@
                                             <label for="amount" class="col-sm-4 col-form-label">{{ $t('amount') }} :</label>
                                             <div class="col-sm-8">
                                                 <input id="amount" name="amount" v-model="form_topUp.amount" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form_topUp.amount ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form_topUp.amount">
+                                                    {{ error_form_topUp.amount }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
@@ -366,6 +370,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -401,6 +406,7 @@ export default {
                 type: 1,
                 is_send: 1,
             },
+            error_form_topUp: {},
             form_withdraw: {
                 id: null,
                 first_name: null,
@@ -501,8 +507,18 @@ export default {
                                 this.withdrawShow = false;
                             }
                         },
-                        onError: () => {
+                        onError: (error) => {
+                            try {
+                                if (type === 'top_up') {
+                                    this.error_form_topUp = Object.assign(this.error_form_topUp, error);
+                                }
 
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(this.$t('unexpected_error'));
+                            }
                         },
                     });
                 }
@@ -522,3 +538,10 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.invalid-feedback {
+    font-size: .775em;
+}
+</style>
+
