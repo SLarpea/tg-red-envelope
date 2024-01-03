@@ -2,15 +2,16 @@
     <Head title="User Management" />
     <AppLayout>
         <div class="pagetitle">
-            <h1><i class="bi bi-people"></i> Administrator</h1>
+            <h1><i class="bi bi-people"></i> {{ $t('administrator') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">System</li>
-                    <li class="breadcrumb-item">Administrator</li>
-                    <li class="breadcrumb-item active">List of Administrator</li>
+                    <li class="breadcrumb-item">{{ $t('system') }}</li>
+                    <li class="breadcrumb-item">{{ $t('administrator') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_administrator') }}</li>
                 </ol>
             </nav>
         </div>
+
 
         <section class="section user-management">
             <div class="row">
@@ -23,18 +24,18 @@
                                         <div class="col-lg-6">
                                             <h5 class="card-title">
                                                 <i class="bi bi-list-ol"></i>
-                                                List of Administrator
+                                                {{ $t('list_of_administrator') }}
                                             </h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <a href="/administrator" class="btn btn-secondary btn-sm"><i
-                                                        class="bi bi-recycle"></i> 刷新</a>
+                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                                 <button class="btn btn-custom btn-sm" type="button"
                                                     @click.prevent="resetForm"
                                                     v-if="$page.props.user.permissions.includes(24)">
                                                     <i class="bi bi-plus-circle"></i>
-                                                    New Administrator
+                                                    {{ $t('new_administrator') }}
                                                 </button>
                                             </div>
                                         </div>
@@ -50,14 +51,14 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Email Address</th>
-                                                <th scope="col" class="text-center">Status</th>
-                                                <th scope="col" class="text-center">Action</th>
+                                                <th scope="col">{{ $t('name') }}</th>
+                                                <th scope="col">{{ $t('email_address') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('status') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in administrator.data" :key="item.id"
+                                            <tr v-for="(item, index) in   administrator.data  " :key="item.id"
                                                 @dblclick.prevent="selectAction(item, 'show', null)">
                                                 <td class="text-center">
                                                     {{ administrator.from + index }}
@@ -69,15 +70,15 @@
                                                         ? 'btn btn-outline-success btn-status'
                                                         : 'btn btn-outline-danger btn-status'
                                                         " @click.prevent="formAction(item, 'status')">
-                                                        {{ item.status == 1 ? "Active" : "Inactive" }}
+                                                        {{ item.status == 1 ? $t('active') : $t('inactive') }}
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
-                                                    <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                    <i class="bi bi-eye text-info" v-tippy="$t('view')"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                    <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
                                                         @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                    <i class="bi bi-trash text-danger" v-tippy="'Delete'"
+                                                    <i class="bi bi-trash text-danger" v-tippy="$t('delete ')"
                                                         @click.prevent="selectAction(item, 'delete', null)"
                                                         v-if="$page.props.user.permissions.includes(26)"></i>
                                                 </td>
@@ -86,11 +87,12 @@
                                     </table>
 
                                     <PaginationLayout :data="{
-                                        links: administrator.links,
-                                        from: administrator.from,
-                                        to: administrator.to,
-                                        total: administrator.total,
-                                    }" />
+                                            links: administrator.links,
+                                            from: administrator.from,
+                                            to: administrator.to,
+                                            total: administrator.total,
+                                        }
+                                        " />
                                 </div>
                             </div>
                         </div>
@@ -99,6 +101,7 @@
             </div>
         </section>
 
+
         <transition name="modal-fade">
             <div class="modal custom-modal" v-if="modalShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -106,7 +109,7 @@
                         <div class="modal-header">
                             <h5 class="modal-title">
                                 <i class="bi bi-arrow-return-right"></i>
-                                {{ !editMode ? "New Administrator" : "Update Administrator" }}
+                                {{ !editMode ? $t('new_administrator') : $t('update_administrator') }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
@@ -115,82 +118,78 @@
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Name :
-                                            </label>
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }}:</label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
                                                     :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
                                                     autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.name">
-                                                    {{ error_form.name }}
+                                                <div class="invalid-feedback" v-if="error_form.name">{{ error_form.name }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="email " class="col-sm-4 col-form-label">Email Address :
-                                            </label>
+                                            <label for="email" class="col-sm-4 col-form-label">{{ $t('email_address')
+                                            }}:</label>
                                             <div class="col-sm-8">
-                                                <input id="email " name="email " v-model="form.email" type="text"
+                                                <input id="email" name="email" v-model="form.email" type="text"
                                                     :class="`form-control ${error_form.email ? 'is-invalid' : ''}`"
                                                     autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.email">
-                                                    {{ error_form.email }}
+                                                <div class="invalid-feedback" v-if="error_form.email">{{ error_form.email
+                                                }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="password" class="col-sm-4 col-form-label">Password :
-                                            </label>
+                                            <label for="password" class="col-sm-4 col-form-label">{{ $t('password')
+                                            }}:</label>
                                             <div class="col-sm-8">
-                                                <input id="password" name="password" v-model="form.password" type="password"
-                                                    :class="`form-control ${error_form.password ? 'is-invalid' : ''}`" autocomplete="off"/>
-                                                <div class="invalid-feedback" v-if="error_form.password">
-                                                    {{ error_form.password }}
-                                                </div>
+                                                <input id="password" name="password" v-model="form.password"
+                                                    type="password"
+                                                    :class="`form-control ${error_form.password ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.password">{{
+                                                    error_form.password }}</div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="password_confirmation" class="col-sm-4 col-form-label">Confirm
-                                                Password :
-                                            </label>
+                                            <label for="password_confirmation" class="col-sm-4 col-form-label">{{
+                                                $t('confirm_password') }}:</label>
                                             <div class="col-sm-8">
                                                 <input id="password_confirmation" name="password_confirmation"
                                                     v-model="form.password_confirmation" type="password"
-                                                    :class="`form-control ${error_form.password_confirmation ? 'is-invalid' : ''}`" autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.password_confirmation">
-                                                    {{ error_form.password_confirmation }}
-                                                </div>
+                                                    :class="`form-control ${error_form.password_confirmation ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.password_confirmation">{{
+                                                    error_form.password_confirmation }}</div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">Role :
-                                            </label>
+                                            <label for="role" class="col-sm-4 col-form-label">{{ $t('role') }}:</label>
                                             <div class="col-sm-8">
                                                 <select :class="`form-select ${error_form.role ? 'is-invalid' : ''}`"
                                                     aria-label="Default select example" id="role" name="role"
                                                     v-model="form.role">
-                                                    <option v-for="item in roles" :key="item.id" :value="item.name">{{
-                                                        item.name }}</option>
+                                                    <option v-for=" item  in  roles " :key="item.id" :value="item.name">
+                                                        {{
+                                                            item.name }}</option>
                                                 </select>
-                                                <div class="invalid-feedback" v-if="error_form.role">
-                                                    {{ error_form.role }}
+                                                <div class="invalid-feedback" v-if="error_form.role">{{ error_form.role }}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">Status :
-                                            </label>
+                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}:</label>
                                             <div class="col-sm-8">
                                                 <select :class="`form-select ${error_form.status ? 'is-invalid' : ''}`"
                                                     aria-label="Default select example" id="status" name="status"
                                                     v-model="form.status">
-                                                    <option selected>Select Status</option>
-                                                    <option value="1">Enable</option>
-                                                    <option value="0">Disable</option>
+                                                    <option selected>{{ $t('select_status') }}</option>
+                                                    <option value="1">{{ $t('enable') }}</option>
+                                                    <option value="0">{{ $t('disable') }}</option>
                                                 </select>
-                                                <div class="invalid-feedback" v-if="error_form.status">
-                                                    {{ error_form.status }}
-                                                </div>
+                                                <div class="invalid-feedback" v-if="error_form.status">{{
+                                                    error_form.status
+                                                }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -198,14 +197,14 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                    <i class="bi bi-x-circle"></i> Close
+                                    <i class="bi bi-x-circle"></i> {{ $t('close') }}
                                 </button>
                                 <template v-if="action !== 'show'">
                                     <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
+                                        <i class="bi bi-save2"></i> {{ $t('save') }}
                                     </button>
                                     <button type="submit" class="btn btn-custom" v-if="action === 'update'">
-                                        <i class="bi bi-save2"></i> Update
+                                        <i class="bi bi-save2"></i> {{ $t('update') }}
                                     </button>
                                 </template>
                             </div>
@@ -214,6 +213,7 @@
                 </div>
             </div>
         </transition>
+
     </AppLayout>
 </template>
 
@@ -228,6 +228,7 @@ export default {
     data() {
         return {
             modalShow: false,
+            editMode: false,
             form: {
                 name: null,
                 email: null,
@@ -266,6 +267,7 @@ export default {
                 role: null,
                 status: 1,
             };
+            this.editMode = false;
         },
         selectAction(data, action, type) {
             this.action = action;
@@ -274,6 +276,7 @@ export default {
             } else {
                 this.form = Object.assign({}, data);
                 this.form.password = '';
+                this.editMode = true;
                 this.modalShow = true;
             }
         },
@@ -286,24 +289,24 @@ export default {
             let routeURL = String;
             let msgText = String;
             if (this.action == "new") {
-                text = "Are you sure you want to save this item?";
+                text = this.$t("confirm_save_item");
                 confirmButtonColor = "#198754";
                 method = "POST";
                 routeURL = "administrator.store";
-                msgText = "Work has been saved.";
+                msgText = this.$t("item_saved");
                 data.id = null;
             } else if (this.action == "update") {
-                text = "Are you sure you want to update this item?";
+                text = this.$t("confirm_update_item");
                 confirmButtonColor = "#198754";
                 method = "PUT";
                 routeURL = "administrator.update";
-                msgText = "Work has been updated.";
+                msgText = this.$t("item_updated");
             } else {
-                text = "Are you sure you want to delete this item?";
+                text = this.$t("confirm_delete_item");
                 confirmButtonColor = "#D81B60";
                 method = "DELETE";
                 routeURL = "administrator.destroy";
-                msgText = "Work has been deleted.";
+                msgText = this.$t("item_deleted");
             }
 
             this.$swal({
@@ -311,8 +314,8 @@ export default {
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes',
+                cancelButtonText: this.$t('cancel_button_text'),
+                confirmButtonText: this.$t('confirm_button_text'),
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;
@@ -340,7 +343,7 @@ export default {
                                     toastr.error(`${message}`);
                                 });
                             } catch (err) {
-                                toastr.error(`'An unexpected error occurred.'`);
+                                toastr.error(this.$t('unexpected_error'));
                             }
                         },
                     });
@@ -364,8 +367,6 @@ export default {
 };
 </script>
 
-<style scoped>
-.invalid-feedback {
+<style scoped>.invalid-feedback {
     font-size: .775em;
-}
-</style>
+}</style>
