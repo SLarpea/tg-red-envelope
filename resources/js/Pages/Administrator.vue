@@ -1,5 +1,5 @@
 <template>
-    <Head title="User Management" />
+    <Head :title="$t('administrator')" />
     <AppLayout>
         <div class="pagetitle">
             <h1><i class="bi bi-people"></i> {{ $t('administrator') }}</h1>

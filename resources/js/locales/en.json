@@ -155,5 +155,12 @@
     "update_menu": "Update Menu",
     "Name": "Name",
     "URL": "URL",
-    "Status": "Status"
+    "Status": "Status",
+    "configs": "Configs",
+    "list_of_configs": "List of Configs",
+    "go_back": "Go Back",
+    "key": "Key",
+    "description": "Description",
+    "configuration_value": "Configuration Value",
+    "configuration": "Configuration"
 }
