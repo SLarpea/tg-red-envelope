@@ -155,5 +155,20 @@
     "update_menu": "更新菜单",
     "Name": "姓名",
     "URL": "url",
-    "Status": "状态s"
+    "Status": "状态s",
+    "today_user": "今日新增用户",
+    "today_package": "今日发包数",
+    "today_outsourcing": "今日发包总额",
+    "today_thunder_rate": "今日中雷率",
+    "today_profit": "今日盈利",
+    "today_rewards": "今日发出奖励(豹/顺)",
+    "today_recharge": "今日充值",
+    "today_withdraw": "今日提现",
+    "all_users": "累计总用户",
+    "all_package": "累计发包数",
+    "all_outsourcing": "累计发包总额",
+    "all_rewards": "发出奖励(豹/顺)汇总",
+    "all_recharge": "充值汇总",
+    "all_withdraw": "提现汇总",
+    "total_revenue": "累计总收益"
 }

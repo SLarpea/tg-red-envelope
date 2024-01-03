@@ -162,5 +162,20 @@
     "key": "Key",
     "description": "Description",
     "configuration_value": "Configuration Value",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "today_user": "Added users today",
+    "today_package": "Issue number today",
+    "today_outsourcing": "Total contract today",
+    "today_thunder_rate": "Today's China Lei Rate",
+    "today_profit": "Today's profitability",
+    "today_rewards": "Receive rewards today (Leopard/Shun)",
+    "today_recharge": "Today's recharge",
+    "today_withdraw": "Today's withdrawal",
+    "all_users": "Cumulative total users",
+    "all_package": "Cumulative packages",
+    "all_outsourcing": "Cumulative total packages",
+    "all_rewards": "Send a reward (Leopard/Shun) summary",
+    "all_recharge": "Recharge summary",
+    "all_withdraw": "Summary",
+    "total_revenue": "Cumulative total income"
 }

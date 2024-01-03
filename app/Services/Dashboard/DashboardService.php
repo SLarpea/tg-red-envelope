@@ -70,21 +70,66 @@ class DashboardService
 
         $data = [
             'dashboard' => [
-                'today_user' => $today_user,
-                'today_package' => $today_package,
-                'today_outsourcing' => $today_outsourcing,
-                'today_thunder_rate' => $today_thunder_rate,
-                'today_profit' => $today_profit,
-                'today_rewards' => $today_rewards,
-                'today_recharge' => $today_recharge,
-                'today_withdraw' => $today_withdraw,
-                'all_users' => $all_users,
-                'all_package' => $all_package,
-                'all_outsourcing' => $all_outsourcing,
-                'all_rewards' => $all_rewards,
-                'all_recharge' => $all_recharge,
-                'all_withdraw' => $all_withdraw,
-                'total_revenue' => $total_revenue,
+                'today_user' => [
+                    'value' => $today_user,
+                    'icon' => 'bi bi-person'
+                ],
+                'today_package' => [
+                    'value' => $today_package,
+                    'icon' => 'bi bi-file-earmark-zip'
+                ],
+                'today_outsourcing' => [
+                    'value' => $today_outsourcing,
+                    'icon' => 'bi bi-folder'
+                ],
+                'today_thunder_rate' => [
+                    'value' => $today_thunder_rate,
+                    'icon' => 'bi bi-lightning-charge'
+                ],
+                'today_profit' => [
+                    'value' => $today_profit,
+                    'icon' => 'bi bi-cash-coin'
+                ],
+                'today_rewards' => [
+                    'value' => $today_rewards,
+                    'icon' => 'bi bi-bookmark-star'
+                ],
+                'today_recharge' => [
+                    'value' => $today_recharge,
+                    'icon' => 'bi bi-box-arrow-in-right'
+                ],
+                'today_withdraw' => [
+                    'value' => $today_withdraw,
+                    'icon' => 'bi bi-box-arrow-left'
+                ],
+                'all_users' => [
+                    'value' => $all_users,
+                    'icon' => 'bi bi-people'
+                ],
+                'all_package' => [
+                    'value' => $all_package,
+                    'icon' => 'bi bi-archive'
+                ],
+                'all_outsourcing' => [
+                    'value' => $all_outsourcing,
+                    'icon' => 'bi bi-folder2-open'
+                ],
+                'all_rewards' => [
+                    'value' => $all_rewards,
+                    'icon' => 'bi bi-journal-bookmark'
+                ],
+                'all_recharge' => [
+                    'value' => $all_recharge,
+                    'icon' => 'bi bi-list-check'
+                ],
+                'all_withdraw' => [
+                    'value' => $all_withdraw,
+                    'icon' => 'bi bi-list-nested'
+                ],
+                'total_revenue' => [
+                    'value' => $total_revenue,
+                    'icon' => 'bi bi-piggy-bank'
+                ],
             ]
         ];
 
