@@ -83,5 +83,20 @@
     "list_of_recharge": "List of Recharge",
     "user_id": "User ID",
     "background_recharge": "Background Recharge",
-    "automatic_recharge": "Automatic Recharge"
+    "automatic_recharge": "Automatic Recharge",
+    "commission_record": "Commission Record",
+    "list_of_commissions": "List of Commissions",
+    "amount_drawn": "Amount Drawn",
+    "profit_amount": "Profit Amount",
+    "reward_record": "Reward Record",
+    "list_of_reward": "List of Reward",
+    "remark": "Remark",
+    "package_owner": "Package Owner",
+    "winning_numbers": "Winning Numbers",
+    "winning_type": "Winning Type",
+    "not_applicable": "Not Applicable",
+    "leopard": "Leopard",
+    "straight_flush": "Straight Flush",
+    "withdraw_record": "Withdraw Record",
+    "list_of_withdraw": "List of Withdraw"
 }

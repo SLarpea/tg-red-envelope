@@ -1,34 +1,35 @@
 <template>
-    <Head title="commissions Record" />
+    <Head :title="$t('commission_record')" />
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-folder-check"></i> Commission Record</h1>
+            <h1><i class="bi bi-folder-check"></i> {{ $t('commission_record') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Mine Management</li>
-                    <li class="breadcrumb-item">Commission Record</li>
-                    <li class="breadcrumb-item active">List of Commissions</li>
+                    <li class="breadcrumb-item">{{ $t('mine_management') }}</li>
+                    <li class="breadcrumb-item">{{ $t('commission_record') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_commissions') }}</li>
                 </ol>
             </nav>
         </div>
+
 
         <section class="section user-management">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-
                         <div class="col-lg-12">
                             <div class="card">
-
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Commissions</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{
+                                                $t('list_of_commissions') }}</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/commissions" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
+                                                <a href="/commissions" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -42,13 +43,13 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Red Envelope Id</th>
-                                                <th scope="col">Amount Drawn</th>
-                                                <th scope="col">Profit Amount</th>
-                                                <th scope="col">User</th>
-                                                <th scope="col">Group Id</th>
-                                                <th scope="col">Remarks</th>
-                                                <th scope="col">Bao Master</th>
+                                                <th scope="col">{{ $t('red_envelope_id') }}</th>
+                                                <th scope="col">{{ $t('amount_drawn') }}</th>
+                                                <th scope="col">{{ $t('profit_amount') }}</th>
+                                                <th scope="col">{{ $t('user') }}</th>
+                                                <th scope="col">{{ $t('group_id') }}</th>
+                                                <th scope="col">{{ $t('remarks') }}</th>
+                                                <th scope="col">{{ $t('bao_master') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -76,6 +77,7 @@
                 </div>
             </div>
         </section>
+
 
     </AppLayout>
 </template>
