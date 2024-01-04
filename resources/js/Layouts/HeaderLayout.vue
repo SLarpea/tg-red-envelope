@@ -6,8 +6,8 @@
                 <span class="d-none d-lg-block">Hongbao Admin</span>
             </a>
             <i class="bi toggle-sidebar-btn" :class="this.toggleShow == true
-                    ? 'bi-text-indent-right'
-                    : 'bi-text-indent-left'
+                ? 'bi-text-indent-right'
+                : 'bi-text-indent-left'
                 " id="btn-toggle" @click.prevent="toggle"></i>
         </div>
 
@@ -15,25 +15,25 @@
             <ul class="d-flex align-items-center">
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                    <i class="bi bi-translate"></i>
+                        <i class="bi bi-translate"></i>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications lang-drop">
 
-                    <li class="notification-item">
-                        <i class="bi bi-arrow-right-short"></i> Chinese
-                    </li>
+                        <li class="notification-item" @click="setLocale('zh_CN')">
+                            <i class="bi bi-arrow-right-short"></i> 中国人
+                        </li>
 
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
 
-                    <li class="notification-item">
-                        <i class="bi bi-arrow-right-short"></i> English
-                    </li>
+                        <li class="notification-item" @click="setLocale('en')">
+                            <i class="bi bi-arrow-right-short"></i> English
+                        </li>
                     </ul>
 
-                    </li>
+                </li>
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img :src="$page.props.auth.user.profile_photo_url" alt="Profile"
@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 
 export default {
     data() {
@@ -129,6 +129,16 @@ export default {
                 this.isHiddenHelp = false;
             }
         },
+        setLocale(lang) {
+            router.post(route('post.setlocale'), { lang: lang }, {
+                onSuccess: (response) => {
+                    location.reload();
+                },
+                onError: (error) => {
+                    console.log(error, "error")
+                },
+            });
+        }
     },
     created() {
         window.addEventListener("keydown", this.escape);

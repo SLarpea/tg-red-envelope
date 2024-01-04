@@ -50,4 +50,10 @@ class UserManagementController extends Controller
 
         return redirect()->route('tg-users.index')->with('response', 'success');
     }
+
+    public function setLocale(Request $request)
+    {
+        $locale = $request->lang;
+        $request->session()->put('locale', $locale);
+    }
 }

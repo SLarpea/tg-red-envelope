@@ -35,8 +35,9 @@ class JetstreamServiceProvider extends ServiceProvider
             if ($user) {
                 if ($user->status == 1 && Hash::check($request->password, $user->password)) {
                     if (!session()->has('locale')) {
-                        session(['locale' => 'zh_CN']);
+                        session(['locale' => app()->getLocale()]);
                     }
+
                     return $user;
                 } else {
                     throw ValidationException::withMessages([
