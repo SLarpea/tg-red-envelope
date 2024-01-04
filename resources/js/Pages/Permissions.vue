@@ -45,7 +45,7 @@
                                         <tbody>
                                             <tr v-for="(item, index) in permissions.data" :key="item.id">
                                                 <td class="text-center">{{ permissions.from + index }}</td>
-                                                <td>{{ item.name }}</td>
+                                                <td>{{ $t(item.name) }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"

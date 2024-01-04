@@ -1203,3 +1203,8 @@ background-color: #3e97ff;
 table {
     table-layout: fixed;
 } */
+
+
+.lang-drop .notification-item.active{
+    background-color: #42258638 !important;
+}

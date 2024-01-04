@@ -20,7 +20,7 @@
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications lang-drop">
 
-                        <li class="notification-item" @click="setLocale('zh_CN')">
+                        <li :class="`notification-item ` + ($page.props.user.locale === 'zh_CN' ? 'active' : '')" @click="setLocale('zh_CN')">
                             <i class="bi bi-arrow-right-short"></i> 中国人
                         </li>
 
@@ -28,7 +28,7 @@
                             <hr class="dropdown-divider">
                         </li>
 
-                        <li class="notification-item" @click="setLocale('en')">
+                        <li :class="`notification-item ` + ($page.props.user.locale === 'en' ? 'active' : '')" @click="setLocale('en')">
                             <i class="bi bi-arrow-right-short"></i> English
                         </li>
                     </ul>
