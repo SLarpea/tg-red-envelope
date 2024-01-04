@@ -240,5 +240,8 @@
     "view_menu": "View Menu",
     "can_edit_in_menu": "Can Edit in Menu",
     "view_operation_log": "View Operation Log",
-    "view_permissions": "View Permissions"
+    "view_permissions": "View Permissions",
+    "mine_management_module": "Mine management module",
+    "system_module": "System module",
+    "activity_log_module": "Activity log module"
 }

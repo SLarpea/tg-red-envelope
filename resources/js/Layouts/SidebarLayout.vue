@@ -10,7 +10,7 @@
                 </Link>
             </li>
 
-            <li class="nav-heading" data-aos="fade-right" data-aos-delay="200">矿山管理模块</li>
+            <li class="nav-heading" data-aos="fade-right" data-aos-delay="200">{{ $t('mine_management_module') }}</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[1].status == 1 && $page.props.user.permissions.includes(2)" data-aos="fade-right" data-aos-delay="200">
                 <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
@@ -83,7 +83,7 @@
                 </Link>
             </li>
 
-            <li class="nav-heading" data-aos="fade-right" data-aos-delay="1600">系统模块</li>
+            <li class="nav-heading" data-aos="fade-right" data-aos-delay="1600">{{ $t('system_module') }}</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[9].status == 1 && $page.props.user.permissions.includes(23)" data-aos="fade-right" data-aos-delay="1800">
                 <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
@@ -121,7 +121,7 @@
                 </Link>
             </li>
 
-            <li class="nav-heading" data-aos="fade-right" data-aos-delay="2400">活动日志模块</li>
+            <li class="nav-heading" data-aos="fade-right" data-aos-delay="2400">{{ $t('activity_log_module') }}</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[12].status == 1 && $page.props.user.permissions.includes(33)" data-aos="fade-right" data-aos-delay="2600">
                 <div class="glow" v-if="$page.url.startsWith('/operation-log')">&nbsp;</div>

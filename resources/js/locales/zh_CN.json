@@ -233,5 +233,8 @@
     "view_menu": "查看菜单",
     "can_edit_in_menu": "可以在菜单中编辑",
     "view_operation_log": "查看操作日志",
-    "view_permissions": "查看权限"
+    "view_permissions": "查看权限",
+    "mine_management_module": "矿山管理模块",
+    "system_module": "系统模块",
+    "activity_log_module": "活动日志模块"
 }
