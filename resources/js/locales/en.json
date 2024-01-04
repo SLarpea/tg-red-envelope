@@ -200,5 +200,11 @@
     "last_month": "Last Month",
     "last_half": "Last Half Year",
     "last_year": "Last Year",
-    "zh_CN_name": "Chinese Name"
+    "zh_CN_name": "Chinese Name",
+    "program_version": "Program Version",
+    "php_version": "PHP Version",
+    "laravel_version": "Laravel Version",
+    "mysql_version": "MySQL Version",
+    "redis_version": "Redis Version",
+    "powered_by": "Powered by"
 }

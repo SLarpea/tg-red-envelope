@@ -39,6 +39,47 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="card">
+                                &nbsp;
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <colgroup>
+                                        <col width="30%">
+                                        <col width="*">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ $t("program_version") }}</td>
+                                            <td>1.0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ $t("php_version") }}</td>
+                                            <td>8.2.7</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ $t("laravel_version") }}</td>
+                                            <td>10.10</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ $t("mysql_version") }}</td>
+                                            <td>8.0.32</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ $t("redis_version") }}</td>
+                                            <td>5.0.14</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{ $t("powered_by") }}</td>
+                                            <td>Feiwin</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

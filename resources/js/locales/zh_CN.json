@@ -193,5 +193,11 @@
     "last_month": "上个月",
     "last_half": "下半场",
     "last_year": "去年",
-    "zh_CN_name": "中文名"
+    "zh_CN_name": "中文名",
+    "program_version": "程序版本",
+    "php_version": "PHP版本",
+    "laravel_version": "Laravel版本",
+    "mysql_version": "MySQL版本",
+    "redis_version": "REDIS版本",
+    "powered_by": "供电"
 }

@@ -88,6 +88,18 @@
             </ul>
         </nav>
     </header>
+    <transition name="modal-fade">
+        <div class="lang-loading" v-if="loading">
+            <div class="row">
+                <div class="col-lg-12 loading-container">
+                    <img src="../../../public/images/loader.gif" alt="">
+                </div>
+                <div class="col-lg-12 text-center">
+                    <h4>{{ transText }}</h4>
+                </div>
+            </div>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -96,8 +108,10 @@ import { Link, router } from "@inertiajs/vue3";
 export default {
     data() {
         return {
+            loading: false,
             isHiddenHelp: false,
             toggleShow: true,
+            transText: "Translating...",
         };
     },
     components: {
@@ -129,7 +143,10 @@ export default {
                 this.isHiddenHelp = false;
             }
         },
-        setLocale(lang) {
+        async setLocale(lang) {
+            this.loading = true;
+            this.transText = (lang == 'en') ? 'Translating...' : '翻译...';
+            await new Promise(resolve => setTimeout(resolve, 1000));
             router.post(route('post.setlocale'), { lang: lang }, {
                 onSuccess: (response) => {
                     location.reload();
