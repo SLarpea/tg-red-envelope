@@ -42,7 +42,14 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="card">
-                                &nbsp;
+                            <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h5 class="card-title"><i class="bi bi-cpu"></i> System Information</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered">
                                     <colgroup>
@@ -76,6 +83,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
                             </div>
                         </div>
                     </div>
