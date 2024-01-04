@@ -57,4 +57,11 @@ class ConfigRequest extends FormRequest
 
         return $rules;
     }
+
+    public function attributes()
+    {
+        return [
+            'value' => 'Configuration value'
+        ];
+    }
 }
