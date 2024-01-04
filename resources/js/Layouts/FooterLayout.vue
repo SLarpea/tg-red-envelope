@@ -1,7 +1,7 @@
 <template>
     <div class="footer">
         <div class="text-center">
-            版权所有 {{ year }}
+            {{ $t('all_rights_reserved') }} {{ year }}
         </div>
     </div>
 </template>
