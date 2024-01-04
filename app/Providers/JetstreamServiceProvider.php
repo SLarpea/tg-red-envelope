@@ -8,6 +8,7 @@ use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Hash;
 use App\Actions\Jetstream\DeleteUser;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
 
@@ -33,6 +34,9 @@ class JetstreamServiceProvider extends ServiceProvider
 
             if ($user) {
                 if ($user->status == 1 && Hash::check($request->password, $user->password)) {
+                    if (!session()->has('locale')) {
+                        session(['locale' => 'zh_CN']);
+                    }
                     return $user;
                 } else {
                     throw ValidationException::withMessages([

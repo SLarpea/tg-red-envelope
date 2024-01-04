@@ -43,6 +43,9 @@ class HandleInertiaRequests extends Middleware
             'user.roles' => function () use ($request) {
                 return ( $request->user() ? $request->user()->roles()->pluck('name') : null );
             },
+            'user.locale' => function () use ($request) {
+                return session('locale');
+            },
         ]);
     }
 }
