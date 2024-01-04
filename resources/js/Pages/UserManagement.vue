@@ -63,7 +63,12 @@
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.balance }}</td>
-                                                <td class="text-center">{{ (item.online == 0) ? $t('no') : $t('yes') }}</td>
+                                                <td class="td-btn-is-online-container text-center">
+                                                    <button
+                                                        :class="(item.online == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'">
+                                                        {{ (item.online == 0) ? $t('no') : $t('yes') }}
+                                                    </button>
+                                                </td>
                                                 <td class="list-status-container text-center">
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
@@ -542,6 +547,12 @@ export default {
 <style scoped>
 .invalid-feedback {
     font-size: .775em;
+}
+
+.td-btn-is-online-container button{
+    padding: 0px 5px !important;
+    font-size: 12px;
+    border-radius: 0.25rem;
 }
 </style>
 
