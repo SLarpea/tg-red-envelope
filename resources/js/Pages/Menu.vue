@@ -49,8 +49,8 @@
                                             <td class="text-center">
                                                 {{ menus.from + index }}
                                             </td>
-                                            <td>{{ item.zh_CN_name }}</td>
-                                            <td>{{ item.name }}</td>
+                                            <td v-if="$page.props.user.locale == 'zh_CN'" >{{ item.zh_CN_name }}</td>
+                                            <td v-else>{{ item.name }}</td>
                                             <td>/{{ item.url }}</td>
                                             <td class="list-status-container text-center">
                                                 <button :class="item.status == 1
