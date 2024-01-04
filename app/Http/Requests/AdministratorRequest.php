@@ -28,9 +28,9 @@ class AdministratorRequest extends FormRequest
             $rules['status'] = 'required|integer';
         } else {
             $rules = [
-                'name' => 'required|string|max:255',
+                'name' => 'required|string|max:255|unique:users,name,' . $this->id,
                 'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
-                'password_confirmation' => 'required|string|min:8|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+                // 'password_confirmation' => 'required|string|min:8|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
                 'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->id),],
                 'status' => 'required|integer',
             ];
