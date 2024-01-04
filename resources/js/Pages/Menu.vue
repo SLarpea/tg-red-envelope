@@ -36,8 +36,8 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-center">#</th>
-                                            <th scope="col">{{ $t('zh_CN_name') }}</th>
-                                            <th scope="col">{{ $t('name') }}</th>
+                                            <th scope="col" v-if="$page.props.user.locale == 'zh_CN'">{{ $t('zh_CN_name') }}</th>
+                                            <th scope="col" v-else>{{ $t('name') }}</th>
                                             <th scope="col">{{ $t('url') }}</th>
                                             <th scope="col" class="text-center">{{ $t('status') }}</th>
                                             <th scope="col" class="text-center">{{ $t('action') }}</th>
@@ -49,7 +49,7 @@
                                             <td class="text-center">
                                                 {{ menus.from + index }}
                                             </td>
-                                            <td v-if="$page.props.user.locale == 'zh_CN'" >{{ item.zh_CN_name }}</td>
+                                            <td v-if="$page.props.user.locale == 'zh_CN'">{{ item.zh_CN_name }}</td>
                                             <td v-else>{{ item.name }}</td>
                                             <td>/{{ item.url }}</td>
                                             <td class="list-status-container text-center">

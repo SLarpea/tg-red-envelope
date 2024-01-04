@@ -120,9 +120,9 @@ const clearPhotoFileInput = () => {
                 <InputLabel for="name" :value="$t('name')" />
                 <TextInput id="name" v-model="form.name" type="text" class="mt-1 block w-full" required
                     autocomplete="name" />
+
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
-
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="email" :value="$t('email')" />
@@ -148,7 +148,7 @@ const clearPhotoFileInput = () => {
             </div>
         </template>
 
-        <template #actions>
+        <!-- <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="me-3">
                 {{ $t('saved') }}.
             </ActionMessage>
@@ -156,6 +156,6 @@ const clearPhotoFileInput = () => {
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 {{ $t('save') }}
             </PrimaryButton>
-        </template>
+        </template> -->
     </FormSection>
 </template>
