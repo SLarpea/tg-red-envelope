@@ -1166,6 +1166,10 @@ background-color: #3e97ff;
     background-color: #42258638 !important;
 }
 
+.thumb-prof {
+    border: 1px solid #512da8;
+}
+
 /* td {
     white-space: normal !important;
     word-wrap: break-word;
