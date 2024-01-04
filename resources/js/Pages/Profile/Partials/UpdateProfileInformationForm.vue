@@ -138,6 +138,7 @@ const clearPhotoFileInput = () => {
                     class="mt-1 block w-full"
                     required
                     autocomplete="name"
+                    readonly
                 />
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
@@ -152,6 +153,7 @@ const clearPhotoFileInput = () => {
                     class="mt-1 block w-full"
                     required
                     autocomplete="username"
+                    readonly
                 />
                 <InputError :message="form.errors.email" class="mt-2" />
 
@@ -177,7 +179,7 @@ const clearPhotoFileInput = () => {
             </div>
         </template>
 
-        <template #actions>
+        <!-- <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="me-3">
                 Saved.
             </ActionMessage>
@@ -185,6 +187,6 @@ const clearPhotoFileInput = () => {
             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Save
             </PrimaryButton>
-        </template>
+        </template> -->
     </FormSection>
 </template>
