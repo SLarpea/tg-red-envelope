@@ -1153,6 +1153,19 @@ background-color: #3e97ff;
     margin-left: 5px;
 }
 
+.lang-drop {
+    padding: 1px 0px;
+}
+
+.lang-drop .notification-item {
+    padding: 5px 10px !important;
+    cursor: pointer;
+}
+
+.lang-drop .notification-item:hover {
+    background-color: #42258638 !important;
+}
+
 /* td {
     white-space: normal !important;
     word-wrap: break-word;

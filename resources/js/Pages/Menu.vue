@@ -36,6 +36,7 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-center">#</th>
+                                            <th scope="col">{{ $t('zh_CN_name') }}</th>
                                             <th scope="col">{{ $t('name') }}</th>
                                             <th scope="col">{{ $t('url') }}</th>
                                             <th scope="col" class="text-center">{{ $t('status') }}</th>
@@ -48,6 +49,7 @@
                                             <td class="text-center">
                                                 {{ menus.from + index }}
                                             </td>
+                                            <td>{{ item.zh_CN_name }}</td>
                                             <td>{{ item.name }}</td>
                                             <td>/{{ item.url }}</td>
                                             <td class="list-status-container text-center">

@@ -13,6 +13,27 @@
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <i class="bi bi-translate"></i>
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications lang-drop">
+
+                    <li class="notification-item">
+                        <i class="bi bi-arrow-right-short"></i> Chinese
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    <li class="notification-item">
+                        <i class="bi bi-arrow-right-short"></i> English
+                    </li>
+                    </ul>
+
+                    </li>
                 <li class="nav-item dropdown pe-3">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img :src="$page.props.auth.user.profile_photo_url" alt="Profile"
