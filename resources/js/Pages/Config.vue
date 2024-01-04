@@ -76,8 +76,7 @@
                                                     <td class="list-action-container text-center">
                                                         <i class="bi bi-eye text-info" v-tippy="$t('view')"
                                                             @click.prevent="selectAction(item, 'show', null)"></i>
-                                                        <i class="bi bi-pencil-square text-success"
-                                                            v-tippy="$t('edit')"
+                                                        <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
                                                             @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                         <!-- <i class="bi bi-trash text-danger" v-tippy="'{{ $t('delete') }}'"
                                                     @click.prevent="selectAction(item, 'delete', null)"></i> -->
@@ -87,7 +86,7 @@
                                         </table>
                                     </div>
                                     <PaginationLayout
-                                        :data=" { links: configs.links, from: configs.from, to: configs.to, total: configs.total } " />
+                                        :data="{ links: configs.links, from: configs.from, to: configs.to, total: configs.total }" />
 
                                 </div>
                             </div>
@@ -99,53 +98,61 @@
 
 
         <transition name="modal-fade">
-            <div class="modal custom-modal" v-if=" modalShow ">
+            <div class="modal custom-modal" v-if="modalShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
                                 <i class="bi bi-arrow-return-right"></i> {{ $t('configuration') }}
                             </h5>
-                            <button type="button" class="btn-close" @click.prevent=" closeModal "></button>
+                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
                         <form @submit.prevent="formAction(form, 'all')">
                             <div class="modal-body">
-                                <div class="row gx-4" v-if=" editMode ">
+                                <div class="row gx-4" v-if="editMode">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
                                             <label for="name" class="col-sm-4 col-form-label">{{ $t('key') }} :</label>
                                             <div class="col-sm-8">
-                                                <input id="name" name="name" v-model=" form.name " type="text"
-                                                    class="form-control" autocomplete="off" readonly />
+                                                <input id="name" name="name" v-model="form.name" type="text"
+                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" readonly />
+                                                <div class="invalid-feedback" v-if="error_form.name">
+                                                    {{ error_form.name }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="remark" class="col-sm-4 col-form-label">{{ $t('description') }}
                                                 :</label>
                                             <div class="col-sm-8">
-                                                <input id="remark" name="remark" v-model=" form.remark " type="text"
+                                                <input id="remark" name="remark" v-model="form.remark" type="text"
                                                     class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="value" class="col-sm-4 col-form-label">{{ $t('configuration_value')
-                                                }} :</label>
+                                            }} :</label>
                                             <div class="col-sm-8">
-                                                <input id="value" name="value" v-model=" form.value " type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                <input id="value" name="value" v-model="form.value" type="text"
+                                                :class="`form-control ${error_form.value ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.value">
+                                                    {{ error_form.value }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
                                             <label for="group_id" class="col-sm-4 col-form-label">{{ $t('group_id') }}
                                                 :</label>
                                             <div class="col-sm-8">
-                                                <input id="group_id" name="group_id" v-model=" form.group_id " type="text"
+                                                <input id="group_id" name="group_id" v-model="form.group_id" type="text"
                                                     class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row gx-4" v-if=" !editMode ">
+                                <div class="row gx-4" v-if="!editMode">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered no-margin">
                                             <colgroup>
@@ -175,14 +182,14 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" @click.prevent=" closeModal ">
+                                <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
                                     <i class="bi bi-x-circle"></i> {{ $t('close') }}
                                 </button>
-                                <template v-if=" action !== 'show' ">
-                                    <button type="submit" class="btn btn-custom" v-if=" action === 'new' ">
+                                <template v-if="action !== 'show'">
+                                    <button type="submit" class="btn btn-custom" v-if="action === 'new'">
                                         <i class="bi bi-save2"></i> {{ $t('save') }}
                                     </button>
-                                    <button type="submit" class="btn btn-custom" v-if=" action === 'update' ">
+                                    <button type="submit" class="btn btn-custom" v-if="action === 'update'">
                                         <i class="bi bi-save2"></i> {{ $t('update') }}
                                     </button>
                                 </template>
@@ -202,6 +209,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -217,6 +225,7 @@ export default {
                 admin_id: null,
                 remark: null,
             },
+            error_form: {}
         };
     },
     props: {
@@ -306,8 +315,15 @@ export default {
                                 this.modalShow = false;
                             }
                         },
-                        onError: () => {
-
+                        onError: (error) => {
+                            try {
+                                this.error_form = Object.assign(this.error_form, error);
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(this.$t('unexpected_error'));
+                            }
                         },
                     });
                 }
@@ -324,7 +340,17 @@ export default {
     created() {
         window.addEventListener('keydown', this.escape);
     },
+    watch: {
+        modalShow: function (oldVal, newVal) {
+            this.error_form = {};
+        }
+    }
 
 }
 
 </script>
+<style scoped>
+.invalid-feedback {
+    font-size: .775em;
+}
+</style>

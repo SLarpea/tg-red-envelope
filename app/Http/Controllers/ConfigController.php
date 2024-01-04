@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use App\Models\Config;
 use Illuminate\Http\Request;
+use App\Http\Requests\ConfigRequest;
 use Illuminate\Support\Facades\Session;
 
 class ConfigController extends Controller
@@ -68,7 +69,7 @@ class ConfigController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ConfigRequest $request, string $id)
     {
         if ($request->has('id')) {
             Config::find($request->input('id'))->update([
