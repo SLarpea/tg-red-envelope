@@ -12,11 +12,12 @@ use App\Models\UserManagement;
 use App\Models\WithdrawRecord;
 use App\Models\CommissionRecord;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Nette\Utils\Random;
 
 class DashboardService
 {
-    public function showData()
+    public function showData($request)
     {
         $today = Carbon::today();
 
@@ -136,7 +137,7 @@ class DashboardService
         ];
 
         // Fetch chart data using request parameters
-        $data['chartData'] = $this->getChartData(request()->all());
+        $data['chartData'] = $this->getChartData($request);
 
         return $data;
     }
@@ -144,9 +145,20 @@ class DashboardService
     // Function to retrieve and format chart data
     private function getChartData($request)
     {
-        // Set the target year for data retrieval
-        $year = '2024';
+        // if (!is_null($request->year)) {
+        //     Session::put('filter_chart_by_year', $request->year);
+        // }else{
+        //     Session::put('filter_chart_by_year', '2024');
+        // }
+        // Session::put('filter_chart_by_year', $request->year);
 
+        if(Session::get('filter_chart_by_year') == null){
+            Session::put('filter_chart_by_year', '2024');
+        }else{
+            Session::put('filter_chart_by_year', $request->year);
+        }
+        dd(Session::get('filter_chart_by_year'));
+        // dd($year);
         // Query to fetch relevant data from the database
         $luckyHistoryActivity = DB::table('telegram_activity_view')
             ->select([
@@ -154,7 +166,7 @@ class DashboardService
                 DB::raw('COUNT(user_id) AS user_count'),
                 DB::raw('MAX(chat_id) as chat_id'),
             ])
-            ->whereYear('created_at', $year)
+            ->whereYear('created_at', Session::get('filter_chart_by_year'))
             ->groupBy('month')
             ->groupBy(DB::raw('chat_id'))
             ->orderBy('chat_id')

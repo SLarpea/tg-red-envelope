@@ -26,6 +26,7 @@ Route::middleware([
     'setLocale'
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('post.dashboard');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
     Route::get('/rewards', [App\Http\Controllers\RewardRecordController::class, 'index'])->name('rewards');
     Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports');

@@ -15,9 +15,9 @@ class DashboardController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data = $this->dashboardService->showData();
+        $data = $this->dashboardService->showData($request);
         return Inertia::render('Dashboard', [
             'dashboard' => $data['dashboard'],
             'chart_data' => $data['chartData']
