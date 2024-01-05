@@ -3,12 +3,12 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-file-earmark-person"></i> Roles</h1>
+            <h1><i class="bi bi-file-earmark-person"></i> {{ $t('roles_page_title') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">System</li>
-                    <li class="breadcrumb-item">Roles</li>
-                    <li class="breadcrumb-item active">List of Roles</li>
+                    <li class="breadcrumb-item">{{ $t('system') }}</li>
+                    <li class="breadcrumb-item">{{ $t('roles') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_roles') }}</li>
                 </ol>
             </nav>
         </div>
@@ -17,20 +17,21 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-
                         <div class="col-lg-12">
                             <div class="card">
-
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Roles</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{
+                                                $t('list_of_roles_title') }}</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/roles" class="btn btn-secondary btn-sm"><i class="bi bi-recycle"></i> 刷新</a>
-                                                <button class="btn btn-custom btn-sm" type="button" @click.prevent="resetForm" v-if="$page.props.user.permissions.includes(28)">
-                                                    <i class="bi bi-plus-circle"></i> New Role
+                                                <a href="/roles" class="btn btn-secondary btn-sm"><i
+                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
+                                                <button class="btn btn-custom btn-sm" type="button"
+                                                    @click.prevent="resetForm">
+                                                    <i class="bi bi-plus-circle"></i> {{ $t('new_role') }}
                                                 </button>
                                             </div>
                                         </div>
@@ -45,9 +46,9 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col" class="text-center">Status</th>
-                                                <th scope="col" class="text-center">Action</th>
+                                                <th scope="col">{{ $t('name') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('status') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -59,16 +60,16 @@
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
-                                                        {{ (item.status == 1) ? 'Active' : 'Inactive' }}
+                                                        {{ (item.status == 1) ? $t('active') : $t('inactive') }}
                                                     </button>
                                                 </td>
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-eye text-info" v-tippy="'View'"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                        @click.prevent="selectAction(item, 'update', 'all')" v-if="$page.props.user.permissions.includes(29)"></i>
+                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                        @click.prevent="selectAction(item, 'delete', null)" v-if="$page.props.user.permissions.includes(30)"></i>
+                                                        @click.prevent="selectAction(item, 'delete', null)"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -76,7 +77,6 @@
 
                                     <PaginationLayout
                                         :data="{ links: roles.links, from: roles.from, to: roles.to, total: roles.total }" />
-
                                 </div>
                             </div>
                         </div>
@@ -85,13 +85,15 @@
             </div>
         </section>
 
+
         <transition name="modal-fade">
             <div class="modal custom-modal" v-if="modalShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'New Role' : 'Update Role' }}
+                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? $t('new_role') : $t('update_role')
+                                }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
@@ -100,33 +102,36 @@
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Name :
-                                            </label>
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }}:</label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.name">
+                                                    {{ error_form.name }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">Status :
-                                            </label>
+                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}:</label>
                                             <div class="col-sm-8">
                                                 <select class="form-select" aria-label="Default select example" id="status"
                                                     name="status" v-model="form.status">
-                                                    <option selected>Select Status</option>
-                                                    <option value="1">Enable</option>
-                                                    <option value="0">Disable</option>
+                                                    <option selected>{{ $t('select_status') }}</option>
+                                                    <option value="1">{{ $t('enable') }}</option>
+                                                    <option value="0">{{ $t('disable') }}</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Permissions :
-                                            </label>
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('permissions')
+                                            }}:</label>
                                             <div class="col-sm-8">
                                                 <div class="form-check" v-for="(item) in permissions" :key="item.id">
-                                                    <input class="form-check-input" type="checkbox" v-model="form.selectedOptions" :value="item.name">
-                                                    <label class="form-check-label" for="flexCheckDefault">
-                                                        {{item.name}}
+                                                    <input :id="'id_' + item.id" class="form-check-input" type="checkbox"
+                                                        v-model="form.selectedOptions" :value="item.name">
+                                                    <label class="form-check-label" :for="'id_' + item.id">
+                                                        {{ item.name }}
                                                     </label>
                                                 </div>
                                             </div>
@@ -136,14 +141,14 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                    <i class="bi bi-x-circle"></i> Close
+                                    <i class="bi bi-x-circle"></i> {{ $t('close') }}
                                 </button>
                                 <template v-if="action !== 'show'">
                                     <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
+                                        <i class="bi bi-save2"></i> {{ $t('save') }}
                                     </button>
                                     <button type="submit" class="btn btn-custom" v-if="action === 'update'">
-                                        <i class="bi bi-save2"></i> Update
+                                        <i class="bi bi-save2"></i> {{ $t('update') }}
                                     </button>
                                 </template>
                             </div>
@@ -153,6 +158,7 @@
             </div>
         </transition>
 
+
     </AppLayout>
 </template>
 
@@ -161,6 +167,7 @@ import { Head, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -173,6 +180,7 @@ export default {
                 status: 1,
                 selectedOptions: [],
             },
+            error_form: {}
         };
     },
     props: {
@@ -202,36 +210,37 @@ export default {
             if (this.action == 'delete') {
                 this.formAction(data, type);
             } else {
-                this.form = Object.assign({}, data);
+                this.form = Object.assign(this.form, data);
+                this.form.selectedOptions = data.permissions.map(item => item.name)
                 this.modalShow = true;
             }
         },
         formAction(data, type) {
             this.action = (type == 'status') ? 'update' : this.action;
-            let text = String;
-            let confirmButtonColor = String;
-            let method = String;
-            let routeURL = String;
-            let msgText = String;
+            let text = '';
+            let confirmButtonColor = '';
+            let method = '';
+            let routeURL = '';
+            let msgText = '';
             if (this.action == 'new') {
-                text = "Are you sure you want to save this item?";
+                text = this.$t('confirm_save_item');
                 confirmButtonColor = '#198754';
                 method = 'POST';
                 routeURL = 'roles.store';
-                msgText = 'Work has been saved.';
+                msgText = this.$t('work_saved');
                 data.id = null;
             } else if (this.action == 'update') {
-                text = "Are you sure you want to update this item?";
+                text = this.$t('confirm_update_item');
                 confirmButtonColor = '#198754';
                 method = 'PUT';
                 routeURL = 'roles.update';
-                msgText = 'Work has been updated.';
+                msgText = this.$t('work_updated');
             } else {
-                text = "Are you sure you want to delete this item?";
+                text = this.$t('confirm_delete_item');
                 confirmButtonColor = '#D81B60';
                 method = 'DELETE';
                 routeURL = 'roles.destroy';
-                msgText = 'Work has been deleted.';
+                msgText = this.$t('work_deleted');
             }
 
             this.$swal({
@@ -239,8 +248,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
+                cancelButtonText: this.$t('cancel_no'),
+                confirmButtonText: this.$t('confirm_yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;
@@ -259,14 +268,21 @@ export default {
                                 this.modalShow = false;
                             }
                         },
-                        onError: () => {
-
+                        onError: (error) => {
+                            try {
+                                this.error_form = Object.assign(this.error_form, error);
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(this.$t('unexpected_error'));
+                            }
                         },
                     });
                 }
-            })
-
+            });
         },
+
         escape(event) {
             if (event.keyCode === 27) {
                 this.modalShow = false;
@@ -277,6 +293,16 @@ export default {
     created() {
         window.addEventListener('keydown', this.escape);
     },
+    watch: {
+        modalShow: function (oldVal, newVal) {
+            this.error_form = {};
+        }
+    }
 }
 
 </script>
+<style scoped>
+.invalid-feedback {
+    font-size: .775em;
+}
+</style>

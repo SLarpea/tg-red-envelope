@@ -6,18 +6,18 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/dashboard') }" href="/dashboard"
                     preserve-state>
                 <i class="bi bi-grid"></i>
-                <span>{{ $page.props.sidemenu[0].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[0].name : $page.props.sidemenu[0].zh_CN_name }}</span>
                 </Link>
             </li>
 
-            <li class="nav-heading" data-aos="fade-right" data-aos-delay="200">矿山管理模块</li>
+            <li class="nav-heading" data-aos="fade-right" data-aos-delay="200">{{ $t('mine_management_module') }}</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[1].status == 1 && $page.props.user.permissions.includes(2)" data-aos="fade-right" data-aos-delay="200">
                 <div class="glow" v-if="$page.url.startsWith('/groups')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/groups') }" href="/groups"
                     preserve-state>
                 <i class="bi bi-diagram-3"></i>
-                <span>{{ $page.props.sidemenu[1].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[1].name : $page.props.sidemenu[1].zh_CN_name }}</span>
                 </Link>
             </li>
             <li class="nav-item" v-if="$page.props.sidemenu[2].status == 1 && $page.props.user.permissions.includes(7)" data-aos="fade-right" data-aos-delay="400">
@@ -25,7 +25,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/tg-users') }" href="/tg-users"
                     preserve-state>
                 <i class="bi bi-people"></i>
-                <span>{{ $page.props.sidemenu[2].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[2].name : $page.props.sidemenu[2].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -34,7 +34,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/red-envelopes') }"
                     href="/red-envelopes" preserve-state>
                 <i class="bi bi-envelope"></i>
-                <span>{{ $page.props.sidemenu[3].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[3].name : $page.props.sidemenu[3].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -43,7 +43,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/recharge') }" href="/recharge"
                     preserve-state>
                 <i class="bi bi-wallet2"></i>
-                <span>{{ $page.props.sidemenu[4].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[4].name : $page.props.sidemenu[4].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -52,7 +52,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/commissions') }" href="/commissions"
                     preserve-state>
                 <i class="bi bi-folder-check"></i>
-                <span>{{ $page.props.sidemenu[5].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[5].name : $page.props.sidemenu[5].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -61,7 +61,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/rewards') }" href="/rewards"
                     preserve-state>
                 <i class="bi bi-trophy"></i>
-                <span>{{ $page.props.sidemenu[6].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[6].name : $page.props.sidemenu[6].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -70,7 +70,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/withdraw') }" href="/withdraw"
                     preserve-state>
                 <i class="bi bi-box-arrow-up-left"></i>
-                <span>{{ $page.props.sidemenu[7].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[7].name : $page.props.sidemenu[7].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -79,18 +79,18 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/reports') }" href="/reports"
                     preserve-state>
                 <i class="bi bi-graph-up-arrow"></i>
-                <span>{{ $page.props.sidemenu[8].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[8].name : $page.props.sidemenu[8].zh_CN_name }}</span>
                 </Link>
             </li>
 
-            <li class="nav-heading" data-aos="fade-right" data-aos-delay="1600">系统模块</li>
+            <li class="nav-heading" data-aos="fade-right" data-aos-delay="1600">{{ $t('system_module') }}</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[9].status == 1 && $page.props.user.permissions.includes(23)" data-aos="fade-right" data-aos-delay="1800">
                 <div class="glow" v-if="$page.url.startsWith('/administrator')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/administrator') }"
                     href="/administrator" preserve-state>
                 <i class="bi bi-person"></i>
-                <span>{{ $page.props.sidemenu[9].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[9].name : $page.props.sidemenu[9].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -99,7 +99,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/roles') }" href="/roles"
                     preserve-state>
                 <i class="bi bi-file-earmark-person"></i>
-                <span>{{ $page.props.sidemenu[10].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[10].name : $page.props.sidemenu[10].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -108,7 +108,7 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/permissions') }" href="/permissions"
                     preserve-state>
                 <i class="bi bi-person-vcard"></i>
-                <span>{{ $page.props.sidemenu[11].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[11].name : $page.props.sidemenu[11].zh_CN_name }}</span>
                 </Link>
             </li>
 
@@ -117,18 +117,18 @@
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/menus') }" href="/menus"
                     preserve-state>
                 <i class="bi bi-list"></i>
-                <span>菜单</span>
+                <span>{{ ($page.props.user.locale == 'en') ? 'Menu' : '菜单' }}</span>
                 </Link>
             </li>
 
-            <li class="nav-heading" data-aos="fade-right" data-aos-delay="2400">活动日志模块</li>
+            <li class="nav-heading" data-aos="fade-right" data-aos-delay="2400">{{ $t('activity_log_module') }}</li>
 
             <li class="nav-item" v-if="$page.props.sidemenu[12].status == 1 && $page.props.user.permissions.includes(33)" data-aos="fade-right" data-aos-delay="2600">
                 <div class="glow" v-if="$page.url.startsWith('/operation-log')">&nbsp;</div>
                 <Link class="nav-link" :class="{ 'collapsed': !$page.url.startsWith('/operation-log') }"
                     href="/operation-log" preserve-state>
                 <i class="bi bi-activity"></i>
-                <span>{{ $page.props.sidemenu[12].name }}</span>
+                <span>{{ ($page.props.user.locale == 'en') ? $page.props.sidemenu[12].name : $page.props.sidemenu[12].zh_CN_name }}</span>
                 </Link>
             </li>
 

@@ -1,14 +1,14 @@
 <template>
-    <Head title="User Management" />
+    <Head :title="$t('permissions')" />
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-person-vcard"></i> Permissions</h1>
+            <h1><i class="bi bi-person-vcard"></i> {{ $t('permissions') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">System</li>
-                    <li class="breadcrumb-item">Permissions</li>
-                    <li class="breadcrumb-item active">List of Permissions</li>
+                    <li class="breadcrumb-item">{{ $t('system') }}</li>
+                    <li class="breadcrumb-item">{{ $t('permissions') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_permissions') }}</li>
                 </ol>
             </nav>
         </div>
@@ -17,14 +17,13 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-
                         <div class="col-lg-12">
                             <div class="card">
-
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Permissions</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{
+                                                $t('list_of_permissions') }}</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             &nbsp;
@@ -35,24 +34,23 @@
 
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
-
                                         </colgroup>
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">Name</th>
-                                                <th scope="col" class="text-center">Status</th>
+                                                <th scope="col">{{ $t('name') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('status') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="(item, index) in permissions.data" :key="item.id">
                                                 <td class="text-center">{{ permissions.from + index }}</td>
-                                                <td>{{ item.name }}</td>
+                                                <td>{{ $t(item.name) }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
                                                         @click.prevent="formAction(item, 'status')">
-                                                        {{ (item.status == 1) ? 'Active' : 'Inactive' }}
+                                                        {{ (item.status == 1) ? $t('active') : $t('inactive') }}
                                                     </button>
                                                 </td>
                                             </tr>
@@ -69,6 +67,7 @@
                 </div>
             </div>
         </section>
+
 
 
 

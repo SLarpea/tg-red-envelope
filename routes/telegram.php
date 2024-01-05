@@ -77,6 +77,18 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
             Log::error('register异常' . $e);
         }
     });
+
+    $bot->onText('(' . trans('telegram.groupinfo') . '$)', function (Nutgram $bot, $ac) {
+        if ($bot->chat()->type == 'private') {
+        } else {
+            if ($ac == trans('telegram.groupinfo')) {
+                $params = [
+                    'parse_mode' => ParseMode::HTML
+                ];
+                $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
+            }
+        }
+    });
 });
 
 

@@ -1,15 +1,15 @@
 <template>
-    <Head title="Group Management" />
+    <Head :title="$t('configs')" />
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-gear"></i> Configs</h1>
+            <h1><i class="bi bi-gear"></i> {{ $t('configs') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Mine Management</li>
-                    <li class="breadcrumb-item">Group Management</li>
-                    <li class="breadcrumb-item">Configs</li>
-                    <li class="breadcrumb-item active">List of Configs</li>
+                    <li class="breadcrumb-item">{{ $t('mine_management') }}</li>
+                    <li class="breadcrumb-item">{{ $t('group_management') }}</li>
+                    <li class="breadcrumb-item">{{ $t('configs') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_configs') }}</li>
                 </ol>
             </nav>
         </div>
@@ -25,12 +25,13 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Configs</h5>
+                                            <h5 class="card-title"><i class="bi bi-list-ol"></i> {{ $t('list_of_configs') }}
+                                            </h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
                                                 <a class="btn btn-custom btn-sm" href="/groups">
-                                                    <i class="bi bi-arrow-left-circle"></i> 后退
+                                                    <i class="bi bi-arrow-left-circle"></i> {{ $t('go_back') }}
                                                 </a>
                                             </div>
                                         </div>
@@ -52,17 +53,17 @@
                                             <thead>
                                                 <tr>
                                                     <th scope="col" class="text-center">#</th>
-                                                    <th scope="col">Key</th>
-                                                    <th scope="col">Description</th>
-                                                    <th scope="col">Configuration Value</th>
-                                                    <th scope="col">Group Id</th>
-                                                    <th scope="col">Administrator</th>
-                                                    <th scope="col" class="text-center">Update Time</th>
-                                                    <th scope="col" class="text-center">Action</th>
+                                                    <th scope="col">{{ $t('key') }}</th>
+                                                    <th scope="col">{{ $t('description') }}</th>
+                                                    <th scope="col">{{ $t('configuration_value') }}</th>
+                                                    <th scope="col">{{ $t('group_id') }}</th>
+                                                    <th scope="col">{{ $t('administrator') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('update_time') }}</th>
+                                                    <th scope="col" class="text-center">{{ $t('action') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(item, index) in configs.data" :key="item.id"
+                                                <tr v-for="(item, index) in    configs.data   " :key="item.id"
                                                     @dblclick.prevent="selectAction(item, 'show', null)">
                                                     <td class="text-center">{{ configs.from + index }}</td>
                                                     <td>{{ item.name }}</td>
@@ -73,12 +74,12 @@
                                                     <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}
                                                     </td>
                                                     <td class="list-action-container text-center">
-                                                        <i class="bi bi-eye text-info" v-tippy="'View'"
+                                                        <i class="bi bi-eye text-info" v-tippy="$t('view')"
                                                             @click.prevent="selectAction(item, 'show', null)"></i>
-                                                        <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
+                                                        <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
                                                             @click.prevent="selectAction(item, 'update', 'all')"></i>
-                                                        <!-- <i class="bi bi-trash text-danger" v-tippy="'Delete'"
-                                                            @click.prevent="selectAction(item, 'delete', null)"></i> -->
+                                                        <!-- <i class="bi bi-trash text-danger" v-tippy="'{{ $t('delete') }}'"
+                                                    @click.prevent="selectAction(item, 'delete', null)"></i> -->
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -95,13 +96,14 @@
             </div>
         </section>
 
+
         <transition name="modal-fade">
             <div class="modal custom-modal" v-if="modalShow">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> Configuration
+                                <i class="bi bi-arrow-return-right"></i> {{ $t('configuration') }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                         </div>
@@ -110,32 +112,39 @@
                                 <div class="row gx-4" v-if="editMode">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Key :
-                                            </label>
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('key') }} :</label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
-                                                    class="form-control" autocomplete="off" readonly />
+                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" readonly />
+                                                <div class="invalid-feedback" v-if="error_form.name">
+                                                    {{ error_form.name }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="remark" class="col-sm-4 col-form-label">Description :
-                                            </label>
+                                            <label for="remark" class="col-sm-4 col-form-label">{{ $t('description') }}
+                                                :</label>
                                             <div class="col-sm-8">
                                                 <input id="remark" name="remark" v-model="form.remark" type="text"
                                                     class="form-control" autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="value" class="col-sm-4 col-form-label">Configuration Value :
-                                            </label>
+                                            <label for="value" class="col-sm-4 col-form-label">{{ $t('configuration_value')
+                                            }} :</label>
                                             <div class="col-sm-8">
                                                 <input id="value" name="value" v-model="form.value" type="text"
-                                                    class="form-control" autocomplete="off" />
+                                                :class="`form-control ${error_form.value ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.value">
+                                                    {{ error_form.value }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="group_id" class="col-sm-4 col-form-label">Group ID :
-                                            </label>
+                                            <label for="group_id" class="col-sm-4 col-form-label">{{ $t('group_id') }}
+                                                :</label>
                                             <div class="col-sm-8">
                                                 <input id="group_id" name="group_id" v-model="form.group_id" type="text"
                                                     class="form-control" autocomplete="off" readonly />
@@ -152,20 +161,20 @@
                                             </colgroup>
                                             <tbody>
                                                 <tr>
-                                                    <td>Key :</td>
+                                                    <td>{{ $t('key') }} :</td>
                                                     <td>{{ form.name }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Description  :</td>
+                                                    <td>{{ $t('description') }} :</td>
                                                     <td>{{ form.remark }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Configuration Value  :</td>
+                                                    <td>{{ $t('configuration_value') }} :</td>
                                                     <td>{{ form.value }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Group ID :</td>
-                                                    <td>{{ form.group_id  }}</td>
+                                                    <td>{{ $t('group_id') }} :</td>
+                                                    <td>{{ form.group_id }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -174,14 +183,14 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                    <i class="bi bi-x-circle"></i> Close
+                                    <i class="bi bi-x-circle"></i> {{ $t('close') }}
                                 </button>
                                 <template v-if="action !== 'show'">
                                     <button type="submit" class="btn btn-custom" v-if="action === 'new'">
-                                        <i class="bi bi-save2"></i> Save
+                                        <i class="bi bi-save2"></i> {{ $t('save') }}
                                     </button>
                                     <button type="submit" class="btn btn-custom" v-if="action === 'update'">
-                                        <i class="bi bi-save2"></i> Update
+                                        <i class="bi bi-save2"></i> {{ $t('update') }}
                                     </button>
                                 </template>
                             </div>
@@ -191,6 +200,7 @@
             </div>
         </transition>
 
+
     </AppLayout>
 </template>
 
@@ -199,6 +209,7 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import toastr from 'toastr';
 
 export default {
     data() {
@@ -214,6 +225,7 @@ export default {
                 admin_id: null,
                 remark: null,
             },
+            error_form: {}
         };
     },
     props: {
@@ -230,7 +242,6 @@ export default {
             this.modalShow = false;
         },
         resetForm() {
-            console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
             this.editMode = true;
             this.modalShow = !this.modalShow;
             this.action = 'new';
@@ -246,7 +257,7 @@ export default {
             this.action = action;
             if (this.action == 'delete') {
                 this.formAction(data, type);
-            }else if(this.action == 'show'){
+            } else if (this.action == 'show') {
                 this.form = Object.assign({}, data);
                 this.modalShow = true;
                 this.editMode = false;
@@ -303,8 +314,15 @@ export default {
                                 this.modalShow = false;
                             }
                         },
-                        onError: () => {
-
+                        onError: (error) => {
+                            try {
+                                this.error_form = Object.assign(this.error_form, error);
+                                Object.entries(error).forEach(([field, message]) => {
+                                    toastr.error(`${message}`);
+                                });
+                            } catch (err) {
+                                toastr.error(this.$t('unexpected_error'));
+                            }
                         },
                     });
                 }
@@ -321,7 +339,17 @@ export default {
     created() {
         window.addEventListener('keydown', this.escape);
     },
+    watch: {
+        modalShow: function (oldVal, newVal) {
+            this.error_form = {};
+        }
+    }
 
 }
 
 </script>
+<style scoped>
+.invalid-feedback {
+    font-size: .775em;
+}
+</style>

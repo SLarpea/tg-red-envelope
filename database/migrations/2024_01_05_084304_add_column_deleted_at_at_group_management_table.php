@@ -8,27 +8,21 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('group_management', function (Blueprint $table) {
-            // Add your new column here
-            $table->string('name')->nullable()->after('group_id');
+            $table->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('group_management', function (Blueprint $table) {
-            // If you need to rollback, remove the added column
-            $table->dropColumn('name');
+            $table->dropSoftDeletes();
         });
     }
 };

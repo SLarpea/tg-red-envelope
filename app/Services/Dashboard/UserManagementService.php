@@ -10,18 +10,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Dashboard\BotService;
 use Illuminate\Support\Facades\Session;
 
 class UserManagementService
 {
-    private $bot;
+    private $botService;
 
-    public function __construct()
+    public function __construct(BotService $botService)
     {
-        $this->bot = new Nutgram(config('nutgram.token'), [
-            'api_url' => env('BASE_BOT_URL'),
-            'timeout' => 86400
-        ]);
+        $this->botService = $botService;
     }
 
     public function showData($request)
@@ -37,7 +35,7 @@ class UserManagementService
 
     public function updateData($request)
     {
-        if($request->update_type == 'update'){
+        if ($request->update_type == 'update') {
             UserManagement::find($request->input('id'))->update([
                 'first_name' => $request->first_name,
                 'status' => $request->status,
@@ -50,7 +48,7 @@ class UserManagementService
                 'auto_get' => $request->auto_get,
                 'send_chance' => $request->send_chance,
             ]);
-        }else{
+        } else {
             UserManagement::find($request->input('id'))->update([
                 'status' => ($request->status == 1) ? 0 : 1,
             ]);
@@ -59,6 +57,8 @@ class UserManagementService
 
     public function recharge($request)
     {
+        $bot = $this->botService->getBot();
+
         DB::beginTransaction();
         try {
             UserManagement::find($request->input('id'))->update([
@@ -79,7 +79,10 @@ class UserManagementService
 
             DB::commit();
             if ($request->is_send == 1) {
-                $this->bot->sendMessage('[ ' . ($request->username ?? $request->first_name) . ' ] 充值 ' . $request->amount . ' U', ['chat_id' => $request->group_id]);
+                $message = '[ ' . ($request->username ?? $request->first_name) . ' ] 充值 ' . $request->amount . ' U';
+                $chatId = $request->group_id;
+                // Now, use the $bot instance to send a message
+                $bot->sendMessage($message, ['chat_id' => $chatId]);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -89,6 +92,7 @@ class UserManagementService
 
     public function withdraw($request)
     {
+        $bot = $this->botService->getBot();
         DB::beginTransaction();
         try {
             UserManagement::find($request->input('id'))->update([
@@ -110,7 +114,10 @@ class UserManagementService
 
             DB::commit();
             if ($request->is_send == 1) {
-                $this->bot->sendMessage('[ ' . ($request->username ?? $request->first_name) . ' ] 提取 ' . $request->amount . ' U', ['chat_id' => $request->group_id]);
+                $message = '[ ' . ($request->username ?? $request->first_name) . ' ] 提取 ' . $request->amount . ' U';
+                $chatId = $request->group_id;
+                // Now, use the $bot instance to send a message
+                $bot->sendMessage($message, ['chat_id' => $chatId]);
             }
         } catch (\Exception $e) {
             DB::rollBack();

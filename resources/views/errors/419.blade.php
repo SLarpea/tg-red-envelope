@@ -170,12 +170,29 @@
                 <div></div>
                 <h1>419</h1>
             </div>
-            <h2>页面过期</h2>
-            <p>请刷新，然后重试。
+            <h2 id="error_title">页面过期</h2>
+            <p id="error_description">请刷新，然后重试。
             </p>
-            <a href="{{ url('/') }}">主页</a>
+            <a href="{{ url('/') }}" id="error_button">主页</a>
         </div>
     </div>
+
+    <script>
+        var browser_lang = navigator.language;
+        var error_title = document.getElementById('error_title');
+        var error_description = document.getElementById('error_description');
+        var error_button = document.getElementById('error_button');
+        var x = 1;
+        if(browser_lang == 'en-US'){
+            error_title.innerHTML = "Expire";
+            error_description.innerHTML = "Please refresh and try again.";
+            error_button.innerHTML = "Homepage";
+        }else{
+            error_title.innerHTML = "页面过期";
+            error_description.innerHTML = "请刷新，然后重试。";
+            error_button.innerHTML = "主页";
+        }
+    </script>
 
 </body>
 

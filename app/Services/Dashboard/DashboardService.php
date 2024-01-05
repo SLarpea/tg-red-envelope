@@ -11,6 +11,9 @@ use App\Models\RechargeRecord;
 use App\Models\UserManagement;
 use App\Models\WithdrawRecord;
 use App\Models\CommissionRecord;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Nette\Utils\Random;
 
 class DashboardService
 {
@@ -70,25 +73,143 @@ class DashboardService
 
         $data = [
             'dashboard' => [
-                'today_user' => $today_user,
-                'today_package' => $today_package,
-                'today_outsourcing' => $today_outsourcing,
-                'today_thunder_rate' => $today_thunder_rate,
-                'today_profit' => $today_profit,
-                'today_rewards' => $today_rewards,
-                'today_recharge' => $today_recharge,
-                'today_withdraw' => $today_withdraw,
-                'all_users' => $all_users,
-                'all_package' => $all_package,
-                'all_outsourcing' => $all_outsourcing,
-                'all_rewards' => $all_rewards,
-                'all_recharge' => $all_recharge,
-                'all_withdraw' => $all_withdraw,
-                'total_revenue' => $total_revenue,
+                'today_user' => [
+                    'value' => $today_user,
+                    'icon' => 'bi bi-person'
+                ],
+                'today_package' => [
+                    'value' => $today_package,
+                    'icon' => 'bi bi-file-earmark-zip'
+                ],
+                'today_outsourcing' => [
+                    'value' => $today_outsourcing,
+                    'icon' => 'bi bi-folder'
+                ],
+                'today_thunder_rate' => [
+                    'value' => $today_thunder_rate,
+                    'icon' => 'bi bi-lightning-charge'
+                ],
+                'today_profit' => [
+                    'value' => $today_profit,
+                    'icon' => 'bi bi-cash-coin'
+                ],
+                'today_rewards' => [
+                    'value' => $today_rewards,
+                    'icon' => 'bi bi-bookmark-star'
+                ],
+                'today_recharge' => [
+                    'value' => $today_recharge,
+                    'icon' => 'bi bi-box-arrow-in-right'
+                ],
+                'today_withdraw' => [
+                    'value' => $today_withdraw,
+                    'icon' => 'bi bi-box-arrow-left'
+                ],
+                'all_users' => [
+                    'value' => $all_users,
+                    'icon' => 'bi bi-people'
+                ],
+                'all_package' => [
+                    'value' => $all_package,
+                    'icon' => 'bi bi-archive'
+                ],
+                'all_outsourcing' => [
+                    'value' => $all_outsourcing,
+                    'icon' => 'bi bi-folder2-open'
+                ],
+                'all_rewards' => [
+                    'value' => $all_rewards,
+                    'icon' => 'bi bi-journal-bookmark'
+                ],
+                'all_recharge' => [
+                    'value' => $all_recharge,
+                    'icon' => 'bi bi-list-check'
+                ],
+                'all_withdraw' => [
+                    'value' => $all_withdraw,
+                    'icon' => 'bi bi-list-nested'
+                ],
+                'total_revenue' => [
+                    'value' => $total_revenue,
+                    'icon' => 'bi bi-piggy-bank'
+                ],
             ]
         ];
+
+        // Fetch chart data using request parameters
+        $data['chartData'] = $this->getChartData();
 
         return $data;
     }
 
+    // Function to retrieve and format chart data
+    private function getChartData()
+    {
+        if (!Session::has('filter_chart_by_year')) {
+            Session::put('filter_chart_by_year', now()->year);
+            Session::put('current_year', now()->year);
+        }
+
+        $luckyHistoryActivity = DB::table('telegram_activity_view')
+            ->select([
+                DB::raw('MONTH(created_at) AS month'),
+                DB::raw('COUNT(user_id) AS user_count'),
+                DB::raw('MAX(chat_id) as chat_id'),
+            ])
+            ->whereYear('created_at', Session::get('filter_chart_by_year'))
+            ->groupBy('month')
+            ->groupBy(DB::raw('chat_id'))
+            ->orderBy('chat_id')
+            ->orderBy('month', 'asc');
+
+        // Retrieve unique chat IDs from the query results
+        $distinctedChatIds = $luckyHistoryActivity->get()->pluck('chat_id')->unique();
+
+        // Retrieve all data for lucky history activities
+        $dataLuckyHistoryActivities = $luckyHistoryActivity->get();
+
+        // Organize data by month and chat ID
+        $finalData = $this->setByMonthValue($distinctedChatIds, $dataLuckyHistoryActivities);
+
+        // Return the formatted chart data
+        return $finalData;
+    }
+
+    // Function to initialize an array with months as keys and 0 as default values
+    private function getYearMonths()
+    {
+        $monthsOfYear = [];
+        foreach (range(1, 12) as $month) {
+            $monthsOfYear[$month] = 0;
+        }
+        return $monthsOfYear;
+    }
+
+    // Function to set user counts by month for each chat ID
+    private function setByMonthValue($distinctedChatIds, $dataLuckyHistoryActivities)
+    {
+        $finalData = [];
+
+        // Iterate through distinct chat IDs
+        foreach ($distinctedChatIds as $groupId) {
+            $finalData[$groupId]['series'] = $this->getYearMonths();
+
+            // Iterate through lucky history activities data
+            foreach ($dataLuckyHistoryActivities as $item) {
+                // Check if the current item corresponds to the current chat ID
+                if ($item->chat_id === $groupId) {
+                    // Increment the user count for the corresponding month
+                    if (isset($finalData[$groupId]['series'][$item->month])) {
+                        $finalData[$groupId]['series'][$item->month] += $item->user_count;
+                    }
+                }
+            }
+
+            // Convert associative array to indexed array
+            $finalData[$groupId]['series'] = array_values($finalData[$groupId]['series']);
+        }
+
+        // Return the final formatted data
+        return $finalData;
+    }
 }

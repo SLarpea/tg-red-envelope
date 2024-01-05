@@ -1,173 +1,148 @@
 <template>
-    <Head title="Menu" />
+    <Head :title="$t('menu')" />
 
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-list"></i> Menu</h1>
+            <h1><i class="bi bi-list"></i> {{ $t('menu') }}</h1>
             <div class="bottom-title"></div>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">System</li>
-                    <li class="breadcrumb-item">Menu</li>
-                    <li class="breadcrumb-item active">List of Menu</li>
+                    <li class="breadcrumb-item">{{ $t('system') }}</li>
+                    <li class="breadcrumb-item">{{ $t('menu') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_menu') }}</li>
                 </ol>
             </nav>
         </div>
 
         <section class="section">
             <div class="row">
-
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <h5 class="card-title"><i class="bi bi-list-ol"></i> List of Menu</h5>
+                                    <h5 class="card-title"><i class="bi bi-list-ol"></i> {{ $t('list_of_menu') }}</h5>
                                 </div>
                                 <div class="col-lg-6">
-                                    <!-- <div class="d-flex justify-content-end align-items-center action-container">
-                                        <button class="btn btn-custom" type="button" @click.prevent="resetForm">
-                                            <i class="bi bi-plus-circle"></i> New Menu
-                                        </button>
-                                    </div> -->
                                 </div>
                             </div>
 
                             <hr class="line-break">
 
                             <div class="table-responsive">
-                                <!-- <draggable class="dragArea list-group w-full" tag="transition-group" :list="menus.data"
-                                    @change="updateOrder">
-
-                                    <div class="alert alert-success item-list" v-for="(item, index) in menus.data"
-                                        :key="item.name" :id="item.id" :sort="index" @dblclick.prevent="editData(item)">
-                                        <span class="tbl-num">{{ menus.from + index }}</span>{{ item.name }}
-                                        <div class="action-div-menu">
-                                            <span class="badge-status" @click.prevent="updateData(item, 'status')"
-                                                :class="(item.status == 1) ? 'badge bg-primary badge-status' : 'badge bg-danger badge-status'">{{
-                                                    (item.status == 1) ? 'Active' : 'Inactive' }}</span>
-                                            <i class="bi bi-pencil-square text-primary" v-tippy="'Edit'"
-                                                @click.prevent="editData(item)"></i> <i class="bi bi-trash text-danger"
-                                                v-tippy="'Delete'" @click.prevent="deleteData(item)"></i>
-                                        </div>
-                                    </div>
-
-                                </draggable> -->
-
                                 <table class="table table-sm table-striped table-hover">
                                     <colgroup></colgroup>
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-center">#</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">URL</th>
-                                            <th scope="col" class="text-center">Status</th>
-                                            <th scope="col" class="text-center">Action</th>
+                                            <th scope="col" v-if="$page.props.user.locale == 'zh_CN'">{{ $t('zh_CN_name') }}</th>
+                                            <th scope="col" v-else>{{ $t('name') }}</th>
+                                            <th scope="col">{{ $t('url') }}</th>
+                                            <th scope="col" class="text-center">{{ $t('status') }}</th>
+                                            <th scope="col" class="text-center">{{ $t('action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(item, index) in menus.data" :key="item.id"
+                                        <tr v-for="(item, index) in   menus.data  " :key="item.id"
                                             @dblclick.prevent="selectAction(item, 'show', null)">
                                             <td class="text-center">
                                                 {{ menus.from + index }}
                                             </td>
-                                            <td>{{ item.name }}</td>
+                                            <td v-if="$page.props.user.locale == 'zh_CN'">{{ item.zh_CN_name }}</td>
+                                            <td v-else>{{ item.name }}</td>
                                             <td>/{{ item.url }}</td>
                                             <td class="list-status-container text-center">
                                                 <button :class="item.status == 1
                                                     ? 'btn btn-outline-success btn-status'
                                                     : 'btn btn-outline-danger btn-status'
                                                     " @click.prevent="updateData(item, 'status')">
-                                                    {{ item.status == 1 ? "Active" : "Inactive" }}
+                                                    {{ item.status == 1 ? $t('active') : $t('inactive') }}
                                                 </button>
                                             </td>
                                             <td class="list-action-container text-center">
-                                                <i class="bi bi-pencil-square text-success" v-tippy="'Edit'"
-                                                    @click.prevent="editData(item)" v-if="$page.props.user.permissions.includes(32)"></i>
+                                                <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
+                                                    @click.prevent="editData(item)"
+                                                    v-if="$page.props.user.permissions.includes(32)"></i>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
-
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
+
         <!-- Modal -->
         <transition name="modal-fade">
-            <div class="modal custom-modal" v-if="isModalShow">
+            <div class="modal custom-modal" v-if=" isModalShow ">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? 'New Menu' : 'Update Menu' }}
+                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? $t('new_menu') : $t('update_menu')
+                                }}
                             </h5>
-                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
+                            <button type="button" class="btn-close" @click.prevent=" closeModal "></button>
                         </div>
                         <form @submit.prevent="selectAction(form)">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">Name :
-                                            </label>
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }} :</label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" type="text" class="form-control"
-                                                    v-model="form.name" autocomplete="off" />
+                                                    v-model=" form.name " autocomplete="off" />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="url" class="col-sm-4 col-form-label">Url :
-                                            </label>
+                                            <label for="url" class="col-sm-4 col-form-label">{{ $t('url') }} :</label>
                                             <div class="col-sm-8">
                                                 <input id="url" name="url" type="text" class="form-control"
-                                                    v-model="form.url" autocomplete="off" readonly/>
+                                                    v-model=" form.url " autocomplete="off" readonly />
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">Status :
-                                            </label>
+                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }} :</label>
                                             <div class="col-sm-8">
                                                 <select class="form-select" aria-label="Default select example" id="status"
-                                                    name="status" v-model="form.status">
-                                                    <option value="1">Enable</option>
-                                                    <option value="0">Disable</option>
+                                                    name="status" v-model=" form.status ">
+                                                    <option value="1">{{ $t('enable') }}</option>
+                                                    <option value="0">{{ $t('disable') }}</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <transition name="modal-fade">
-                                    <div class="col-md-12" v-if="isErrorShow">
+                                    <div class="col-md-12" v-if=" isErrorShow ">
                                         <div class="alert alert-danger alert-dismissible fade show error-container">
-                                            <p v-if="errors.name"><i class="bi bi-exclamation-diamond me-1"></i> {{
-                                                errors.name.replace('name', 'Name') }}</p>
-                                            <p v-if="errors.url"><i class="bi bi-exclamation-diamond me-1"></i> {{
-                                                errors.url.replace('url', 'URL') }}</p>
-                                            <p v-if="errors.status"><i class="bi bi-exclamation-diamond me-1"></i> {{
-                                                errors.status.replace('status', 'Status') }}</p>
+                                            <p v-if=" errors.name "><i class="bi bi-exclamation-diamond me-1"></i> {{
+                                                errors.name.replace('name', $t('Name')) }}</p>
+                                            <p v-if=" errors.url "><i class="bi bi-exclamation-diamond me-1"></i> {{
+                                                errors.url.replace('url', $t('URL')) }}</p>
+                                            <p v-if=" errors.status "><i class="bi bi-exclamation-diamond me-1"></i> {{
+                                                errors.status.replace('status', $t('Status')) }}</p>
                                         </div>
                                     </div>
                                 </transition>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                    <i class="bi bi-x-circle"></i> Close
+                                <button type="button" class="btn btn-secondary" @click.prevent=" closeModal ">
+                                    <i class="bi bi-x-circle"></i> {{ $t('close') }}
                                 </button>
                                 <div>
-                                    <button type="submit" class="btn btn-custom" v-if="!editMode">
-                                        <i class="bi bi-save2"></i> Save
+                                    <button type="submit" class="btn btn-custom" v-if=" !editMode ">
+                                        <i class="bi bi-save2"></i> {{ $t('save') }}
                                     </button>
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-custom" v-if="editMode">
-                                        <i class="bi bi-save2"></i> Update
+                                    <button type="submit" class="btn btn-custom" v-if=" editMode ">
+                                        <i class="bi bi-save2"></i> {{ $t('update') }}
                                     </button>
                                 </div>
                             </div>
@@ -176,6 +151,7 @@
                 </div>
             </div>
         </transition>
+
 
     </AppLayout>
 </template>

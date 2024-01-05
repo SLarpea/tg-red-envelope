@@ -22,13 +22,21 @@ class AdministratorRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
-            'password_confirmation' => 'required|string|min:8|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
-            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->id),],
-            'status' => 'required|integer',
-        ];
+        $rules = [];
+
+        if ($this->update_type !== 'all') {
+            $rules['status'] = 'required|integer';
+        } else {
+            $rules = [
+                'name' => 'required|string|max:255|unique:users,name,' . $this->id,
+                'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+                // 'password_confirmation' => 'required|string|min:8|regex:/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
+                'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->id),],
+                'status' => 'required|integer',
+            ];
+        }
+
+        return $rules;
     }
 
     public function messages()
