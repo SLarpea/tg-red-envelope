@@ -50,7 +50,7 @@
                                     <div class="col-lg-6">
                                         <div class="d-flex justify-content-end align-items-center action-container">
                                             <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll><i
-                                                    class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
+                                                class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
                                             <select class="form-select chart-yr-select">
                                                 <option value="2024">2024</option>
                                                 <option value="2025">2025</option>
@@ -70,48 +70,48 @@
                     <div class="row">
                         <div class="card">
                             <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <h5 class="card-title"><i class="bi bi-cpu"></i> System Information</h5>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h5 class="card-title"><i class="bi bi-cpu"></i> System Information</h5>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        &nbsp;
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    &nbsp;
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <colgroup>
+                                            <col width="30%">
+                                            <col width="*">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{ $t("program_version") }}</td>
+                                                <td>1.0</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ $t("php_version") }}</td>
+                                                <td>8.2.7</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ $t("laravel_version") }}</td>
+                                                <td>10.10</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ $t("mysql_version") }}</td>
+                                                <td>8.0.32</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ $t("redis_version") }}</td>
+                                                <td>5.0.14</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ $t("powered_by") }}</td>
+                                                <td>Feiwin</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered">
-                                    <colgroup>
-                                        <col width="30%">
-                                        <col width="*">
-                                    </colgroup>
-                                    <tbody>
-                                        <tr>
-                                            <td>{{ $t("program_version") }}</td>
-                                            <td>1.0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ $t("php_version") }}</td>
-                                            <td>8.2.7</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ $t("laravel_version") }}</td>
-                                            <td>10.10</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ $t("mysql_version") }}</td>
-                                            <td>8.0.32</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ $t("redis_version") }}</td>
-                                            <td>5.0.14</td>
-                                        </tr>
-                                        <tr>
-                                            <td>{{ $t("powered_by") }}</td>
-                                            <td>Feiwin</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             </div>
                         </div>
                     </div>
@@ -133,6 +133,7 @@ export default {
     },
     props: {
         dashboard: Object,
+        chart_data: Object
     },
     methods: {
         line() {
@@ -143,6 +144,17 @@ export default {
             container.style.height = container.offsetWidth / aspectRatio + 'px';
             myChart.resize();
 
+            let groupIds = [];
+            let finalSeries = [];
+            for (var key of Object.keys(this.chart_data)) {
+                groupIds.push(key);
+                finalSeries.push({
+                    name: key,
+                    type: 'line',
+                    data: this.chart_data[key]['series']
+                })
+            }
+
             myChart.setOption({
                 title: {
                     text: 'Telegram Activity'
@@ -151,7 +163,7 @@ export default {
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['Group ID 1', 'Group ID 2', 'Group ID 3', 'Group ID 4', 'Group ID 5']
+                    data: groupIds
                 },
                 grid: {
                     left: '3%',
@@ -161,7 +173,7 @@ export default {
                 },
                 toolbox: {
                     feature: {
-                    saveAsImage: {}
+                        saveAsImage: {}
                     }
                 },
                 xAxis: {
@@ -172,33 +184,7 @@ export default {
                 yAxis: {
                     type: 'value'
                 },
-                series: [
-                    {
-                    name: 'Group ID 1',
-                    type: 'line',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                    },
-                    {
-                    name: 'Group ID 2',
-                    type: 'line',
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                    },
-                    {
-                    name: 'Group ID 3',
-                    type: 'line',
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                    },
-                    {
-                    name: 'Group ID 4',
-                    type: 'line',
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                    },
-                    {
-                    name: 'Group ID 5',
-                    type: 'line',
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
-                    }
-                ]
+                series: finalSeries
             });
 
         },

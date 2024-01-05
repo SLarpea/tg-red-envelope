@@ -11,6 +11,8 @@ use App\Models\RechargeRecord;
 use App\Models\UserManagement;
 use App\Models\WithdrawRecord;
 use App\Models\CommissionRecord;
+use Illuminate\Support\Facades\DB;
+use Nette\Utils\Random;
 
 class DashboardService
 {
@@ -133,7 +135,79 @@ class DashboardService
             ]
         ];
 
+        // Fetch chart data using request parameters
+        $data['chartData'] = $this->getChartData(request()->all());
+
         return $data;
     }
 
+    // Function to retrieve and format chart data
+    private function getChartData($request)
+    {
+        // Set the target year for data retrieval
+        $year = '2024';
+
+        // Query to fetch relevant data from the database
+        $luckyHistoryActivity = DB::table('telegram_activity_view')
+            ->select([
+                DB::raw('MONTH(created_at) AS month'),
+                DB::raw('COUNT(user_id) AS user_count'),
+                DB::raw('MAX(chat_id) as chat_id'),
+            ])
+            ->whereYear('created_at', $year)
+            ->groupBy('month')
+            ->groupBy(DB::raw('chat_id'))
+            ->orderBy('chat_id')
+            ->orderBy('month', 'asc');
+
+        // Retrieve unique chat IDs from the query results
+        $distinctedChatIds = $luckyHistoryActivity->get()->pluck('chat_id')->unique();
+
+        // Retrieve all data for lucky history activities
+        $dataLuckyHistoryActivities = $luckyHistoryActivity->get();
+
+        // Organize data by month and chat ID
+        $finalData = $this->setByMonthValue($distinctedChatIds, $dataLuckyHistoryActivities);
+
+        // Return the formatted chart data
+        return $finalData;
+    }
+
+    // Function to initialize an array with months as keys and 0 as default values
+    private function getYearMonths()
+    {
+        $monthsOfYear = [];
+        foreach (range(1, 12) as $month) {
+            $monthsOfYear[$month] = 0;
+        }
+        return $monthsOfYear;
+    }
+
+    // Function to set user counts by month for each chat ID
+    private function setByMonthValue($distinctedChatIds, $dataLuckyHistoryActivities)
+    {
+        $finalData = [];
+
+        // Iterate through distinct chat IDs
+        foreach ($distinctedChatIds as $groupId) {
+            $finalData[$groupId]['series'] = $this->getYearMonths();
+
+            // Iterate through lucky history activities data
+            foreach ($dataLuckyHistoryActivities as $item) {
+                // Check if the current item corresponds to the current chat ID
+                if ($item->chat_id === $groupId) {
+                    // Increment the user count for the corresponding month
+                    if (isset($finalData[$groupId]['series'][$item->month])) {
+                        $finalData[$groupId]['series'][$item->month] += $item->user_count;
+                    }
+                }
+            }
+
+            // Convert associative array to indexed array
+            $finalData[$groupId]['series'] = array_values($finalData[$groupId]['series']);
+        }
+
+        // Return the final formatted data
+        return $finalData;
+    }
 }
