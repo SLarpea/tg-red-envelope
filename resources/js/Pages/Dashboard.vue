@@ -138,7 +138,7 @@ export default {
         line() {
             var myChart = echarts.init(document.getElementById('chart_line'));
 
-            var aspectRatio = 2;
+            var aspectRatio = 3;
             var container = document.getElementById('chart_line');
             container.style.height = container.offsetWidth / aspectRatio + 'px';
             myChart.resize();
