@@ -170,12 +170,29 @@
                 <div></div>
                 <h1>429</h1>
             </div>
-            <h2>内部服务器错误</h2>
-            <p>服务器遇到内部错误或配置错误，无法完成您的请求。
+            <h2 id="error_title">内部服务器错误</h2>
+            <p id="error_description">服务器遇到内部错误或配置错误，无法完成您的请求。
             </p>
-            <a href="{{ url('/') }}">主页</a>
+            <a href="{{ url('/') }}" id="error_button">主页</a>
         </div>
     </div>
+
+    <script>
+        var browser_lang = navigator.language;
+        var error_title = document.getElementById('error_title');
+        var error_description = document.getElementById('error_description');
+        var error_button = document.getElementById('error_button');
+        var x = 1;
+        if(browser_lang == 'en-US'){
+            error_title.innerHTML = "Internal Server Error";
+            error_description.innerHTML = "When the server encounters an internal error or configuration error, you cannot complete your request.";
+            error_button.innerHTML = "Homepage";
+        }else{
+            error_title.innerHTML = "内部服务器错误";
+            error_description.innerHTML = "服务器遇到内部错误或配置错误，无法完成您的请求。";
+            error_button.innerHTML = "主页";
+        }
+    </script>
 
 </body>
 

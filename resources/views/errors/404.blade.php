@@ -170,13 +170,28 @@
                 <div></div>
                 <h1>404</h1>
             </div>
-            <h2>找不到网页</h2>
-            <p>您要查找的页面可能已更改或暂时不可用的页面。
+            <h2 id="error_title">找不到网页</h2>
+            <p id="error_description">您要查找的页面可能已更改或暂时不可用的页面。
             </p>
-            <a href="{{ url('/') }}">主页</a>
+            <a href="{{ url('/') }}" id="error_button">主页</a>
         </div>
     </div>
-
+    <script>
+        var browser_lang = navigator.language;
+        var error_title = document.getElementById('error_title');
+        var error_description = document.getElementById('error_description');
+        var error_button = document.getElementById('error_button');
+        var x = 1;
+        if(browser_lang == 'en-US'){
+            error_title.innerHTML = "Can't find a webpage";
+            error_description.innerHTML = "The pages you want to find may have been changed or temporarily unavailable.";
+            error_button.innerHTML = "Homepage";
+        }else{
+            error_title.innerHTML = "找不到网页";
+            error_description.innerHTML = "您要查找的页面可能已更改或暂时不可用的页面。";
+            error_button.innerHTML = "主页";
+        }
+    </script>
 </body>
 
 </html>

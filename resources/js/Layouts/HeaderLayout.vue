@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <a href="/" class="logo d-flex align-items-center">
                 <img src="../../../public/images/logo.png" alt="" />
-                <span class="d-none d-lg-block">Hongbao Admin</span>
+                <span class="d-none d-lg-block">{{ ($page.props.user.locale === 'zh_CN' ? '宏宝管理员' : 'Hongbao Admin') }}</span>
             </a>
             <i class="bi toggle-sidebar-btn" :class="this.toggleShow == true
                 ? 'bi-text-indent-right'

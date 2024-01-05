@@ -170,12 +170,29 @@
                 <div></div>
                 <h1>401</h1>
             </div>
-            <h2>需要授权</h2>
-            <p>对不起，我们无法处理你的请求。
+            <h2 id="error_title">需要授权</h2>
+            <p id="error_description">对不起，我们无法处理你的请求。
             </p>
-            <a href="{{ url('/') }}">主页</a>
+            <a href="{{ url('/') }}" id="error_button">主页</a>
         </div>
     </div>
+
+    <script>
+        var browser_lang = navigator.language;
+        var error_title = document.getElementById('error_title');
+        var error_description = document.getElementById('error_description');
+        var error_button = document.getElementById('error_button');
+        var x = 1;
+        if(browser_lang == 'en-US'){
+            error_title.innerHTML = "Required authorization";
+            error_description.innerHTML = "Sorry, we cannot handle your request.";
+            error_button.innerHTML = "Homepage";
+        }else{
+            error_title.innerHTML = "需要授权";
+            error_description.innerHTML = "对不起，我们无法处理你的请求。";
+            error_button.innerHTML = "主页";
+        }
+    </script>
 
 </body>
 
