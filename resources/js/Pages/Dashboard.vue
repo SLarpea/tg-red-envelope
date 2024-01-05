@@ -52,7 +52,7 @@
                                             <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll
                                                 id="refresh_filter"><i class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
                                             <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle filter-year-btn"
+                                                <button class="btn btn-custom dropdown-toggle filter-year-btn"
                                                     type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                                                     aria-expanded="false">
                                                     {{ $t('year') }} : {{ current_year }}
