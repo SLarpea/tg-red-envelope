@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <a href="/" class="logo d-flex align-items-center">
                 <img src="../../../public/images/logo.png" alt="" />
-                <span class="d-none d-lg-block">Hongbao Admin</span>
+                <span class="d-none d-lg-block">{{ ($page.props.user.locale === 'zh_CN' ? '宏宝管理员' : 'Hongbao Admin') }}</span>
             </a>
             <i class="bi toggle-sidebar-btn" :class="this.toggleShow == true
                 ? 'bi-text-indent-right'
@@ -14,7 +14,7 @@
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown" v-tippy="($page.props.user.locale === 'zh_CN' ? '中国人' : 'English')">
                         <i class="bi bi-translate"></i>
                     </a>
 
@@ -57,7 +57,7 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center" :href="route('profile.show')">
                                 <i class="bi bi-person"></i>
-                                <span>My Profile</span>
+                                <span>{{ $t('my_profile') }}</span>
                             </a>
                         </li>
                         <li>
@@ -66,7 +66,7 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
+                                <span>{{ $t('need_help') }}</span>
                             </a>
                         </li>
                         <li>
@@ -77,7 +77,7 @@
                             <form @submit.prevent="logout">
                                 <button type="submit" class="dropdown-item d-flex align-items-center">
                                     <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
+                                    <span>{{ $t('sign_out') }}</span>
                                 </button>
                             </form>
                         </li>
