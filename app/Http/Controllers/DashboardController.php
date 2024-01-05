@@ -16,19 +16,12 @@ class DashboardController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $data = $this->dashboardService->showData();
         return Inertia::render('Dashboard', [
             'dashboard' => $data['dashboard'],
-            'chart_data' => $data['chartData'],
-            'current_year' => Session::get('current_year')
+            'chart_data' => $data['chartData']
         ]);
-    }
-
-    public function filter(Request $request)
-    {
-        Session::put('filter_chart_by_year', $request->year);
-        Session::put('current_year', $request->year);
     }
 }
