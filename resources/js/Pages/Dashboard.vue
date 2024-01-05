@@ -56,9 +56,14 @@
                                                         {{ $t('year') }} : {{ current_year }}
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><button class="dropdown-item" @click.prevent="filter('2023')">2023</button></li>
-                                                        <li><button class="dropdown-item" @click.prevent="filter('2024')">2024</button></li>
-                                                        <li><button class="dropdown-item" @click.prevent="filter('2025')">2025</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2023') ? 'active' : ''" @click.prevent="filter('2023')">2023</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2024') ? 'active' : ''" @click.prevent="filter('2024')">2024</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2025') ? 'active' : ''" @click.prevent="filter('2025')">2025</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2026') ? 'active' : ''" @click.prevent="filter('2026')">2026</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2027') ? 'active' : ''" @click.prevent="filter('2027')">2027</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2028') ? 'active' : ''" @click.prevent="filter('2028')">2028</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2029') ? 'active' : ''" @click.prevent="filter('2029')">2029</button></li>
+                                                        <li><button class="dropdown-item" :class="(current_year == '2030') ? 'active' : ''" @click.prevent="filter('2030')">2030</button></li>
                                                     </ul>
                                                     </div>
                                         </div>

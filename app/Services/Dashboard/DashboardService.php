@@ -147,6 +147,7 @@ class DashboardService
     {
         if (!Session::has('filter_chart_by_year')) {
             Session::put('filter_chart_by_year', now()->year);
+            Session::put('current_year', now()->year);
         }
 
         $luckyHistoryActivity = DB::table('telegram_activity_view')
