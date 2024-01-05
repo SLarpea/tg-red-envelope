@@ -263,5 +263,8 @@
     "log_out_other_browser_sessions": "注销其他浏览器会话",
     "please_enter_password_to_confirm_logout_other_browser_sessions": "请输入密码以确认您想在所有设备中登录其他浏览器会话。",
     "cancel": "取消",
-    "all_rights_reserved": "版权所有"
+    "all_rights_reserved": "版权所有",
+    "my_profile": "我的简历",
+    "need_help": "需要帮忙？",
+    "sign_out": "登出"
 }

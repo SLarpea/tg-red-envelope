@@ -270,5 +270,9 @@
     "log_out_other_browser_sessions": "Log Out Other Browser Sessions",
     "please_enter_password_to_confirm_logout_other_browser_sessions": "Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.",
     "cancel": "Cancel",
-    "all_rights_reserved": "All rights reserved"
+    "all_rights_reserved": "All Rights Reserved",
+    "my_profile": "My Profile",
+    "need_help": "Need Help?",
+    "sign_out": "Sign Out"
+
 }
