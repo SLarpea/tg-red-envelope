@@ -49,18 +49,23 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="d-flex justify-content-end align-items-center action-container">
-                                            <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll id="refresh_filter"><i
-                                                class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
-                                                    <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle filter-year-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{ $t('year') }} : {{ current_year }}
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><button class="dropdown-item" @click.prevent="filter('2023')">2023</button></li>
-                                                        <li><button class="dropdown-item" @click.prevent="filter('2024')">2024</button></li>
-                                                        <li><button class="dropdown-item" @click.prevent="filter('2025')">2025</button></li>
-                                                    </ul>
-                                                    </div>
+                                            <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll
+                                                id="refresh_filter"><i class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle filter-year-btn"
+                                                    type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                    aria-expanded="false">
+                                                    {{ $t('year') }} : {{ current_year }}
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><button class="dropdown-item"
+                                                            @click.prevent="filter('2023')">2023</button></li>
+                                                    <li><button class="dropdown-item"
+                                                            @click.prevent="filter('2024')">2024</button></li>
+                                                    <li><button class="dropdown-item"
+                                                            @click.prevent="filter('2025')">2025</button></li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -133,18 +138,23 @@ import AppLayout from '../Layouts/AppLayout.vue';
 import * as echarts from 'echarts';
 
 export default {
+    data(){
+        return {
+            current_year: new Date().getFullYear()
+        }
+    },
     components: {
         AppLayout, Head, Link,
     },
     props: {
         dashboard: Object,
-        chart_data: Object,
-        current_year: null,
+        chart_data: Object
     },
     methods: {
         line() {
-            var myChart = echarts.init(document.getElementById('chart_line'));
 
+            var myChart = echarts.init(document.getElementById('chart_line'));
+            myChart.clear();
             var aspectRatio = 3;
             var container = document.getElementById('chart_line');
             container.style.height = container.offsetWidth / aspectRatio + 'px';
@@ -161,9 +171,9 @@ export default {
                 })
             }
 
-            myChart.setOption({
+            let options = {
                 title: {
-                    text: this.$t('telegram_grab_activity')+this.current_year
+                    text: this.$t('telegram_grab_activity') + this.current_year
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -191,15 +201,22 @@ export default {
                     type: 'value'
                 },
                 series: finalSeries
-            });
+            }
+
+            if (finalSeries.length <= 0) {
+                myChart.clear();
+            }
+
+            myChart.setOption(options);
 
         },
-        filter(year){
-            router.post(route('dashboard-filter'), {year}, {
+        filter(year) {
+            router.post(route('post.set-session'), { year }, {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (response) => {
-                    document.getElementById('refresh_filter').click();
+                    this.current_year = year;
+                    this.line();
                 },
             });
         },

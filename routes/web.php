@@ -26,7 +26,6 @@ Route::middleware([
     'setLocale'
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::post('/dashboard-filter', [App\Http\Controllers\DashboardController::class, 'filter'])->name('dashboard-filter');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge');
     Route::get('/rewards', [App\Http\Controllers\RewardRecordController::class, 'index'])->name('rewards');
     Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index'])->name('reports');
@@ -53,4 +52,8 @@ Route::middleware([
     Route::put('/menus.sort', [App\Http\Controllers\MenuController::class, 'sort'])->name('menus.sort');
 
     Route::post('/set-locale', [App\Http\Controllers\UserManagementController::class, 'setLocale'])->name('post.setlocale');
+
+    Route::post('/set-session', function(){
+        echo "session successfully set";
+    })->name('post.set-session');
 });
