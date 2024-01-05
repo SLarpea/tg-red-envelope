@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GroupManagement extends Model
 {
-    use DateTrait;
-    use LogsActivity;
+    use DateTrait, LogsActivity, SoftDeletes;
 
     protected $table = 'group_management';
 
