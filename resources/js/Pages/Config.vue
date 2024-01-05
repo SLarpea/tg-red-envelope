@@ -242,7 +242,6 @@ export default {
             this.modalShow = false;
         },
         resetForm() {
-            console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
             this.editMode = true;
             this.modalShow = !this.modalShow;
             this.action = 'new';

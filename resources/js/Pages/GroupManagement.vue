@@ -370,7 +370,6 @@ export default {
             this.image_url = image;
         },
         resetForm() {
-            console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
             this.modalShow = !this.modalShow;
             this.action = 'new';
             this.editMode = true;
