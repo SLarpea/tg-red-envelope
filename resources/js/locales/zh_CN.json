@@ -156,6 +156,13 @@
     "Name": "姓名",
     "URL": "url",
     "Status": "状态s",
+    "configs": "配置",
+    "list_of_configs": "配置列表",
+    "go_back": "回去",
+    "key": "钥匙",
+    "description": "Description",
+    "configuration_value": "Configuration Value",
+    "configuration": "Configuration",
     "today_user": "今日新增用户",
     "today_package": "今日发包数",
     "today_outsourcing": "今日发包总额",
@@ -266,5 +273,7 @@
     "all_rights_reserved": "版权所有",
     "my_profile": "我的简历",
     "need_help": "需要帮忙？",
-    "sign_out": "登出"
+    "sign_out": "登出",
+    "fill_up_link": "充电链接",
+    "red_envelope_image_id": "红色信封图像ID"
 }

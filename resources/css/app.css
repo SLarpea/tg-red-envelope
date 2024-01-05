@@ -1212,3 +1212,8 @@ background-color: #3e97ff;
     margin-left: 10px;
     padding: 3px 25px
 }
+
+.photo_id button {
+    padding: 4px;
+    font-size: 0.6rem;
+}

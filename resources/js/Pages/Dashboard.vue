@@ -51,11 +51,16 @@
                                         <div class="d-flex justify-content-end align-items-center action-container">
                                             <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll><i
                                                 class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
-                                            <select class="form-select chart-yr-select">
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                                <option value="2026">2026</option>
-                                            </select>
+                                                    <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        2024
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <li><Link class="dropdown-item" href="/dashboard" method="post" :data="{year:2024}">2024</Link></li>
+                                                        <li><Link class="dropdown-item" href="/dashboard" method="post" :data="{year:2025}">2025</Link></li>
+                                                        <li><Link class="dropdown-item" href="/dashboard" method="post" :data="{year:2026}">2026</Link></li>
+                                                    </ul>
+                                                    </div>
                                         </div>
                                     </div>
                                 </div>

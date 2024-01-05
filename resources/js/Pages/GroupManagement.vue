@@ -76,8 +76,8 @@
                                                             target="_blank" class="btn btn-outline-primary btn-sm">{{ $t('channel_link_label') }}</a>
                                                     </td>
                                                     <td class="text-center photo_id">
-                                                        <a :href="item.photo_id" v-tippy="item.photo_id"
-                                                            class="btn btn-outline-primary btn-sm">{{ $t('red_envelope_id_label') }}</a>
+                                                        <button v-tippy="item.photo_id" @click.prevent="showImage(item.photo_id)"
+                                                            class="btn btn-outline-primary btn-sm">{{ $t('red_envelope_id_label') }}</button>
                                                     </td>
                                                     <td class="text-center">{{ new Date(item.updated_at).toLocaleString() }}
                                                     </td>
@@ -165,7 +165,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="service_url" class="col-sm-4 col-form-label">{{ $t('customer_service_link_') }}
+                                            <label for="service_url" class="col-sm-4 col-form-label">{{ $t('customer_service_link_label') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="service_url" name="service_url" v-model="form.service_url"
@@ -178,7 +178,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="recharge_url" class="col-sm-4 col-form-label">{{ $t('fill_up_link :') }}
+                                            <label for="recharge_url" class="col-sm-4 col-form-label">{{ $t('fill_up_link') }}
                                             </label>
                                             <div class="col-sm-8">
                                                 <input id="recharge_url" name="recharge_url" v-model="form.recharge_url"
@@ -294,6 +294,30 @@
             </div>
         </transition>
 
+        <transition name="modal-fade">
+            <div class="modal custom-modal" v-if="imageShow">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="bi bi-arrow-return-right"></i> {{ $t('group') }}
+                            </h5>
+                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img :src="image_url" alt="" class="img-fluid">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
+                                <i class="bi bi-x-circle"></i> {{ $t('close') }}
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </transition>
+
     </AppLayout>
 </template>
 
@@ -308,8 +332,10 @@ export default {
     data() {
         return {
             modalShow: false,
+            imageShow: false,
             editMode: false,
             action: 'new',
+            image_url: null,
             form: {
                 group_id: null,
                 name: null,
@@ -337,6 +363,11 @@ export default {
     methods: {
         closeModal() {
             this.modalShow = false;
+            this.imageShow = false;
+        },
+        showImage(image) {
+            this.imageShow = true;
+            this.image_url = image;
         },
         resetForm() {
             console.log(document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
