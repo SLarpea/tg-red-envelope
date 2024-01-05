@@ -275,5 +275,11 @@
     "need_help": "Need Help?",
     "sign_out": "Sign Out",
     "fill_up_link": "Recharge Link",
-    "red_envelope_image_id": "Red Envelope Image ID"
+    "red_envelope_image_id": "Red Envelope Image ID",
+    "year": "Year",
+    "telegram_grab_activity": "Telegram Grab Activity ",
+    "dashboard": "Dashboard",
+    "home": "Home",
+    "chart": "Chart",
+    "system_information": "System Information"
 }

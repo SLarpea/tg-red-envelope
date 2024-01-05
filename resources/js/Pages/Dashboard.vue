@@ -3,11 +3,11 @@
     <AppLayout>
 
         <div class="pagetitle">
-            <h1><i class="bi bi-grid"></i> Dashboard</h1>
+            <h1><i class="bi bi-grid"></i> {{ $t('dashboard') }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Home</li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item">{{ $t('home') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('dashboard') }}</li>
                 </ol>
             </nav>
         </div>
@@ -45,7 +45,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <h5 class="card-title"><i class="bi bi-graph-up-arrow"></i> Chart</h5>
+                                        <h5 class="card-title"><i class="bi bi-graph-up-arrow"></i> {{ $t('chart') }}</h5>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="d-flex justify-content-end align-items-center action-container">
@@ -53,7 +53,7 @@
                                                 class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
                                                     <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle filter-year-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Year : {{ current_year }}
+                                                        {{ $t('year') }} : {{ current_year }}
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                         <li><button class="dropdown-item" @click.prevent="filter('2023')">2023</button></li>
@@ -77,7 +77,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <h5 class="card-title"><i class="bi bi-cpu"></i> System Information</h5>
+                                        <h5 class="card-title"><i class="bi bi-cpu"></i> {{ $t('system_information') }}</h5>
                                     </div>
                                     <div class="col-lg-6">
                                         &nbsp;
@@ -163,7 +163,7 @@ export default {
 
             myChart.setOption({
                 title: {
-                    text: 'Telegram Grab Activity '+this.current_year
+                    text: this.$t('telegram_grab_activity')+this.current_year
                 },
                 tooltip: {
                     trigger: 'axis'

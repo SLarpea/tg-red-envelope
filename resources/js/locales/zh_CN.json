@@ -275,5 +275,11 @@
     "need_help": "需要帮忙？",
     "sign_out": "登出",
     "fill_up_link": "充电链接",
-    "red_envelope_image_id": "红色信封图像ID"
+    "red_envelope_image_id": "红色信封图像ID",
+    "year": "年",
+    "telegram_grab_activity": "电报抓取活动 ",
+    "dashboard": "仪表板",
+    "home": "家",
+    "chart": "图表",
+    "system_information": "系统信息"
 }
