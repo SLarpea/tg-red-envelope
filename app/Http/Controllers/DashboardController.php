@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Dashboard\DashboardService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use App\Services\Dashboard\DashboardService;
 
 class DashboardController extends Controller
 {
@@ -15,12 +16,19 @@ class DashboardController extends Controller
         $this->dashboardService = $dashboardService;
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $data = $this->dashboardService->showData($request);
+        $data = $this->dashboardService->showData();
         return Inertia::render('Dashboard', [
             'dashboard' => $data['dashboard'],
-            'chart_data' => $data['chartData']
+            'chart_data' => $data['chartData'],
+            'current_year' => Session::get('current_year')
         ]);
+    }
+
+    public function filter(Request $request)
+    {
+        Session::put('filter_chart_by_year', $request->year);
+        Session::put('current_year', $request->year);
     }
 }

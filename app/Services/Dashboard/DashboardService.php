@@ -17,7 +17,7 @@ use Nette\Utils\Random;
 
 class DashboardService
 {
-    public function showData($request)
+    public function showData()
     {
         $today = Carbon::today();
 
@@ -137,29 +137,18 @@ class DashboardService
         ];
 
         // Fetch chart data using request parameters
-        $data['chartData'] = $this->getChartData($request);
+        $data['chartData'] = $this->getChartData();
 
         return $data;
     }
 
     // Function to retrieve and format chart data
-    private function getChartData($request)
+    private function getChartData()
     {
-        // if (!is_null($request->year)) {
-        //     Session::put('filter_chart_by_year', $request->year);
-        // }else{
-        //     Session::put('filter_chart_by_year', '2024');
-        // }
-        // Session::put('filter_chart_by_year', $request->year);
-
-        if(Session::get('filter_chart_by_year') == null){
-            Session::put('filter_chart_by_year', '2024');
-        }else{
-            Session::put('filter_chart_by_year', $request->year);
+        if (!Session::has('filter_chart_by_year')) {
+            Session::put('filter_chart_by_year', now()->year);
         }
-        dd(Session::get('filter_chart_by_year'));
-        // dd($year);
-        // Query to fetch relevant data from the database
+
         $luckyHistoryActivity = DB::table('telegram_activity_view')
             ->select([
                 DB::raw('MONTH(created_at) AS month'),

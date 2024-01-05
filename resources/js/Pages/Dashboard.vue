@@ -49,16 +49,16 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="d-flex justify-content-end align-items-center action-container">
-                                            <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll><i
+                                            <Link href="/dashboard" class="btn btn-secondary btn-sm" preserve-scroll id="refresh_filter"><i
                                                 class="bi bi-recycle"></i> {{ $t('refresh') }}</Link>
                                                     <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        2024
+                                                    <button class="btn btn-secondary dropdown-toggle filter-year-btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        Year : {{ current_year }}
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><Link class="dropdown-item" href="/dashboard" method="post" :data="{year:2024}">2024</Link></li>
-                                                        <li><Link class="dropdown-item" href="/dashboard" method="post" :data="{year:2025}">2025</Link></li>
-                                                        <li><Link class="dropdown-item" href="/dashboard" method="post" :data="{year:2026}">2026</Link></li>
+                                                        <li><button class="dropdown-item" @click.prevent="filter('2023')">2023</button></li>
+                                                        <li><button class="dropdown-item" @click.prevent="filter('2024')">2024</button></li>
+                                                        <li><button class="dropdown-item" @click.prevent="filter('2025')">2025</button></li>
                                                     </ul>
                                                     </div>
                                         </div>
@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import * as echarts from 'echarts';
 
@@ -138,7 +138,8 @@ export default {
     },
     props: {
         dashboard: Object,
-        chart_data: Object
+        chart_data: Object,
+        current_year: null,
     },
     methods: {
         line() {
@@ -162,7 +163,7 @@ export default {
 
             myChart.setOption({
                 title: {
-                    text: 'Telegram Activity'
+                    text: 'Telegram Grab Activity '+this.current_year
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -192,6 +193,15 @@ export default {
                 series: finalSeries
             });
 
+        },
+        filter(year){
+            router.post(route('dashboard-filter'), {year}, {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (response) => {
+                    document.getElementById('refresh_filter').click();
+                },
+            });
         },
     },
     mounted() {
