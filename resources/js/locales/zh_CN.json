@@ -281,5 +281,6 @@
     "dashboard": "仪表板",
     "home": "家",
     "chart": "图表",
-    "system_information": "系统信息"
+    "system_information": "系统信息",
+    "quantity_of_contracts": "合同数量"
 }

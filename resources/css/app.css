@@ -1223,3 +1223,7 @@ background-color: #3e97ff;
     margin-left: 5px;
     border-radius: 4px;
 }
+
+.dropdown-item.active, .dropdown-item:active, .dropdown-item.active:hover {
+    background-color: #522da885;
+}

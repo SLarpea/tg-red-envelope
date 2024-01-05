@@ -281,5 +281,6 @@
     "dashboard": "Dashboard",
     "home": "Home",
     "chart": "Chart",
-    "system_information": "System Information"
+    "system_information": "System Information",
+    "quantity_of_contracts": "Quantity of Contracts"
 }
