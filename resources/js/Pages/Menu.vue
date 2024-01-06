@@ -266,12 +266,12 @@ export default {
         // },
         updateData(data, type) {
             this.$swal({
-                text: "Are you sure you want to update this work?",
+                text: this.$t('confirm_update_item'),
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#38c172',
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = 'PUT';

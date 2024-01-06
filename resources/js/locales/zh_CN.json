@@ -282,5 +282,8 @@
     "home": "家",
     "chart": "图表",
     "system_information": "系统信息",
-    "quantity_of_contracts": "合同数量"
+    "quantity_of_contracts": "合同数量",
+    "under_construction": "建设中...",
+    "are_you_sure_you_want_to_signout": "您确定要退出吗？",
+    "operation_log": "操作日志"
 }

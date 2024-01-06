@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dashboard" />
+    <Head :title="$t('dashboard')" />
     <AppLayout>
 
         <div class="pagetitle">
@@ -142,7 +142,7 @@ import * as echarts from 'echarts';
 export default {
     data(){
         return {
-            current_year: new Date().getFullYear()
+            current_year: (sessionStorage.getItem('current_year')) ? sessionStorage.getItem('current_year') : new Date().getFullYear()
         }
     },
     components: {
@@ -217,7 +217,8 @@ export default {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (response) => {
-                    this.current_year = year;
+                    sessionStorage.setItem('current_year', year);
+                    this.current_year = sessionStorage.getItem('current_year');
                     this.line();
                 },
             });

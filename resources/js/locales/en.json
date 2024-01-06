@@ -282,5 +282,8 @@
     "home": "Home",
     "chart": "Chart",
     "system_information": "System Information",
-    "quantity_of_contracts": "Quantity of Contracts"
+    "quantity_of_contracts": "Quantity of Contracts",
+    "under_construction": "Under Construction...",
+    "are_you_sure_you_want_to_signout": "Are you sure you want to signout?",
+    "operation_log": "Operation Log"
 }
