@@ -1,5 +1,5 @@
 <template>
-    <Head title="User Management" />
+    <Head :title="$t('user_management')" />
     <AppLayout>
 
         <div class="pagetitle">
@@ -466,19 +466,19 @@ export default {
             let routeURL = String;
             let msgText = String;
             if (this.action == 'update') {
-                text = "Are you sure you want to update this item?";
+                text = this.$t('confirm_update_item');
                 confirmButtonColor = '#198754';
                 method = 'PUT';
                 routeURL = 'tg-users.update';
                 msgText = 'Work has been updated.';
             } else if (this.action == 'top_up') {
-                text = "Are you sure you want to update this item?";
+                text = this.$t('confirm_update_item');
                 confirmButtonColor = '#198754';
                 method = 'PUT';
                 routeURL = 'tg-users.top-up';
                 msgText = 'Work has been updated.';
             } else if (this.action == 'withdraw') {
-                text = "Are you sure you want to update this item?";
+                text = this.$t('confirm_update_item');
                 confirmButtonColor = '#198754';
                 method = 'PUT';
                 routeURL = 'tg-users.withdraw';
@@ -490,8 +490,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;

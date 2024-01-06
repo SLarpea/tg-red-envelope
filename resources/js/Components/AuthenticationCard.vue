@@ -1,4 +1,5 @@
 <template>
+
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100" style="background-color: #512da8;">
         <div>
             <slot name="logo" />
@@ -15,6 +16,7 @@
     <div class='circle mediun shade4'></div>
     <div class='circle small shade5'></div>
     </div>
+
 </template>
 
 <style scoped>
@@ -99,6 +101,5 @@ body{
     transform: scale(0.8);
   }
 }
-
 
 </style>

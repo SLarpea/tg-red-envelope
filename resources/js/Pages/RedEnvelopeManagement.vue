@@ -1,5 +1,5 @@
 <template>
-    <Head title="Red Envelope Management" />
+    <Head :title="$t('red_envelope_management')" />
     <AppLayout>
 
         <div class="pagetitle">

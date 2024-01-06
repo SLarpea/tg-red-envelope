@@ -1,5 +1,5 @@
 <template>
-    <Head title="User Management" />
+    <Head :title="$t('roles')" />
     <AppLayout>
 
         <div class="pagetitle">
@@ -248,8 +248,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: this.$t('cancel_no'),
-                confirmButtonText: this.$t('confirm_yes')
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;

@@ -1,5 +1,5 @@
 <template>
-    <Head title="Group Management" />
+    <Head :title="$t('group_management')" />
     <AppLayout>
 
         <div class="pagetitle">
@@ -409,20 +409,20 @@ export default {
             let routeURL = String;
             let msgText = String;
             if (this.action == 'new') {
-                text = "Are you sure you want to save this item?";
+                text = this.$t('confirm_save_item');
                 confirmButtonColor = '#198754';
                 method = 'POST';
                 routeURL = 'groups.store';
                 msgText = 'Work has been saved.';
                 data.id = null;
             } else if (this.action == 'update') {
-                text = "Are you sure you want to update this item?";
+                text = this.$t('confirm_update_item');
                 confirmButtonColor = '#198754';
                 method = 'PUT';
                 routeURL = 'groups.update';
                 msgText = 'Work has been updated.';
             } else {
-                text = "Are you sure you want to delete this item?";
+                text = this.$t('confirm_delete_item');
                 confirmButtonColor = '#D81B60';
                 method = 'DELETE';
                 routeURL = 'groups.destroy';
@@ -434,8 +434,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;

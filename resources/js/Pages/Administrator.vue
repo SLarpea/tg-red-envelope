@@ -314,8 +314,8 @@ export default {
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: this.$t('cancel_button_text'),
-                confirmButtonText: this.$t('confirm_button_text'),
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;

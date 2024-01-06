@@ -275,14 +275,14 @@ export default {
             let routeURL = String;
             let msgText = String;
             if (this.action == 'new') {
-                text = "Are you sure you want to save this item?";
+                text = this.$t('confirm_save_item');
                 confirmButtonColor = '#198754';
                 method = 'POST';
                 routeURL = 'configs.store';
                 msgText = 'Work has been saved.';
                 data.id = null;
             } else if (this.action == 'update') {
-                text = "Are you sure you want to update this item?";
+                text = this.$t('confirm_update_item');
                 confirmButtonColor = '#198754';
                 method = 'PUT';
                 routeURL = 'configs.update';
@@ -294,8 +294,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: 'No <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> Yes'
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;

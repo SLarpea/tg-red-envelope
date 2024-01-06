@@ -67,9 +67,7 @@
                                                     $t('not_applicable') }}</td>
                                                 <td>{{ item.reward_num }}</td>
                                                 <td class="list-status-container text-center">
-                                                    <button class="btn btn-outline-success btn-status">
                                                         {{ (item.status == 1) ? $t('leopard') : $t('straight_flush') }}
-                                                    </button>
                                                 </td>
                                             </tr>
                                         </tbody>

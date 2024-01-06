@@ -1,6 +1,5 @@
 <template>
-    <Head title="Activities" />
-
+    <Head :title="$t('operation_log')" />
     <AppLayout>
 
         <div class="pagetitle">

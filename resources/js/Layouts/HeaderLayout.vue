@@ -64,7 +64,7 @@
                             <hr class="dropdown-divider" />
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="#" @click.prevent="help()">
                                 <i class="bi bi-question-circle"></i>
                                 <span>{{ $t('need_help') }}</span>
                             </a>
@@ -100,6 +100,31 @@
             </div>
         </div>
     </transition>
+
+    <transition name="modal-fade">
+            <div class="modal custom-modal" v-if="helpShow">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <i class="bi bi-arrow-return-right"></i> {{ $t('need_help') }}
+                            </h5>
+                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center">{{ $t('under_construction') }}</h1>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
+                                <i class="bi bi-x-circle"></i> {{ $t('close') }}
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </transition>
+
 </template>
 
 <script>
@@ -111,6 +136,7 @@ export default {
             loading: false,
             isHiddenHelp: false,
             toggleShow: true,
+            helpShow: false,
             transText: "Translating...",
         };
     },
@@ -118,14 +144,17 @@ export default {
         Link,
     },
     methods: {
+        closeModal() {
+            this.helpShow = false;
+        },
         logout() {
             this.$swal({
-                text: "Are you sure you want to signout?",
+                text: this.$t('are_you_sure_you_want_to_signout'),
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#512da8",
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"> Yes',
-                cancelButtonText: 'No&nbsp; <i class="bi bi-hand-thumbs-down">',
+                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     sessionStorage.clear();
@@ -137,6 +166,9 @@ export default {
             const body = document.getElementById("body");
             body.classList.toggle("toggle-sidebar");
             this.toggleShow = !this.toggleShow;
+        },
+        help() {
+            this.helpShow = true;
         },
         escape(event) {
             if (event.keyCode === 27) {

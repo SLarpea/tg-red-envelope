@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dashboard" />
+    <Head :title="$t('dashboard')" />
     <AppLayout>
 
         <div class="pagetitle">
