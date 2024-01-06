@@ -285,5 +285,13 @@
     "quantity_of_contracts": "Quantity of Contracts",
     "under_construction": "Under Construction...",
     "are_you_sure_you_want_to_signout": "Are you sure you want to signout?",
-    "operation_log": "Operation Log"
+    "operation_log": "Operation Log",
+    "event": "Event",
+    "affected": "Affected",
+    "affected_id": "Affected ID",
+    "old_value": "Old Value",
+    "new_value": "New value",
+    "agent": "Agent",
+    "date_modified": "Date Modified"
+
 }

@@ -285,5 +285,12 @@
     "quantity_of_contracts": "合同数量",
     "under_construction": "建设中...",
     "are_you_sure_you_want_to_signout": "您确定要退出吗？",
-    "operation_log": "操作日志"
+    "operation_log": "操作日志",
+    "event": "事件",
+    "affected": "做作的",
+    "affected_id": "受影响的ID",
+    "old_value": "旧价值",
+    "new_value": "新价值",
+    "agent": "代理人",
+    "date_modified": "修改日期"
 }
