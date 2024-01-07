@@ -176,6 +176,7 @@ export default {
             }
         },
         async setLocale(lang) {
+            if (this.$page.props.user.locale === lang) return false
             this.loading = true;
             this.transText = (lang == 'en') ? 'Translating...' : '翻译...';
             await new Promise(resolve => setTimeout(resolve, 1000));
