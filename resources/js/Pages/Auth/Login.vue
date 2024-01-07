@@ -46,8 +46,8 @@ const submit = () => {
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="电子邮件" />
-                <TextInput id="email" v-model="form.email" type="email" class="mt-1 block w-full" required autofocus
-                    autocomplete="username" />
+                <TextInput id="email" v-model="form.email" type="email"
+                    class="mt-1 block w-full" required autofocus autocomplete="username" />
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
@@ -60,8 +60,7 @@ const submit = () => {
             <div class="mt-4" v-if="captcha">
                 <div class="captcha-container">
                     <div class="captcha-img-container" v-html="captcha"></div>
-                    <TextInput id="text" v-model="form.captcha" type="text" class="mt-1 "
-                        autocomplete="current-password" />
+                    <TextInput id="text" v-model="form.captcha" type="text" class="mt-1 " autocomplete="current-password" />
                 </div>
                 <InputError class="mt-2" :message="form.errors.captcha" />
             </div>
@@ -87,6 +86,19 @@ const submit = () => {
     </AuthenticationCard>
 </template>
 
+<script>
+import i18n from './../../i18n';
+
+export default {
+    created() {
+        if (this.$page.props.user.locale !== window.currentLocale) {
+            location.reload();
+        }
+    },
+}
+
+</script>
+
 
 <style scoped>
 .captcha-container {
@@ -106,7 +118,7 @@ const submit = () => {
     border-radius: 5.1px;
 }
 
-.captcha-container input{
+.captcha-container input {
     width: 10rem;
     margin-bottom: 2px;
     height: 37px;
