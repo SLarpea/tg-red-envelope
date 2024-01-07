@@ -128,6 +128,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'login_captcha' => env('login_captcha', false),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver
@@ -174,6 +176,7 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -189,6 +192,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ])->toArray(),
 
 ];
