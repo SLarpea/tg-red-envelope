@@ -10,7 +10,10 @@ use SergiX44\Nutgram\RunningMode\Polling;
 
 class TelegramController extends Controller
 {
-    public function index(Nutgram $bot)
+    /**
+     * Handle the request.
+     */
+    public function __invoke(Nutgram $bot)
     {
         try {
             $bot->setRunningMode(Polling::class);
