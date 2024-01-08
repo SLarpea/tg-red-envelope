@@ -144,7 +144,7 @@
                                             </table>
 
                                             <PaginationLayout v-show="(users_reports.total ?? 0) > 0"
-                                                :data="{ links: users_reports.links, from: users_reports.from, to: users_reports.to, total: users_reports.total }" />
+                                                :data="{ links: users_reports.links, from: users_reports.from, to: users_reports.to, total: users_reports.total, plf: 1 }" />
                                         </div>
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@
                                                 </tfoot>
                                             </table>
                                             <PaginationLayout v-show="(lucky_money_reports.total ?? 0) > 0"
-                                                :data="{ links: lucky_money_reports.links, from: lucky_money_reports.from, to: lucky_money_reports.to, total: lucky_money_reports.total }" />
+                                                :data="{ links: lucky_money_reports.links, from: lucky_money_reports.from, to: lucky_money_reports.to, total: lucky_money_reports.total, plf: 2 }" />
                                         </div>
                                     </div>
                                 </div>
@@ -246,7 +246,7 @@
                                                 </tfoot>
                                             </table>
                                             <PaginationLayout v-show="(platform_commission_amount_reports.total ?? 0) > 0"
-                                                :data="{ links: platform_commission_amount_reports.links, from: platform_commission_amount_reports.from, to: platform_commission_amount_reports.to, total: platform_commission_amount_reports.total }" />
+                                                :data="{ links: platform_commission_amount_reports.links, from: platform_commission_amount_reports.from, to: platform_commission_amount_reports.to, total: platform_commission_amount_reports.total, plf: 3 }" />
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +298,7 @@
                                                 </tfoot>
                                             </table>
                                             <PaginationLayout v-show="(reward_amount_reports.total ?? 0) > 0"
-                                                :data="{ links: reward_amount_reports.links, from: reward_amount_reports.from, to: reward_amount_reports.to, total: reward_amount_reports.total }" />
+                                                :data="{ links: reward_amount_reports.links, from: reward_amount_reports.from, to: reward_amount_reports.to, total: reward_amount_reports.total, plf: 4 }" />
                                         </div>
                                     </div>
                                 </div>

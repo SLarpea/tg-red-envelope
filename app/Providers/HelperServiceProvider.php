@@ -29,7 +29,6 @@ class HelperServiceProvider extends ServiceProvider
             ) {
                 require $it->key();
             }
-
             $it->next();
         }
     }

@@ -8,8 +8,9 @@ use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Hash;
 use App\Actions\Jetstream\DeleteUser;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class JetstreamServiceProvider extends ServiceProvider
@@ -30,8 +31,18 @@ class JetstreamServiceProvider extends ServiceProvider
         $this->configurePermissions();
 
         Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where('email', $request->email)->first();
+            // Validate the captcha using the Validator facade
+            $validator = Validator::make($request->all(), [
+                'captcha' => ['required', 'captcha'],
+            ]);
 
+            if (config('app.login_captcha') === true && $validator->fails()) {
+                throw ValidationException::withMessages([
+                    'captcha' => __('The captcha verification failed. Please try again.'),
+                ]);
+            }
+
+            $user = User::where('email', $request->email)->first();
             if ($user) {
                 if ($user->status == 1 && Hash::check($request->password, $user->password)) {
                     if (!session()->has('locale')) {
@@ -45,7 +56,6 @@ class JetstreamServiceProvider extends ServiceProvider
                     ]);
                 }
             }
-
         });
 
         Jetstream::deleteUsersUsing(DeleteUser::class);

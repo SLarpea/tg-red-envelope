@@ -65,21 +65,36 @@ class ReportService
 
     public function getUsersReport($request)
     {
+        if ($request->filled('plf') && $request->plf == self::NUMBER_OF_REGISTERED_USERS) {
+            Session::put('users_reports_pagination', [
+                'show' => $request->input('show', 10),
+                'page' => $request->input('page', 1),
+            ]);
+        }
+
+        // Retrieve pagination settings from the session
+        $paginationSettings = Session::get('users_reports_pagination', [
+            'show' => 10,
+            'page' => 1,
+        ]);
+
         $usersCountQuery = UserManagement::select([
             'group_id',
             DB::raw('COUNT(*) as total'),
-        ])
-            ->filterByDateCreated($request->start_date, $request->end_date);
+        ])->filterByDateCreated($request->input('start_date'), $request->input('end_date'));
 
         if ($request->filled('group_id')) {
-            $usersCountQuery->filterByGroup($request->group_id);
+            $usersCountQuery->filterByGroup($request->input('group_id'));
         }
 
         // Group by 'group_id' and calculate the summation of 'total' column
         $summation = $usersCountQuery->groupBy('group_id')->pluck('total')->sum();
 
-        // Paginate the results
-        $result = $usersCountQuery->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+        // Paginate the results using the session values
+        $result = $usersCountQuery->groupBy('group_id')
+            ->orderBy('group_id', 'asc')
+            ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
+            ->withQueryString();
 
         return [
             'query_result' => $result,
@@ -89,6 +104,19 @@ class ReportService
 
     public function getLuckyMoneyReport($request)
     {
+        if ($request->filled('plf') && $request->plf == self::QUANTITY_OF_CONTRACT) {
+            Session::put('lucky_money_reports', [
+                'show' => $request->input('show', 10),
+                'page' => $request->input('page', 1),
+            ]);
+        }
+
+        // Retrieve pagination settings from the session
+        $paginationSettings = Session::get('lucky_money_reports', [
+            'show' => 10,
+            'page' => 1,
+        ]);
+
         $luckMoney = LuckyMoney::select([
             'chat_id as group_id',
             DB::raw('COUNT(*) as total'),
@@ -103,7 +131,10 @@ class ReportService
         $summation = $luckMoney->groupBy('chat_id')->pluck('total')->sum();
 
         // Paginate the results
-        $result = $luckMoney->groupBy('chat_id')->orderBy('chat_id', 'asc')->paginate($request->show)->withQueryString();
+        $result = $luckMoney->groupBy('chat_id')
+            ->orderBy('chat_id', 'asc')
+            ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
+            ->withQueryString();
 
         return [
             'query_result' => $result,
@@ -113,6 +144,19 @@ class ReportService
 
     public function getPlatformCommissionAmountReport($request)
     {
+        if ($request->filled('plf') && $request->plf == self::PLATFORM_COMMISSION_AMOUNT) {
+            Session::put('platform_commission_amount_reports', [
+                'show' => $request->input('show', 10),
+                'page' => $request->input('page', 1),
+            ]);
+        }
+
+        // Retrieve pagination settings from the session
+        $paginationSettings = Session::get('platform_commission_amount_reports', [
+            'show' => 10,
+            'page' => 1,
+        ]);
+
         $commissionRecord = CommissionRecord::select([
             'group_id',
             DB::raw('SUM(amount) as total'),
@@ -127,7 +171,11 @@ class ReportService
         $summation = $commissionRecord->groupBy('group_id')->pluck('total')->sum();
 
         // Paginate the results
-        $result = $commissionRecord->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+        $result = $commissionRecord
+            ->groupBy('group_id')
+            ->orderBy('group_id', 'asc')
+            ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
+            ->withQueryString();
 
         return [
             'query_result' => $result,
@@ -137,6 +185,19 @@ class ReportService
 
     public function getRewardAmountReport($request)
     {
+        if ($request->filled('plf') && $request->plf == self::REWARD_AMOUNT) {
+            Session::put('reward_amount_reports', [
+                'show' => $request->input('show', 10),
+                'page' => $request->input('page', 1),
+            ]);
+        }
+
+        // Retrieve pagination settings from the session
+        $paginationSettings = Session::get('reward_amount_reports', [
+            'show' => 10,
+            'page' => 1,
+        ]);
+
         $rewardRecord = RewardRecord::select([
             'group_id',
             DB::raw('SUM(amount) as total'),
@@ -151,7 +212,11 @@ class ReportService
         $summation = $rewardRecord->groupBy('group_id')->pluck('total')->sum();
 
         // Paginate the results
-        $result = $rewardRecord->groupBy('group_id')->orderBy('group_id', 'asc')->paginate($request->show)->withQueryString();
+        $result = $rewardRecord
+            ->groupBy('group_id')
+            ->orderBy('group_id', 'asc')
+            ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
+            ->withQueryString();
 
         return [
             'query_result' => $result,

@@ -38,15 +38,15 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" width="1%" class="text-center">#</th>
-                                            <th scope="col" class="text-center">Event</th>
-                                            <th scope="col">Affected</th>
-                                            <th scope="col" class="text-center">Affected ID</th>
-                                            <th scope="col">Old Value</th>
-                                            <th scope="col">New value</th>
-                                            <th scope="col">Agent</th>
-                                            <th scope="col">User</th>
-                                            <th scope="col" class="text-center">Date Modified</th>
-                                            <th scope="col" width="1%" class="text-center">Action</th>
+                                            <th scope="col" class="text-center">{{ $t('event') }}</th>
+                                            <th scope="col">{{ $t('affected') }}</th>
+                                            <th scope="col" class="text-center">{{ $t('affected_id') }}</th>
+                                            <th scope="col">{{ $t('old_value') }}</th>
+                                            <th scope="col">{{ $t('new_value') }}</th>
+                                            <th scope="col">{{ $t('agent') }}</th>
+                                            <th scope="col">{{ $t('user') }}</th>
+                                            <th scope="col" class="text-center">{{ $t('date_modified') }}</th>
+                                            <th scope="col" width="1%" class="text-center">{{ $t('action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
