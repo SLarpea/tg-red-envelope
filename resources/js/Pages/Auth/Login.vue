@@ -92,7 +92,7 @@ import i18n from './../../i18n';
 export default {
     created() {
         if (this.$page.props.user.locale !== window.currentLocale) {
-            location.reload();
+            // location.reload();
         }
     },
 }
