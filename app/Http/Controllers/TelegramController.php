@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Services\Telegram\TelegramService;
 use Illuminate\Support\Facades\Artisan;
 use SergiX44\Nutgram\Nutgram;
@@ -9,13 +10,8 @@ use SergiX44\Nutgram\RunningMode\Polling;
 
 class TelegramController extends Controller
 {
-    /**
-     * Handle the request.
-     */
-    public function __invoke(Nutgram $bot)
+    public function index(Nutgram $bot)
     {
-
-        $this->info('开始...');
         try {
             $bot->setRunningMode(Polling::class);
             $bot->run();
