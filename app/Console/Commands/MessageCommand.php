@@ -24,21 +24,28 @@ class MessageCommand extends Command
      */
     protected $description = 'Initialize telegram bot';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function handle(Nutgram $bot)
     {
-        $this->info('开始...');
         try {
             $bot->setRunningMode(Polling::class);
             $bot->run();
+            $retry = false; // No exception occurred, so no need to retry
         } catch (\Exception $e) {
-            Log::error('异常' . $e);
+            // Handle exceptions and log errors
+            Log::error('Exception: ' . $e);
+            $this->sendTelegramMessage($bot, 'Job encountered an exception. Check the logs for details.');
+        } finally {
+            $this->sendTelegramMessage($bot, 'Telegram red envelope has stopped.');
         }
+    }
 
-        // start to listen to updates, until stopped
+    protected function sendTelegramMessage(Nutgram $bot, $message)
+    {
+        try {
+            $bot->sendMessage($message, ['chat_id' => config('nutgram.tg_bot_error_gc')]);
+        } catch (\Exception $e) {
+            // Handle exceptions related to sending Telegram messages
+            Log::error('Telegram Message Exception: ' . $e);
+        }
     }
 }
