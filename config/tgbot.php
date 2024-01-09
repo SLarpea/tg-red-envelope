@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'language'=>'zh_CN',
     'auto_get_sec'=>0,
    'lucky_num'=>6,
    'lose_rate'=>1.8,
