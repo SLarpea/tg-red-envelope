@@ -89,6 +89,12 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
             }
         }
     });
+
+    $bot->onCommand('start', function (Nutgram $bot) {
+        // Handle start command
+        $text = trans('telegram.start_msg', ['userId' => $bot->user()->id]);
+        $bot->sendMessage($text);
+    });
 });
 
 
@@ -135,9 +141,3 @@ $bot->onCommand('help(.*)', function (Nutgram $bot) {
 //     // Handle invite command
 //     \App\Services\TelegramService::invite_link($bot);
 // });
-
-$bot->onCommand('start', function (Nutgram $bot) {
-    // Handle start command
-    $text = trans('telegram.start_msg', ['userId' => $bot->user()->id]);
-    $bot->sendMessage($text);
-});

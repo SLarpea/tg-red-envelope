@@ -2,9 +2,11 @@
 
 namespace App\Telegram\Middleware;
 
+use SergiX44\Nutgram\Nutgram;
 use App\Models\GroupManagement;
 use Illuminate\Support\Facades\Log;
-use SergiX44\Nutgram\Nutgram;
+use App\Services\Telegram\ConfigService;
+use Illuminate\Support\Facades\App;
 
 class GroupVerify
 {
@@ -22,6 +24,8 @@ class GroupVerify
                 ->count();
 
             if ($authorizedCount > 0) {
+                $language = ConfigService::getConfigValue($groupId, 'language');
+                App::setLocale($language);
                 $next($bot);
             } else {
                 try {
