@@ -149,7 +149,4 @@ $bot->onCommand('help(.*)', function (Nutgram $bot) {
 });
 
 // Uncomment the following block if you want to handle the 'invite' command
-// $bot->onCommand('invite(.*)', function (Nutgram $bot) {
-//     // Handle invite command
-//     \App\Services\TelegramService::invite_link($bot);
-// });
+$bot->onCommand('invite(.*)', [InviteHandler::class, 'handleInviteLink']);
