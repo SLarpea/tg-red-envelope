@@ -417,7 +417,7 @@ class UserManagementService
         $rs = self::addUser($memberInfo, $groupId, $inviteTgId);
         if ($rs['state'] == 1) {
             //欢迎语
-            $welcomeText = ConfigService::getConfigValue($groupId, 'welcome');
+            $welcomeText = trans('telegram.welcome');
             if ($welcomeText) {
                 try {
                     $userName = $memberInfo->first_name ? $memberInfo->first_name : $memberInfo->username;

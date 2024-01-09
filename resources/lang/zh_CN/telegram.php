@@ -5,7 +5,7 @@ return [
     'userbanned' => '用户被禁止',
     'balance' => '余额',
     'nobalance' => '用户余额不足',
-// 今日报表
+    // 今日报表
     'todayprofit' => '今日利润',
     'todayrecharge' => '今日充值',
     'todaywithdraw' => '今日提现',
@@ -20,13 +20,13 @@ return [
     // 昨日报表
     'yesterdayprofit' => '昨日利润',
 
-// 推广查询
+    // 推广查询
     'todayinvite' => '今日邀请',
     'monthinvite' => '本月邀请',
     'totalinvite' => '总邀请',
     'lastteninvitations' => '显示最后十个邀请',
 
-// 发包
+    // 发包
     'commanderror_integer' => '命令错误，请输入整数',
     'commanderror_thundernum' => '命令错误，雷电数字应在0到9之间',
     'error_lessthan' => '红包金额不能小于 :minAmount U',
@@ -44,14 +44,14 @@ return [
     'insufficientbalancetips' => '余额不足，需要的余额 >=:lowestAmount 或状态异常~',
 
 
-// 福利包
+    // 福利包
     'welfarelimit' => '福利红包的数量必须大于2且小于100',
     'welfare' => '福利',
     'welfaretoomany' => '数量过多',
     'welfarefirstbtntext' => '�&#8203;``【oaicite:0】``&#8203;】 [:num/0] 总计 :amount U',
     'welfaresendcaption' => '发送了 :amount U 的福利红包，快来抢吧！',
 
-// 抢包
+    // 抢包
     'grab_self' => '无法抢自己的红包',
     'receivedonce' => '你已经领取了红包，金额是 :amount U',
     'nodata' => '无数据',
@@ -88,7 +88,7 @@ return [
     'jackpot_bonus_send' => "\n 奖金已自动分发到账户，请查收~ \n",
     'jackpot_cumulative' => "🌟 头奖奖池累计金额：:amount U 🌟",
 
-// 过期
+    // 过期
     'valid_returned' => '(已返回)',
 
     'valid_caption' => "[ <code>:sender_name</code> ]的红包已过期！\n
@@ -128,7 +128,7 @@ return [
 🔹用户ID: <code>:tgId</code>
 🔹余额: <b>:balance</b> U',
 
-// 按钮
+    // 按钮
     'btn_service' => '客服',
     'btn_recharge' => '充值',
     'btn_rule' => '规则',
@@ -151,5 +151,16 @@ return [
     'groupinfo' => '群组信息',
     'group_id' => '群组 ID',
     'user_id' => '用户 ID',
+    'welcome' => "{NAME}, 欢迎来到令人振奋的Red Invelope Thunder扫荡世界!
 
+    🚀关键功能：
+    1️⃣即时投注:跳过注册麻烦, 直接潜入投注的兴奋中。
+
+    2把TG组的闪电游戏玩法: 加入我们的电报组，进行闪电快速的红色信封游戏，以保持您的肾上腺素泵送。
+
+    3️⃣公平竞争的保证: 我们的平台在游戏中保持严格的非参与政策，以确保公平透明的环境。
+
+    4️⃣权衡保证: 我们对公平性的承诺包括彻底称重，以确保小组游戏中的水平竞争环境。
+
+    5️⃣即时收益, 并带有会员邀请函: 通过我们的代理模式向他人介绍刺激性 - 每一项成功的邀请都立即获得回报。现在体验匆忙！"
 ];
