@@ -318,6 +318,8 @@
             </div>
         </transition>
 
+        <LoadingLayout v-if="loading" />
+
     </AppLayout>
 </template>
 
@@ -326,11 +328,14 @@ import { Head, Link, router } from '@inertiajs/vue3';
 import AppLayout from '../Layouts/AppLayout.vue';
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import LoadingLayout from "../Layouts/LoadingLayout.vue";
+
 import toastr from 'toastr';
 
 export default {
     data() {
         return {
+            loading: false,
             modalShow: false,
             imageShow: false,
             editMode: false,
@@ -358,7 +363,7 @@ export default {
     },
 
     components: {
-        Head, Link, AppLayout, SearchLayout, PaginationLayout,
+        Head, Link, AppLayout, SearchLayout, PaginationLayout, LoadingLayout,
     },
     methods: {
         closeModal() {
@@ -444,6 +449,9 @@ export default {
                     data.is_update = (this.action == 'update') ? true : false;
                     console.log(data);
                     router.post(route(routeURL, data.id), data, {
+                        onBefore: () => {
+                            this.loading = true;
+                        },
                         onSuccess: (response) => {
                             if (response.props.response == 'success') {
                                 this.$swal({
@@ -455,6 +463,9 @@ export default {
                                 });
                                 this.modalShow = false;
                             }
+                        },
+                        onFinish: () => {
+                            this.loading = false;
                         },
                         onError: (error) => {
                             try {

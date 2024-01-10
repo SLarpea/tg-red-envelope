@@ -292,6 +292,7 @@
     "old_value": "Old Value",
     "new_value": "New value",
     "agent": "Agent",
-    "date_modified": "Date Modified"
+    "date_modified": "Date Modified",
+    "loading": "Loading..."
 
 }

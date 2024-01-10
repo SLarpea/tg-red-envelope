@@ -1182,7 +1182,7 @@ background-color: #3e97ff;
     width: 100%;
     height: 100dvh;
     background-color: #522da883;
-    z-index: 999;
+    z-index: 999999999;
     display: flex;
     justify-content: center;
     align-items: center;
