@@ -122,8 +122,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in users_reports.data" :key="item.id"
-                                                        @dblclick.prevent="selectAction(item, 'show', null)">
+                                                    <tr v-for="(item, index) in users_reports.data" :key="item.id">
                                                         <td class="text-center">{{ users_reports.from + index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
                                                         <td class="text-center">{{ item.total }}</td>
@@ -171,8 +170,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in lucky_money_reports.data" :key="item.id"
-                                                        @dblclick.prevent="selectAction(item, 'show', null)">
+                                                    <tr v-for="(item, index) in lucky_money_reports.data" :key="item.id">
                                                         <td class="text-center">{{ lucky_money_reports.from + index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
                                                         <td class="text-center">{{ item.total }}</td>
@@ -222,8 +220,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data"
-                                                        :key="item.id" @dblclick.prevent="selectAction(item, 'show', null)">
+                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data">
                                                         <td class="text-center">{{ platform_commission_amount_reports.from +
                                                             index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
@@ -275,8 +272,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in reward_amount_reports.data" :key="item.id"
-                                                        @dblclick.prevent="selectAction(item, 'show', null)">
+                                                    <tr v-for="(item, index) in reward_amount_reports.data" :key="item.id">
                                                         <td class="text-center">{{ reward_amount_reports.from + index }}
                                                         </td>
                                                         <td class="text-center">{{ item.group_id }}</td>
@@ -309,6 +305,7 @@
                 </div>
             </div>
         </section>
+        <LoadingLayout v-if="loading" />
     </AppLayout>
 </template>
 
@@ -317,6 +314,7 @@ import { Head } from "@inertiajs/vue3";
 import AppLayout from "../Layouts/AppLayout.vue";
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
+import LoadingLayout from "../Layouts/LoadingLayout.vue";
 import _ from 'lodash';
 
 export default {
@@ -327,12 +325,13 @@ export default {
         oneMonthLater.setMonth(today.getMonth() + 1);
 
         return {
+            loading: false,
             // form filteres and models
             filter_form: {
-                report_choice: 0,
-                group_id: '',
-                start_date: today.toISOString().substr(0, 10), // Set to today's date
-                end_date: oneMonthLater.toISOString().substr(0, 10), // Set to one month from today
+                report_choice: this.$page.props.request.report_choice ?? 0,
+                group_id: this.$page.props.request.group_id ?? '',
+                start_date: this.$page.props.request.start_date ?? today.toISOString().substr(0, 10), // Set to today's date
+                end_date: this.$page.props.request.end_date ?? oneMonthLater.toISOString().substr(0, 10), // Set to one month from today
             },
 
             routeLink: 'reports',
@@ -360,11 +359,21 @@ export default {
         AppLayout,
         SearchLayout,
         PaginationLayout,
+        LoadingLayout
     },
     methods: {
         searchReport: _.throttle(async function () {
             try {
-                await this.$inertia.replace(route(this.routeLink, this.filter_form));
+
+                await this.$inertia.replace(route(this.routeLink, this.filter_form), {
+                    // Before sending the request
+                    onBefore: () => {
+                        this.loading = true;
+                    },
+                    onFinish: () => {
+                        this.loading = false;
+                    },
+                });
             } catch (error) {
                 // Handle any errors if needed
                 console.error(error);
@@ -426,4 +435,5 @@ export default {
     font-weight: 500;
     color: #512da8;
     cursor: pointer;
-}</style>
+}
+</style>

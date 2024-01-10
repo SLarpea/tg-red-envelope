@@ -52,8 +52,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in withdraw.data" :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in withdraw.data" :key="item.id">
                                                 <td class="text-center">{{ withdraw.from + index }}</td>
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.username }}</td>

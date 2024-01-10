@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
             },
             'user.locale' => function () use ($request) {
                 return session('locale');
-            },
+            }
         ]);
     }
 }

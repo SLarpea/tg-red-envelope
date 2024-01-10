@@ -32,6 +32,7 @@ class ReportController extends Controller
             ],
             'group_ids' => $data['groupIds'],
             'response' => $data['response'],
+            'request' => $request->all()
         ]);
     }
 }
