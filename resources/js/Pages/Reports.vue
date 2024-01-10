@@ -220,7 +220,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data">
+                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data" :key="item.id">
                                                         <td class="text-center">{{ platform_commission_amount_reports.from +
                                                             index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
