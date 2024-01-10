@@ -22,4 +22,6 @@ return [
 
     // Set log channel
     'log_channel' => env('TELEGRAM_LOG_CHANNEL', 'null'),
+
+    'tg_bot_error_gc' => env('TG_BOT_ERROR_GC', ''),
 ];

@@ -53,8 +53,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in commissions.data" :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in commissions.data" :key="item.id">
                                                 <td class="text-center">{{ commissions.from + index }}</td>
                                                 <td>{{ item.lucky_id }}</td>
                                                 <td>{{ item.amount }}</td>

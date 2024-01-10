@@ -71,8 +71,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in  envelopes.data " :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in  envelopes.data " :key="item.id">
                                                 <td class="text-center">{{ envelopes.from + index }}</td>
                                                 <td>{{ item.sender_name }}</td>
                                                 <td>{{ item.amount }}</td>

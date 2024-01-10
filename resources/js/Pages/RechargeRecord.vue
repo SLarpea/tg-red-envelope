@@ -55,8 +55,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in recharge.data" :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in recharge.data" :key="item.id">
                                                 <td class="text-center">{{ recharge.from + index }}</td>
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.username }}</td>
