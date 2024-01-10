@@ -39,20 +39,12 @@
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
                                                 <th scope="col">{{ $t('name') }}</th>
-                                                <th scope="col" class="text-center">{{ $t('status') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr v-for="(item, index) in permissions.data" :key="item.id">
                                                 <td class="text-center">{{ permissions.from + index }}</td>
                                                 <td>{{ $t(item.name) }}</td>
-                                                <td class="list-status-container text-center">
-                                                    <button
-                                                        :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
-                                                        @click.prevent="formAction(item, 'status')">
-                                                        {{ (item.status == 1) ? $t('active') : $t('inactive') }}
-                                                    </button>
-                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -67,9 +59,6 @@
                 </div>
             </div>
         </section>
-
-
-
 
     </AppLayout>
 </template>

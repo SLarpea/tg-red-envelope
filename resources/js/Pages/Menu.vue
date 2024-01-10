@@ -152,6 +152,7 @@
             </div>
         </transition>
 
+        <LoadingLayout v-if="loading" />
 
     </AppLayout>
 </template>
@@ -161,11 +162,13 @@ import { Head } from '@inertiajs/vue3';
 import AppLayout from "@/Layouts/AppLayout.vue";
 import SearchLayout from "@/Layouts/SearchLayout.vue";
 import PaginationLayout from "@/Layouts/PaginationLayout.vue";
+import LoadingLayout from "../Layouts/LoadingLayout.vue";
 import { VueDraggableNext } from 'vue-draggable-next';
 
 export default {
     data() {
         return {
+            loading: false,
             isModalShow: false,
             isErrorShow: false,
             editMode: false,
@@ -184,7 +187,7 @@ export default {
     },
     components: {
         Head,
-        AppLayout, SearchLayout, PaginationLayout,
+        AppLayout, SearchLayout, PaginationLayout, LoadingLayout,
         draggable: VueDraggableNext,
     },
     methods: {
@@ -205,26 +208,32 @@ export default {
         selectAction(data) {
             this.editMode == false ? this.saveData(data) : this.updateData(data, 'all')
         },
-        updateOrder() {
-            const data = [];
-            const elements = document.querySelectorAll('.item-list');
-            elements.forEach((element) => {
-                data.push({ id: element.id, order: element.getAttribute('sort') });
-            });
-            this.$inertia.put(route('menus.sort'), data, {
-                onSuccess: (response) => {
-                    if (response.props.response == 'success') {
-                        this.$swal({
-                            position: 'center',
-                            icon: 'success',
-                            text: 'Work has been saved.',
-                            showConfirmButton: false,
-                            timer: 2000
-                        });
-                    }
-                },
-            });
-        },
+        // updateOrder() {
+        //     const data = [];
+        //     const elements = document.querySelectorAll('.item-list');
+        //     elements.forEach((element) => {
+        //         data.push({ id: element.id, order: element.getAttribute('sort') });
+        //     });
+        //     this.$inertia.put(route('menus.sort'), data, {
+        //         onBefore: () => {
+        //             this.loading = true;
+        //         },
+        //         onSuccess: (response) => {
+        //             if (response.props.response == 'success') {
+        //                 this.$swal({
+        //                     position: 'center',
+        //                     icon: 'success',
+        //                     text: 'Work has been saved.',
+        //                     showConfirmButton: false,
+        //                     timer: 2000
+        //                 });
+        //             }
+        //         },
+        //         onFinish: () => {
+        //             this.loading = false;
+        //         },
+        //     });
+        // },
         editData(data) {
             this.form = Object.assign({}, data);
             this.editMode = true;
@@ -277,6 +286,9 @@ export default {
                     data._method = 'PUT';
                     data.update_type = type;
                     this.$inertia.post(route('menus.update', data.id), data, {
+                        onBefore: () => {
+                            this.loading = true;
+                        },
                         onSuccess: (response) => {
                             if (response.props.response == 'success') {
                                 this.$swal({
@@ -289,6 +301,9 @@ export default {
                                 this.isModalShow = false;
                                 this.isErrorShow = false;
                             }
+                        },
+                        onFinish: () => {
+                            this.loading = false;
                         },
                         onError: () => {
                             this.isErrorShow = true;

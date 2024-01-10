@@ -88,18 +88,6 @@
             </ul>
         </nav>
     </header>
-    <transition name="modal-fade">
-        <div class="lang-loading" v-if="loading">
-            <div class="row">
-                <div class="col-lg-12 loading-container">
-                    <img src="../../../public/images/loader.gif" alt="">
-                </div>
-                <div class="col-lg-12 text-center">
-                    <h4>{{ transText }}</h4>
-                </div>
-            </div>
-        </div>
-    </transition>
 
     <transition name="modal-fade">
             <div class="modal custom-modal" v-if="helpShow">
@@ -125,10 +113,13 @@
             </div>
         </transition>
 
+        <LoadingLayout v-if="loading" />
+
 </template>
 
 <script>
 import { Link, router } from "@inertiajs/vue3";
+import LoadingLayout from "./LoadingLayout.vue";
 
 export default {
     data() {
@@ -137,11 +128,10 @@ export default {
             isHiddenHelp: false,
             toggleShow: true,
             helpShow: false,
-            transText: "Translating...",
         };
     },
     components: {
-        Link,
+        Link, LoadingLayout,
     },
     methods: {
         closeModal() {

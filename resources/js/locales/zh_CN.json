@@ -292,5 +292,6 @@
     "old_value": "旧价值",
     "new_value": "新价值",
     "agent": "代理人",
-    "date_modified": "修改日期"
+    "date_modified": "修改日期",
+    "loading": "加载中..."
 }
