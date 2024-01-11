@@ -53,9 +53,7 @@ Route::middleware([
 
     Route::post('/set-locale', [App\Http\Controllers\UserManagementController::class, 'setLocale'])->name('post.setlocale');
 
-    Route::post('/set-session', function () { echo "All session setting routes here"; })->name('post.set-session');
+    Route::post('/set-session', [App\Http\Controllers\SellAllSessionController::class, 'index'])->name('post.set-session');
 });
 
 include('fallbacks.php');
-
-
