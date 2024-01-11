@@ -163,37 +163,7 @@
 </head>
 
 <body class="error-body">
-
-    <div id="notfound">
-        <div class="notfound">
-            <div class="notfound-404">
-                <div></div>
-                <h1>429</h1>
-            </div>
-            <h2 id="error_title">太多的尝试</h2>
-            <p id="error_description">2分钟后，请再试一次。
-            </p>
-            <a href="{{ url('/') }}" id="error_button">主页</a>
-        </div>
-    </div>
-
-    <script>
-        var browser_lang = navigator.language;
-        var error_title = document.getElementById('error_title');
-        var error_description = document.getElementById('error_description');
-        var error_button = document.getElementById('error_button');
-        var x = 1;
-        if(browser_lang == 'en-US'){
-            error_title.innerHTML = "Too many attempts";
-            error_description.innerHTML = "After 2 minutes, try again.";
-            error_button.innerHTML = "Homepage";
-        }else{
-            error_title.innerHTML = "太多的尝试";
-            error_description.innerHTML = "2分钟后，请再试一次。";
-            error_button.innerHTML = "主页";
-        }
-    </script>
-
+    @include('errors.error-content',['code' => 429])
 </body>
 
 </html>

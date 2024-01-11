@@ -163,35 +163,7 @@
 </head>
 
 <body class="error-body">
-
-    <div id="notfound">
-        <div class="notfound">
-            <div class="notfound-404">
-                <div></div>
-                <h1>403</h1>
-            </div>
-            <h2 id="error_title">禁止</h2>
-            <p id="error_description">您没有权限访问此服务器上的 /。
-            </p>
-            <a href="{{ url('/') }}" id="error_button">主页</a>
-        </div>
-    </div>
-    <script>
-        var browser_lang = navigator.language;
-        var error_title = document.getElementById('error_title');
-        var error_description = document.getElementById('error_description');
-        var error_button = document.getElementById('error_button');
-        var x = 1;
-        if(browser_lang == 'en-US'){
-            error_title.innerHTML = "Forbidden";
-            error_description.innerHTML = "You don’t have permission to access / on this server";
-            error_button.innerHTML = "Homepage";
-        }else{
-            error_title.innerHTML = "禁止";
-            error_description.innerHTML = "您没有权限访问此服务器上的 /。";
-            error_button.innerHTML = "主页";
-        }
-    </script>
+    @include('errors.error-content',['code' => 403])
 </body>
 
 </html>
