@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,7 @@ Route::get('/', function () {
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified',
-    'setLocale'
+    'verified'
 ])->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('permission:View Dashboard', 'check_menu');
     Route::get('/recharge', [App\Http\Controllers\RechargeRecordController::class, 'index'])->name('recharge')->middleware('permission:View Recharge Record', 'check_menu');
@@ -53,7 +53,9 @@ Route::middleware([
 
     Route::post('/set-locale', [App\Http\Controllers\UserManagementController::class, 'setLocale'])->name('post.setlocale');
 
-    Route::post('/set-session', function () {
-        echo "session successfully set";
-    })->name('post.set-session');
+    Route::post('/set-session', function () { echo "All session setting routes here"; })->name('post.set-session');
 });
+
+include('fallbacks.php');
+
+
