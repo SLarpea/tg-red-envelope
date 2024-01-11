@@ -44,7 +44,7 @@
                                         <tbody>
                                             <tr v-for="(item, index) in permissions.data" :key="item.id">
                                                 <td class="text-center">{{ permissions.from + index }}</td>
-                                                <td>{{ $t(item.name) }}</td>
+                                                <td>{{ translateText(item.name) }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -78,6 +78,12 @@ export default {
                 status: 1,
             },
         };
+    },
+    methods: {
+        translateText(text) {
+            let slugText = text.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+            return this.$t(slugText);
+        }
     },
     props: {
         permissions: Object,
