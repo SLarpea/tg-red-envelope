@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
             \App\Http\Middleware\SetLocale::class,
-            \App\Http\Middleware\SetSession::class,
+            \App\Http\Middleware\SetSession::class
         ],
 
         'api' => [
@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'setLocale' => \App\Http\Middleware\SetLocale::class,
         'permission' => \App\Http\Middleware\CheckPermission::class,
+        'check_menu' => \App\Http\Middleware\CheckMenu::class
     ];
 }
