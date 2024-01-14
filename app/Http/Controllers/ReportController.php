@@ -13,6 +13,8 @@ class ReportController extends Controller
 
     public function __construct(ReportService $reportService)
     {
+        $this->middleware('permission:reports');
+
         $this->reportService = $reportService;
     }
 

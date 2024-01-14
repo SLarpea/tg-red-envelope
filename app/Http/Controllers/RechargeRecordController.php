@@ -12,6 +12,8 @@ class RechargeRecordController extends Controller
 
     public function __construct(RechargeRecordService $rechargeRecordService)
     {
+        $this->middleware('permission:recharge_record');
+
         $this->rechargeRecordService = $rechargeRecordService;
     }
 

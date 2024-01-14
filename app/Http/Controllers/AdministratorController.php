@@ -13,6 +13,8 @@ class AdministratorController extends Controller
 
     public function __construct(AdministratorService $administratorService)
     {
+        $this->middleware('permission:administrator');
+
         $this->administratorService = $administratorService;
     }
     /**

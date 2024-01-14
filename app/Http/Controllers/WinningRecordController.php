@@ -12,6 +12,8 @@ class WinningRecordController extends Controller
 
     public function __construct(WinningRecordService $winningRecordService)
     {
+        $this->middleware('permission:user_management,view_winning_record_user_management');
+
         $this->winningRecordService = $winningRecordService;
     }
 

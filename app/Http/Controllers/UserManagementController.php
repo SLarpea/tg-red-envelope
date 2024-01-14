@@ -14,6 +14,8 @@ class UserManagementController extends Controller
 
     public function __construct(UserManagementService $userManagementService)
     {
+        $this->middleware('permission:user_management');
+
         $this->userManagementService = $userManagementService;
     }
 

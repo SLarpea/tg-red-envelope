@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Session;
 
 class ConfigController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:group_management,configure_group_management');
+    }
+
     /**
      * Display a listing of the resource.
      */

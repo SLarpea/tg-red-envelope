@@ -12,6 +12,8 @@ class FundingDetailController extends Controller
 
     public function __construct(FundingDetailService $fundingDetailService)
     {
+        $this->middleware('permission:user_management,view_funding_details_user_management');
+
         $this->fundingDetailService = $fundingDetailService;
     }
 

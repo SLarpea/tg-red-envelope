@@ -15,6 +15,8 @@ class GroupManagementController extends Controller
 
     public function __construct(GroupManagementService $groupManagementService)
     {
+        $this->middleware('permission:group_management');
+
         $this->groupManagementService = $groupManagementService;
     }
 

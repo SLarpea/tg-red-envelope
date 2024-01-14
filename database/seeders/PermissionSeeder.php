@@ -13,179 +13,87 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $permissionItems = [
-            [
-                'name' => 'View Dashboard',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+        $modules = [
+            'dashboard' => [
+                'view_dashboard',
             ],
-            [
-                'name' => 'View Group Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'group_management' => [
+                'view_group_management',
+                'create_group_management',
+                'configure_group_management',
+                'edit_group_management',
+                'delete_group_management',
             ],
-            [
-                'name' => 'Can Add in Group Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'user_management' => [
+                'view_user_management',
+                'top_up_user_management',
+                'withdraw_user_management',
+                'view_invitation_record_user_management',
+                'view_winning_record_user_management',
+                'view_share_record_user_management',
+                'view_personal_report_user_management',
+                'view_funding_details_user_management',
+                'view_lucky_history_user_management',
+                'edit_user_management',
             ],
-            [
-                'name' => 'Can Configure in Group Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'red_envelope_management' => [
+                'view_red_envelope_management',
             ],
-            [
-                'name' => 'Can Edit in Group Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'recharge_record' => [
+                'view_recharge_record',
             ],
-            [
-                'name' => 'Can Delete in Group Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'platform_commission_record' => [
+                'view_platform_commission_record',
             ],
-            [
-                'name' => 'View User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'reward_record' => [
+                'view_reward_record',
             ],
-            [
-                'name' => 'Can Top Up in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'withdrawal_record' => [
+                'view_withdrawal_record',
             ],
-            [
-                'name' => 'Can Withdraw in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'reports' => [
+                'view_reports',
             ],
-            [
-                'name' => 'View Invitation Record in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'administrator' => [
+                'view_administrator',
+                'create_administrator',
+                'edit_administrator',
+                'delete_administrator',
             ],
-            [
-                'name' => 'Can View Winning Record in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'role' => [
+                'view_role',
+                'create_role',
+                'edit_role',
+                'delete_role',
             ],
-            [
-                'name' => 'Can View Share Record in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'menu' => [
+                'view_menu',
+                'edit_menu',
             ],
-            [
-                'name' => 'Can View Personal Report in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'operation_log' => [
+                'view_operation_log',
             ],
-            [
-                'name' => 'Can View Funding Details in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
+            'permissions' => [
+                'view_permissions',
             ],
-            [
-                'name' => 'Can View Lucky History in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Edit in User Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Red Envelope Management',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Recharge Record',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Platform Commission Record',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Reward Record',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Withdrawal Record',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Reports',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Administrator',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Add in Administrator',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Edit in Administrator',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Delete in Administrator',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Role',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Add in Role',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Edit in Role',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Delete in Role',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Menu',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'Can Edit in Menu',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Operation Log',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-            [
-                'name' => 'View Permissions',
-                'guard_name' => 'sanctum',
-                'status' => 1,
-            ],
-
         ];
+
+        $permissionItems = [];
+
+        foreach ($modules as $moduleName => $actions) {
+            $permissionItems[] = [
+                'name' => $moduleName,
+                'guard_name' => 'sanctum',
+                'status' => 1,
+            ];
+            foreach ($actions as $action) {
+                $permissionItems[] = [
+                    'name' => $action,
+                    'guard_name' => 'sanctum',
+                    'status' => 1,
+                ];
+            }
+        }
 
         Permission::insert($permissionItems);
     }

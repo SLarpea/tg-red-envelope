@@ -9,19 +9,26 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $user = User::create([
-            'name' => 'Super Admin',
-            'email' => 'admin@feiwin.com',
+        $adminData = [
+            'name' => "Administrator",
+            'email' => "admin@feiwin.com",
             'password' => Hash::make('password123'),
             'status' => 1,
-        ]);
+        ];
 
-        $user->assignRole('Administrator');
+        $admin = User::create($adminData);
+        $admin->assignRole('Administrator');
 
+        $userData = [
+            'name' => "Administrator 2",
+            'email' => "admin2@feiwin.com",
+            'password' => Hash::make('password123'),
+            'status' => 1,
+        ];
+
+        $user = User::create($userData);
+        $user->assignRole('User');
     }
 }

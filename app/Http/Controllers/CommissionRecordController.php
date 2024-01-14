@@ -12,6 +12,8 @@ class CommissionRecordController extends Controller
 
     public function __construct(CommissionRecordService $commissionRecordService)
     {
+        $this->middleware('permission:platform_commission_record');
+
         $this->commissionRecordService = $commissionRecordService;
     }
 

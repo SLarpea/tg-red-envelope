@@ -18,7 +18,9 @@ class CheckMenu
     {
         $currentUrl = basename(url()->current());
 
-        if (!Menu::where(['url' => $currentUrl, 'status' => 1])->exists()) {
+        $ignore = ['menus', 'configs'];
+
+        if (!in_array($currentUrl, $ignore) && !Menu::where(['url' => $currentUrl, 'status' => 1])->exists()) {
             abort(403);
         }
 

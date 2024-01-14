@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('permission:menu');
+    // }
+
     public function index(Request $request)
     {
         $data = [

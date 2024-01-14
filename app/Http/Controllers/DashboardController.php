@@ -13,6 +13,8 @@ class DashboardController extends Controller
 
     public function __construct(DashboardService $dashboardService)
     {
+        $this->middleware('permission:dashboard');
+
         $this->dashboardService = $dashboardService;
     }
 
