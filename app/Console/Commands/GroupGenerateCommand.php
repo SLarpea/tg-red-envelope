@@ -13,7 +13,7 @@ class GroupGenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'groupgenerate {groupid}';
+    protected $signature = 'g:generate {groupid}';
 
     /**
      * The console command description.
