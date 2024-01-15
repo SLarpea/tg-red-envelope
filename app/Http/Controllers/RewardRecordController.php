@@ -12,6 +12,8 @@ class RewardRecordController extends Controller
 
     public function __construct(RewardRecordService $rewardRecordService)
     {
+        $this->middleware('permission:reward_record');
+
         $this->rewardRecordService = $rewardRecordService;
     }
 

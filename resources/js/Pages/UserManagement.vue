@@ -79,41 +79,42 @@
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-gem text-primary" v-tippy="$t('top_up')"
                                                         @click.prevent="selectAction(item, 'top_up', null)"
-                                                        v-if="$page.props.user.permissions.includes(8)"></i>
+                                                        v-if="$page.props.user.permissions.includes('top_up_user_management')"></i>
                                                     <i class="bi bi-arrow-down-square text-info" v-tippy="$t('withdraw')"
                                                         @click.prevent="selectAction(item, 'withdraw', null)"
-                                                        v-if="$page.props.user.permissions.includes(9)"></i>
+                                                        v-if="$page.props.user.permissions.includes('withdraw_user_management')"></i>
                                                     <i class="bi bi-eye text-danger" v-tippy="$t('view')"
+                                                        v-if="$page.props.user.permissions.includes('view_user_management')"
                                                         @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <Link href="/invitation-records" method="get"
                                                         :data="{ tg_id: item.tg_id }"
-                                                        v-if="$page.props.user.permissions.includes(10)"><i
+                                                        v-if="$page.props.user.permissions.includes('view_invitation_record_user_management')"><i
                                                         class="bi bi-binoculars text-success"
                                                         v-tippy="$t('invitation_record')"></i></Link>
                                                     <Link href="/winning-records" method="get" :data="{ tg_id: item.tg_id }"
-                                                        v-if="$page.props.user.permissions.includes(11)"><i
+                                                        v-if="$page.props.user.permissions.includes('view_winning_record_user_management')"><i
                                                         class="bi bi-trophy text-custom" v-tippy="$t('winning_record')"></i>
                                                     </Link>
                                                     <Link href="/share-records" method="get" :data="{ tg_id: item.tg_id }"
-                                                        v-if="$page.props.user.permissions.includes(12)"><i
+                                                        v-if="$page.props.user.permissions.includes('view_share_record_user_management')"><i
                                                         class="bi bi-person-check text-primary"
                                                         v-tippy="$t('share_record')"></i></Link>
                                                     <Link href="/personal-report" method="get" :data="{ tg_id: item.tg_id }"
-                                                        v-if="$page.props.user.permissions.includes(13)"><i
+                                                        v-if="$page.props.user.permissions.includes('view_personal_report_user_management')"><i
                                                         class="bi bi-bar-chart text-info"
                                                         v-tippy="$t('personal_report')"></i>
                                                     </Link>
                                                     <Link href="/funding-details" method="get" :data="{ tg_id: item.tg_id }"
-                                                        v-if="$page.props.user.permissions.includes(14)"><i
+                                                        v-if="$page.props.user.permissions.includes('view_funding_details_user_management')"><i
                                                         class="bi bi-cash-stack text-danger"
                                                         v-tippy="$t('funding_details')"></i></Link>
                                                     <Link href="/lucky-history" method="get" :data="{ tg_id: item.tg_id }"
-                                                        v-if="$page.props.user.permissions.includes(15)"><i
+                                                        v-if="$page.props.user.permissions.includes('view_lucky_history_user_management')"><i
                                                         class="bi bi-list-check text-success"
                                                         v-tippy="$t('robbing_record')"></i></Link>
                                                     <i class="bi bi-pencil-square text-custom" v-tippy="$t('edit')"
                                                         @click.prevent="selectAction(item, 'update', 'all')"
-                                                        v-if="$page.props.user.permissions.includes(16)"></i>
+                                                        v-if="$page.props.user.permissions.includes('edit_user_management')"></i>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -493,8 +494,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
+                cancelButtonText: this.$t('no') + ' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> ' + this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;
@@ -558,7 +559,7 @@ export default {
     font-size: .775em;
 }
 
-.td-btn-is-online-container button{
+.td-btn-is-online-container button {
     padding: 0px 5px !important;
     font-size: 12px;
     border-radius: 0.25rem;

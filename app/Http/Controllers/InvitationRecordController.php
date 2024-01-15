@@ -12,6 +12,8 @@ class InvitationRecordController extends Controller
 
     public function __construct(InvitationRecordService $invitationRecordService)
     {
+        $this->middleware('permission:user_management,view_invitation_record_user_management');
+
         $this->invitationRecordService = $invitationRecordService;
     }
 

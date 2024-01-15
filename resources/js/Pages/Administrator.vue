@@ -33,7 +33,7 @@
                                                         class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                                 <button class="btn btn-custom btn-sm" type="button"
                                                     @click.prevent="resetForm"
-                                                    v-if="$page.props.user.permissions.includes(24)">
+                                                    v-if="$page.props.user.permissions.includes('create_administrator')">
                                                     <i class="bi bi-plus-circle"></i>
                                                     {{ $t('new_administrator') }}
                                                 </button>
@@ -80,7 +80,7 @@
                                                         @click.prevent="selectAction(item, 'update', 'all')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="$t('delete ')"
                                                         @click.prevent="selectAction(item, 'delete', null)"
-                                                        v-if="$page.props.user.permissions.includes(26)"></i>
+                                                        v-if="$page.props.user.permissions.includes('delete_administrator')"></i>
                                                 </td>
                                             </tr>
                                         </tbody>

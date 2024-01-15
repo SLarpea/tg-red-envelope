@@ -12,6 +12,8 @@ class WithdrawRecordController extends Controller
 
     public function __construct(WithdrawRecordService $withdrawRecordService)
     {
+        $this->middleware('permission:withdrawal_record');
+
         $this->withdrawRecordService = $withdrawRecordService;
     }
 

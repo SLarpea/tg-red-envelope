@@ -13,6 +13,8 @@ class RoleController extends Controller
 
     public function __construct(RoleService $roleService)
     {
+        $this->middleware('permission:role');
+
         $this->roleService = $roleService;
     }
     /**

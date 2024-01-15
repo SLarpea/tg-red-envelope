@@ -12,6 +12,8 @@ class LuckyHistoryController extends Controller
 
     public function __construct(LuckyHistoryService $luckyHistoryService)
     {
+        $this->middleware('permission:user_management,view_lucky_history_user_management');
+
         $this->luckyHistoryService = $luckyHistoryService;
     }
 

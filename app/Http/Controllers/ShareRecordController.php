@@ -12,6 +12,8 @@ class ShareRecordController extends Controller
 
     public function __construct(ShareRecordService $shareRecordService)
     {
+        $this->middleware('permission:user_management,view_share_record_user_management');
+
         $this->shareRecordService = $shareRecordService;
     }
 

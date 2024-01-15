@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class OperationLogController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:operation_log');
+    }
+
     public function index(Request $request)
     {
         return Inertia::render('OperationLog', [

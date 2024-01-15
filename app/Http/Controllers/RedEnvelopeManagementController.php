@@ -12,6 +12,8 @@ class RedEnvelopeManagementController extends Controller
 
     public function __construct(RedEnvelopeManagementService $redEnvelopeManagementService)
     {
+        $this->middleware('permission:red_envelope_management');
+
         $this->redEnvelopeManagementService = $redEnvelopeManagementService;
     }
 

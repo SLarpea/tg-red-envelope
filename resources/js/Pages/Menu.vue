@@ -63,7 +63,7 @@
                                             <td class="list-action-container text-center">
                                                 <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
                                                     @click.prevent="editData(item)"
-                                                    v-if="$page.props.user.permissions.includes(32)"></i>
+                                                    v-if="$page.props.user.permissions.includes('edit_menu')"></i>
                                             </td>
                                         </tr>
                                     </tbody>
