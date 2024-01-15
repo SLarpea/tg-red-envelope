@@ -34,6 +34,8 @@
 
                                     <table class="table table-sm table-striped table-hover">
                                         <colgroup>
+                                            <col width="5%">
+                                            <col width="*">
                                         </colgroup>
                                         <thead>
                                             <tr>

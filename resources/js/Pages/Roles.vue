@@ -88,7 +88,7 @@
 
         <transition name="modal-fade">
             <div class="modal custom-modal" v-if="modalShow">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
@@ -127,25 +127,42 @@
                                             <label for="name" class="col-sm-4 col-form-label">{{ $t('permissions')
                                             }}:</label>
                                             <div class="col-sm-8">
-                                                <h4 class="mt-2"><b><u>{{$t('all')}}</u></b></h4>
-                                                <div class="form-check">
+                                                <div class="form-check mb-1">
                                                     <input :id="'id_all'" class="form-check-input" type="checkbox"
-                                                        v-model="form.isAll" value="true">
+                                                        @click="handClickAll(form.isAll)" v-model="form.isAll" value="true">
                                                     <label class="form-check-label" :for="'id_all'">
                                                         {{ $t('all') }}
                                                     </label>
                                                 </div>
-                                                <div v-for="(moduleName, key) in modules" :key="key">
-                                                    <h4 class="mt-2"><b><u>{{ $t(moduleName) }}</u></b></h4>
-                                                    <div class="form-check" v-for="(item) in permissions" :key="item.id"
-                                                        v-show="checkSameModules(item, moduleName)">
-                                                        <input :id="'id_' + item.id" class="form-check-input"
-                                                            type="checkbox" v-model="form.selectedOptions"
-                                                            :value="item.name">
-                                                        <label class="form-check-label" :for="'id_' + item.id">
-                                                            {{ $t(item.name) }}
-                                                        </label>
+                                                <div class="permission-card-wrap mb-2" v-for="(moduleName, key) in modules"
+                                                    :key="key">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 ">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <p class="mt-1 permission-card-title"> {{ $t(moduleName)
+                                                                    }} </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6" v-for="(item) in permissions"
+                                                                    :key="item.id"
+                                                                    v-show="checkSameModules(item, moduleName)">
+                                                                    <div class="form-check">
+                                                                        <input :id="'id_' + item.id"
+                                                                            class="form-check-input" type="checkbox"
+                                                                            v-model="form.selectedOptions"
+                                                                            :value="item.name">
+                                                                        <label class="form-check-label"
+                                                                            :for="'id_' + item.id">
+                                                                            {{ $t(item.name) }}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -314,22 +331,35 @@ export default {
         },
         checkSameModules(item, moduleName) {
             return item.module == moduleName;
+        },
+        handClickAll(isAllVal) {
+            let currentIsAll = !isAllVal;
+            if (currentIsAll === true) {
+                const allNames = [...new Set(this.permissions.map((p) => p.name))];
+                this.form.selectedOptions = allNames;
+            } else {
+                this.form.selectedOptions = [];
+            }
         }
     },
     created() {
         window.addEventListener('keydown', this.escape);
+
         this.modules = [...new Set(this.permissions.map((p) => p.module))];
     },
     watch: {
         modalShow: function (oldVal, newVal) {
             this.error_form = {};
+
+            if (this.permissions.length > 0 && this.form.selectedOptions.length === this.permissions.length) {
+                this.form.isAll = true;
+            }
         },
-        'form.isAll': function (oldVal, newVal) {
-            if (this.form.isAll === true) {
-                const allNames = [...new Set(this.permissions.map((p) => p.name))];
-                this.form.selectedOptions = allNames;
-            }else{
-                this.form.selectedOptions = [];
+        'form.selectedOptions': function (oldVal, newVal) {
+            if (this.permissions.length > 0 && this.form.selectedOptions.length === this.permissions.length) {
+                this.form.isAll = true;
+            } else {
+                this.form.isAll = false;
             }
         },
 
@@ -340,5 +370,17 @@ export default {
 <style scoped>
 .invalid-feedback {
     font-size: .775em;
+}
+
+.permission-card-wrap {
+    background: #eee;
+    border-radius: 4.1px;
+    padding: 5px 5px 5px 5px;
+    position: relative;
+    border: 1px dashed #ccc;
+}
+
+.permission-card-title {
+    font-weight: 500;
 }
 </style>
