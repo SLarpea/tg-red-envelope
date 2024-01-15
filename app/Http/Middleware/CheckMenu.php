@@ -16,10 +16,9 @@ class CheckMenu
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $currentUrl = basename(url()->current());
+        $currentUrl = $request->segment(1);
 
         $ignore = ['menus', 'configs'];
-
         if (!in_array($currentUrl, $ignore) && !Menu::where(['url' => $currentUrl, 'status' => 1])->exists()) {
             abort(403);
         }
