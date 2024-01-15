@@ -6,6 +6,7 @@ use SergiX44\Nutgram\Nutgram;
 use Illuminate\Console\Command;
 use App\Services\Telegram\TelegramService;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Type\Time;
 use SergiX44\Nutgram\RunningMode\Polling;
 
 class MessageCommand extends Command
@@ -33,9 +34,9 @@ class MessageCommand extends Command
         } catch (\Exception $e) {
             // Handle exceptions and log errors
             Log::error('Exception: ' . $e);
-            $this->sendTelegramMessage($bot, 'Job encountered an exception. Check the logs for details.');
+            $this->sendTelegramMessage($bot, '工作遇到了一个例外。');
         } finally {
-            $this->sendTelegramMessage($bot, 'Telegram red envelope has stopped.');
+            $this->sendTelegramMessage($bot, '电报红色信封已经停止。 - '.date("Y-m-d H:i:s"));
         }
     }
 
