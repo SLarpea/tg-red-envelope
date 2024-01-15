@@ -15,7 +15,7 @@ class AdministratorService
     {
 
         $data = [
-            'administrator' => User::when($request->term, function ($query, $term) {
+            'administrator' => User::with('roles')->when($request->term, function ($query, $term) {
                 $query->where('name', 'LIKE', '%' . $term . '%');
             })->orderBy('name', 'asc')->paginate($request->show)->withQueryString(),
             'roles' => Role::where('status', 1)->get(),

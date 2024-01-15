@@ -164,12 +164,13 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="role" class="col-sm-4 col-form-label">{{ $t('role') }}:</label>
+
+                                            <label for="role" class="col-sm-4 col-form-label">{{ $t('role') }}: </label>
                                             <div class="col-sm-8">
                                                 <select :class="`form-select ${error_form.role ? 'is-invalid' : ''}`"
                                                     aria-label="Default select example" id="role" name="role"
                                                     v-model="form.role">
-                                                    <option v-for=" item  in  roles " :key="item.id" :value="item.name">
+                                                    <option v-for=" item  in  roles " :key="item.id" :value="item.name" :selected="form.roles === 'Administrator' ? true : false">
                                                         {{
                                                             item.name }}</option>
                                                 </select>
@@ -281,6 +282,7 @@ export default {
             } else {
                 this.form = Object.assign({}, data);
                 this.form.password = '';
+                this.form.role = data['roles'][0].name ?? '';
                 this.editMode = true;
                 this.modalShow = true;
             }
