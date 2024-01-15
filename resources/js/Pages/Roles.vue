@@ -127,12 +127,25 @@
                                             <label for="name" class="col-sm-4 col-form-label">{{ $t('permissions')
                                             }}:</label>
                                             <div class="col-sm-8">
-                                                <div class="form-check" v-for="(item) in permissions" :key="item.id">
-                                                    <input :id="'id_' + item.id" class="form-check-input" type="checkbox"
-                                                        v-model="form.selectedOptions" :value="item.name">
-                                                    <label class="form-check-label" :for="'id_' + item.id">
-                                                        {{ item.name }}
+                                                <h4 class="mt-2"><b><u>{{$t('all')}}</u></b></h4>
+                                                <div class="form-check">
+                                                    <input :id="'id_all'" class="form-check-input" type="checkbox"
+                                                        v-model="form.isAll" value="true">
+                                                    <label class="form-check-label" :for="'id_all'">
+                                                        {{ $t('all') }}
                                                     </label>
+                                                </div>
+                                                <div v-for="(moduleName, key) in modules" :key="key">
+                                                    <h4 class="mt-2"><b><u>{{ $t(moduleName) }}</u></b></h4>
+                                                    <div class="form-check" v-for="(item) in permissions" :key="item.id"
+                                                        v-show="checkSameModules(item, moduleName)">
+                                                        <input :id="'id_' + item.id" class="form-check-input"
+                                                            type="checkbox" v-model="form.selectedOptions"
+                                                            :value="item.name">
+                                                        <label class="form-check-label" :for="'id_' + item.id">
+                                                            {{ $t(item.name) }}
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,8 +195,10 @@ export default {
                 name: null,
                 status: 1,
                 selectedOptions: [],
+                isAll: false
             },
-            error_form: {}
+            error_form: {},
+            modules: []
         };
     },
     props: {
@@ -251,8 +266,8 @@ export default {
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
+                cancelButtonText: this.$t('no') + ' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> ' + this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;
@@ -297,15 +312,27 @@ export default {
                 this.modalShow = false;
             }
         },
-
+        checkSameModules(item, moduleName) {
+            return item.module == moduleName;
+        }
     },
     created() {
         window.addEventListener('keydown', this.escape);
+        this.modules = [...new Set(this.permissions.map((p) => p.module))];
     },
     watch: {
         modalShow: function (oldVal, newVal) {
             this.error_form = {};
-        }
+        },
+        'form.isAll': function (oldVal, newVal) {
+            if (this.form.isAll === true) {
+                const allNames = [...new Set(this.permissions.map((p) => p.name))];
+                this.form.selectedOptions = allNames;
+            }else{
+                this.form.selectedOptions = [];
+            }
+        },
+
     }
 }
 

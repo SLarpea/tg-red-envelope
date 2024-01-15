@@ -315,5 +315,6 @@
     "create_role": "Withdrawal record",
     "edit_role": "Withdrawal record",
     "delete_role": "Withdrawal record",
-    "edit_menu": "Withdrawal record"
+    "edit_menu": "Withdrawal record",
+    "reports": "Report"
 }

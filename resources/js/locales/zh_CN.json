@@ -315,5 +315,6 @@
     "create_role": "提款记录",
     "edit_role": "提款记录",
     "delete_role": "提款记录",
-    "edit_menu": "提款记录"
+    "edit_menu": "提款记录",
+    "reports": "报告"
 }

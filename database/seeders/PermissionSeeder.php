@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermissionSeeder extends Seeder
 {
@@ -14,9 +15,7 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $modules = [
-            'dashboard' => [
-                'view_dashboard',
-            ],
+            'dashboard' => [],
             'group_management' => [
                 'view_group_management',
                 'create_group_management',
@@ -83,17 +82,23 @@ class PermissionSeeder extends Seeder
         foreach ($modules as $moduleName => $actions) {
             $permissionItems[] = [
                 'name' => $moduleName,
+                'module' => $moduleName,
                 'guard_name' => 'sanctum',
                 'status' => 1,
             ];
             foreach ($actions as $action) {
                 $permissionItems[] = [
                     'name' => $action,
+                    'module' => $moduleName,
                     'guard_name' => 'sanctum',
                     'status' => 1,
                 ];
             }
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        Permission::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         Permission::insert($permissionItems);
     }
