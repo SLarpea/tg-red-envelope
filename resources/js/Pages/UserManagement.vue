@@ -49,7 +49,6 @@
                                                 <th scope="col">{{ $t('telegram_id') }}</th>
                                                 <th scope="col">{{ $t('group_id') }}</th>
                                                 <th scope="col">{{ $t('balance') }}</th>
-                                                <th scope="col" class="text-center">{{ $t('is_online') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('status') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
@@ -63,12 +62,7 @@
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.balance }}</td>
-                                                <td class="td-btn-is-online-container text-center">
-                                                    <button
-                                                        :class="(item.online == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'">
-                                                        {{ (item.online == 0) ? $t('no') : $t('yes') }}
-                                                    </button>
-                                                </td>
+
                                                 <td class="list-status-container text-center">
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"

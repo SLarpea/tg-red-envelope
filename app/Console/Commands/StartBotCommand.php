@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Type\Time;
 use SergiX44\Nutgram\RunningMode\Polling;
 
-class MessageCommand extends Command
+class StartBotCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -30,7 +30,6 @@ class MessageCommand extends Command
         try {
             $bot->setRunningMode(Polling::class);
             $bot->run();
-            $retry = false; // No exception occurred, so no need to retry
         } catch (\Exception $e) {
             // Handle exceptions and log errors
             Log::error('Exception: ' . $e);
