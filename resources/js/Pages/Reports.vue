@@ -171,7 +171,11 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isUserReportCollapsed === false">
-                                            <div id="users_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.users_reports.length > 0" id="users_reports_chart"
+                                                style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.users_reports.length <= 0" class="no-data-container">
+                                                <h4>NO CHART DATA</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +239,11 @@
                                                 {{ $t('quantity_of_contracts_chart') }}</h5>
                                         </div>
                                         <div class="chart-container" v-show="isLuckyMoneyReports === false">
-                                            <div id="lucky_money_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.lucky_money_reports.length > 0"
+                                                id="lucky_money_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.lucky_money_reports.length <= 0" class="no-data-container">
+                                                <h4>NO CHART DATA</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -306,8 +314,11 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isPlatformCommissionAmountReports === false">
-                                            <div id="platform_commission_amount_reports_chart"
-                                                style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.platform_commission_amount_reports.length > 0"
+                                                id="platform_commission_amount_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.platform_commission_amount_reports.length <= 0" class="no-data-container">
+                                                <h4>NO CHART DATA</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -376,7 +387,11 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isRewardAmountReports === false">
-                                            <div id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.reward_amount_reports.length > 0"
+                                                id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div v-show="series.reward_amount_reports.length <= 0" class="no-data-container">
+                                                <h4>NO CHART DATA</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -401,10 +416,16 @@ import _ from 'lodash';
 
 export default {
     data() {
-        // initialize dates
+        // Get today's date
         const today = new Date();
+
+        // Calculate last year's date
+        const lastYear = new Date(today);
+        lastYear.setFullYear(lastYear.getFullYear() - 1);
+
+        // Calculate one month later from today
         const oneMonthLater = new Date(today);
-        oneMonthLater.setMonth(today.getMonth() + 1);
+        oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
 
         return {
             loading: false,
@@ -412,8 +433,8 @@ export default {
             filter_form: {
                 report_choice: this.$page.props.request.report_choice ?? 0,
                 group_id: this.$page.props.request.group_id ?? '',
-                start_date: this.$page.props.request.start_date ?? today.toISOString().substr(0, 10), // Set to today's date
-                end_date: this.$page.props.request.end_date ?? oneMonthLater.toISOString().substr(0, 10), // Set to one month from today
+                start_date: this.$page.props.request.start_date ?? lastYear.toISOString().substr(0, 10), // Set to last year's date if not provided
+                end_date: this.$page.props.request.end_date ?? oneMonthLater.toISOString().substr(0, 10), // Set to one month from today if not provided
             },
 
             routeLink: 'reports',
@@ -545,10 +566,10 @@ export default {
                 },
                 toolbox: {
                     feature: {
-                        // dataView: { show: true, readOnly: false },
+                        dataView: { show: true, readOnly: false },
                         magicType: { show: true, type: ['line', 'bar'] },
                         // restore: { show: true },
-                        // saveAsImage: { show: true }
+                        saveAsImage: { show: true }
                     }
                 },
                 legend: {
@@ -591,8 +612,6 @@ export default {
                     yAxis_formatter: '{value} Amount',
                     tooltip: 'Rewards'
                 },
-
-
             };
 
             for (var chartname of Object.keys(chartList)) {
@@ -652,7 +671,7 @@ export default {
         }
     },
     mounted() {
-        // this.chartsInit();
+        this.chartsInit();
     },
     watch: {
         series: 'handleChartUpdate',
@@ -675,4 +694,12 @@ export default {
     /* display: flex; */
     flex-wrap: wrap;
 }
-</style>
+
+.no-data-container {
+    width: 100%;
+    height: 137px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #bbb;
+}</style>
