@@ -148,7 +148,7 @@ return [
     'start_msg' => "👏 欢迎来到 TG 红包雷游戏，您的 ID 是: :userId",
 
     'photo' => '照片',
-    'groupinfo' => '群组信息',
+    'groupinfo' => 'groupinfo',
     'group_id' => '群组 ID',
     'user_id' => '用户 ID',
     'welcome' => "{NAME}, 欢迎来到令人振奋的Red Invelope Thunder扫荡世界!
