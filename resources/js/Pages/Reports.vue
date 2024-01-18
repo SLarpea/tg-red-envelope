@@ -34,7 +34,7 @@
                                         <div class="row">
                                             <div class="col-lg-3">
                                                 <div class="col-lg-12">
-                                                    <label for="status" class="col-form-label">{{ $t('report_choice')
+                                                    <label for="status" class="col-form-label">{{ $t('report')
                                                     }}</label>
                                                     <div class="col-lg-12">
                                                         <select class="form-select" v-model="filter_form.report_choice"
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 1 || filter_form.report_choice == 0) && (series.users_reports > 0 || isChart === true)">
+                            v-show="(filter_form.report_choice == 1 || filter_form.report_choice == 0) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0" style="height: 300px;">
                                     <div class="row">
@@ -226,7 +226,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 2 || filter_form.report_choice == 0) && series.lucky_money_reports > 0 || isChart === true">
+                            v-show="(filter_form.report_choice == 2 || filter_form.report_choice == 0) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -295,7 +295,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 3 || filter_form.report_choice == 0) && series.lucky_money_reports > 0 || isChart === true">
+                            v-show="(filter_form.report_choice == 3 || filter_form.report_choice == 0) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -365,7 +365,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 4 || filter_form.report_choice == 0) && series.reward_amount_reports > 0 || isChart === true">
+                            v-show="(filter_form.report_choice == 4 || filter_form.report_choice == 0) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -441,6 +441,8 @@ export default {
             isLuckyMoneyReports: false,
 
             isChart: false
+
+            // report
         };
     },
     props: {

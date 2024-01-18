@@ -317,8 +317,8 @@
     "delete_role": "Withdrawal record",
     "edit_menu": "Withdrawal record",
     "reports": "Report",
-    "number_of_registered_users_chart": "Number of registered users chart",
-    "quantity_of_contracts_chart": "Quantity of contracts chart",
-    "platform_commission_amount_chart": "Platform commission amount chart",
-    "reward_amount_chart": "Reward amount chart"
+    "number_of_registered_users_chart": "Number of Registered Users Chart",
+    "quantity_of_contracts_chart": "Quantity of Contracts Chart",
+    "platform_commission_amount_chart": "Platform Commission Amount Chart",
+    "reward_amount_chart": "Reward Amount Chart"
 }
