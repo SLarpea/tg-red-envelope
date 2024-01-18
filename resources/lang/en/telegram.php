@@ -161,5 +161,15 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
 
     4️⃣ Weighed Guarantee: Our commitment to fairness includes thorough weighing to guarantee a level playing field within the group games.
 
-    5️⃣ Instant Returns with Member Invitations: Introduce others to the thrill through our agency mode – earn immediate returns with every successful invitation. Experience the rush now!"
+    5️⃣ Instant Returns with Member Invitations: Introduce others to the thrill through our agency mode – earn immediate returns with every successful invitation. Experience the rush now!",
+    "commands" => "
+    📢List of commands
+
+    groupinfo - command to display comprehensive information about a specific group.
+    balance - command to show current balance
+
+    /start - command to start and see if the group is working
+    /help - command to see game instructions
+    /invite - command to generate an invite link used to invite other users
+    /register - command to register in the group"
 ];
