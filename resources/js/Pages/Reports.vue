@@ -171,11 +171,10 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isUserReportCollapsed === false">
-                                            <div v-show="series.users_reports.length > 0" id="users_reports_chart"
-                                                style="width: 100%; height:100%;"></div>
-                                            <div v-show="series.users_reports.length <= 0" class="no-data-container">
+                                            <div class="no-data-container" v-show="series.users_reports.length <= 0">
                                                 <h4>{{ $t('no_chart_data').toUpperCase() }}</h4>
                                             </div>
+                                            <div id="users_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -239,11 +238,10 @@
                                                 {{ $t('quantity_of_contracts_chart') }}</h5>
                                         </div>
                                         <div class="chart-container" v-show="isLuckyMoneyReports === false">
-                                            <div v-show="series.lucky_money_reports.length > 0"
-                                                id="lucky_money_reports_chart" style="width: 100%; height:100%;"></div>
-                                            <div v-show="series.lucky_money_reports.length <= 0" class="no-data-container">
+                                            <div class="no-data-container" v-show="series.lucky_money_reports.length <= 0">
                                                 <h4>{{ $t('no_chart_data').toUpperCase() }}</h4>
                                             </div>
+                                            <div id="lucky_money_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -314,11 +312,10 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isPlatformCommissionAmountReports === false">
-                                            <div v-show="series.platform_commission_amount_reports.length > 0"
-                                                id="platform_commission_amount_reports_chart" style="width: 100%; height:100%;"></div>
-                                            <div v-show="series.platform_commission_amount_reports.length <= 0" class="no-data-container">
+                                            <div class="no-data-container" v-show="series.platform_commission_amount_reports.length <= 0">
                                                 <h4>{{ $t('no_chart_data').toUpperCase() }}</h4>
                                             </div>
+                                            <div id="platform_commission_amount_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -387,11 +384,10 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isRewardAmountReports === false">
-                                            <div v-show="series.reward_amount_reports.length > 0"
-                                                id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
-                                            <div v-show="series.reward_amount_reports.length <= 0" class="no-data-container">
+                                            <div class="no-data-container" v-show="series.reward_amount_reports.length <= 0">
                                                 <h4>{{ $t('no_chart_data').toUpperCase() }}</h4>
                                             </div>
+                                            <div id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -588,6 +584,7 @@ export default {
                 series: data.series
             };
 
+
             option && myChart.setOption(option);
         },
         chartsInit() {
@@ -666,7 +663,7 @@ export default {
         },
         handleChartUpdate() {
             setTimeout(() => {
-                this.chartsInit();
+            this.chartsInit();
             }, 500);
         }
     },
@@ -697,9 +694,11 @@ export default {
 
 .no-data-container {
     width: 100%;
-    height: 137px;
+    height: 73%;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #bbb;
-}</style>
+    position: absolute;
+}
+</style>
