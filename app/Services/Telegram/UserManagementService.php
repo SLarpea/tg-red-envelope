@@ -429,4 +429,21 @@ class UserManagementService
             }
         }
     }
+
+    public function register($bot)
+    {
+        $groupId = $bot->chat()->id;
+        $Member = $bot->user();
+        $rs = UserManagementService::registerUser($Member, $groupId);
+
+        try {
+            if ($rs['state'] == 1) {
+                $bot->sendMessage(trans('telegram.registersuccess'));
+            } else {
+                $bot->sendMessage($rs['msg']);
+            }
+        } catch (\Exception $e) {
+            Log::error('register异常' . $e);
+        }
+    }
 }

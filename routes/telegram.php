@@ -17,6 +17,7 @@ use App\Telegram\Handlers\RechargeHandler;
 use App\Telegram\Handlers\LuckyMoneyHandler;
 use App\Telegram\Handlers\DataAnalyticsHandler;
 use App\Services\Telegram\UserManagementService;
+use App\Telegram\Handlers\GroupManagementHandler;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
@@ -68,33 +69,9 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
     $bot->onChatMember([UserHandler::class, 'handleNewUser']);
 
     // Handle user registration command
-    $bot->onCommand('register(.*)', function (Nutgram $bot) {
-        $groupId = $bot->chat()->id;
-        $Member = $bot->user();
-        $rs = UserManagementService::registerUser($Member, $groupId);
+    $bot->onCommand('register(.*)', [UserHandler::class, 'handleRegister']);
 
-        try {
-            if ($rs['state'] == 1) {
-                $bot->sendMessage(trans('telegram.registersuccess'));
-            } else {
-                $bot->sendMessage($rs['msg']);
-            }
-        } catch (\Exception $e) {
-            Log::error('register异常' . $e);
-        }
-    });
-
-    $bot->onText('(groupinfo$)', function (Nutgram $bot, $ac) {
-        if ($bot->chat()->type == 'private') {
-        } else {
-            if ($ac == trans('telegram.groupinfo')) {
-                $params = [
-                    'parse_mode' => ParseMode::HTML
-                ];
-                $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
-            }
-        }
-    });
+    $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
 
     $bot->onCommand('start', function (Nutgram $bot) {
         // Handle start command
@@ -103,17 +80,8 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
     });
 });
 
-$bot->onText('(groupinfo$)', function (Nutgram $bot, $ac) {
-    if ($bot->chat()->type == 'private') {
-    } else {
-        if ($ac == trans('telegram.groupinfo')) {
-            $params = [
-                'parse_mode' => ParseMode::HTML
-            ];
-            $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
-        }
-    }
-});
+
+$bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
 
 
 $bot->onPhoto(function (Nutgram $bot) {
@@ -156,3 +124,5 @@ $bot->onCommand('help(.*)', function (Nutgram $bot) {
 
 // Uncomment the following block if you want to handle the 'invite' command
 $bot->onCommand('invite(.*)', [InviteHandler::class, 'handleInviteLink']);
+
+$bot->onCommand('setLanguage(.*)', [GroupManagementHandler::class, 'handleInviteLink']);

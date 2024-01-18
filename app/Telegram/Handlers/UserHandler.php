@@ -38,4 +38,10 @@ class UserHandler
         $this->userManagementService->new_user($bot);
         return true;
     }
+
+    public function handleRegister(Nutgram $bot)
+    {
+        $this->userManagementService->register($bot);
+        return true;
+    }
 }
