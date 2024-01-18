@@ -111,10 +111,10 @@
                     </div>
 
 
-                    <div class="row">
-                        <div :class="'col-lg-6 mx-auto'"
+                    <div class="row equal-height g-4">
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="filter_form.report_choice == number_of_registered_users || filter_form.report_choice == all_report">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -160,9 +160,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="(filter_form.report_choice == number_of_registered_users || filter_form.report_choice == all_report) && isChart === true">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -178,9 +178,9 @@
                             </div>
                         </div>
 
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="filter_form.report_choice == quantity_of_contracts || filter_form.report_choice == all_report">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -225,9 +225,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="(filter_form.report_choice == quantity_of_contracts || filter_form.report_choice == all_report) && isChart === true">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -242,9 +242,9 @@
                             </div>
                         </div>
 
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="filter_form.report_choice == platform_commission_amount || filter_form.report_choice == all_report">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -294,9 +294,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="(filter_form.report_choice == platform_commission_amount || filter_form.report_choice == all_report) && isChart === true">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -314,9 +314,9 @@
                             </div>
                         </div>
 
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="filter_form.report_choice == reward_amount || filter_form.report_choice == all_report">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -364,9 +364,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div :class="'col-lg-6 mx-auto'"
+                        <div :class="'col-lg-6 mx-auto equal-height'"
                             v-show="(filter_form.report_choice == reward_amount || filter_form.report_choice == all_report) && isChart === true">
-                            <div class="card">
+                            <div class="card h-100">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
@@ -523,7 +523,7 @@ export default {
 
             myChart.clear();
 
-            let aspectRatio = 2.5;
+            let aspectRatio = 2;
 
             let container = document.getElementById(data.chartname);
 
@@ -669,5 +669,10 @@ export default {
     font-weight: 500;
     color: #512da8;
     cursor: pointer;
+}
+
+.equal-height {
+    /* display: flex; */
+    flex-wrap: wrap;
 }
 </style>
