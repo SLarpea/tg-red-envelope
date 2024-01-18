@@ -113,7 +113,7 @@
 
                     <div class="row">
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 1 || filter_form.report_choice == 0">
+                            v-show="filter_form.report_choice == number_of_registered_users || filter_form.report_choice == all_report">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -161,16 +161,16 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 1 || filter_form.report_choice == 0) && isChart === true">
+                            v-show="(filter_form.report_choice == number_of_registered_users || filter_form.report_choice == all_report) && isChart === true">
                             <div class="card">
-                                <div class="card-body pl-1 pb-0" style="height: 300px;">
+                                <div class="card-body pl-1 pb-0">
                                     <div class="row">
                                         <div class="mt-3">
                                             <h5 class="report-header" @click="reportToggleCollapse('users_reports')">
                                                 {{ $t('number_of_registered_users_chart') }}
                                             </h5>
                                         </div>
-                                        <div class="chart-container">
+                                        <div class="chart-container" v-show="isUserReportCollapsed === false">
                                             <div id="users_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
@@ -179,7 +179,7 @@
                         </div>
 
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
+                            v-show="filter_form.report_choice == quantity_of_contracts || filter_form.report_choice == all_report">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -226,7 +226,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 2 || filter_form.report_choice == 0) && isChart === true">
+                            v-show="(filter_form.report_choice == quantity_of_contracts || filter_form.report_choice == all_report) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -234,7 +234,7 @@
                                             <h5 class="report-header" @click="reportToggleCollapse('lucky_money_reports')">
                                                 {{ $t('quantity_of_contracts_chart') }}</h5>
                                         </div>
-                                        <div class="chart-container">
+                                        <div class="chart-container" v-show="isLuckyMoneyReports === false">
                                             <div id="lucky_money_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
@@ -243,7 +243,7 @@
                         </div>
 
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
+                            v-show="filter_form.report_choice == platform_commission_amount || filter_form.report_choice == all_report">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -295,7 +295,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 3 || filter_form.report_choice == 0) && isChart === true">
+                            v-show="(filter_form.report_choice == platform_commission_amount || filter_form.report_choice == all_report) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -305,7 +305,7 @@
                                                 {{ $t('platform_commission_amount_chart') }}
                                             </h5>
                                         </div>
-                                        <div class="chart-container">
+                                        <div class="chart-container" v-show="isPlatformCommissionAmountReports === false">
                                             <div id="platform_commission_amount_reports_chart"
                                                 style="width: 100%; height:100%;"></div>
                                         </div>
@@ -315,7 +315,7 @@
                         </div>
 
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 4 || filter_form.report_choice == 0">
+                            v-show="filter_form.report_choice == reward_amount || filter_form.report_choice == all_report">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -365,7 +365,7 @@
                             </div>
                         </div>
                         <div :class="'col-lg-6 mx-auto'"
-                            v-show="(filter_form.report_choice == 4 || filter_form.report_choice == 0) && isChart === true">
+                            v-show="(filter_form.report_choice == reward_amount || filter_form.report_choice == all_report) && isChart === true">
                             <div class="card">
                                 <div class="card-body pl-1 pb-0">
                                     <div class="row">
@@ -375,7 +375,7 @@
                                                 {{ $t('reward_amount_chart') }}
                                             </h5>
                                         </div>
-                                        <div class="chart-container">
+                                        <div class="chart-container" v-show="isRewardAmountReports === false">
                                             <div id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
@@ -383,21 +383,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- <div class="row" v-show="isChart === true">
-                        <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 1 || filter_form.report_choice == 0">
-                        </div>
-                        <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
-                        </div>
-                        <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
-                        </div>
-                        <div :class="'col-lg-6 mx-auto'"
-                            v-show="filter_form.report_choice == 4 || filter_form.report_choice == 0">
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </section>
@@ -440,9 +425,14 @@ export default {
             isRewardAmountReports: false,
             isLuckyMoneyReports: false,
 
-            isChart: false
+            isChart: false,
 
-            // report
+            // report choice
+            all_report: 0,
+            number_of_registered_users: 1,
+            quantity_of_contracts: 2,
+            platform_commission_amount: 3,
+            reward_amount: 4,
         };
     },
     props: {
@@ -654,24 +644,21 @@ export default {
                     this.chartReport(finalData);
                 }
             }
+        },
+        handleChartUpdate() {
+            setTimeout(() => {
+                this.chartsInit();
+            }, 500);
         }
     },
     mounted() {
-        this.chartsInit();
+        // this.chartsInit();
     },
     watch: {
-        series: function (oldVal, newVal) {
-            setTimeout(() => {
-                this.chartsInit();
-            }, 500)
-        },
-        isChart: function (oldVal, newVal) {
-            setTimeout(() => {
-                this.chartsInit();
-            }, 500)
-        }
-    }
-
+        series: 'handleChartUpdate',
+        isChart: 'handleChartUpdate',
+        'filter_form.report_choice': 'handleChartUpdate'
+    },
 };
 </script>
 
@@ -682,13 +669,5 @@ export default {
     font-weight: 500;
     color: #512da8;
     cursor: pointer;
-}
-
-.chart_line {
-    width: 100%;
-    user-select: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    position: relative;
-    height: 250px !important;
 }
 </style>
