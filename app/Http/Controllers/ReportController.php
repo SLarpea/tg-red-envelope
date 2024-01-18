@@ -32,6 +32,14 @@ class ReportController extends Controller
                 'lucky_money_reports' => $data['lucky_money_reports']['summation'] ?? 0,
                 'reward_amount_reports' => $data['reward_amount_reports']['summation'] ?? 0,
             ],
+            'series' => [
+                'users_reports' => $data['users_reports']['series'] ?? [],
+                'lucky_money_reports' => $data['lucky_money_reports']['series'] ?? [],
+                'platform_commission_amount_reports' => $data['platform_commission_amount_reports']['series'] ?? [],
+                'reward_amount_reports' => $data['reward_amount_reports']['series'] ?? [],
+
+            ],
+            'data_range' => getMonthYear($request->input('start_date'), $request->input('end_date'), "/"),
             'group_ids' => $data['groupIds'],
             'response' => $data['response'],
             'request' => $request->all()

@@ -96,9 +96,44 @@ class ReportService
             ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
             ->withQueryString();
 
+
+        // Start chart result
+        $chartData = UserManagement::select([
+            DB::raw("CONCAT(LPAD(MONTH(created_at), 2, '0'), '-', RIGHT(YEAR(created_at), 2)) AS month_year"),
+            DB::raw('COUNT(*) AS total'),
+            DB::raw('MAX(group_id) as group_id'),
+        ])
+            ->filterByDateCreated($request->input('start_date'), $request->input('end_date'))
+            ->when($request->filled('group_id'), function ($q) use ($request) {
+                $q->filterByGroup($request->input('group_id'));
+            })
+            ->groupBy(['group_id', 'month_year'])
+            ->orderBy('month_year', 'asc')
+            ->get();
+
+        $chartDataArr = $chartData->toArray();
+
+        $groupedData = [];
+
+        foreach ($chartDataArr as $data) {
+            $groupedData[$data['group_id']][$data['month_year']] = $data['total'];
+        }
+
+        $groupIds = array_keys($groupedData);
+        $monthYears = getMonthYear($request->input('start_date'), $request->input('end_date'));
+
+        $dataSeries = [];
+
+        foreach ($groupIds as $groupId) {
+            $MYdata = array_values(array_replace(array_fill_keys($monthYears, 0), $groupedData[$groupId] ?? []));
+            $dataSeries[$groupId] = $MYdata;
+        }
+        // End chart result
+
         return [
             'query_result' => $result,
             'summation' => $summation,
+            'series' => $dataSeries
         ];
     }
 
@@ -136,9 +171,43 @@ class ReportService
             ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
             ->withQueryString();
 
+
+        // start chart result
+        $chartData = LuckyMoney::select([
+            'chat_id as group_id',
+            DB::raw('COUNT(*) as total'),
+            DB::raw("CONCAT(LPAD(MONTH(created_at), 2, '0'), '-', RIGHT(YEAR(created_at), 2)) AS month_year"),
+        ])
+            ->filterByDateCreated($request->input('start_date'), $request->input('end_date'))
+            ->when($request->filled('group_id'), function ($q) use ($request) {
+                $q->filterByGroup($request->input('group_id'));
+            })
+            ->groupBy(['group_id', 'month_year'])
+            ->orderBy('month_year', 'asc')
+            ->get();
+        $chartDataArr = $chartData->toArray();
+
+        $groupedData = [];
+
+        foreach ($chartDataArr as $data) {
+            $groupedData[$data['group_id']][$data['month_year']] = $data['total'];
+        }
+
+        $groupIds = array_keys($groupedData);
+        $monthYears = getMonthYear($request->input('start_date'), $request->input('end_date'));
+
+        $dataSeries = [];
+
+        foreach ($groupIds as $groupId) {
+            $MYdata = array_values(array_replace(array_fill_keys($monthYears, 0), $groupedData[$groupId] ?? []));
+            $dataSeries[$groupId] = $MYdata;
+        }
+        // End chart result
+
         return [
             'query_result' => $result,
             'summation' => $summation,
+            'series' => $dataSeries
         ];
     }
 
@@ -177,9 +246,42 @@ class ReportService
             ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
             ->withQueryString();
 
+        // start chart
+        $chartData = CommissionRecord::select([
+            'group_id',
+            DB::raw('SUM(amount) as total'),
+            DB::raw("CONCAT(LPAD(MONTH(created_at), 2, '0'), '-', RIGHT(YEAR(created_at), 2)) AS month_year"),
+        ])
+            ->filterByDateCreated($request->input('start_date'), $request->input('end_date'))
+            ->when($request->filled('group_id'), function ($q) use ($request) {
+                $q->filterByGroup($request->input('group_id'));
+            })
+            ->groupBy(['group_id', 'month_year'])
+            ->orderBy('month_year', 'asc')
+            ->get();
+        $chartDataArr = $chartData->toArray();
+
+        $groupedData = [];
+
+        foreach ($chartDataArr as $data) {
+            $groupedData[$data['group_id']][$data['month_year']] = $data['total'];
+        }
+
+        $groupIds = array_keys($groupedData);
+        $monthYears = getMonthYear($request->input('start_date'), $request->input('end_date'));
+
+        $dataSeries = [];
+
+        foreach ($groupIds as $groupId) {
+            $MYdata = array_values(array_replace(array_fill_keys($monthYears, 0), $groupedData[$groupId] ?? []));
+            $dataSeries[$groupId] = $MYdata;
+        }
+        // End chart result
+
         return [
             'query_result' => $result,
             'summation' => $summation,
+            'series' => $dataSeries
         ];
     }
 
@@ -218,9 +320,42 @@ class ReportService
             ->paginate($paginationSettings['show'], ['*'], 'page', $paginationSettings['page'])
             ->withQueryString();
 
+        // start chart
+        $chartData = RewardRecord::select([
+            'group_id',
+            DB::raw('SUM(amount) as total'),
+            DB::raw("CONCAT(LPAD(MONTH(created_at), 2, '0'), '-', RIGHT(YEAR(created_at), 2)) AS month_year"),
+        ])
+            ->filterByDateCreated($request->input('start_date'), $request->input('end_date'))
+            ->when($request->filled('group_id'), function ($q) use ($request) {
+                $q->filterByGroup($request->input('group_id'));
+            })
+            ->groupBy(['group_id', 'month_year'])
+            ->orderBy('month_year', 'asc')
+            ->get();
+        $chartDataArr = $chartData->toArray();
+
+        $groupedData = [];
+
+        foreach ($chartDataArr as $data) {
+            $groupedData[$data['group_id']][$data['month_year']] = $data['total'];
+        }
+
+        $groupIds = array_keys($groupedData);
+        $monthYears = getMonthYear($request->input('start_date'), $request->input('end_date'));
+
+        $dataSeries = [];
+
+        foreach ($groupIds as $groupId) {
+            $MYdata = array_values(array_replace(array_fill_keys($monthYears, 0), $groupedData[$groupId] ?? []));
+            $dataSeries[$groupId] = $MYdata;
+        }
+        // End chart result
+
         return [
             'query_result' => $result,
             'summation' => $summation,
+            'series' => $dataSeries
         ];
     }
 }
