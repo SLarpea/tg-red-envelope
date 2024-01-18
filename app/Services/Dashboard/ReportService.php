@@ -180,7 +180,7 @@ class ReportService
         ])
             ->filterByDateCreated($request->input('start_date'), $request->input('end_date'))
             ->when($request->filled('group_id'), function ($q) use ($request) {
-                $q->filterByGroup($request->input('group_id'));
+                $q->filterByChatId($request->input('group_id'));
             })
             ->groupBy(['group_id', 'month_year'])
             ->orderBy('month_year', 'asc')
