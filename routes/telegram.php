@@ -47,6 +47,11 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
                 'parse_mode' => ParseMode::HTML
             ]);
         });
+
+        $bot->onCommand('setLanguage(.*)', [GroupManagementHandler::class, 'handleSetlanguage']);
+
+        // update language here
+        $bot->onCallbackQueryData('update_language-{language}', [GroupManagementHandler::class, 'handleUpdateLanguage']);
     });
 
     // Handle fabao and fuli commands
@@ -124,5 +129,3 @@ $bot->onCommand('help(.*)', function (Nutgram $bot) {
 
 // Uncomment the following block if you want to handle the 'invite' command
 $bot->onCommand('invite(.*)', [InviteHandler::class, 'handleInviteLink']);
-
-$bot->onCommand('setLanguage(.*)', [GroupManagementHandler::class, 'handleInviteLink']);

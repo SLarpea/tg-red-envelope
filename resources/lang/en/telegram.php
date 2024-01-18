@@ -171,5 +171,8 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     /start - command to start and see if the group is working
     /help - command to see game instructions
     /invite - command to generate an invite link used to invite other users
-    /register - command to register in the group"
+    /register - command to register in the group
+    /setLanguage - command that allows to change current language",
+    "please_choose_a_language_to_set" => "PLEASE CHOOSE A LANGUAGE TO SET",
+    "language_set_success" => "Language has been successfully set to :language !"
 ];

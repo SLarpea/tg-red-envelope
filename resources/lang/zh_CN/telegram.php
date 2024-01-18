@@ -172,5 +172,8 @@ return [
     /start - 命令开始并查看该组是否在工作。
     /help - 命令查看游戏说明。
     /invite - 命令生成用于邀请其他用户的邀请链接。
-    /register - 命令在小组中注册。"
+    /register - 命令在小组中注册。
+    /setLanguage - 允许更改当前语言的命令",
+    "please_choose_a_language_to_set" => "请选择要设置的语言",
+    "language_set_success" => "语言已成功设置为 :language !"
 ];
