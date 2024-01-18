@@ -84,7 +84,7 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
         }
     });
 
-    $bot->onText('(' . trans('telegram.groupinfo') . '$)', function (Nutgram $bot, $ac) {
+    $bot->onText('(groupinfo$)', function (Nutgram $bot, $ac) {
         if ($bot->chat()->type == 'private') {
         } else {
             if ($ac == trans('telegram.groupinfo')) {
@@ -103,7 +103,7 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
     });
 });
 
-$bot->onText('(' . trans('telegram.groupinfo') . '$)', function (Nutgram $bot, $ac) {
+$bot->onText('(groupinfo$)', function (Nutgram $bot, $ac) {
     if ($bot->chat()->type == 'private') {
     } else {
         if ($ac == trans('telegram.groupinfo')) {
