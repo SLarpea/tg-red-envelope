@@ -486,3 +486,22 @@ if (!function_exists('get_startenddate_by_option')) {
         ];
     }
 }
+
+
+if (!function_exists('getMonthYear')) {
+    function getMonthYear($start_date, $end_date, $separator = '-')
+    {
+        $start_date = DateTime::createFromFormat('Y-m-d', $start_date);
+        $end_date = DateTime::createFromFormat('Y-m-d', $end_date);
+
+        $current_date = $start_date;
+        $months_list = [];
+
+        while ($current_date < $end_date) {
+            $months_list[] = $current_date->format("m{$separator}y");
+            $current_date = $current_date->add(new DateInterval('P1M')); // Add 1 month to the current date
+        }
+
+        return $months_list;
+    }
+}

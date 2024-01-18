@@ -81,6 +81,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="row mt-3">
+                                            <div class="col-lg-6">
+                                                <div class="form-check">
+                                                    <input id="isChart" class="form-check-input" type="checkbox"
+                                                        :value="isChart" v-model="isChart">
+                                                    <label class="form-check-label" for="isChart">
+                                                        Chart
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row mt-2">
                                             <div class="d-flex gap-1 justify-content-end align-items-center ">
                                                 <button class="btn btn-secondary btn-sm" type="button"
@@ -149,6 +160,23 @@
                                 </div>
                             </div>
                         </div>
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="(filter_form.report_choice == 1 || filter_form.report_choice == 0) && (series.users_reports > 0 || isChart === true)">
+                            <div class="card">
+                                <div class="card-body pl-1 pb-0" style="height: 300px;">
+                                    <div class="row">
+                                        <div class="mt-3">
+                                            <h5 class="report-header" @click="reportToggleCollapse('users_reports')">
+                                                {{ $t('number_of_registered_users_chart') }}
+                                            </h5>
+                                        </div>
+                                        <div class="chart-container">
+                                            <div id="users_reports_chart" style="width: 100%; height:100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div :class="'col-lg-6 mx-auto'"
                             v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
@@ -197,6 +225,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="(filter_form.report_choice == 2 || filter_form.report_choice == 0) && series.lucky_money_reports > 0 || isChart === true">
+                            <div class="card">
+                                <div class="card-body pl-1 pb-0">
+                                    <div class="row">
+                                        <div class="mt-3">
+                                            <h5 class="report-header" @click="reportToggleCollapse('lucky_money_reports')">
+                                                {{ $t('quantity_of_contracts_chart') }}</h5>
+                                        </div>
+                                        <div class="chart-container">
+                                            <div id="lucky_money_reports_chart" style="width: 100%; height:100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div :class="'col-lg-6 mx-auto'"
                             v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
@@ -220,7 +264,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data" :key="item.id">
+                                                    <tr v-for="(item, index) in platform_commission_amount_reports.data"
+                                                        :key="item.id">
                                                         <td class="text-center">{{ platform_commission_amount_reports.from +
                                                             index }}</td>
                                                         <td class="text-center">{{ item.group_id }}</td>
@@ -244,6 +289,25 @@
                                             </table>
                                             <PaginationLayout v-show="(platform_commission_amount_reports.total ?? 0) > 0"
                                                 :data="{ links: platform_commission_amount_reports.links, from: platform_commission_amount_reports.from, to: platform_commission_amount_reports.to, total: platform_commission_amount_reports.total, plf: 3 }" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="(filter_form.report_choice == 3 || filter_form.report_choice == 0) && series.lucky_money_reports > 0 || isChart === true">
+                            <div class="card">
+                                <div class="card-body pl-1 pb-0">
+                                    <div class="row">
+                                        <div class="mt-3">
+                                            <h5 class="report-header"
+                                                @click="reportToggleCollapse('platform_commission_amount_reports')">
+                                                {{ $t('platform_commission_amount_chart') }}
+                                            </h5>
+                                        </div>
+                                        <div class="chart-container">
+                                            <div id="platform_commission_amount_reports_chart"
+                                                style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -300,8 +364,40 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="(filter_form.report_choice == 4 || filter_form.report_choice == 0) && series.reward_amount_reports > 0 || isChart === true">
+                            <div class="card">
+                                <div class="card-body pl-1 pb-0">
+                                    <div class="row">
+                                        <div class="mt-3">
+                                            <h5 class="report-header"
+                                                @click="reportToggleCollapse('reward_amount_reports')">
+                                                {{ $t('reward_amount_chart') }}
+                                            </h5>
+                                        </div>
+                                        <div class="chart-container">
+                                            <div id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- <div class="row" v-show="isChart === true">
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="filter_form.report_choice == 1 || filter_form.report_choice == 0">
+                        </div>
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="filter_form.report_choice == 2 || filter_form.report_choice == 0">
+                        </div>
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="filter_form.report_choice == 3 || filter_form.report_choice == 0">
+                        </div>
+                        <div :class="'col-lg-6 mx-auto'"
+                            v-show="filter_form.report_choice == 4 || filter_form.report_choice == 0">
+                        </div>
+                    </div> -->
                 </div>
             </div>
         </section>
@@ -315,6 +411,7 @@ import AppLayout from "../Layouts/AppLayout.vue";
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
 import LoadingLayout from "../Layouts/LoadingLayout.vue";
+import * as echarts from 'echarts';
 import _ from 'lodash';
 
 export default {
@@ -342,6 +439,8 @@ export default {
             isPlatformCommissionAmountReports: false,
             isRewardAmountReports: false,
             isLuckyMoneyReports: false,
+
+            isChart: false
         };
     },
     props: {
@@ -352,7 +451,9 @@ export default {
         filters: Object,
         response: null,
         group_ids: Array,
-        summation: Object
+        summation: Object,
+        series: Object,
+        data_range: Array
     },
     components: {
         Head,
@@ -400,6 +501,8 @@ export default {
             this.filter_form.end_date = oneMonthLater.toISOString().substr(0, 10);
 
             this.$inertia.replace(route(this.routeLink));
+
+
         },
 
         showFilter() {
@@ -422,6 +525,148 @@ export default {
             if (opt === 'lucky_money_reports') {
                 this.isLuckyMoneyReports = !this.isLuckyMoneyReports;
             }
+        },
+        chartReport(data) {
+            let myChart = echarts.init(document.getElementById(data.chartname));
+
+            myChart.clear();
+
+            let aspectRatio = 2.5;
+
+            let container = document.getElementById(data.chartname);
+
+            container.style.height = container.offsetWidth / aspectRatio + 'px';
+
+            myChart.resize();
+
+            let option;
+
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        // dataView: { show: true, readOnly: false },
+                        magicType: { show: true, type: ['line', 'bar'] },
+                        // restore: { show: true },
+                        // saveAsImage: { show: true }
+                    }
+                },
+                legend: {
+                    data: data.legend
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        data: this.data_range,
+                        axisPointer: {
+                            type: 'shadow'
+                        }
+                    }
+                ],
+                yAxis: data.yAxis,
+                series: data.series
+            };
+
+            option && myChart.setOption(option);
+        },
+        chartsInit() {
+            let chartList = {
+                users_reports: {
+                    yAxis_name: 'Number Users',
+                    yAxis_formatter: '{value} user',
+                    tooltip: 'Users'
+                },
+                lucky_money_reports: {
+                    yAxis_name: 'Q. of Contracts',
+                    yAxis_formatter: '{value} Contracts',
+                    tooltip: 'Luckys'
+                },
+                platform_commission_amount_reports: {
+                    yAxis_name: 'Commission Amount',
+                    yAxis_formatter: '{value} Amount',
+                    tooltip: 'Luckys'
+                },
+                reward_amount_reports: {
+                    yAxis_name: 'Reward Amount',
+                    yAxis_formatter: '{value} Amount',
+                    tooltip: 'Rewards'
+                },
+
+
+            };
+
+            for (var chartname of Object.keys(chartList)) {
+                let finalData = {
+                    series: [],
+                    legend: [],
+                    yAxis: [],
+                    chartname: chartname + '_chart'
+                };
+
+                let maxY = [];
+                if (this.series[chartname]) {
+                    for (var key of Object.keys(this.series[chartname])) {
+                        let seriesData = this.series[chartname];
+
+                        finalData.legend.push(key.toString());
+
+                        finalData.series.push({
+                            name: key.toString(),
+                            type: 'bar',
+                            tooltip: {
+                                valueFormatter: function (value) {
+                                    return value + '  ' + chartList[chartname].tooltip;
+                                }
+                            },
+                            data: seriesData[key]
+                        });
+
+                        // Assuming seriesData[key] is an array
+                        let maxInSeries = Math.max(...seriesData[key].map(value => isNaN(value) ? 0 : value));
+
+                        maxY.push(maxInSeries);
+                    }
+
+                    let max = Math.max(...maxY);
+                    let interval = (max / 7).toFixed(1);
+
+                    finalData.yAxis.push({
+                        type: 'value',
+                        name: chartList[chartname].yAxis_name,
+                        min: 0,
+                        max: Math.max(...maxY),
+                        interval: interval,
+                        axisLabel: {
+                            formatter: chartList[chartname].formatter
+                        }
+                    });
+
+                    this.chartReport(finalData);
+                }
+            }
+        }
+    },
+    mounted() {
+        this.chartsInit();
+    },
+    watch: {
+        series: function (oldVal, newVal) {
+            setTimeout(() => {
+                this.chartsInit();
+            }, 500)
+        },
+        isChart: function (oldVal, newVal) {
+            setTimeout(() => {
+                this.chartsInit();
+            }, 500)
         }
     }
 
@@ -435,5 +680,13 @@ export default {
     font-weight: 500;
     color: #512da8;
     cursor: pointer;
+}
+
+.chart_line {
+    width: 100%;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+    height: 250px !important;
 }
 </style>
