@@ -320,5 +320,7 @@
     "number_of_registered_users_chart": "Number of Registered Users Chart",
     "quantity_of_contracts_chart": "Quantity of Contracts Chart",
     "platform_commission_amount_chart": "Platform Commission Amount Chart",
-    "reward_amount_chart": "Reward Amount Chart"
+    "reward_amount_chart": "Reward Amount Chart",
+    "no_chart_data": "No chart data"
+
 }
