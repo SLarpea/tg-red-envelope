@@ -491,15 +491,25 @@ if (!function_exists('get_startenddate_by_option')) {
 if (!function_exists('getMonthYear')) {
     function getMonthYear($start_date, $end_date, $separator = '-')
     {
+        // Check if $start_date is null, and set it to last year's today date
+        if ($start_date === null) {
+            $lastYearToday = new DateTime('now');
+            $lastYearToday->modify('-1 year');
+            $start_date = $lastYearToday->format('Y-m-d');
+        }
+
         $start_date = DateTime::createFromFormat('Y-m-d', $start_date);
+
+        // If $end_date is null, set it to today's date
+        $end_date = $end_date ?? (new DateTime('now'))->format('Y-m-d');
         $end_date = DateTime::createFromFormat('Y-m-d', $end_date);
 
-        $current_date = $start_date;
+        $current_date = clone $start_date; // Use clone to avoid modifying the original date
         $months_list = [];
 
-        while ($current_date < $end_date) {
+        while ($current_date <= $end_date) {
             $months_list[] = $current_date->format("m{$separator}y");
-            $current_date = $current_date->add(new DateInterval('P1M')); // Add 1 month to the current date
+            $current_date->add(new DateInterval('P1M')); // Add 1 month to the current date
         }
 
         return $months_list;

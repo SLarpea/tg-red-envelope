@@ -21,6 +21,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         $data = $this->reportService->showData($request);
+
         return Inertia::render('Reports', [
             'users_reports' => $data['users_reports']['query_result'] ?? [],
             'platform_commission_amount_reports' => $data['platform_commission_amount_reports']['query_result'] ?? [],

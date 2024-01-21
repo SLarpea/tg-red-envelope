@@ -342,6 +342,7 @@ class ReportService
         }
 
         $groupIds = array_keys($groupedData);
+
         $monthYears = getMonthYear($request->input('start_date'), $request->input('end_date'));
 
         $dataSeries = [];

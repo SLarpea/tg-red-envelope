@@ -312,10 +312,12 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isPlatformCommissionAmountReports === false">
-                                            <div class="no-data-container" v-show="series.platform_commission_amount_reports.length <= 0">
+                                            <div class="no-data-container"
+                                                v-show="series.platform_commission_amount_reports.length <= 0">
                                                 <h4>{{ $t('no_chart_data').toUpperCase() }}</h4>
                                             </div>
-                                            <div id="platform_commission_amount_reports_chart" style="width: 100%; height:100%;"></div>
+                                            <div id="platform_commission_amount_reports_chart"
+                                                style="width: 100%; height:100%;"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -384,7 +386,8 @@
                                             </h5>
                                         </div>
                                         <div class="chart-container" v-show="isRewardAmountReports === false">
-                                            <div class="no-data-container" v-show="series.reward_amount_reports.length <= 0">
+                                            <div class="no-data-container"
+                                                v-show="series.reward_amount_reports.length <= 0">
                                                 <h4>{{ $t('no_chart_data').toUpperCase() }}</h4>
                                             </div>
                                             <div id="reward_amount_reports_chart" style="width: 100%; height:100%;"></div>
@@ -430,7 +433,7 @@ export default {
                 report_choice: this.$page.props.request.report_choice ?? 0,
                 group_id: this.$page.props.request.group_id ?? '',
                 start_date: this.$page.props.request.start_date ?? lastYear.toISOString().substr(0, 10), // Set to last year's date if not provided
-                end_date: this.$page.props.request.end_date ?? oneMonthLater.toISOString().substr(0, 10), // Set to one month from today if not provided
+                end_date: this.$page.props.request.end_date ?? today.toISOString().substr(0, 10), // Set to one month from today if not provided
             },
 
             routeLink: 'reports',
@@ -500,14 +503,14 @@ export default {
 
         resetFilterForm() {
             const today = new Date();
-            const oneMonthLater = new Date(today);
-            oneMonthLater.setMonth(today.getMonth() + 1);
+            const lastYear = new Date(today);
+            lastYear.setFullYear(lastYear.getFullYear() - 1);
 
             // Reset filter_form properties
             this.filter_form.report_choice = 0;
             this.filter_form.group_id = '';
-            this.filter_form.start_date = today.toISOString().substr(0, 10);
-            this.filter_form.end_date = oneMonthLater.toISOString().substr(0, 10);
+            this.filter_form.start_date = lastYear.toISOString().substr(0, 10);
+            this.filter_form.end_date = today.toISOString().substr(0, 10);
 
             this.$inertia.replace(route(this.routeLink));
 
@@ -644,7 +647,7 @@ export default {
                     }
 
                     let max = Math.max(...maxY);
-                    let interval = (max / 7).toFixed(1);
+                    let interval = max < 50 ? 10 : Math.floor(max / 7);
 
                     finalData.yAxis.push({
                         type: 'value',
@@ -663,7 +666,7 @@ export default {
         },
         handleChartUpdate() {
             setTimeout(() => {
-            this.chartsInit();
+                this.chartsInit();
             }, 500);
         }
     },
@@ -700,5 +703,4 @@ export default {
     align-items: center;
     color: #bbb;
     position: absolute;
-}
-</style>
+}</style>

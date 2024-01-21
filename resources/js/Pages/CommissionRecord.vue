@@ -58,10 +58,10 @@
                                                 <td>{{ item.lucky_id }}</td>
                                                 <td>{{ item.amount }}</td>
                                                 <td>{{ item.profit_amount }}</td>
-                                                <td>{{ item.user.first_name }}</td>
+                                                <td>{{ item.user?.first_name }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.remark }}</td>
-                                                <td>{{ item.sender.first_name }}</td>
+                                                <td>{{ item.sender?.first_name }}</td>
                                             </tr>
                                         </tbody>
                                     </table>
