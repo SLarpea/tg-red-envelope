@@ -29,7 +29,7 @@ class OnlyAdmin
                 $next($bot);
             } else {
                 // The user is not the admin, send a message indicating the lack of permission
-                $bot->sendMessage("Sorry, only the admin can make this request.");
+                $bot->sendMessage(trans('telegram.unauthorized_admin_only'));
             }
         }
     }

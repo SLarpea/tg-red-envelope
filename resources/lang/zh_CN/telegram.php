@@ -175,5 +175,6 @@ return [
     /register - 命令在小组中注册。
     /setLanguage - 允许更改当前语言的命令",
     "please_choose_a_language_to_set" => "请选择要设置的语言",
-    "language_set_success" => "语言已成功设置为 :language !"
+    "language_set_success" => "语言已成功设置为 :language !",
+    "unauthorized_admin_only" => "抱歉，只有管理员才能提出此请求。",
 ];
