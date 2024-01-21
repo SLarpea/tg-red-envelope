@@ -165,14 +165,14 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     "commands" => "
     📢List of commands
 
-    groupinfo - command to display comprehensive information about a specific group.
-    balance - command to show current balance
+    ¤ `groupinfo` - command to display comprehensive information about a specific group.
+    ¤ `balance` - command to show current balance
 
-    /start - command to start and see if the group is working
-    /help - command to see game instructions
-    /invite - command to generate an invite link used to invite other users
-    /register - command to register in the group
-    /setLanguage - command that allows to change current language",
+    ¤ /start - command to start and see if the group is working
+    ¤ /help - command to see game instructions
+    ¤ /invite - command to generate an invite link used to invite other users
+    ¤ /register - command to register in the group
+    ¤ /setLanguage - command that allows to change current language",
     "please_choose_a_language_to_set" => "PLEASE CHOOSE A LANGUAGE TO SET",
     "language_set_success" => "Language has been successfully set to :language !",
     "unauthorized_admin_only" => "Sorry, only the admin can make this request.",

@@ -166,14 +166,14 @@ return [
     "commands" => "
     📢命令列表
 
-    groupinfo - 命令显示有关特定组的全面信息。
-    balance - 命令显示当前余额。
+    ¤ `groupinfo` - 命令显示有关特定组的全面信息.
+    ¤ `balance` - 命令显示当前余额
 
-    /start - 命令开始并查看该组是否在工作。
-    /help - 命令查看游戏说明。
-    /invite - 命令生成用于邀请其他用户的邀请链接。
-    /register - 命令在小组中注册。
-    /setLanguage - 允许更改当前语言的命令",
+    ¤ /start - 命令开始并查看该组是否在工作
+    ¤ /help - 命令查看游戏说明
+    ¤ /invite - 命令生成用于邀请其他用户的邀请链接
+    ¤ /register - 命令在小组中注册
+    ¤ /setLanguage - 允许更改当前语言的命令",
     "please_choose_a_language_to_set" => "请选择要设置的语言",
     "language_set_success" => "语言已成功设置为 :language !",
     "unauthorized_admin_only" => "抱歉，只有管理员才能提出此请求。",

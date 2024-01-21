@@ -35,8 +35,8 @@ class GroupManagementService
     public static function setLanguage(Nutgram $bot)
     {
         $InlineKeyboardMarkup = InlineKeyboardMarkup::make()->addRow(
-            InlineKeyboardButton::make('EN', callback_data: "update_language-en"),
-            InlineKeyboardButton::make('ZH_CN', callback_data: 'update_language-zh_CN'),
+            InlineKeyboardButton::make('🇺🇸 EN', callback_data: "update_language-en"),
+            InlineKeyboardButton::make('🇨🇳 ZH_CN', callback_data: 'update_language-zh_CN'),
         );
 
         $data = [
