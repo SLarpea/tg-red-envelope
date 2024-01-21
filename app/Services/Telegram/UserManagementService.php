@@ -446,4 +446,59 @@ class UserManagementService
             Log::error('register异常' . $e);
         }
     }
+
+    public function help($bot)
+    {
+        // Handle help command
+        $helpText = ConfigService::getConfigValue($bot->chat()->id, 'help');
+
+        if ($helpText) {
+            // Send help text with HTML parse mode
+            $params = [
+                'parse_mode' => ParseMode::HTML
+            ];
+
+            // Optionally reply to the original message
+            if (!empty($bot->message()->message_id)) {
+                $params['reply_to_message_id'] = $bot->message()->message_id;
+            }
+
+            // Send help text or catch exception and send it again
+            try {
+                $bot->sendMessage($helpText, $params);
+            } catch (\Exception $e) {
+                $bot->sendMessage($helpText, ['parse_mode' => ParseMode::HTML]);
+            }
+        }
+    }
+
+    public function start($bot)
+    {
+        // Handle start command
+        $text = trans('telegram.start_msg', ['userId' => $bot->user()->id]);
+        $bot->sendMessage($text);
+    }
+
+    public function photo($bot)
+    {
+        // Handle photo messages in private chats
+        if ($bot->chat()->type == 'private') {
+            // Extract file ID from the second photo in the array
+            $fileId = $bot->message()->photo[1]->file_id;
+
+            // Send photo ID in HTML parse mode
+            $params = [
+                'parse_mode' => ParseMode::HTML
+            ];
+            $bot->sendMessage(trans('telegram.photo') . " ID：<code>$fileId</code>", $params);
+        }
+    }
+
+    public function commands($bot)
+    {
+        // Handle help command
+        $bot->sendMessage(trans('telegram.commands'), [
+            'parse_mode' => ParseMode::HTML
+        ]);
+    }
 }

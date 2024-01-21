@@ -44,4 +44,24 @@ class UserHandler
         $this->userManagementService->register($bot);
         return true;
     }
+
+    public function handleHelp(Nutgram $bot)
+    {
+        $this->userManagementService->help($bot);
+    }
+
+    public function handleStart(Nutgram $bot)
+    {
+        $this->userManagementService->start($bot);
+    }
+
+    public function handlePhoto(Nutgram $bot)
+    {
+        $this->userManagementService->photo($bot);
+    }
+
+    public function handleCommands(Nutgram $bot)
+    {
+        $this->userManagementService->commands($bot);
+    }
 }

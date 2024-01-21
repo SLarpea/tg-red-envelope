@@ -6,6 +6,7 @@ use App\Models\Config;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Session;
 use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
@@ -49,7 +50,7 @@ class GroupManagementService
 
     public static function updateLanguage(Nutgram $bot, $language)
     {
-        App::setLocale($language);
+        Session::put('tg_language', $language);
 
         $groupId = $bot->chat()->id;
         $messageId = $bot->messageId();
@@ -59,9 +60,7 @@ class GroupManagementService
             ->update(['value' => $language]);
 
         if ($updateConfig) {
-            $message = trans('telegram.language_set_success', ['language' => $language]);
-
-            sleep(1);
+            $message = trans('telegram.language_set_success', ['language' => strtoupper($language)]);
 
             $bot->answerCallbackQuery([
                 'text' => $message,

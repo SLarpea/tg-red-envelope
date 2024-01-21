@@ -41,12 +41,7 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
         //     // Handle recharge and withdraw commands
         //     $bot->onText('(' . trans('telegram.recharge') . '|\+)([0-9]+)', [RechargeHandler::class, 'handleRecharge']);
         //     $bot->onText('(' . trans('telegram.withdraw') . '|-)([0-9]+)', [RechargeHandler::class, 'handleWithdraw']);
-        $bot->onCommand('commands(.*)', function (Nutgram $bot) {
-            // Handle help command
-            $bot->sendMessage(trans('telegram.commands'), [
-                'parse_mode' => ParseMode::HTML
-            ]);
-        });
+        $bot->onCommand('commands(.*)', [UserHandler::class, 'handleCommands']);
 
         $bot->onCommand('setLanguage(.*)', [GroupManagementHandler::class, 'handleSetlanguage']);
 
@@ -78,54 +73,16 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
 
     $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
 
-    $bot->onCommand('start', function (Nutgram $bot) {
-        // Handle start command
-        $text = trans('telegram.start_msg', ['userId' => $bot->user()->id]);
-        $bot->sendMessage($text);
-    });
+    $bot->onCommand('start(.*)', [UserHandler::class, 'handleStart']);
 });
 
 
-$bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
+$bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'start']);
 
 
-$bot->onPhoto(function (Nutgram $bot) {
-    // Handle photo messages in private chats
-    if ($bot->chat()->type == 'private') {
-        // Extract file ID from the second photo in the array
-        $fileId = $bot->message()->photo[1]->file_id;
+$bot->onPhoto([UserHandler::class, 'handlePhoto']);
 
-        // Send photo ID in HTML parse mode
-        $params = [
-            'parse_mode' => ParseMode::HTML
-        ];
-        $bot->sendMessage(trans('telegram.photo') . " ID：<code>$fileId</code>", $params);
-    }
-});
-
-$bot->onCommand('help(.*)', function (Nutgram $bot) {
-    // Handle help command
-    $helpText = ConfigService::getConfigValue($bot->chat()->id, 'help');
-
-    if ($helpText) {
-        // Send help text with HTML parse mode
-        $params = [
-            'parse_mode' => ParseMode::HTML
-        ];
-
-        // Optionally reply to the original message
-        if (!empty($bot->message()->message_id)) {
-            $params['reply_to_message_id'] = $bot->message()->message_id;
-        }
-
-        // Send help text or catch exception and send it again
-        try {
-            $bot->sendMessage($helpText, $params);
-        } catch (\Exception $e) {
-            $bot->sendMessage($helpText, ['parse_mode' => ParseMode::HTML]);
-        }
-    }
-});
+$bot->onCommand('help(.*)', [UserHandler::class, 'handleHelp']);
 
 // Uncomment the following block if you want to handle the 'invite' command
 $bot->onCommand('invite(.*)', [InviteHandler::class, 'handleInviteLink']);
