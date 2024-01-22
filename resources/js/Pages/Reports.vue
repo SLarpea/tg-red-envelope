@@ -83,12 +83,10 @@
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-lg-6">
-                                                <div class="form-check">
-                                                    <input id="isChart" class="form-check-input" type="checkbox"
-                                                        :value="isChart" v-model="isChart">
-                                                    <label class="form-check-label" for="isChart">
-                                                        Chart
-                                                    </label>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="isChart" v-model="isChart" :checked="isChart">
+                                                    <label class="form-check-label" for="isChart">{{ $t('show_chart')
+                                                    }}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -445,7 +443,7 @@ export default {
             isRewardAmountReports: false,
             isLuckyMoneyReports: false,
 
-            isChart: false,
+            isChart: true,
 
             // report choice
             all_report: 0,
@@ -703,4 +701,5 @@ export default {
     align-items: center;
     color: #bbb;
     position: absolute;
-}</style>
+}
+</style>
