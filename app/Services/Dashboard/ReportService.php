@@ -2,70 +2,76 @@
 
 namespace App\Services\Dashboard;
 
-use App\Models\CommissionRecord;
 use App\Models\LuckyMoney;
-use App\Models\RechargeRecord;
+use App\Domain\ReportDomain;
 use App\Models\RewardRecord;
 use App\Models\UserManagement;
+use App\Models\CommissionRecord;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use App\Services\Dashboard\UserManagementService;
 use App\Services\Dashboard\GroupManagementService;
 
 class ReportService
 {
-    const ALL_REPORT = 0;
-    const NUMBER_OF_REGISTERED_USERS = 1;
-    const QUANTITY_OF_CONTRACT = 2;
-    const PLATFORM_COMMISSION_AMOUNT = 3;
-    const REWARD_AMOUNT = 4;
-
     private $groupManagementService;
 
-    private $UserManagementService;
-
-    public function __construct(GroupManagementService $groupManagementService, UserManagementService $UserManagementService)
+    public function __construct(GroupManagementService $groupManagementService)
     {
         $this->groupManagementService = $groupManagementService;
-        $this->UserManagementService = $UserManagementService;
     }
 
     public function showData($request)
     {
+        // Get group IDs from the Group Management Service
+        $groupIds = $this->groupManagementService->getGroupIds();
+
+        // Extract relevant filters from the request
+        $requestFilters = $request->only(['term', 'show', 'report_choice', 'group_id', 'start_date', 'end_date']);
+
+        // Retrieve stored response from the session
+        $response = Session::get('response');
+
+        // Initialize arrays for different types of reports
+        $usersReports = [];
+        $luckyMoneyReports = [];
+        $platformCommissionAmountReports = [];
+        $rewardAmountReports = [];
+
+        // Check the selected report choice and populate corresponding report arrays
+        if ($request->report_choice == ReportDomain::NUMBER_OF_REGISTERED_USERS || $request->report_choice == ReportDomain::ALL_REPORT) {
+            $usersReports = self::getUsersReport($request);
+        }
+
+        if ($request->report_choice == ReportDomain::QUANTITY_OF_CONTRACT || $request->report_choice == ReportDomain::ALL_REPORT) {
+            $luckyMoneyReports = self::getLuckyMoneyReport($request);
+        }
+
+        if ($request->report_choice == ReportDomain::PLATFORM_COMMISSION_AMOUNT || $request->report_choice == ReportDomain::ALL_REPORT) {
+            $platformCommissionAmountReports = self::getPlatformCommissionAmountReport($request);
+        }
+
+        if ($request->report_choice == ReportDomain::REWARD_AMOUNT || $request->report_choice == ReportDomain::ALL_REPORT) {
+            $rewardAmountReports = self::getRewardAmountReport($request);
+        }
+
+        // Construct the final data array
         $data = [
-            'groupIds' => $this->groupManagementService->getGroupIds(),
-            'filters' => $request->only(['term', 'show', 'report_choice', 'group_id', 'start_date', 'end_date']),
-            'response' => Session::get('response'),
-            'users_reports' => [],
-            'platform_commission_amount_reports' => [],
-            'reward_amount_reports' => [],
-            'lucky_money_reports' => [],
+            'groupIds' => $groupIds,
+            'filters' => $requestFilters,
+            'response' => $response,
+            'users_reports' => $usersReports,
+            'platform_commission_amount_reports' => $platformCommissionAmountReports,
+            'reward_amount_reports' => $rewardAmountReports,
+            'lucky_money_reports' => $luckyMoneyReports,
         ];
-
-        if ($request->report_choice == self::NUMBER_OF_REGISTERED_USERS || $request->report_choice == self::ALL_REPORT) {
-            $data['users_reports'] = self::getUsersReport($request);
-        }
-
-        if ($request->report_choice == self::QUANTITY_OF_CONTRACT || $request->report_choice == self::ALL_REPORT) {
-            $data['lucky_money_reports'] = self::getLuckyMoneyReport($request);
-        }
-
-        if ($request->report_choice == self::PLATFORM_COMMISSION_AMOUNT || $request->report_choice == self::ALL_REPORT) {
-            $data['platform_commission_amount_reports'] = self::getPlatformCommissionAmountReport($request);
-        }
-
-        if ($request->report_choice == self::REWARD_AMOUNT || $request->report_choice == self::ALL_REPORT) {
-            $data['reward_amount_reports'] = self::getRewardAmountReport($request);
-        }
 
         return $data;
     }
 
     public function getUsersReport($request)
     {
-        if ($request->filled('plf') && $request->plf == self::NUMBER_OF_REGISTERED_USERS) {
+        if ($request->filled('plf') && $request->plf == ReportDomain::NUMBER_OF_REGISTERED_USERS) {
             Session::put('users_reports_pagination', [
                 'show' => $request->input('show', 10),
                 'page' => $request->input('page', 1),
@@ -139,7 +145,7 @@ class ReportService
 
     public function getLuckyMoneyReport($request)
     {
-        if ($request->filled('plf') && $request->plf == self::QUANTITY_OF_CONTRACT) {
+        if ($request->filled('plf') && $request->plf == ReportDomain::QUANTITY_OF_CONTRACT) {
             Session::put('lucky_money_reports', [
                 'show' => $request->input('show', 10),
                 'page' => $request->input('page', 1),
@@ -213,7 +219,7 @@ class ReportService
 
     public function getPlatformCommissionAmountReport($request)
     {
-        if ($request->filled('plf') && $request->plf == self::PLATFORM_COMMISSION_AMOUNT) {
+        if ($request->filled('plf') && $request->plf == ReportDomain::PLATFORM_COMMISSION_AMOUNT) {
             Session::put('platform_commission_amount_reports', [
                 'show' => $request->input('show', 10),
                 'page' => $request->input('page', 1),
@@ -287,7 +293,7 @@ class ReportService
 
     public function getRewardAmountReport($request)
     {
-        if ($request->filled('plf') && $request->plf == self::REWARD_AMOUNT) {
+        if ($request->filled('plf') && $request->plf == ReportDomain::REWARD_AMOUNT) {
             Session::put('reward_amount_reports', [
                 'show' => $request->input('show', 10),
                 'page' => $request->input('page', 1),

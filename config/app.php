@@ -177,6 +177,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         App\Providers\HelperServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
+        App\Providers\DomainServiceProvider::class,
     ])->toArray(),
 
     /*

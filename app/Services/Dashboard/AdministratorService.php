@@ -3,6 +3,7 @@
 namespace App\Services\Dashboard;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -13,55 +14,93 @@ class AdministratorService
 {
     public function showData($request)
     {
+        try {
+            DB::beginTransaction();
 
-        $data = [
-            'administrator' => User::with('roles')->when($request->term, function ($query, $term) {
-                $query->where('name', 'LIKE', '%' . $term . '%');
-            })->orderBy('name', 'asc')->paginate($request->show)->withQueryString(),
-            'roles' => Role::where('status', 1)->get(),
-            'filters' => $request->only(['term', 'show']),
-            'response' => Session::get('response'),
-        ];
+            $data = [
+                'administrator' => User::with('roles')->when($request->term, function ($query, $term) {
+                    $query->where('name', 'LIKE', '%' . $term . '%');
+                })->orderBy('name', 'asc')->paginate($request->show)->withQueryString(),
+                'roles' => Role::where('status', 1)->get(),
+                'filters' => $request->only(['term', 'show']),
+                'response' => Session::get('response'),
+            ];
 
-        return $data;
+            DB::commit();
+
+            return $data;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Handle exception (e.g., log it, return a response, etc.)
+            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+        }
     }
 
     public function storeData($request)
     {
-        $request->validated();
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'status' => $request->status,
-        ]);
-        $user->assignRole($request->role);
-    }
+        try {
+            DB::beginTransaction();
 
-    public function updateData($request)
-    {
-        if($request->update_type == 'all'){
             $request->validated();
-
-            $user = User::find($request->input('id'))->update([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'status' => $request->status,
             ]);
-            $user_role = User::find($request->input('id'));
-            $user_role->syncRoles([]);
-            $user_role->assignRole($request->role);
-        }else{
-            User::find($request->input('id'))->update([
-                'status' => ($request->status == 1) ? 0 : 1,
-            ]);
-        }
+            $user->assignRole($request->role);
 
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Handle exception (e.g., log it, return a response, etc.)
+            return response()->json(['error' => 'An error occurred while storing data.'], 500);
+        }
+    }
+
+    public function updateData($request)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($request->update_type == 'all') {
+                $request->validated();
+
+                $user = User::find($request->input('id'))->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->password),
+                    'status' => $request->status,
+                ]);
+                $user_role = User::find($request->input('id'));
+                $user_role->syncRoles([]);
+                $user_role->assignRole($request->role);
+            } else {
+                User::find($request->input('id'))->update([
+                    'status' => ($request->status == 1) ? 0 : 1,
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Handle exception (e.g., log it, return a response, etc.)
+            return response()->json(['error' => 'An error occurred while updating data.'], 500);
+        }
     }
 
     public function deleteData($request)
     {
-        User::find($request->input('id'))->delete();
+        try {
+            DB::beginTransaction();
+
+            User::find($request->input('id'))->delete();
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Handle exception (e.g., log it, return a response, etc.)
+            return response()->json(['error' => 'An error occurred while deleting data.'], 500);
+        }
     }
 }
