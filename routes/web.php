@@ -59,6 +59,8 @@ Route::middleware([
     Route::post('/set-locale', [App\Http\Controllers\LocaleController::class, 'setLocale'])->name('post.setlocale');
 
     Route::post('/set-session', [App\Http\Controllers\SellAllSessionController::class, 'index'])->name('post.set-session');
+
+    Route::post('/notifications', [App\Http\Controllers\NotificationController::class, 'store'])->name('post.notifications.store');
 });
 
 include('fallbacks.php');

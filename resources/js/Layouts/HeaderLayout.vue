@@ -3,24 +3,36 @@
         <div class="d-flex align-items-center justify-content-between">
             <a href="/" class="logo d-flex align-items-center">
                 <img src="../../../public/images/logo.png" alt="" />
-                <span class="d-none d-lg-block">{{ ($page.props.user.locale === 'zh_CN' ? '宏宝管理员' : 'Hongbao Admin') }}</span>
+                <span class="d-none d-lg-block">{{ ($page.props.user.locale === 'zh_CN' ? '宏宝管理员' : 'Hongbao Admin')
+                }}</span>
             </a>
             <i class="bi toggle-sidebar-btn" :class="this.toggleShow == true
-                ? 'bi-text-indent-right'
-                : 'bi-text-indent-left'
+                    ? 'bi-text-indent-right'
+                    : 'bi-text-indent-left'
                 " id="btn-toggle" @click.prevent="toggle"></i>
         </div>
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown" v-tippy="($page.props.user.locale === 'zh_CN' ? '中国人' : 'English')">
+                    <a class="nav-link nav-icon" href="#">
+                        <i class="bi bi-bell-fill"></i>
+                    </a>
+                    <span v-if="notificationCount > 0" class="position-absolute top-1 start-50 translate-middle badge rounded-pill bg-danger">
+                        {{ notificationCount }}
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown"
+                        v-tippy="($page.props.user.locale === 'zh_CN' ? '中国人' : 'English')">
                         <i class="bi bi-translate"></i>
                     </a>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications lang-drop">
 
-                        <li :class="`notification-item ` + ($page.props.user.locale === 'zh_CN' ? 'active' : '')" @click="setLocale('zh_CN')">
+                        <li :class="`notification-item ` + ($page.props.user.locale === 'zh_CN' ? 'active' : '')"
+                            @click="setLocale('zh_CN')">
                             <i class="bi bi-arrow-right-short"></i> 中国人
                         </li>
 
@@ -28,7 +40,8 @@
                             <hr class="dropdown-divider">
                         </li>
 
-                        <li :class="`notification-item ` + ($page.props.user.locale === 'en' ? 'active' : '')" @click="setLocale('en')">
+                        <li :class="`notification-item ` + ($page.props.user.locale === 'en' ? 'active' : '')"
+                            @click="setLocale('en')">
                             <i class="bi bi-arrow-right-short"></i> English
                         </li>
                     </ul>
@@ -90,36 +103,36 @@
     </header>
 
     <transition name="modal-fade">
-            <div class="modal custom-modal" v-if="helpShow">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ $t('need_help') }}
-                            </h5>
-                            <button type="button" class="btn-close" @click.prevent="closeModal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h1 class="text-center">{{ $t('under_construction') }}</h1>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
-                                <i class="bi bi-x-circle"></i> {{ $t('close') }}
-                            </button>
-                        </div>
+        <div class="modal custom-modal" v-if="helpShow">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="bi bi-arrow-return-right"></i> {{ $t('need_help') }}
+                        </h5>
+                        <button type="button" class="btn-close" @click.prevent="closeModal"></button>
                     </div>
-
+                    <div class="modal-body">
+                        <h1 class="text-center">{{ $t('under_construction') }}</h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" @click.prevent="closeModal">
+                            <i class="bi bi-x-circle"></i> {{ $t('close') }}
+                        </button>
+                    </div>
                 </div>
+
             </div>
-        </transition>
+        </div>
+    </transition>
 
-        <LoadingLayout v-if="loading" />
-
+    <LoadingLayout v-if="loading" />
 </template>
 
 <script>
 import { Link, router } from "@inertiajs/vue3";
 import LoadingLayout from "./LoadingLayout.vue";
+import pusher from './../pusher';
 
 export default {
     data() {
@@ -128,6 +141,8 @@ export default {
             isHiddenHelp: false,
             toggleShow: true,
             helpShow: false,
+
+            notifCount: this.$page.props.notifications.length
         };
     },
     components: {
@@ -143,8 +158,8 @@ export default {
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#512da8",
-                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
+                cancelButtonText: this.$t('no') + ' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> ' + this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     sessionStorage.clear();
@@ -178,10 +193,30 @@ export default {
                     console.log(error, "error")
                 },
             });
-        }
+        },
+        initializePusher() {
+            const channel = pusher.subscribe('public');
+
+            channel.bind('telegram_notification', (res) => {
+                this.notificationCount = res.data.notif_count;
+            });
+        },
     },
     created() {
+        this.initializePusher();
         window.addEventListener("keydown", this.escape);
     },
+    computed: {
+        notificationCount: {
+            get() {
+                // Getter function for computed property
+                return this.notifCount;
+            },
+            set(newValue) {
+                // Setter function for computed property
+                this.notifCount = newValue;
+            }
+        }
+    }
 };
 </script>
