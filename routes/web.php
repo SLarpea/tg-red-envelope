@@ -42,6 +42,9 @@ Route::middleware([
         Route::resource('/tg-users', App\Http\Controllers\UserManagementController::class);
         Route::resource('/menus', App\Http\Controllers\MenuController::class);
 
+        Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('get.notifications.index');
+        Route::post('/notifications', [App\Http\Controllers\NotificationController::class, 'store'])->name('post.notifications.store');
+        Route::post('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('post.notifications.read');
     });
     Route::get('/personal-report', [App\Http\Controllers\PersonalReportController::class, 'index'])->name('personal-report');
     Route::get('/funding-details', [App\Http\Controllers\FundingDetailController::class, 'index'])->name('funding-details');
@@ -59,9 +62,6 @@ Route::middleware([
     Route::post('/set-locale', [App\Http\Controllers\LocaleController::class, 'setLocale'])->name('post.setlocale');
 
     Route::post('/set-session', [App\Http\Controllers\SellAllSessionController::class, 'index'])->name('post.set-session');
-
-    Route::post('/notifications', [App\Http\Controllers\NotificationController::class, 'store'])->name('post.notifications.store');
-    Route::post('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('post.notifications.read');
 });
 
 include('fallbacks.php');

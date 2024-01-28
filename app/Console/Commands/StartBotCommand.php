@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Ramsey\Uuid\Type\Time;
 use SergiX44\Nutgram\Nutgram;
 use App\Events\PusherBroadcast;
@@ -10,8 +11,8 @@ use App\Domain\NotificationDomain;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\RunningMode\Polling;
 use App\Services\Telegram\TelegramService;
-use App\Services\Dashboard\NotificationService;
 use Illuminate\Database\Eloquent\Collection;
+use App\Services\Dashboard\NotificationService;
 
 class StartBotCommand extends Command
 {
@@ -21,6 +22,8 @@ class StartBotCommand extends Command
      * @var string
      */
     protected $signature = 'tgbot:run';
+
+    protected $isException = false;
 
     /**
      * The console command description.
@@ -32,14 +35,20 @@ class StartBotCommand extends Command
     public function handle(Nutgram $bot)
     {
         try {
+            // Set the running mode and run the bot
             $bot->setRunningMode(Polling::class);
             $bot->run();
-        } catch (\Exception $e) {
-            // Handle exceptions and log errors
-            Log::error('Exception: ' . $e);
-            $this->sendTelegramMessage($bot, '工作遇到了一个例外。');
+        } catch (Exception $e) {
+            // An exception occurred
+            $this->handleException($bot, $e);
         } finally {
-            $this->sendTelegramMessage($bot, '电报红色信封已经停止。');
+            // Check if an exception occurred during bot execution
+            if (!$this->isException) {
+                // No exception, notify that the bot has stopped
+                $this->sendTelegramMessage($bot, __('telegram.telegtelegram_bot_run_stop'));
+            }
+            // Reset the exception flag
+            $this->isException = false;
         }
     }
 
@@ -63,9 +72,20 @@ class StartBotCommand extends Command
             // Send a Telegram message
             $telegramBot = app('nutgram.bot');
             $telegramBot->sendMessage($message, ['chat_id' => config('nutgram.tg_bot_error_gc')]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Handle exceptions related to sending Telegram messages
             Log::error('Telegram Message Exception: ' . $e->getMessage());
         }
+    }
+
+    private function handleException(Nutgram $bot, Exception $e)
+    {
+        $this->isException = true;
+
+        // Log the exception
+        Log::error('Exception: ' . $e);
+
+        // Notify about the exception
+        $this->sendTelegramMessage($bot, __('telegram.telegram_bot_run_error'));
     }
 }

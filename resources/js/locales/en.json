@@ -322,5 +322,16 @@
     "platform_commission_amount_chart": "Platform Commission Amount Chart",
     "reward_amount_chart": "Reward Amount Chart",
     "no_chart_data": "No chart data",
-    "show_chart": "Show Chart"
+    "show_chart": "Show Chart",
+    "list_of_notifications": "List of notifications",
+    "title": "Title",
+    "message": "Message",
+    "is_read": "Is Read?",
+    "date": "Date",
+    "notifications": "Notifications",
+    "you_have_new_notification": "You have :notif_count new notification/s",
+    "show_all_notifications": "Show all notifications",
+    "show_less_notifications": "Show less notifications",
+    "view_all": "View all",
+    "error": "Error"
 }

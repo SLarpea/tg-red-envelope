@@ -181,4 +181,6 @@ return [
     "error" => "错误",
     "warning" => "警告",
     "telegram_bot_error" => "电报机器人错误",
+    "telegram_bot_run_stop" => "电报机器人已经停止",
+    "telegram_bot_run_error" => "机器人操作期间发生了例外。错误",
 ];

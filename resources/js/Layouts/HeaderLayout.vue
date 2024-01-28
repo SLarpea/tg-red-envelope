@@ -23,8 +23,10 @@
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications ">
                         <li class="dropdown-header">
-                            You have {{ notificationCount }} new notifications
-                            <a href="javascript:;" @click="handleNotifReadClick('all')"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            {{ $t('you_have_new_notification').replace(':notif_count', notificationCount) }}
+                            <!-- You have {{ notificationCount }} new notifications -->
+                            <a href="javascript:;" @click="handleNotifReadClick('all')"><span
+                                    class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                         </li>
                         <li>
                             <hr class="dropdown-divider" />
@@ -34,11 +36,11 @@
                             <div v-for="(item, k) in slicedNotificationList" :key="k"
                                 @click="handleNotifReadClick(item.id)">
                                 <li class="notification-item">
-                                    <i :class="`bi ${getNotifIcon(item.type)}`"></i>
+                                    <i :class="`bi ${getNotifIcon(item?.type)}`"></i>
                                     <div>
-                                        <h4>{{ item.title }}</h4>
-                                        <p>{{ item.message }}</p>
-                                        <p>{{ moment(item.created_at).fromNow() }}</p>
+                                        <h4>{{ item?.title }}</h4>
+                                        <p>{{ item?.message }}</p>
+                                        <p>{{ moment(item?.created_at).fromNow() }}</p>
                                     </div>
                                 </li>
 
@@ -48,9 +50,9 @@
                             </div>
                         </div>
                         <li class="dropdown-footer" @click="handleClickNotif('showallnotif')">
-                            <a href="javascript:;">Show {{ isShowAllNotification ?
-                                'less' : 'all' }}
-                                notifications</a>
+                            <a href="javascript:;">
+                                {{ $t('show_' + (isShowAllNotification ? 'less' : 'all') + '_notifications') }}
+                            </a>
                         </li>
                     </ul>
                 </li>
@@ -277,7 +279,12 @@ export default {
             moment(strDate).fromNow();
         },
         handleNotifReadClick(id) {
-            router.post(route("post.notifications.read", id), { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') });
+            console.log(id !== 'all');
+            if (id !== 'all') {
+                return router.get(route("get.notifications.index"), { id });
+            }
+            return router.get(route("get.notifications.index"));
+            // router.post(route("post.notifications.read", id), { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') });
         }
     },
     created() {
@@ -306,7 +313,8 @@ export default {
             }
         },
         slicedNotificationList() {
-            if (this.isShowAllNotification !== true) {
+            if (this.isShowAllNotification !== true && this.notificationList.length !== undefined) {
+                console.log(this.notificationList.length, "this.notificationList")
                 return this.notificationList.slice(0, 4);
             }
             return this.notificationList;

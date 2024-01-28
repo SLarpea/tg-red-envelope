@@ -180,4 +180,6 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     "error" => "Error",
     "warning" => "Warning",
     "telegram_bot_error" => "Telegram bot error",
+    "telegram_bot_run_stop" => "The Telegram bot has stopped",
+    "telegram_bot_run_error" => "An exception occurred during bot operation. ERROR",
 ];
