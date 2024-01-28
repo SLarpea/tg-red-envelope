@@ -87,7 +87,7 @@
 
         <transition name="modal-fade">
             <div class="modal custom-modal" v-if="modalShow">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-dialog modal-dialog-centered modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">

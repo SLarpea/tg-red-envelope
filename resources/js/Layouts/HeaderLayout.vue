@@ -44,12 +44,14 @@
                                     </div>
                                 </li>
 
-                                <li>
+                                <li
+                                    v-if="(slicedNotificationList.length != (k + 1) || notifList.length > 4)">
                                     <hr class="dropdown-divider" />
                                 </li>
                             </div>
                         </div>
-                        <li class="dropdown-footer" @click="handleClickNotif('showallnotif')">
+                        <li v-if="notifList.length > 4" class="dropdown-footer"
+                            @click="handleClickNotif('showallnotif')">
                             <a href="javascript:;">
                                 {{ $t('show_' + (isShowAllNotification ? 'less' : 'all') + '_notifications') }}
                             </a>
