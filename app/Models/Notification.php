@@ -11,6 +11,8 @@ class Notification extends Model
     use HasFactory, ScopeNotification;
 
     protected $fillable = [
+        'type',
+        'title',
         'message',
         'is_read'
     ];

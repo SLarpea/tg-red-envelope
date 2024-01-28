@@ -18,4 +18,8 @@ class NotificationController extends Controller
         $response = $this->notificationService->store($request->all());
         return redirect()->back()->with('response', 'success');
     }
+
+    public function markAsRead(Request $request, $id){
+        $response = $this->notificationService->markAsRead($id);
+    }
 }

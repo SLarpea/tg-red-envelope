@@ -61,6 +61,7 @@ Route::middleware([
     Route::post('/set-session', [App\Http\Controllers\SellAllSessionController::class, 'index'])->name('post.set-session');
 
     Route::post('/notifications', [App\Http\Controllers\NotificationController::class, 'store'])->name('post.notifications.store');
+    Route::post('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('post.notifications.read');
 });
 
 include('fallbacks.php');

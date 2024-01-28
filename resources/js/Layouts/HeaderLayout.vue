@@ -15,13 +15,44 @@
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
                 <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon" href="#">
-                        <i class="bi bi-bell-fill"></i>
+                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown" ref="notificationLink">
+                        <i class="bi bi-bell"></i>
+                        <span class="badge bg-primary badge-number" v-if="notificationCount > 0">{{ notificationCount
+                        }}</span>
                     </a>
-                    <span v-if="notificationCount > 0" class="position-absolute top-1 start-50 translate-middle badge rounded-pill bg-danger">
-                        {{ notificationCount }}
-                        <span class="visually-hidden">unread messages</span>
-                    </span>
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications ">
+                        <li class="dropdown-header">
+                            You have {{ notificationCount }} new notifications
+                            <a href="javascript:;" @click="handleNotifReadClick('all')"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+
+                        <div class="notifications-list">
+                            <div v-for="(item, k) in slicedNotificationList" :key="k"
+                                @click="handleNotifReadClick(item.id)">
+                                <li class="notification-item">
+                                    <i :class="`bi ${getNotifIcon(item.type)}`"></i>
+                                    <div>
+                                        <h4>{{ item.title }}</h4>
+                                        <p>{{ item.message }}</p>
+                                        <p>{{ moment(item.created_at).fromNow() }}</p>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                            </div>
+                        </div>
+                        <li class="dropdown-footer" @click="handleClickNotif('showallnotif')">
+                            <a href="javascript:;">Show {{ isShowAllNotification ?
+                                'less' : 'all' }}
+                                notifications</a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown"
@@ -133,6 +164,7 @@
 import { Link, router } from "@inertiajs/vue3";
 import LoadingLayout from "./LoadingLayout.vue";
 import pusher from './../pusher';
+import moment from "moment";
 
 export default {
     data() {
@@ -142,7 +174,12 @@ export default {
             toggleShow: true,
             helpShow: false,
 
-            notifCount: this.$page.props.notifications.length
+            notifCount: this.$page.props.notifications.length,
+            notifList: this.$page.props.notifications,
+            isShowAllNotification: false,
+            preventCloseFlag: true,
+
+            moment: moment
         };
     },
     components: {
@@ -199,8 +236,49 @@ export default {
 
             channel.bind('telegram_notification', (res) => {
                 this.notificationCount = res.data.notif_count;
+
+                if (res.data.id) {
+                    this.notificationList = res.data;
+                } else {
+                    if (res.data.read_id) {
+                        // Find the index of the element with matching id in this.notificationList
+                        const indexToRemove = this.notificationList.findIndex(notification => notification.id === res.data.read_id);
+                        // If the element is found, remove it from the array
+                        if (indexToRemove !== -1) {
+                            this.notificationList.splice(indexToRemove, 1);
+                        }
+                    }
+                }
             });
         },
+        getNotifIcon(errorType) {
+            switch (errorType) {
+                case 'success':
+                    return 'bi-check-circle text-success';
+                case 'error':
+                    return 'bi-x-circle text-danger';
+                case 'warning':
+                    return 'bi-exclamation-circle text-warning';
+                default:
+                    return 'bi-info-circle text-primary';
+            }
+        },
+        handleClickNotif(opt) {
+            if (opt === 'showallnotif') {
+                this.isShowAllNotification = !this.isShowAllNotification;
+                // this.preventCloseFlag = true;
+
+                setTimeout(() => {
+                    this.$refs.notificationLink.click();
+                }, 100);
+            }
+        },
+        formatHuman(strDate) {
+            moment(strDate).fromNow();
+        },
+        handleNotifReadClick(id) {
+            router.post(route("post.notifications.read", id), { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') });
+        }
     },
     created() {
         this.initializePusher();
@@ -216,7 +294,35 @@ export default {
                 // Setter function for computed property
                 this.notifCount = newValue;
             }
+        },
+        notificationList: {
+            get() {
+                // Getter function for computed property
+                return this.notifList;
+            },
+            set(newValue) {
+                // Setter function for computed property
+                this.notifList.unshift(newValue);
+            }
+        },
+        slicedNotificationList() {
+            if (this.isShowAllNotification !== true) {
+                return this.notificationList.slice(0, 4);
+            }
+            return this.notificationList;
         }
     }
 };
 </script>
+
+
+<style scoped>
+.notifications-list {
+    overflow-y: auto;
+    max-height: 40rem;
+}
+
+.unread-message {
+    background: #00000015;
+}
+</style>

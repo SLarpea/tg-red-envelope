@@ -177,4 +177,8 @@ return [
     "please_choose_a_language_to_set" => "请选择要设置的语言",
     "language_set_success" => "语言已成功设置为 :language !",
     "unauthorized_admin_only" => "抱歉，只有管理员才能提出此请求。",
+    "success" => "成功",
+    "error" => "错误",
+    "warning" => "警告",
+    "telegram_bot_error" => "电报机器人错误",
 ];

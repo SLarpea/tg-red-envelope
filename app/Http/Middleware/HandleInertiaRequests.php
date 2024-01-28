@@ -48,8 +48,8 @@ class HandleInertiaRequests extends Middleware
                 return session('locale');
             },
             'notifications' => function () use ($request) {
-                return app(NotificationService::class)->getUnreadNotif();
-            }
+                return app(NotificationService::class)->getUnreadNotifications();
+            },
         ]);
     }
 }

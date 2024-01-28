@@ -176,4 +176,8 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     "please_choose_a_language_to_set" => "PLEASE CHOOSE A LANGUAGE TO SET",
     "language_set_success" => "Language has been successfully set to :language !",
     "unauthorized_admin_only" => "Sorry, only the admin can make this request.",
+    "success" => "Success",
+    "error" => "Error",
+    "warning" => "Warning",
+    "telegram_bot_error" => "Telegram bot error",
 ];

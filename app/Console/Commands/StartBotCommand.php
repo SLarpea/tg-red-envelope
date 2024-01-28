@@ -6,10 +6,12 @@ use Ramsey\Uuid\Type\Time;
 use SergiX44\Nutgram\Nutgram;
 use App\Events\PusherBroadcast;
 use Illuminate\Console\Command;
+use App\Domain\NotificationDomain;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\RunningMode\Polling;
 use App\Services\Telegram\TelegramService;
 use App\Services\Dashboard\NotificationService;
+use Illuminate\Database\Eloquent\Collection;
 
 class StartBotCommand extends Command
 {
@@ -37,7 +39,7 @@ class StartBotCommand extends Command
             Log::error('Exception: ' . $e);
             $this->sendTelegramMessage($bot, '工作遇到了一个例外。');
         } finally {
-            $this->sendTelegramMessage($bot, '电报红色信封已经停止。 - ' . date("Y-m-d H:i:s"));
+            $this->sendTelegramMessage($bot, '电报红色信封已经停止。');
         }
     }
 
@@ -46,18 +48,24 @@ class StartBotCommand extends Command
         try {
             // Store the notification
             $notificationService = app(NotificationService::class);
-            $notificationService->store(['message' => $message]);
+            $notificationData = [
+                'type' => __(NotificationDomain::NOTIF_ERROR),
+                'title' => __(NotificationDomain::NOTIF_TGBOT_ERROR),
+                'message' => $message,
+            ];
+            $savedData = $notificationService->store($notificationData);
 
             // Broadcast the notification to Pusher
-            $unreadNotifCount = $notificationService->getUnreadNotif(false);
-            broadcast(new PusherBroadcast('telegram', ['message' => $message, 'notif_count' => $unreadNotifCount]))->toOthers();
+            $unreadNotifCount = $notificationService->getUnreadNotifications(false);
+            $pusherData = array_merge($savedData->toArray(), ['notif_count' => $unreadNotifCount]);
+            broadcast(new PusherBroadcast('telegram', $pusherData))->toOthers();
 
             // Send a Telegram message
             $telegramBot = app('nutgram.bot');
             $telegramBot->sendMessage($message, ['chat_id' => config('nutgram.tg_bot_error_gc')]);
         } catch (\Exception $e) {
             // Handle exceptions related to sending Telegram messages
-            Log::error('Telegram Message Exception: ' . $e);
+            Log::error('Telegram Message Exception: ' . $e->getMessage());
         }
     }
 }
