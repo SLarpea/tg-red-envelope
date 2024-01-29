@@ -1,7 +1,7 @@
 import Pusher from 'pusher-js';
 
-const pusher = new Pusher('fe2ca590e59ed597a8cc', {
-  cluster: 'ap1'
+const pusher = new Pusher(import.meta.env.VITE_PUSHER_APP_KEY, {
+  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER
 });
 
 export default pusher;
