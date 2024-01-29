@@ -233,6 +233,9 @@ export default {
                 onError: (error) => {
                     console.log(error, "error")
                 },
+                onFinish: () => {
+                    this.loading = false;
+                }
             });
         },
         initializePusher() {

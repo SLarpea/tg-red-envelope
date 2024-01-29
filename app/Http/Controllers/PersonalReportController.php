@@ -13,7 +13,7 @@ class PersonalReportController extends Controller
 
     public function __construct(PersonalReportService $personalReportService)
     {
-        $this->middleware('permission:user_management,view_personal_report_user_management');
+        $this->middleware('permission:user_management|view_personal_report_user_management')->only(['index']);
 
         $this->personalReportService = $personalReportService;
     }

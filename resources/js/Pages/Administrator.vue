@@ -33,7 +33,7 @@
                                                         class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
                                                 <button class="btn btn-custom btn-sm" type="button"
                                                     @click.prevent="resetForm"
-                                                    v-if="$page.props.user.permissions.includes('create_administrator')">
+                                                    >
                                                     <i class="bi bi-plus-circle"></i>
                                                     {{ $t('new_administrator') }}
                                                 </button>
@@ -75,9 +75,11 @@
                                                 </td>
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-eye text-info" v-tippy="$t('view')"
-                                                        @click.prevent="selectAction(item, 'show', null)"></i>
+                                                        @click.prevent="selectAction(item, 'show', null)"
+                                                        v-if="$page.props.user.permissions.includes('view_administrator')"></i>
                                                     <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
-                                                        @click.prevent="selectAction(item, 'update', 'all')"></i>
+                                                        @click.prevent="selectAction(item, 'update', 'all')"
+                                                        v-if="$page.props.user.permissions.includes('edit_administrator')"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="$t('delete ')"
                                                         @click.prevent="selectAction(item, 'delete', null)"
                                                         v-if="$page.props.user.permissions.includes('delete_administrator')"></i>

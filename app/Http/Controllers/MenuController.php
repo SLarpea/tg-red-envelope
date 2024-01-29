@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->middleware('permission:menu');
-    // }
+    public function __construct()
+    {
+        $this->middleware('permission:menu')->only(['index']);
+        $this->middleware('permission:edit_menu')->only(['update']);
+        // no permission yet for delete/store
+    }
 
     public function index(Request $request)
     {

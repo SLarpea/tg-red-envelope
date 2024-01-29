@@ -10,7 +10,7 @@ class OperationLogController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:operation_log');
+        $this->middleware('permission:operation_log')->only(['index']);
     }
 
     public function index(Request $request)

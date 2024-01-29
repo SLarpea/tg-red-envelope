@@ -13,7 +13,11 @@ class AdministratorController extends Controller
 
     public function __construct(AdministratorService $administratorService)
     {
-        $this->middleware('permission:administrator');
+
+        $this->middleware('permission:administrator')->only(['index']);
+        $this->middleware('permission:create_administrator')->only(['store']);
+        $this->middleware('permission:edit_administrator')->only(['update']);
+        $this->middleware('permission:delete_administrator')->only(['destroy']);
 
         $this->administratorService = $administratorService;
     }
@@ -44,6 +48,7 @@ class AdministratorController extends Controller
      */
     public function store(AdministratorRequest $request)
     {
+
         $this->administratorService->storeData($request);
         return redirect()->route('administrator.index')->with('response', 'success');
     }
@@ -69,6 +74,7 @@ class AdministratorController extends Controller
      */
     public function update(AdministratorRequest $request, string $id)
     {
+
         if ($request->has('id')) {
             $this->administratorService->updateData($request);
             return redirect()->route('administrator.index')->with('response', 'success');
@@ -80,6 +86,7 @@ class AdministratorController extends Controller
      */
     public function destroy(Request $request)
     {
+
         if ($request->has('id')) {
             $this->administratorService->deleteData($request);
             return redirect()->route('administrator.index')->with('response', 'success');

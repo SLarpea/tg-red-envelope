@@ -12,7 +12,7 @@ class RedEnvelopeManagementController extends Controller
 
     public function __construct(RedEnvelopeManagementService $redEnvelopeManagementService)
     {
-        $this->middleware('permission:red_envelope_management');
+        $this->middleware('permission:red_envelope_management')->only('index');
 
         $this->redEnvelopeManagementService = $redEnvelopeManagementService;
     }
