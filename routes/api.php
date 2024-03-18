@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Services\Dashboard\BotService;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,3 +31,11 @@ Route::get('/get-webhooks', function(){
 
 });
 
+Route::post('test-send', function(Request $request, BotService $botS){
+    $bot = $botS->getBot();
+
+    //  MESSAGE
+    $message = $request->message ?? 'Test message to -4027545771';
+    $chatId = $request->chat_id ??  '-4027545771';
+    $bot->sendMessage($message, ['chat_id' => $chatId]);
+});
