@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Services\Dashboard\BotService;
+use SergiX44\Nutgram\Nutgram;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +32,8 @@ Route::get('/get-webhooks', function(){
 
 });
 
-Route::post('test-send', function(Request $request, BotService $botS){
-    $bot = $botS->getBot();
+Route::get('test-send', function(Request $request, BotService $botS){
+    $bot = new Nutgram('6391563695:AAG-tp8K37a0Wd5Xv8lB353o1rlwHuSdH3g');
 
     //  MESSAGE
     $message = $request->message ?? 'Test message to -4027545771';
