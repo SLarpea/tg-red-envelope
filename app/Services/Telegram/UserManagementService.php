@@ -438,7 +438,7 @@ class UserManagementService
 
         try {
             if ($rs['state'] == 1) {
-                $bot->sendMessage(trans('telegram.registersuccess'));
+                // $bot->sendMessage(trans('telegram.registersuccess'));
             } else {
                 $bot->sendMessage($rs['msg']);
             }
