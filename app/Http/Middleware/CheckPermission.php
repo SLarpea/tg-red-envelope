@@ -16,17 +16,16 @@ class CheckPermission
      */
     public function handle(Request $request, Closure $next, $permissions)
     {
-        $permissions = explode(',', $permissions);
+        $permissions = explode('|', $permissions);
         $user = auth()->user();
-
         foreach ($permissions as $permission) {
             $permission = trim($permission);
 
-            if ($user && $user->hasPermissionTo($permission)) {
-                return $next($request);
+            if (($user && $user->hasPermissionTo($permission)) == false) {
+                abort(403, 'Unauthorized action.');
             }
         }
 
-        abort(403, 'Unauthorized action.');
+        return $next($request);
     }
 }

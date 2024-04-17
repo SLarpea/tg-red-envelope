@@ -14,7 +14,10 @@ class UserManagementController extends Controller
 
     public function __construct(UserManagementService $userManagementService)
     {
-        $this->middleware('permission:user_management');
+        $this->middleware('permission:user_management')->only(['index']);
+        $this->middleware('permission:edit_user_management')->only(['update']);
+        $this->middleware('permission:top_up_user_management')->only(['top_up']);
+        $this->middleware('permission:withdraw_user_management')->only(['withdraw']);
 
         $this->userManagementService = $userManagementService;
     }
@@ -39,6 +42,7 @@ class UserManagementController extends Controller
 
     public function top_up(TopUpRequest $request, string $id)
     {
+
         $this->userManagementService->recharge($request);
         $this->userManagementService->showData($request);
 
@@ -51,11 +55,5 @@ class UserManagementController extends Controller
         $this->userManagementService->showData($request);
 
         return redirect()->route('tg-users.index')->with('response', 'success');
-    }
-
-    public function setLocale(Request $request)
-    {
-        $locale = $request->lang;
-        $request->session()->put('locale', $locale);
     }
 }

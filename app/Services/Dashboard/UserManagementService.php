@@ -6,8 +6,10 @@ use SergiX44\Nutgram\Nutgram;
 use App\Models\RechargeRecord;
 use App\Models\UserManagement;
 use App\Models\WithdrawRecord;
+use App\Models\GroupManagement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Dashboard\BotService;
@@ -24,10 +26,12 @@ class UserManagementService
 
     public function showData($request)
     {
+        $adminId = Auth::id();
+        $groupIds = GroupManagement::where('admin_id', $adminId)->pluck('group_id');
         return [
             'tgusers' => UserManagement::when($request->term, function ($query, $term) {
                 $query->where('username', 'LIKE', '%' . $term . '%');
-            })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
+            })->whereIn('group_id', $groupIds)->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
             'response' => Session::get('response'),
         ];

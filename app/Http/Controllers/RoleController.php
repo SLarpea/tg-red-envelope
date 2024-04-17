@@ -13,7 +13,11 @@ class RoleController extends Controller
 
     public function __construct(RoleService $roleService)
     {
-        $this->middleware('permission:role');
+        $this->middleware('permission:role')->only('index');
+        $this->middleware('permission:view_role')->only('show');
+        $this->middleware('permission:create_role')->only('store');
+        $this->middleware('permission:edit_role')->only('update');
+        $this->middleware('permission:delete_role')->only('destroy');
 
         $this->roleService = $roleService;
     }

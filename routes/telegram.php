@@ -43,7 +43,7 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
         //     $bot->onText('(' . trans('telegram.withdraw') . '|-)([0-9]+)', [RechargeHandler::class, 'handleWithdraw']);
         $bot->onCommand('commands(.*)', [UserHandler::class, 'handleCommands']);
 
-        $bot->onCommand('setLanguage(.*)', [GroupManagementHandler::class, 'handleSetlanguage']);
+        $bot->onCommand('setLanguage(.*)|语言设置', [GroupManagementHandler::class, 'handleSetlanguage']);
 
         // update language here
         $bot->onCallbackQueryData('update_language-{language}', [GroupManagementHandler::class, 'handleUpdateLanguage']);
@@ -69,20 +69,25 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
     $bot->onChatMember([UserHandler::class, 'handleNewUser']);
 
     // Handle user registration command
-    $bot->onCommand('register(.*)', [UserHandler::class, 'handleRegister']);
+    $bot->onCommand('register(.*)|注册', [UserHandler::class, 'handleRegister']);
 
-    $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
+    // $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
 
-    $bot->onCommand('start(.*)', [UserHandler::class, 'handleStart']);
 });
 
+$bot->onCommand('start(.*)|开始', [UserHandler::class, 'handleStart']);
 
-$bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'start']);
+$bot->onCommand('sample', function (Nutgram $bot) {
 
+});
+
+$bot->onCommand('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
+
+$bot->onNewChatMembers([UserHandler::class, 'handleRegister']);
 
 $bot->onPhoto([UserHandler::class, 'handlePhoto']);
 
-$bot->onCommand('help(.*)', [UserHandler::class, 'handleHelp']);
+$bot->onCommand('help(.*)|帮助', [UserHandler::class, 'handleHelp']);
 
 // Uncomment the following block if you want to handle the 'invite' command
-$bot->onCommand('invite(.*)', [InviteHandler::class, 'handleInviteLink']);
+$bot->onCommand('invite(.*)|邀请链接', [InviteHandler::class, 'handleInviteLink']);

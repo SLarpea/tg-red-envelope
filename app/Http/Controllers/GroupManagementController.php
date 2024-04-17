@@ -15,7 +15,10 @@ class GroupManagementController extends Controller
 
     public function __construct(GroupManagementService $groupManagementService)
     {
-        $this->middleware('permission:group_management');
+        $this->middleware('permission:group_management')->only(['index']);
+        $this->middleware('permission:create_group_management')->only(['store']);
+        $this->middleware('permission:edit_group_management')->only(['update']);
+        $this->middleware('permission:delete_group_management')->only(['destroy']);
 
         $this->groupManagementService = $groupManagementService;
     }

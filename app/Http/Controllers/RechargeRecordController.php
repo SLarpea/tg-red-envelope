@@ -12,7 +12,7 @@ class RechargeRecordController extends Controller
 
     public function __construct(RechargeRecordService $rechargeRecordService)
     {
-        $this->middleware('permission:recharge_record');
+        $this->middleware('permission:recharge_record')->only('index');
 
         $this->rechargeRecordService = $rechargeRecordService;
     }

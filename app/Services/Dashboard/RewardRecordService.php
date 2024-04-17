@@ -3,6 +3,8 @@
 namespace App\Services\Dashboard;
 
 use App\Models\RewardRecord;
+use App\Models\GroupManagement;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class RewardRecordService
@@ -25,8 +27,10 @@ class RewardRecordService
             $query->orWhere('group_id', 'LIKE', '%' . $request->term . '%');
         }
 
+        $adminId = Auth::id();
+        $groupIds = GroupManagement::where('admin_id', $adminId)->pluck('group_id');
         return [
-            'reward' => $query->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
+            'reward' => $query->whereIn('group_id', $groupIds)->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show', 'group_id']),
             'response' => Session::get('response'),
         ];

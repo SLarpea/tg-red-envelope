@@ -1,13 +1,13 @@
 <template>
-    <Head :title="$t('administrator')" />
+    <Head :title="$t('notifications')" />
     <AppLayout>
         <div class="pagetitle">
-            <h1><i class="bi bi-people"></i> {{ $t('administrator') }}</h1>
+            <h1><i class="bi bi-people"></i> {{ $t('notifications') }}</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">{{ $t('system') }}</li>
                     <li class="breadcrumb-item">{{ $t('administrator') }}</li>
-                    <li class="breadcrumb-item active">{{ $t('list_of_administrator') }}</li>
+                    <li class="breadcrumb-item active">{{ $t('list_of_notifications') }}</li>
                 </ol>
             </nav>
         </div>
@@ -24,25 +24,13 @@
                                         <div class="col-lg-6">
                                             <h5 class="card-title">
                                                 <i class="bi bi-list-ol"></i>
-                                                {{ $t('list_of_administrator') }}
+                                                {{ $t('list_of_notifications') }}
                                             </h5>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="d-flex justify-content-end align-items-center action-container">
-                                                <a href="/administrator" class="btn btn-secondary btn-sm"><i
-                                                        class="bi bi-recycle"></i> {{ $t('refresh') }}</a>
-                                                <button class="btn btn-custom btn-sm" type="button"
-                                                    @click.prevent="resetForm"
-                                                    >
-                                                    <i class="bi bi-plus-circle"></i>
-                                                    {{ $t('new_administrator') }}
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
 
                                     <SearchLayout :data="{
-                                        routeLink: 'administrator.index',
+                                        routeLink: 'get.notifications.index',
                                         filters: filters,
                                     }" />
 
@@ -51,35 +39,28 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" class="text-center">#</th>
-                                                <th scope="col">{{ $t('name') }}</th>
-                                                <th scope="col">{{ $t('email_address') }}</th>
-                                                <th scope="col" class="text-center">{{ $t('status') }}</th>
+                                                <th scope="col">{{ $t('title') }}</th>
+                                                <th scope="col">{{ $t('message') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('is_read') }}</th>
+                                                <th scope="col" class="text-center">{{ $t('date') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr v-for="(item, index) in   administrator.data  " :key="item.id"
-                                                @dblclick.prevent="selectAction(item, 'show', null)">
+                                            <tr v-for="(item, index) in notifications_list.data  " :key="item.id"
+                                                @click.prevent="selectAction(item, 'show', null)"
+                                                :class="{ 'tr-bg-active': filters.id == item.id }">
                                                 <td class="text-center">
-                                                    {{ administrator.from + index }}
+                                                    {{ notifications_list.from + index }}
                                                 </td>
-                                                <td>{{ item.name }}</td>
-                                                <td>{{ item.email }}</td>
-                                                <td class="list-status-container text-center">
-                                                    <button :class="item.status == 1
-                                                        ? 'btn btn-outline-success btn-status'
-                                                        : 'btn btn-outline-danger btn-status'
-                                                        " @click.prevent="formAction(item, 'status')">
-                                                        {{ item.status == 1 ? $t('active') : $t('inactive') }}
-                                                    </button>
-                                                </td>
+                                                <td>{{ item.title }}</td>
+                                                <td>{{ item.message }}</td>
+                                                <td class="text-center">{{ $t(item.is_read ? 'yes' : 'no') }}</td>
+                                                <td class="text-center">{{ moment(item?.created_at).fromNow() }}</td>
+
                                                 <td class="list-action-container text-center">
                                                     <i class="bi bi-eye text-info" v-tippy="$t('view')"
-                                                        @click.prevent="selectAction(item, 'show', null)"
-                                                        v-if="$page.props.user.permissions.includes('view_administrator')"></i>
-                                                    <i class="bi bi-pencil-square text-success" v-tippy="$t('edit')"
-                                                        @click.prevent="selectAction(item, 'update', 'all')"
-                                                        v-if="$page.props.user.permissions.includes('edit_administrator')"></i>
+                                                        @click.prevent="selectAction(item, 'show', null)"></i>
                                                     <i class="bi bi-trash text-danger" v-tippy="$t('delete ')"
                                                         @click.prevent="selectAction(item, 'delete', null)"
                                                         v-if="$page.props.user.permissions.includes('delete_administrator')"></i>
@@ -89,11 +70,11 @@
                                     </table>
 
                                     <PaginationLayout :data="{
-                                            links: administrator.links,
-                                            from: administrator.from,
-                                            to: administrator.to,
-                                            total: administrator.total,
-                                        }
+                                        links: notifications_list.links,
+                                        from: notifications_list.from,
+                                        to: notifications_list.to,
+                                        total: notifications_list.total,
+                                    }
                                         " />
                                 </div>
                             </div>
@@ -106,7 +87,7 @@
 
         <transition name="modal-fade">
             <div class="modal custom-modal" v-if="modalShow">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-dialog modal-dialog-centered modal-md">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
@@ -120,80 +101,33 @@
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }}:</label>
+                                            <label for="type" class="col-sm-4 col-form-label">{{ $t('type') }}:</label>
                                             <div class="col-sm-8">
-                                                <input id="name" name="name" v-model="form.name" type="text"
-                                                    :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
-                                                    autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.name">{{ error_form.name }}
-                                                </div>
+                                                <label for="type" v-text="$t(form.type)"></label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="email" class="col-sm-4 col-form-label">{{ $t('email_address')
+                                            <label for="title" class="col-sm-4 col-form-label">{{ $t('title')
                                             }}:</label>
                                             <div class="col-sm-8">
-                                                <input id="email" name="email" v-model="form.email" type="text"
-                                                    :class="`form-control ${error_form.email ? 'is-invalid' : ''}`"
-                                                    autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.email">{{ error_form.email
-                                                }}
-                                                </div>
+                                                <label for="title" v-text="$t(form.title)"></label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="password" class="col-sm-4 col-form-label">{{ $t('password')
+                                            <label for="Message" class="col-sm-4 col-form-label">{{ $t('Message')
                                             }}:</label>
                                             <div class="col-sm-8">
-                                                <input id="password" name="password" v-model="form.password"
-                                                    type="password"
-                                                    :class="`form-control ${error_form.password ? 'is-invalid' : ''}`"
-                                                    autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.password">{{
-                                                    error_form.password }}</div>
+                                                <label for="message" v-text="$t(form.message)"></label>
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="password_confirmation" class="col-sm-4 col-form-label">{{
-                                                $t('confirm_password') }}:</label>
+                                            <label for="is_read" class="col-sm-4 col-form-label">{{ $t('is_read')
+                                            }}:</label>
                                             <div class="col-sm-8">
-                                                <input id="password_confirmation" name="password_confirmation"
-                                                    v-model="form.password_confirmation" type="password"
-                                                    :class="`form-control ${error_form.password_confirmation ? 'is-invalid' : ''}`"
-                                                    autocomplete="off" />
-                                                <div class="invalid-feedback" v-if="error_form.password_confirmation">{{
-                                                    error_form.password_confirmation }}</div>
+                                                <label for="message" v-text="$t(form.is_read ? 'yes' : 'no')"></label>
                                             </div>
-                                        </div>
-                                        <div class="row mb-2">
 
-                                            <label for="role" class="col-sm-4 col-form-label">{{ $t('role') }}: </label>
-                                            <div class="col-sm-8">
-                                                <select :class="`form-select ${error_form.role ? 'is-invalid' : ''}`"
-                                                    aria-label="Default select example" id="role" name="role"
-                                                    v-model="form.role">
-                                                    <option v-for=" item  in  roles " :key="item.id" :value="item.name">
-                                                        {{
-                                                            item.name }}</option>
-                                                </select>
-                                                <div class="invalid-feedback" v-if="error_form.role">{{ error_form.role }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}:</label>
-                                            <div class="col-sm-8">
-                                                <select :class="`form-select ${error_form.status ? 'is-invalid' : ''}`"
-                                                    aria-label="Default select example" id="status" name="status"
-                                                    v-model="form.status">
-                                                    <option selected>{{ $t('select_status') }}</option>
-                                                    <option value="1">{{ $t('enable') }}</option>
-                                                    <option value="0">{{ $t('disable') }}</option>
-                                                </select>
-                                                <div class="invalid-feedback" v-if="error_form.status">{{
-                                                    error_form.status
-                                                }}</div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -217,7 +151,7 @@
             </div>
         </transition>
 
-        <LoadingLayout v-if="loading" />
+        <LoadingLayout v-show="loading" />
 
     </AppLayout>
 </template>
@@ -228,6 +162,8 @@ import AppLayout from "../Layouts/AppLayout.vue";
 import SearchLayout from "../Layouts/SearchLayout.vue";
 import PaginationLayout from "../Layouts/PaginationLayout.vue";
 import LoadingLayout from "../Layouts/LoadingLayout.vue";
+import pusher from './../pusher';
+import moment from "moment";
 import toastr from 'toastr';
 
 export default {
@@ -237,19 +173,17 @@ export default {
             modalShow: false,
             editMode: false,
             form: {
-                name: null,
-                email: null,
-                password: "Password123!@#",
-                password_confirmation: null,
-                role: null,
-                status: 1,
+                type: null,
+                title: null,
+                message: "Password123!@#",
+                is_read: null,
             },
-            error_form: {}
+            error_form: {},
+            moment: moment
         };
     },
     props: {
-        administrator: Object,
-        roles: Object,
+        notifications_list: Object,
         filters: Object,
         response: null,
     },
@@ -284,9 +218,12 @@ export default {
             } else {
                 this.form = Object.assign({}, data);
                 this.form.password = '';
-                this.form.role = data['roles'][0].name ?? '';
+                // this.form.role = data['roles'][0].name ?? '';
                 this.editMode = true;
                 this.modalShow = true;
+
+                this.handleReadClick(data.id, data.is_read);
+                console.log(data, "data")
             }
         },
         formAction(data, type) {
@@ -301,20 +238,20 @@ export default {
                 text = this.$t("confirm_save_item");
                 confirmButtonColor = "#198754";
                 method = "POST";
-                routeURL = "administrator.store";
+                routeURL = "notifications_list.store";
                 msgText = this.$t("item_saved");
                 data.id = null;
             } else if (this.action == "update") {
                 text = this.$t("confirm_update_item");
                 confirmButtonColor = "#198754";
                 method = "PUT";
-                routeURL = "administrator.update";
+                routeURL = "notifications_list.update";
                 msgText = this.$t("item_updated");
             } else {
                 text = this.$t("confirm_delete_item");
                 confirmButtonColor = "#D81B60";
                 method = "DELETE";
-                routeURL = "administrator.destroy";
+                routeURL = "notifications_list.destroy";
                 msgText = this.$t("item_deleted");
             }
 
@@ -323,8 +260,8 @@ export default {
                 icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: confirmButtonColor,
-                cancelButtonText: this.$t('no')+' <i class="bi bi-hand-thumbs-down"></i>',
-                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> '+this.$t('yes')
+                cancelButtonText: this.$t('no') + ' <i class="bi bi-hand-thumbs-down"></i>',
+                confirmButtonText: '<i class="bi bi-hand-thumbs-up"></i> ' + this.$t('yes')
             }).then((result) => {
                 if (result.isConfirmed) {
                     data._method = method;
@@ -370,6 +307,11 @@ export default {
                 this.modalShow = false;
             }
         },
+        handleReadClick(id, isRead) {
+            if (isRead == 0) {
+                router.post(route("post.notifications.read", id), { _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content') });
+            }
+        }
     },
     created() {
         window.addEventListener("keydown", this.escape);
@@ -382,6 +324,12 @@ export default {
 };
 </script>
 
-<style scoped>.invalid-feedback {
+<style scoped>
+.invalid-feedback {
     font-size: .775em;
-}</style>
+}
+
+.tr-bg-active td {
+    background: #F1E9FB;
+}
+</style>

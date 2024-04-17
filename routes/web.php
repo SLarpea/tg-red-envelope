@@ -20,6 +20,8 @@ Route::get('/', function () {
     return redirect('/dashboard');
 });
 
+Route::post('/webhook', [App\Http\Controllers\TelegramController::class, 'index'])->name('webhook');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -42,6 +44,9 @@ Route::middleware([
         Route::resource('/tg-users', App\Http\Controllers\UserManagementController::class);
         Route::resource('/menus', App\Http\Controllers\MenuController::class);
 
+        Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('get.notifications.index');
+        Route::post('/notifications', [App\Http\Controllers\NotificationController::class, 'store'])->name('post.notifications.store');
+        Route::post('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('post.notifications.read');
     });
     Route::get('/personal-report', [App\Http\Controllers\PersonalReportController::class, 'index'])->name('personal-report');
     Route::get('/funding-details', [App\Http\Controllers\FundingDetailController::class, 'index'])->name('funding-details');

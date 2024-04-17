@@ -12,7 +12,7 @@ class ConfigController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:group_management,configure_group_management');
+        $this->middleware('permission:group_management|configure_group_management');
     }
 
     /**

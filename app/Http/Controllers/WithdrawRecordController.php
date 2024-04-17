@@ -12,7 +12,7 @@ class WithdrawRecordController extends Controller
 
     public function __construct(WithdrawRecordService $withdrawRecordService)
     {
-        $this->middleware('permission:withdrawal_record');
+        $this->middleware('permission:withdrawal_record')->only('index');
 
         $this->withdrawRecordService = $withdrawRecordService;
     }

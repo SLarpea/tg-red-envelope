@@ -18,7 +18,7 @@ class CheckMenu
     {
         $currentUrl = $request->segment(1);
 
-        $ignore = ['menus', 'configs'];
+        $ignore = ['menus', 'configs', 'notifications'];
         if (!in_array($currentUrl, $ignore) && !Menu::where(['url' => $currentUrl, 'status' => 1])->exists()) {
             abort(403);
         }

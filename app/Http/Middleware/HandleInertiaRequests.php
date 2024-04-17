@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Http\Request;
+use App\Services\Dashboard\NotificationService;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -45,7 +46,10 @@ class HandleInertiaRequests extends Middleware
             },
             'user.locale' => function () use ($request) {
                 return session('locale');
-            }
+            },
+            'notifications' => function () use ($request) {
+                return app(NotificationService::class)->getUnreadNotifications();
+            },
         ]);
     }
 }
