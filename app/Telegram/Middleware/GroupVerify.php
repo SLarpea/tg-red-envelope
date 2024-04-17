@@ -39,8 +39,9 @@ class GroupVerify
                     // Continue processing
                     $next($bot);
                 } else {
+                    $next($bot);
                     // Group is not authorized, send a message
-                    $bot->sendMessage('未授权');
+                    // $bot->sendMessage('未授权');
                 }
             } catch (\Exception $e) {
                 // Log any errors that occur during the verification process
