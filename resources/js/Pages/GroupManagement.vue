@@ -349,7 +349,7 @@ export default {
                 recharge_url: null,
                 channel_url: null,
                 photo_id: null,
-                admin_id: 1,
+                admin_id: this.$page.props.auth.user.id,
                 status: 1,
             },
             error_form: {}
@@ -386,7 +386,7 @@ export default {
                 recharge_url: null,
                 channel_url: null,
                 photo_id: null,
-                admin_id: 1,
+                admin_id: this.$page.props.auth.user.id,
                 status: 1,
             }
         },

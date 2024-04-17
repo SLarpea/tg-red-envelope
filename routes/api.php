@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TelegramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,6 @@ Route::get('/get-webhooks', function(){
     return response()->json($response);
 
 });
+
+Route::post('/webhook', TelegramController::class . '@__invoke');
 

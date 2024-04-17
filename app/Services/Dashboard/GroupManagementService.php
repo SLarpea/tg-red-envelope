@@ -5,6 +5,7 @@ namespace App\Services\Dashboard;
 use App\Models\Config;
 use App\Models\GroupManagement;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
@@ -13,10 +14,11 @@ class GroupManagementService
 {
     public function showData($request)
     {
+        $adminId = Auth::id();
         return [
             'groups' => GroupManagement::when($request->term, function ($query, $term) {
                 $query->where('group_id', 'LIKE', '%' . $term . '%');
-            })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
+            })->where('admin_id', $adminId)->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
             'response' => Session::get('response'),
         ];
