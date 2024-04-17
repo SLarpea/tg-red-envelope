@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Artisan;
 use SergiX44\Nutgram\Nutgram;
 use Illuminate\Support\Facades\Log;
 use SergiX44\Nutgram\RunningMode\Polling;
+use SergiX44\Nutgram\RunningMode\Webhook;
 
 class TelegramController extends Controller
 {
@@ -16,10 +17,11 @@ class TelegramController extends Controller
     public function __invoke(Nutgram $bot)
     {
         try {
-            $bot->setRunningMode(Polling::class);
+            // $bot->setRunningMode(Webhook::class);
             $bot->run();
         } catch (\Exception $e) {
             Log::error('异常' . $e);
         }
     }
+
 }

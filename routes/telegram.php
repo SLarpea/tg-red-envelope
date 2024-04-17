@@ -71,14 +71,19 @@ $bot->group(GroupVerify::class, function (Nutgram $bot) {
     // Handle user registration command
     $bot->onCommand('register(.*)', [UserHandler::class, 'handleRegister']);
 
-    $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
+    // $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
 
-    $bot->onCommand('start(.*)', [UserHandler::class, 'handleStart']);
 });
 
+$bot->onCommand('start(.*)', [UserHandler::class, 'handleStart']);
 
-$bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'start']);
+$bot->onCommand('sample', function (Nutgram $bot) {
 
+});
+
+$bot->onCommand('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
+
+$bot->onNewChatMembers([UserHandler::class, 'handleRegister']);
 
 $bot->onPhoto([UserHandler::class, 'handlePhoto']);
 

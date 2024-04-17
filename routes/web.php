@@ -20,6 +20,8 @@ Route::get('/', function () {
     return redirect('/dashboard');
 });
 
+Route::post('/webhook', [App\Http\Controllers\TelegramController::class, 'index'])->name('webhook');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

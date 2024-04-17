@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Services\Dashboard\BotService;
-use SergiX44\Nutgram\Nutgram;
+use App\Http\Controllers\TelegramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +31,5 @@ Route::get('/get-webhooks', function(){
 
 });
 
-Route::get('test-send', function(Request $request, BotService $botS){
-    $bot = new Nutgram('6391563695:AAG-tp8K37a0Wd5Xv8lB353o1rlwHuSdH3g');
+Route::post('/webhook', TelegramController::class . '@__invoke');
 
-    //  MESSAGE
-    $message = $request->message ?? 'Test message to -4027545771';
-    $chatId = $request->chat_id ??  '-4027545771';
-    $bot->sendMessage($message, ['chat_id' => $chatId]);
-});
