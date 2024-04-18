@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('recharge_url');
             $table->string('channel_url');
             $table->string('photo_id');
-            $table->integer('admin_id')->default(1);
+            $table->bigInteger('admin_id');
             $table->timestamps();
         });
     }

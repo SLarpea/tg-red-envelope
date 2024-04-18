@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->nullable()->comment('配置key');
             $table->string('value')->nullable()->comment('配置值');
             $table->bigInteger('group_id')->nullable()->comment('群组id');
-            $table->integer('admin_id')->nullable()->comment('管理员id');
+            $table->bigInteger('admin_id')->nullable()->comment('管理员id');
             $table->string('remark')->nullable()->comment('描述');
             $table->timestamps();
         });

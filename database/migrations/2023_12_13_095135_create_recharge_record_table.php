@@ -21,7 +21,7 @@ return new class extends Migration
             $table->tinyInteger('status')->default(0)->comment('状态:0=进行中;1=充值成功');
             $table->tinyInteger('type')->nullable()->comment('类型:1=后台充值;2=自动充值');
             $table->string('first_name')->nullable();
-            $table->integer('admin_id')->nullable();
+            $table->bigInteger('admin_id')->nullable();
             $table->bigInteger('group_id')->nullable();
             $table->string('remark')->nullable();
             $table->softDeletes('deleted_at')->nullable();

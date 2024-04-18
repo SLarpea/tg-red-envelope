@@ -25,7 +25,7 @@ return new class extends Migration
             $table->bigInteger('group_id')->nullable();
             $table->string('remark')->nullable();
             $table->softDeletes();
-            $table->integer('admin_id')->nullable();
+            $table->bigInteger('admin_id')->nullable();
             $table->index(['tg_id', 'status']); // Add any necessary indexes based on your queries
             $table->timestamps();
         });
