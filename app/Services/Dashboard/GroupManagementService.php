@@ -14,7 +14,7 @@ class GroupManagementService
 {
     public function showData($request)
     {
-        $adminId = Auth::id();
+        $adminId = Auth::user()->tg_id;
         return [
             'groups' => GroupManagement::when($request->term, function ($query, $term) {
                 $query->where('group_id', 'LIKE', '%' . $term . '%')

@@ -13,7 +13,7 @@ class WithdrawRecordService
 {
     public function showData($request)
     {
-        $adminId = Auth::id();
+        $adminId = Auth::user()->tg_id;
         $groupIds = GroupManagement::where('admin_id', $adminId)->pluck('group_id');
         return [
             'withdraw' => WithdrawRecord::when($request->term, function ($query, $term) {

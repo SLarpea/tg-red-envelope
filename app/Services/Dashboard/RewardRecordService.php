@@ -27,7 +27,7 @@ class RewardRecordService
             $query->orWhere('group_id', 'LIKE', '%' . $request->term . '%');
         }
 
-        $adminId = Auth::id();
+        $adminId = Auth::user()->tg_id;
         $groupIds = GroupManagement::where('admin_id', $adminId)->pluck('group_id');
         return [
             'reward' => $query->whereIn('group_id', $groupIds)->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
