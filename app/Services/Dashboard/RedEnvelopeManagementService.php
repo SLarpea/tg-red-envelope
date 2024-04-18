@@ -19,7 +19,9 @@ class RedEnvelopeManagementService
             'envelopes' => LuckyMoney::with('sender')->whereHas('sender', function ($query) use ($groupIds) {
                 $query->whereIn('group_id', $groupIds);
             })->when($request->term, function ($query, $term) {
-                $query->where('chat_id', 'LIKE', '%' . $term . '%');
+                $query->where('chat_id', 'LIKE', '%' . $term . '%')
+                      ->orWhere('sender_id', 'LIKE', '%' . $term . '%')
+                      ->orWhere('sender_name', 'LIKE', '%' . $term . '%');
             })->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
             'response' => Session::get('response'),
