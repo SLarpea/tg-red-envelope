@@ -53,7 +53,7 @@
                                                 <th scope="col" class="text-center">#</th>
                                                 <th scope="col">{{ $t('name') }}</th>
                                                 <th scope="col">{{ $t('email_address') }}</th>
-                                                <th scope="col">Telegram ID</th>
+                                                <th scope="col">{{ $t('tg_id') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('status') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
