@@ -101,9 +101,9 @@ class GroupManagementService
                         'name' => $groupName,
                         'remark' => "",
                         'status' => 1,
-                        'service_url' => "",
-                        'recharge_url' => "",
-                        'channel_url' => "",
+                        'service_url' => "https://www.esplanade.com/",
+                        'recharge_url' => "https://www.esplanade.com/",
+                        'channel_url' => "https://www.esplanade.com/",
                         'photo_id' => "https://www.esplanade.com/-/media/Offstage-Microsite/Explore-The-Arts/Legends-of-the-hong-baos/legendsofthehongbao-KV-1200x1200.ashx?rev=c640910d27e847d382a3ee095979f616&hash=EA336408CCAC0902CB39D3052BE8E1B2",
                         'admin_id' => $userId,
                     ]);
