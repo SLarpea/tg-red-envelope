@@ -2,10 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Services\Telegram\ConfigService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ConfigRequest extends FormRequest
 {
+    protected $validTime;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -16,14 +21,12 @@ class ConfigRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         $rules = [
             'name' => 'required',
-            'value' => 'nullable'
+            'value' => 'nullable',
         ];
 
         $numericKeys = [
@@ -31,37 +34,38 @@ class ConfigRequest extends FormRequest
             'lucky_num',
             'lose_rate',
             'valid_time',
-            'default_balance',
-            'platform_commission',
-            'platform_get_commission',
-            'thunder_chance',
-            'share_rate',
-            'invite_usdt',
-            'leopard_reward',
-            'leopard_reward_4',
-            'leopard_reward_5',
-            'straight_reward',
-            'straight_reward_4',
-            'straight_reward_5',
-            'self_lucky',
-            'min_amount',
-            'max_amount',
-            'straight_rate',
-            'leopard_rate',
-            'jackpot',
+            // Add other numeric keys here
         ];
 
         if (in_array($this->name, $numericKeys)) {
-            $rules['value'] = "required|numeric";
+            if ($this->name === 'auto_get_sec') {
+                $validTime = ConfigService::getConfigValue($this->group_id, 'valid_time');
+                $this->validTime = $validTime;
+                $rules['value'] = "required|numeric|max:$validTime";
+            } else {
+                $rules['value'] = "required|numeric";
+            }
         }
 
         return $rules;
     }
 
-    public function attributes()
+    public function attributes(): array
     {
         return [
-            'value' => 'Configuration value'
+            'value' => 'Configuration value',
         ];
+    }
+
+
+    public function messages()
+    {
+        $messages = [];
+
+        if ($this->name === 'auto_get_sec') {
+            $messages['value.max'] =  ":attribute must not greater valid_time $this->validTime ";
+        }
+
+        return $messages;
     }
 }
