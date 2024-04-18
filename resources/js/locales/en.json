@@ -338,5 +338,6 @@
     "select_type": "Select Type",
     "normal_user": "Normal User",
     "test_user": "Test User",
-    "arbitrage_user": "Arbitrage User"
+    "arbitrage_user": "Arbitrage User",
+    "tg_id": "Telegram ID"
 }

@@ -327,5 +327,6 @@
     "select_type": "选择类型",
     "normal_user": "正常用户",
     "test_user": "测试用户",
-    "arbitrage_user": "套利用户"
+    "arbitrage_user": "套利用户",
+    "tg_id": "电报ID"
 }

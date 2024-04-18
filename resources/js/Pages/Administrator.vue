@@ -53,6 +53,7 @@
                                                 <th scope="col" class="text-center">#</th>
                                                 <th scope="col">{{ $t('name') }}</th>
                                                 <th scope="col">{{ $t('email_address') }}</th>
+                                                <th scope="col">Telegram ID</th>
                                                 <th scope="col" class="text-center">{{ $t('status') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
@@ -65,6 +66,7 @@
                                                 </td>
                                                 <td>{{ item.name }}</td>
                                                 <td>{{ item.email }}</td>
+                                                <td>{{ item.tg_id }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button :class="item.status == 1
                                                         ? 'btn btn-outline-success btn-status'
@@ -138,6 +140,16 @@
                                                     autocomplete="off" />
                                                 <div class="invalid-feedback" v-if="error_form.email">{{ error_form.email
                                                 }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="tg_id" class="col-sm-4 col-form-label">{{ $t('tg_id') }}: <span class="text-danger">*</span> </label>
+                                            <div class="col-sm-8">
+                                                <input id="tg_id" name="tg_id" v-model="form.tg_id" type="text"
+                                                    :class="`form-control ${error_form.tg_id ? 'is-invalid' : ''}`"
+                                                    autocomplete="off" />
+                                                <div class="invalid-feedback" v-if="error_form.tg_id">{{ error_form.tg_id }}
                                                 </div>
                                             </div>
                                         </div>
@@ -239,6 +251,7 @@ export default {
             form: {
                 name: null,
                 email: null,
+                tg_id: null,
                 password: "Password123!@#",
                 password_confirmation: null,
                 role: null,
@@ -270,6 +283,7 @@ export default {
             this.form = {
                 name: null,
                 email: null,
+                tg_id: null,
                 password: "Password123!@#",
                 password_confirmation: null,
                 role: null,

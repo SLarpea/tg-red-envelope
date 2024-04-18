@@ -187,4 +187,6 @@ return [
     "telegram_bot_error" => "电报机器人错误",
     "telegram_bot_run_stop" => "电报机器人已经停止",
     "telegram_bot_run_error" => "机器人操作期间发生了例外。错误",
+    "create_cms_account" => "请首先创建CMS帐户",
+    "group_already_created" => "该组已经注册。",
 ];

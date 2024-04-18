@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->bigInteger('tg_id')->nullable()->comment('tgId');
             $table->integer('status')->default(1);
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();

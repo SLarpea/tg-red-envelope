@@ -184,4 +184,6 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     "telegram_bot_error" => "Telegram bot error",
     "telegram_bot_run_stop" => "The Telegram bot has stopped",
     "telegram_bot_run_error" => "An exception occurred during bot operation. ERROR",
+    "create_cms_account" => "Kindly Create CMS Account first",
+    "group_already_created" => "The group already registered.",
 ];

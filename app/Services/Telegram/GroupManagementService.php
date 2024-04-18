@@ -2,6 +2,7 @@
 
 namespace App\Services\Telegram;
 
+use App\Models\User;
 use App\Models\Config;
 use SergiX44\Nutgram\Nutgram;
 use App\Models\GroupManagement;
@@ -81,41 +82,59 @@ class GroupManagementService
 
         DB::beginTransaction();
 
-        $userCount = GroupManagement::where('group_id', $groupId)->count();
+        $userCount = User::where('tg_id', $userId)->count();
+
         if($userCount > 0){
 
-        }else{
-            try {
-                GroupManagement::create([
-                    'group_id' => $groupId,
-                    'name' => $groupName,
-                    'remark' => "",
-                    'status' => 1,
-                    'service_url' => "",
-                    'recharge_url' => "",
-                    'channel_url' => "",
-                    'photo_id' => "https://www.esplanade.com/-/media/Offstage-Microsite/Explore-The-Arts/Legends-of-the-hong-baos/legendsofthehongbao-KV-1200x1200.ashx?rev=c640910d27e847d382a3ee095979f616&hash=EA336408CCAC0902CB39D3052BE8E1B2",
-                    'admin_id' => 1,
-                ]);
+            $groupCount = GroupManagement::where('group_id', $groupId)->count();
+            if($groupCount > 0){
+                $data = [
+                    'parse_mode' => ParseMode::HTML,
+                    'chat_id' => $groupId
+                ];
 
-                $tgbotConfig = config('tgbot');
-                foreach ($tgbotConfig as $key => $val) {
-                    if (Config::query()->where('name', $key)->where('group_id', $groupId)->count() == 0) {
-                        $insert = [
-                            'name' => $key,
-                            'value' => $val,
-                            'group_id' => $groupId,
-                            'admin_id' => 1,
-                            'remark' => trans('admin.tgbot.' . $key),
-                        ];
-                        Config::create($insert);
+                $bot->sendMessage(trans('telegram.group_already_created'), $data);
+            }else{
+                try {
+                    GroupManagement::create([
+                        'group_id' => $groupId,
+                        'name' => $groupName,
+                        'remark' => "",
+                        'status' => 1,
+                        'service_url' => "",
+                        'recharge_url' => "",
+                        'channel_url' => "",
+                        'photo_id' => "https://www.esplanade.com/-/media/Offstage-Microsite/Explore-The-Arts/Legends-of-the-hong-baos/legendsofthehongbao-KV-1200x1200.ashx?rev=c640910d27e847d382a3ee095979f616&hash=EA336408CCAC0902CB39D3052BE8E1B2",
+                        'admin_id' => $userId,
+                    ]);
+
+                    $tgbotConfig = config('tgbot');
+                    foreach ($tgbotConfig as $key => $val) {
+                        if (Config::query()->where('name', $key)->where('group_id', $groupId)->count() == 0) {
+                            $insert = [
+                                'name' => $key,
+                                'value' => $val,
+                                'group_id' => $groupId,
+                                'admin_id' => $userId,
+                                'remark' => trans('admin.tgbot.' . $key),
+                            ];
+                            Config::create($insert);
+                        }
                     }
-                }
 
-                DB::commit();
-            } catch (\Exception $e) {
-                DB::rollBack();
+                    DB::commit();
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                }
             }
+
+        }else{
+            $data = [
+                'parse_mode' => ParseMode::HTML,
+                'chat_id' => $groupId
+            ];
+
+            $bot->sendMessage(trans('telegram.create_cms_account'), $data);
         }
 
     }

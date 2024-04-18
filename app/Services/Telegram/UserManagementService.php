@@ -14,11 +14,12 @@ use SergiX44\Nutgram\Nutgram;
 use App\Models\UserManagement;
 use Illuminate\Support\Carbon;
 use App\Models\CommissionRecord;
+use App\Models\GroupManagement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
-use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 use App\Services\Telegram\ConfigService;
+use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 
 class UserManagementService
 {
@@ -66,9 +67,13 @@ class UserManagementService
     public static function registerUser($memberInfo, $groupId)
     {
         $info = UserManagement::query()->where('tg_id', $memberInfo->id)->where('group_id', $groupId)->first();
+
         if (!$info) {
             $default_balance = ConfigService::getConfigValue($groupId, 'default_balance');
             $default_type = ConfigService::getConfigValue($groupId, 'default_type');
+
+            $checkAdmin = GroupManagement::query()->where('admin_id', $memberInfo->id)->where('group_id', $groupId)->first();
+            $utype = ($checkAdmin) ? 3 : $default_type;
             $insert = [
                 'username' => $memberInfo->username,
                 'first_name' => $memberInfo->first_name,
@@ -77,7 +82,7 @@ class UserManagementService
                 'balance' =>  $default_balance > 0 ? $default_balance : 0,
                 'status' => 1,
                 'invite_user' => 0,
-                'type' => $default_type,
+                'type' => $utype,
             ];
             $rs = UserManagement::query()->create($insert);
             if (!$rs) {
@@ -89,9 +94,10 @@ class UserManagementService
             if (!$rs) {
                 return ['state' => 0, 'msg' => trans('telegram.registerfailed')];
             }
-        } else if ($info['status'] == 1) {
-            return ['state' => 0, 'msg' => trans('telegram.userregistered')];
         }
+        // else if ($info['status'] == 1) {
+        //     return ['state' => 0, 'msg' => trans('telegram.userregistered')];
+        // }
         return ['state' => 1];
     }
 
