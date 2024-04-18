@@ -28,7 +28,7 @@ return [
 
     //发包
     'commanderror_integer'=>'Command error, please enter an integer',
-    'commanderror_thundernum'=>'Command error, the thunder number should be between 0 and 9',
+    'commanderror_thundernum'=>'Command error, the thunder number should be between 1 and 9',
     'error_lessthan'=>'The amount of red envelope cannot be less than :minAmount U',
     'error_greaterthan'=>'The amount of red envelope cannot be greater than :maxAmount U',
     'registersuccess'=>'Registration success',

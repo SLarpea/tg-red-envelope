@@ -28,7 +28,7 @@ return [
 
 // 发包
     'commanderror_integer' => '命令错误，请输入整数',
-    'commanderror_thundernum' => '命令错误，雷电数字应在0到9之间',
+    'commanderror_thundernum' => '命令错误，雷电数字应在1到9之间',
     'error_lessthan' => '红包金额不能小于 :minAmount U',
     'error_greaterthan' => '红包金额不能大于 :maxAmount U',
     'registersuccess' => '注册成功',

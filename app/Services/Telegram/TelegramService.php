@@ -684,7 +684,7 @@ class TelegramService
             $bot->sendMessage(trans('telegram.commanderror_integer'));
             return false;
         }
-        if ($mine > 9 || $mine < 0 || $mine == null) {
+        if ($mine > 9 || $mine < 1 || $mine == null) {
             $bot->sendMessage(trans('telegram.commanderror_thundernum'));
             return false;
         }
