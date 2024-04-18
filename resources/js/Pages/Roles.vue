@@ -1,4 +1,5 @@
 <template>
+
     <Head :title="$t('roles')" />
     <AppLayout>
 
@@ -23,7 +24,7 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <h5 class="card-title"><i class="bi bi-list-ol"></i> {{
-                                                $t('list_of_roles_title') }}</h5>
+        $t('list_of_roles_title') }}</h5>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="d-flex justify-content-end align-items-center action-container">
@@ -92,7 +93,8 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
-                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? $t('new_role') : $t('update_role')
+                                <i class="bi bi-arrow-return-right"></i> {{ (!editMode) ? $t('new_role') :
+        $t('update_role')
                                 }}
                             </h5>
                             <button type="button" class="btn-close" @click.prevent="closeModal"></button>
@@ -113,10 +115,11 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}:</label>
+                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status')
+                                                }}:</label>
                                             <div class="col-sm-8">
-                                                <select class="form-select" aria-label="Default select example" id="status"
-                                                    name="status" v-model="form.status">
+                                                <select class="form-select" aria-label="Default select example"
+                                                    id="status" name="status" v-model="form.status">
                                                     <option selected>{{ $t('select_status') }}</option>
                                                     <option value="1">{{ $t('enable') }}</option>
                                                     <option value="0">{{ $t('disable') }}</option>
@@ -125,23 +128,31 @@
                                         </div>
                                         <div class="row mb-2">
                                             <label for="name" class="col-sm-4 col-form-label">{{ $t('permissions')
-                                            }}:</label>
+                                                }}:</label>
                                             <div class="col-sm-8">
                                                 <div class="form-check mb-1">
                                                     <input :id="'id_all'" class="form-check-input" type="checkbox"
-                                                        @click="handClickAll(form.isAll)" v-model="form.isAll" value="true">
+                                                        @click="handClickAll(form.isAll)" v-model="form.isAll"
+                                                        value="true">
                                                     <label class="form-check-label" :for="'id_all'">
                                                         {{ $t('all') }}
                                                     </label>
                                                 </div>
-                                                <div class="permission-card-wrap mb-2" v-for="(moduleName, key) in modules"
-                                                    :key="key">
+                                                <div class="permission-card-wrap mb-2"
+                                                    v-for="(moduleName, key) in modules" :key="key">
                                                     <div class="row">
                                                         <div class="col-sm-12 ">
                                                             <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <p class="mt-1 permission-card-title"> {{ $t(moduleName)
-                                                                    }} </p>
+                                                                <div
+                                                                    class="col-sm-12 d-flex align-items-center gap-2 mb-3">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        v-model="isAll[moduleName]"
+                                                                        @click="handClickSubAll(isAll[moduleName], moduleName)"
+                                                                        :id="`isAll_${moduleName}`">
+                                                                    <label class="mt-1 permission-card-title"
+                                                                        :for="`isAll_${moduleName}`"> {{ $t(moduleName)
+                                                                        }}
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -215,7 +226,10 @@ export default {
                 isAll: false
             },
             error_form: {},
-            modules: []
+            modules: [],
+            isAll: {},
+
+            isAllWatcherTriggered: false
         };
     },
     props: {
@@ -340,6 +354,20 @@ export default {
             } else {
                 this.form.selectedOptions = [];
             }
+        },
+        handClickSubAll(isSubAll, moduleName) {
+            isSubAll = !isSubAll;
+            let permissionFilterModule = this.permissions
+                .filter((p) => p.module === moduleName)
+                .map((p) => p.name);
+
+            if (isSubAll) {
+                // console.log(permissionFilterModule, "permissionFilterModuleXXXXXXXXXXXX");
+                this.form.selectedOptions = [...new Set([...this.form.selectedOptions, ...permissionFilterModule])];
+            } else {
+                // Remove permissionFilterModule values from selectedOptions
+                this.form.selectedOptions = this.form.selectedOptions.filter(option => !permissionFilterModule.includes(option));
+            }
         }
     },
     created() {
@@ -361,8 +389,18 @@ export default {
             } else {
                 this.form.isAll = false;
             }
-        },
 
+            for (const key in this.modules) {
+                let moduleName = this.modules[key];
+                let filter1 = this.permissions
+                    .filter((p) => p.module === moduleName)
+                    .map((p) => p.name);
+
+                let allExist = filter1.every(item => this.form.selectedOptions.includes(item));
+
+                this.isAll[moduleName] = allExist;
+            }
+        },
     }
 }
 
