@@ -166,7 +166,7 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     "commands" => "
     📢List of commands
 
-    ¤ `groupinfo` - command to display comprehensive information about a specific group.
+    ¤ `/groupinfo | groupinfo` - command to display comprehensive information about a specific group.
     ¤ `balance` - command to show current balance
 
     ¤ /start - command to start and see if the group is working

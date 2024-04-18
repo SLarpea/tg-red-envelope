@@ -20,12 +20,13 @@ class CommissionRecordService
             ->whereHas('sender', function ($query) use ($groupIds) {
                 $query->whereIn('group_id', $groupIds);
             })
-            ->when($request->term, function ($query, $term) {
-                $query->where(function ($query) use ($term) {
+            ->when($request->term, function ($query, $term) use ($groupIds) {
+                $query->where(function ($query) use ($term, $groupIds) {
                     $query->where('group_id', 'LIKE', '%' . $term . '%')
                         ->orWhere('tg_id', 'LIKE', '%' . $term . '%')
                         ->orWhere('sender_id', 'LIKE', '%' . $term . '%')
-                        ->orWhere('remark', 'LIKE', '%' . $term . '%');
+                        ->orWhere('remark', 'LIKE', '%' . $term . '%')
+                        ->whereIn('group_id', $groupIds);
                 });
             })
             ->orderBy('id', 'asc')
