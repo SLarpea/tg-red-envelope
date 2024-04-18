@@ -38,6 +38,7 @@ class AdministratorService
 
     public function storeData($request)
     {
+
         try {
             DB::beginTransaction();
 
@@ -46,6 +47,7 @@ class AdministratorService
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'tg_id' => $request->tg_id,
                 'status' => $request->status,
             ]);
             $user->assignRole($request->role);
@@ -68,7 +70,7 @@ class AdministratorService
 
 
                 // Extracting request data
-                $updateData = $request->only(['name', 'email', 'status']);
+                $updateData = $request->only(['name', 'email', 'tg_id', 'status']);
 
                 // Updating password if provided
                 if ($request->filled('password')) {
