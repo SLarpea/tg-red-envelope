@@ -17,7 +17,9 @@ class GroupManagementService
         $adminId = Auth::id();
         return [
             'groups' => GroupManagement::when($request->term, function ($query, $term) {
-                $query->where('group_id', 'LIKE', '%' . $term . '%');
+                $query->where('group_id', 'LIKE', '%' . $term . '%')
+                      ->orWhere('name', 'LIKE', '%' . $term . '%')
+                      ->orWhere('remark', 'LIKE', '%' . $term . '%');
             })->where('admin_id', $adminId)->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
             'response' => Session::get('response'),

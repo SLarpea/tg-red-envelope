@@ -17,7 +17,13 @@ class RechargeRecordService
         $groupIds = GroupManagement::where('admin_id', $adminId)->pluck('group_id');
         return [
             'recharge' => RechargeRecord::when($request->term, function ($query, $term) {
-                $query->where('username', 'LIKE', '%' . $term . '%');
+                $query->where(function ($query) use ($term) {
+                    $query->where('username', 'LIKE', '%' . $term . '%')
+                        ->orWhere('tg_id', 'LIKE', '%' . $term . '%')
+                        ->orWhere('group_id', 'LIKE', '%' . $term . '%')
+                        ->orWhere('remark', 'LIKE', '%' . $term . '%')
+                        ->orWhere('first_name', 'LIKE', '%' . $term . '%');
+                });
             })->whereIn('group_id', $groupIds)->orderBy('id', 'asc')->paginate($request->show)->withQueryString(),
             'filters' => $request->only(['term', 'show']),
             'response' => Session::get('response'),
