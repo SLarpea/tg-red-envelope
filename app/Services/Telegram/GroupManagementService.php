@@ -19,17 +19,12 @@ class GroupManagementService
     {
     }
 
-    public static function groupInfo($bot, $ac)
+    public static function groupInfo($bot)
     {
-        if ($bot->chat()->type == 'private') {
-        } else {
-            if ($ac == trans('telegram.groupinfo')) {
-                $params = [
-                    'parse_mode' => ParseMode::HTML
-                ];
-                $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
-            }
-        }
+        $params = [
+            'parse_mode' => ParseMode::HTML
+        ];
+        $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
     }
 
     public static function setLanguage(Nutgram $bot)

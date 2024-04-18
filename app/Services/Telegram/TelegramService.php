@@ -1059,4 +1059,8 @@ class TelegramService
             'cache_time' => 30
         ]);
     }
+
+    public function checkInsertUser(Nutgram $bot){
+
+    }
 }
