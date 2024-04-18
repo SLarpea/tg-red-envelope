@@ -32,4 +32,9 @@ class GroupManagementHandler
         $this->groupManagementService->updateLanguage($bot, $language);
     }
 
+    public function groupRegister(Nutgram $bot, $language)
+    {
+        $this->groupManagementService->groupRegister($bot);
+    }
+
 }

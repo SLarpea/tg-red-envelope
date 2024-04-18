@@ -48,6 +48,7 @@ class UserManagementService
                 'status' => $request->status,
                 'invite_user' => $request->invite_user,
                 'status' => $request->status,
+                'type' => $request->type,
                 'has_thunder' => $request->has_thunder,
                 'no_thunder' => $request->no_thunder,
                 'pass_mine' => $request->pass_mine,

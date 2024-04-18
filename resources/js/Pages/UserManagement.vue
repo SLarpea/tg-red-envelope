@@ -49,6 +49,7 @@
                                                 <th scope="col">{{ $t('telegram_id') }}</th>
                                                 <th scope="col">{{ $t('group_id') }}</th>
                                                 <th scope="col">{{ $t('balance') }}</th>
+                                                <th scope="col">{{ $t('user_type') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('status') }}</th>
                                                 <th scope="col" class="text-center">{{ $t('action') }}</th>
                                             </tr>
@@ -62,7 +63,7 @@
                                                 <td>{{ item.tg_id }}</td>
                                                 <td>{{ item.group_id }}</td>
                                                 <td>{{ item.balance }}</td>
-
+                                                <td>{{ (item.type == 1) ? $t('normal_user') : (item.type == 2) ? $t('test_user') : $t('arbitrage_user') }}</td>
                                                 <td class="list-status-container text-center">
                                                     <button
                                                         :class="(item.status == 1) ? 'btn btn-outline-success btn-status' : 'btn btn-outline-danger btn-status'"
@@ -148,6 +149,19 @@
                                                     class="form-control" autocomplete="off" readonly />
                                             </div>
                                         </div>
+                                        <div class="row mb-2">
+                                            <label for="type" class="col-sm-5 col-form-label">{{ $t('user_type') }}: <span class="text-danger">*</span></label>
+                                            <div class="col-sm-7">
+                                                <select class="form-select"
+                                                    aria-label="Default select example" id="type" name="type"
+                                                    v-model="form.type">
+                                                    <option selected>{{ $t('select_type') }}</option>
+                                                    <option value="1">{{ $t('normal_user') }}</option>
+                                                    <option value="2">{{ $t('test_user') }}</option>
+                                                    <option value="3">{{ $t('arbitrage_user') }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <!-- ... (similar translation for other form fields) ... -->
                                     </div>
                                 </div>
@@ -162,6 +176,10 @@
                                                 <tr>
                                                     <td>{{ $t('username') }} :</td>
                                                     <td>{{ form.username }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>User Type :</td>
+                                                    <td>{{ form.type }}</td>
                                                 </tr>
                                                 <!-- ... (similar translation for other form fields) ... -->
                                             </tbody>
@@ -397,6 +415,7 @@ export default {
                 no_thunder: null,
                 get_mine: null,
                 send_chance: null,
+                type: null,
             },
             form_topUp: {
                 id: null,

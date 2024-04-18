@@ -333,5 +333,10 @@
     "show_all_notifications": "Show all notifications",
     "show_less_notifications": "Show less notifications",
     "view_all": "View all",
-    "error": "Error"
+    "error": "Error",
+    "user_type": "User Type",
+    "select_type": "Select Type",
+    "normal_user": "Normal User",
+    "test_user": "Test User",
+    "arbitrage_user": "Arbitrage User"
 }

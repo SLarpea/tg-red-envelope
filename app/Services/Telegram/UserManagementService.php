@@ -68,6 +68,7 @@ class UserManagementService
         $info = UserManagement::query()->where('tg_id', $memberInfo->id)->where('group_id', $groupId)->first();
         if (!$info) {
             $default_balance = ConfigService::getConfigValue($groupId, 'default_balance');
+            $default_type = ConfigService::getConfigValue($groupId, 'default_type');
             $insert = [
                 'username' => $memberInfo->username,
                 'first_name' => $memberInfo->first_name,
@@ -76,6 +77,7 @@ class UserManagementService
                 'balance' =>  $default_balance > 0 ? $default_balance : 0,
                 'status' => 1,
                 'invite_user' => 0,
+                'type' => $default_type,
             ];
             $rs = UserManagement::query()->create($insert);
             if (!$rs) {

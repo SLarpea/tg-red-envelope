@@ -69,10 +69,10 @@ $bot->group(AutoRegister::class, function (Nutgram $bot) {
         $bot->onCallbackQueryData('share_data', [DataAnalyticsHandler::class, 'handleShareData']);
 
         // Handle new user joining the chat
-        $bot->onChatMember([UserHandler::class, 'handleNewUser']);
+        // $bot->onChatMember([UserHandler::class, 'handleNewUser']);
 
         // Handle user registration command
-        $bot->onCommand('register(.*)|注册', [UserHandler::class, 'handleRegister']);
+        $bot->onCommand('(register$|注册)', [UserHandler::class, 'handleRegister']);
 
         // $bot->onText('(groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
 
@@ -86,6 +86,8 @@ $bot->group(AutoRegister::class, function (Nutgram $bot) {
 
     $bot->onCommand('(群信息|groupinfo$)', [GroupManagementHandler::class, 'handleGroupInfo']);
     $bot->onText('(groupinfo|群信息)', [GroupManagementHandler::class, 'handleGroupInfo']);
+
+    $bot->onCommand('(registergroup$|注册组)', [GroupManagementHandler::class, 'groupRegister']);
 
     $bot->onNewChatMembers([UserHandler::class, 'handleRegister']);
 
