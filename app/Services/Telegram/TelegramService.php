@@ -688,6 +688,15 @@ class TelegramService
             $bot->sendMessage(trans('telegram.commanderror_thundernum'));
             return false;
         }
+
+        // validate if there 5 pending red evvelopes awaiting for completion
+        $senderId = $bot->user()->id;
+        $count = LuckyMoney::withSenderId($senderId)->pendingLuckyEnvelope()->count();
+        if ($count >= 5) {
+            $bot->sendMessage(trans('telegram.commanderror_pendinglimit'));
+            return false;
+        }
+
         $minAmount = ConfigService::getConfigValue($chatId, 'min_amount');
         if ($amount < $minAmount) {
             $bot->sendMessage(trans('telegram.error_lessthan', ['minAmount' => $minAmount]));

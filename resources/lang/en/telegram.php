@@ -29,6 +29,7 @@ return [
     //发包
     'commanderror_integer' => 'Command error, please enter an integer',
     'commanderror_thundernum' => 'Command error, the thunder number should be between 0 and 9',
+    'commanderror_pendinglimit' => 'Command error: You currently have 5 pending red envelopes awaiting completion.',
     'error_lessthan' => 'The amount of red envelope cannot be less than :minAmount U',
     'error_greaterthan' => 'The amount of red envelope cannot be greater than :maxAmount U',
     'registersuccess' => 'Registration success',
