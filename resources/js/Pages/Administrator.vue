@@ -120,7 +120,7 @@
                                 <div class="row gx-4">
                                     <div class="col-lg-12">
                                         <div class="row mb-2">
-                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }}:</label>
+                                            <label for="name" class="col-sm-4 col-form-label">{{ $t('name') }}: <span class="text-danger">*</span> </label>
                                             <div class="col-sm-8">
                                                 <input id="name" name="name" v-model="form.name" type="text"
                                                     :class="`form-control ${error_form.name ? 'is-invalid' : ''}`"
@@ -131,7 +131,7 @@
                                         </div>
                                         <div class="row mb-2">
                                             <label for="email" class="col-sm-4 col-form-label">{{ $t('email_address')
-                                            }}:</label>
+                                            }}: <span class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <input id="email" name="email" v-model="form.email" type="text"
                                                     :class="`form-control ${error_form.email ? 'is-invalid' : ''}`"
@@ -167,7 +167,7 @@
                                         </div>
                                         <div class="row mb-2">
 
-                                            <label for="role" class="col-sm-4 col-form-label">{{ $t('role') }}: </label>
+                                            <label for="role" class="col-sm-4 col-form-label">{{ $t('role') }}: <span class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <select :class="`form-select ${error_form.role ? 'is-invalid' : ''}`"
                                                     aria-label="Default select example" id="role" name="role"
@@ -181,7 +181,7 @@
                                             </div>
                                         </div>
                                         <div class="row mb-2">
-                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}:</label>
+                                            <label for="status" class="col-sm-4 col-form-label">{{ $t('status') }}: <span class="text-danger">*</span></label>
                                             <div class="col-sm-8">
                                                 <select :class="`form-select ${error_form.status ? 'is-invalid' : ''}`"
                                                     aria-label="Default select example" id="status" name="status"

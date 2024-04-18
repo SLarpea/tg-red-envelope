@@ -66,12 +66,18 @@ class AdministratorService
             if ($request->update_type == 'all') {
                 $request->validated();
 
-                $user = User::find($request->input('id'))->update([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                    'status' => $request->status,
-                ]);
+
+                // Extracting request data
+                $updateData = $request->only(['name', 'email', 'status']);
+
+                // Updating password if provided
+                if ($request->filled('password')) {
+                    $updateData['password'] = Hash::make($request->password);
+                }
+
+                // Updating user
+                $user = User::findOrFail($request->id);
+                $user->update($updateData);
                 $user_role = User::find($request->input('id'));
                 $user_role->syncRoles([]);
                 $user_role->assignRole($request->role);
