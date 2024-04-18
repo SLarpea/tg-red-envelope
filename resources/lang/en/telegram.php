@@ -42,7 +42,8 @@ return [
     'firstbtntext' => '🧧Grab [:luckyTotal/0] Total :amount U 💥 :mine',
     'sendcaption' => 'Sent a :amount U red envelope, come and grab it!',
     'insufficientbalance' => 'Your balance is insufficient to issue the package',
-    'insufficientbalancetips' => 'Insufficient balance, balance required >=:lowestAmount Or the status is abnormal~',
+    'insufficientbalancetips'=>'Insufficient balance, please recharge',
+    // 'insufficientbalancetips'=>'Insufficient balance, balance required >=:lowestAmount Or the status is abnormal~',
 
 
     //福利包
@@ -166,7 +167,7 @@ Tips：[ <code>:sender_name</code> ]’s red envelope has expired！",
     "commands" => "
     📢List of commands
 
-    ¤ `groupinfo` - command to display comprehensive information about a specific group.
+    ¤ `/groupinfo | groupinfo` - command to display comprehensive information about a specific group.
     ¤ `balance` - command to show current balance
 
     ¤ /start - command to start and see if the group is working

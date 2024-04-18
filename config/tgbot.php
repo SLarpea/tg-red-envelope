@@ -36,4 +36,5 @@ return [
     'leopard_rate'=>100,
     'finance'=>'',
     'jackpot'=>0,
+    'default_type'=>2
 ];

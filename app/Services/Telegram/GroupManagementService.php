@@ -3,11 +3,13 @@
 namespace App\Services\Telegram;
 
 use App\Models\Config;
+use SergiX44\Nutgram\Nutgram;
+use App\Models\GroupManagement;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Session;
-use SergiX44\Nutgram\Nutgram;
 use SergiX44\Nutgram\Telegram\Attributes\ParseMode;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardButton;
 use SergiX44\Nutgram\Telegram\Types\Keyboard\InlineKeyboardMarkup;
@@ -19,17 +21,12 @@ class GroupManagementService
     {
     }
 
-    public static function groupInfo($bot, $ac)
+    public static function groupInfo($bot)
     {
-        if ($bot->chat()->type == 'private') {
-        } else {
-            if ($ac == trans('telegram.groupinfo')) {
-                $params = [
-                    'parse_mode' => ParseMode::HTML
-                ];
-                $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
-            }
-        }
+        $params = [
+            'parse_mode' => ParseMode::HTML
+        ];
+        $bot->sendMessage(trans('telegram.group_id') . "：<code>{$bot->chat()->id}</code>\n" . trans('telegram.user_id') . "：<code>{$bot->user()->id}</code>", $params);
     }
 
     public static function setLanguage(Nutgram $bot)
@@ -74,4 +71,54 @@ class GroupManagementService
             }
         }
     }
+
+    public static function groupRegister(Nutgram $bot)
+    {
+
+        $userId = $bot->user()->id;
+        $groupId = $bot->chat()->id;
+        $groupName = $bot->chat()->title ;
+
+        DB::beginTransaction();
+
+        $userCount = GroupManagement::where('group_id', $groupId)->count();
+        if($userCount > 0){
+
+        }else{
+            try {
+                GroupManagement::create([
+                    'group_id' => $groupId,
+                    'name' => $groupName,
+                    'remark' => "",
+                    'status' => 1,
+                    'service_url' => "",
+                    'recharge_url' => "",
+                    'channel_url' => "",
+                    'photo_id' => "https://www.esplanade.com/-/media/Offstage-Microsite/Explore-The-Arts/Legends-of-the-hong-baos/legendsofthehongbao-KV-1200x1200.ashx?rev=c640910d27e847d382a3ee095979f616&hash=EA336408CCAC0902CB39D3052BE8E1B2",
+                    'admin_id' => 1,
+                ]);
+
+                $tgbotConfig = config('tgbot');
+                foreach ($tgbotConfig as $key => $val) {
+                    if (Config::query()->where('name', $key)->where('group_id', $groupId)->count() == 0) {
+                        $insert = [
+                            'name' => $key,
+                            'value' => $val,
+                            'group_id' => $groupId,
+                            'admin_id' => 1,
+                            'remark' => trans('admin.tgbot.' . $key),
+                        ];
+                        Config::create($insert);
+                    }
+                }
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+            }
+        }
+
+    }
+
+
 }

@@ -17,9 +17,9 @@ class GroupManagementHandler
         $this->groupManagementService = $groupManagementService;
     }
 
-    public function handleGroupInfo(Nutgram $bot, $ac)
+    public function handleGroupInfo(Nutgram $bot)
     {
-        $this->groupManagementService->groupInfo($bot, $ac);
+        $this->groupManagementService->groupInfo($bot);
     }
 
     public function handleSetlanguage(Nutgram $bot, $ac)
@@ -31,4 +31,10 @@ class GroupManagementHandler
     {
         $this->groupManagementService->updateLanguage($bot, $language);
     }
+
+    public function groupRegister(Nutgram $bot, $language)
+    {
+        $this->groupManagementService->groupRegister($bot);
+    }
+
 }

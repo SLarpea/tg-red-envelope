@@ -41,7 +41,8 @@ return [
     'firstbtntext'=>'🧧Grab [:luckyTotal/0] Total :amount U 💥 :mine',
     'sendcaption'=>'Sent a :amount U red envelope, come and grab it!',
     'insufficientbalance'=>'Your balance is insufficient to issue the package',
-    'insufficientbalancetips'=>'Insufficient balance, balance required >=:lowestAmount Or the status is abnormal~',
+    'insufficientbalancetips'=>'Insufficient balance, please recharge',
+    // 'insufficientbalancetips'=>'Insufficient balance, balance required >=:lowestAmount Or the status is abnormal~',
 
 
     //福利包

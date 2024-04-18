@@ -322,5 +322,10 @@
     "platform_commission_amount_chart": "平台佣金金额图表",
     "reward_amount_chart": "奖励金额图表",
     "no_chart_data": "没有图表数据",
-    "show_chart": "显示图表"
+    "show_chart": "显示图表",
+    "user_type": "用户类型",
+    "select_type": "选择类型",
+    "normal_user": "正常用户",
+    "test_user": "测试用户",
+    "arbitrage_user": "套利用户"
 }
